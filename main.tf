@@ -16,9 +16,9 @@ module "kubernetes" {
   prefix                          = "${var.prefix}"
   resource_group_name             = "${azurerm_resource_group.main.name}"
   location                        = "${azurerm_resource_group.main.location}"
-  admin_username                  = "azureuser"
+  admin_username                  = "${var.admin_username}"
   admin_public_ssh_key            = "${module.ssh-key.public_ssh_key}"
-  agents_size                     = "Standard_F2"
+  agents_size                     = "${var.agents_size}"
   service_principal_client_id     = "${var.CLIENT_ID}"
   service_principal_client_secret = "${var.CLIENT_SECRET}"
   log_analytics_workspace_id      = "${module.log_analytics_workspace.id}"
@@ -29,13 +29,15 @@ module "log_analytics_workspace" {
   prefix                          = "${var.prefix}"
   resource_group_name             = "${azurerm_resource_group.main.name}"
   location                        = "${azurerm_resource_group.main.location}"
+  retention_in_days               = "${var.log_retention_in_days}"
+  sku                             = "${var.log_analytics_workspace_sku}"
 }
 
 module "log_analytics_solution" {
   source = "./modules/log-analytics-solution"
   resource_group_name             = "${azurerm_resource_group.main.name}"
   location                        = "${azurerm_resource_group.main.location}"
-  workspace_resource_id = "${module.log_analytics_workspace.id}"
-  workspace_name = "${module.log_analytics_workspace.name}"
+  workspace_resource_id           = "${module.log_analytics_workspace.id}"
+  workspace_name                  = "${module.log_analytics_workspace.name}"
 }
 
