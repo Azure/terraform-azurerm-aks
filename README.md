@@ -1,3 +1,15 @@
+# terraform-azurerm-aks
+## Deploys a Kubernetes cluster on AKS with monitoring support through Azure Log Analytics
+
+This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kubernetes Service) and adds support for monitoring with Log Analytics.
+
+## Authors
+
+Originally created by [Damien Caro](http://github.com/dcaro) and [Malte Lantin](http://github.com/n01d)
+
+## License
+
+[MIT](LICENSE)
 
 # Contributing
 
