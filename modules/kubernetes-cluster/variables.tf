@@ -29,7 +29,6 @@ variable "admin_public_ssh_key" {
 }
 
 variable "agents_count" {
-  default     = 3
   description = "The number of Agents that should exist in the Agent Pool"
 }
 

@@ -1,5 +1,6 @@
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
+  default = "cluster"
 }
 
 variable "location" {
@@ -36,3 +37,7 @@ variable "log_retention_in_days" {
   default = 30
 }
 
+variable "agents_count" {
+  default     = 2
+  description = "The number of Agents that should exist in the Agent Pool"
+}
