@@ -26,7 +26,6 @@ variable "agents_size" {
   description = "The default virtual machine size for the Kubernetes agents"
 }
 
-
 variable "log_analytics_workspace_sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
   default = "PerGB2018"
@@ -43,7 +42,7 @@ variable "agents_count" {
 }
 
 variable "public_ssh_key" {
-  description = "A custom ssh key to control access to the AKS cluster."
+  description = "A custom ssh key to control access to the AKS cluster"
   default = ""
 }
 

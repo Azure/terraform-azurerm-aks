@@ -5,7 +5,7 @@ This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kub
 
 ## Usage
 
-This module is configured through variables in the [variables.tf](./variables.tf) file.. Make sure to select an [Azure location that supports AKS](https://docs.microsoft.com/en-us/azure/aks/container-service-quotas) and to have a [Service Principle created](https://www.terraform.io/docs/providers/azurerm/authenticating_via_service_principal.html). If no public ssh key is set in the variables a newly generated public key will be used and the private key will be saved in a *private_ssh_key* file. When setting your own public ssh key the output of the ssh-key module an be ignored.
+This module is configured through variables in the [variables.tf](./variables.tf) file. Make sure to select an [Azure location that supports AKS](https://docs.microsoft.com/en-us/azure/aks/container-service-quotas) and to [have a Service Principal created](https://www.terraform.io/docs/providers/azurerm/authenticating_via_service_principal.html). If no public ssh key is set in the variables, a newly generated public key will be used and the private key will be saved in a *private_ssh_key* file. When setting your own public ssh key the output of the ssh-key module can be ignored.
 
 ```hcl
 variable "prefix" {
@@ -36,7 +36,6 @@ variable "agents_size" {
   description = "The default virtual machine size for the Kubernetes agents"
 }
 
-
 variable "log_analytics_workspace_sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
   default = "PerGB2018"
@@ -53,7 +52,7 @@ variable "agents_count" {
 }
 
 variable "public_ssh_key" {
-  description = "A custom ssh key to control access to the AKS cluster."
+  description = "A custom ssh key to control access to the AKS cluster"
     default = ""
 }
 ```
