@@ -3,12 +3,13 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "main" {
-  name     = "${var.prefix}-resources"
+  name = "${var.prefix}-resources"
   location = "${var.location}"
 }
 
 module "ssh-key" {
   source = "./modules/ssh-key"
+  public_ssh_key = "${var.public_ssh_key == "" ? "" : var.public_ssh_key }"
 }
 
 module "kubernetes" {
@@ -17,7 +18,7 @@ module "kubernetes" {
   resource_group_name             = "${azurerm_resource_group.main.name}"
   location                        = "${azurerm_resource_group.main.location}"
   admin_username                  = "${var.admin_username}"
-  admin_public_ssh_key            = "${module.ssh-key.public_ssh_key}"
+  admin_public_ssh_key            = "${var.public_ssh_key == "" ? module.ssh-key.public_ssh_key : var.public_ssh_key }"
   agents_size                     = "${var.agents_size}"
   agents_count                    = "${var.agents_count}"
   service_principal_client_id     = "${var.CLIENT_ID}"
@@ -41,4 +42,3 @@ module "log_analytics_solution" {
   workspace_resource_id           = "${module.log_analytics_workspace.id}"
   workspace_name                  = "${module.log_analytics_workspace.name}"
 }
-

@@ -28,7 +28,7 @@ variable "agents_size" {
 
 
 variable "log_analytics_workspace_sku" {
-  description = "The SKU (pricing level) of the Log Analytics workspace"
+  description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
   default = "PerGB2018"
 }
 
@@ -38,6 +38,12 @@ variable "log_retention_in_days" {
 }
 
 variable "agents_count" {
-  default     = 2
   description = "The number of Agents that should exist in the Agent Pool"
+  default     = 2
 }
+
+variable "public_ssh_key" {
+  description = "A custom ssh key to control access to the AKS cluster."
+  default = ""
+}
+

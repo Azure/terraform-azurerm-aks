@@ -3,6 +3,61 @@
 
 This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kubernetes Service) and adds support for monitoring with Log Analytics.
 
+## Usage
+
+This module is configured through variables in the [variables.tf](./variables.tf) file.. Make sure to select an [Azure location that supports AKS](https://docs.microsoft.com/en-us/azure/aks/container-service-quotas) and to have a [Service Principle created](https://www.terraform.io/docs/providers/azurerm/authenticating_via_service_principal.html). If no public ssh key is set in the variables a newly generated public key will be used and the private key will be saved in a *private_ssh_key* file. When setting your own public ssh key the output of the ssh-key module an be ignored.
+
+```hcl
+variable "prefix" {
+  description = "The prefix for the resources created in the specified Azure Resource Group"
+  default = "cluster"
+}
+
+variable "location" {
+  default = "eastus"
+  description = "The location for the AKS deployment"
+}
+
+variable "CLIENT_ID" {
+  description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
+}
+
+variable "CLIENT_SECRET" {
+  description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
+}
+
+variable "admin_username" {
+  default = "azureuser"
+  description = "The username of the local administrator to be created on the Kubernetes cluster"
+}
+
+variable "agents_size" {
+  default = "Standard_F2"
+  description = "The default virtual machine size for the Kubernetes agents"
+}
+
+
+variable "log_analytics_workspace_sku" {
+  description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
+  default = "PerGB2018"
+}
+
+variable "log_retention_in_days" {
+  description = "The retention period for the logs in days"
+  default = 30
+}
+
+variable "agents_count" {
+  description = "The number of Agents that should exist in the Agent Pool"
+    default     = 2
+}
+
+variable "public_ssh_key" {
+  description = "A custom ssh key to control access to the AKS cluster."
+    default = ""
+}
+```
+
 ## Authors
 
 Originally created by [Damien Caro](http://github.com/dcaro) and [Malte Lantin](http://github.com/n01d)
