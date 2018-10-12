@@ -15,4 +15,4 @@ ENV PATH $GOPATH/bin:$PATH
 RUN /bin/bash -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
 
 COPY . /go/src/${MODULE_NAME}
-RUN chmod 744 terraform-azure-module-test.sh
+RUN chmod 744 test.sh
