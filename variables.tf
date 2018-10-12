@@ -1,10 +1,10 @@
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
-  default = "cluster"
+  default     = "cluster"
 }
 
 variable "location" {
-  default = "eastus"
+  default     = "eastus"
   description = "The location for the AKS deployment"
 }
 
@@ -17,23 +17,23 @@ variable "CLIENT_SECRET" {
 }
 
 variable "admin_username" {
-  default = "azureuser"
+  default     = "azureuser"
   description = "The username of the local administrator to be created on the Kubernetes cluster"
 }
 
 variable "agents_size" {
-  default = "Standard_F2"
+  default     = "Standard_F2"
   description = "The default virtual machine size for the Kubernetes agents"
 }
 
 variable "log_analytics_workspace_sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
-  default = "PerGB2018"
+  default     = "PerGB2018"
 }
 
 variable "log_retention_in_days" {
   description = "The retention period for the logs in days"
-  default = 30
+  default     = 30
 }
 
 variable "agents_count" {
@@ -43,6 +43,5 @@ variable "agents_count" {
 
 variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster"
-  default = ""
+  default     = ""
 }
-

@@ -12,22 +12,20 @@ variable "location" {
 
 variable "sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace"
-  default = "PerGB2018"
+  default     = "PerGB2018"
 }
 
 variable "retention_in_days" {
   description = "The retention period for the logs in days"
-  default = 30
+  default     = 30
 }
-
 
 variable "log_analytics_workspace_sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace"
-  default = "PerGB2018"
+  default     = "PerGB2018"
 }
 
 variable "log_retention_in_days" {
   description = "The retention period for the logs in days"
-  default = 30
+  default     = 30
 }
-

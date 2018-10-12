@@ -29,11 +29,10 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   addon_profile {
     oms_agent {
-      enabled = true
+      enabled                    = true
       log_analytics_workspace_id = "${var.log_analytics_workspace_id}"
     }
   }
-
 
   tags = "${var.tags}"
 }
