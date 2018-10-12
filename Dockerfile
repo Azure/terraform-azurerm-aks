@@ -1,6 +1,6 @@
 # Pull the base image with given version.
 ARG BUILD_TERRAFORM_VERSION=0.11.7
-FROM hashicorp/terraform:${BUILD_TERRAFORM_VERSION}
+FROM microsoft/terraform-test:${BUILD_TERRAFORM_VERSION}
 
 ARG MODULE_NAME="terraform-azurerm-aks"
 
