@@ -5,7 +5,19 @@ This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kub
 
 ## Usage
 
-This module is configured through variables in the [variables.tf](./variables.tf) file. Make sure to select an [Azure location that supports AKS](https://docs.microsoft.com/en-us/azure/aks/container-service-quotas) and to [have a Service Principal created](https://www.terraform.io/docs/providers/azurerm/authenticating_via_service_principal.html). If no public ssh key is set in the variables, a newly generated public key will be used and the private key will be saved in a *private_ssh_key* file. When setting your own public ssh key the output of the ssh-key module can be ignored.
+```hcl
+module "aks" {
+  source  = "Azure/aks/azurerm"
+  version = "0.9.0"
+
+  CLIENT_ID = "your-client-id"
+  CLIENT_SECRET = "your-client-secret"
+}
+```
+
+This module is configured through variables. Make sure to select an [Azure location that supports AKS](https://docs.microsoft.com/en-us/azure/aks/container-service-quotas) and to [have a Service Principal created](https://www.terraform.io/docs/providers/azurerm/authenticating_via_service_principal.html). If no public ssh key is set through variables, a newly generated public key will be used and the private key will be saved in a *private_ssh_key* file.
+
+See below for the default variable values.
 
 ```hcl
 variable "prefix" {
