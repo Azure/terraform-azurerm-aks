@@ -10,8 +10,8 @@ module "aks" {
   source  = "Azure/aks/azurerm"
   version = "0.9.0"
 
-  CLIENT_ID = "your-client-id"
-  CLIENT_SECRET = "your-client-secret"
+  CLIENT_ID = "your-service-principal-client-id"
+  CLIENT_SECRET = "your-service-principal-client-secret"
 }
 ```
 
@@ -60,12 +60,12 @@ variable "log_retention_in_days" {
 
 variable "agents_count" {
   description = "The number of Agents that should exist in the Agent Pool"
-    default     = 2
+  default     = 2
 }
 
 variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster"
-    default = ""
+  default = ""
 }
 ```
 
