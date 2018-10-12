@@ -6,6 +6,7 @@ terraform.tfvars
 # Compiled files
 *.tfstate
 *.tfstate.backup
+*.tfvars
 
 # Terraform directory
 .terraform/
