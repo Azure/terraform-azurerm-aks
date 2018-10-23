@@ -1,0 +1,40 @@
+Master:
+  InstallPlugins:
+    - kubernetes:1.12.3                                                                                                                               
+    - workflow-aggregator:2.5                                                                                                                         
+    - workflow-job:2.24                                                                                                                               
+    - credentials-binding:1.16                                                                                                                        
+    - git:3.9.1                                                                                                                                       
+    - google-oauth-plugin:0.6                                                                                                                         
+    - google-source-plugin:0.3                                                                                                                        
+    - ansicolor:0.5.2                                                                                                                                 
+    - custom-tools-plugin:0.5                                                                                                                         
+    - git-parameter:0.9.3                                                                                                                             
+    - sonar:2.8                                                                                                                                       
+    - startup-trigger-plugin:2.9.3                                                                                                                    
+    - timestamper:1.8.10                                                                                                                              
+    - analysis-core:1.95                                                                                                                              
+    - dependency-check-jenkins-plugin:3.3.1                                                                                                           
+    - maven-plugin:3.1.2                                                                                                                              
+    - pipeline-github-lib:1.0                                                                                                                         
+    - blueocean:1.7.2
+  NodeSelector: {beta.kubernetes.io/os: linux}
+  ScriptApproval:
+    - "method groovy.json.JsonSlurperClassic parseText java.lang.String"
+    - "new groovy.json.JsonSlurperClassic"
+    - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods leftShift java.util.Map java.util.Map"
+    - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods split java.lang.String"
+    - "method java.util.Collection toArray"
+    - "staticMethod org.kohsuke.groovy.sandbox.impl.Checker checkedCall java.lang.Object boolean boolean java.lang.String java.lang.Object[]"
+    - "staticMethod org.kohsuke.groovy.sandbox.impl.Checker checkedGetProperty java.lang.Object boolean boolean java.lang.Object"
+  Cpu: "1"
+  Memory: "1792Mi"
+  ServicePort: 80
+  JavaOpts: "-Xms1792m -Xmx1792m"
+Agent:
+  Enabled: true
+  NodeSelector: {beta.kubernetes.io/os: linux}
+Persistence:
+  Size: 10Gi
+rbac:
+  install: false

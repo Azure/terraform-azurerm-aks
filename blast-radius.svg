@@ -1,0 +1,348 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" xmlns:ev="http://www.w3.org/2001/xml-events" style="overflow: hidden; "><g id="viewport-20180808150243639" class="svg-pan-zoom_viewport" transform="matrix(0.8705751551093074,0,0,0.8705751551093074,417.24504166519966,-64.36501607656496)" style="transform: matrix(0.870575, 0, 0, 0.870575, 417.245, -64.365);">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 848)">
+
+<polygon fill="white" stroke="none" points="-4,4 -4,-848 587,-848 587,4 -4,4"/>
+<g id="clust2" class="cluster">
+</g>
+<g id="clust3" class="cluster">
+</g>
+<g id="clust4" class="cluster">
+</g>
+<g id="clust5" class="cluster">
+</g>
+<g id="clust6" class="cluster">
+</g>
+<!-- [root] azurerm_container_registry.acrtest -->
+<g id="node_0" class="node" fill="#1f77b4" opacity="1">
+<polygon fill="none" stroke="black" points="344,-610 344,-625 487,-625 487,-610 344,-610" style="fill: rgb(31, 119, 180);"/>
+<text text-anchor="start" x="347" y="-615.6" font-family="courier new" font-size="8.00">azurerm_container_registry</text>
+<polygon fill="none" stroke="black" points="344,-595 344,-610 487,-610 487,-595 344,-595"/>
+<text text-anchor="start" x="397" y="-600.6" font-family="courier new" font-size="8.00">acrtest</text>
+</g>
+<!-- [root] azurerm_resource_group.k8s -->
+<g id="node_2" class="node" fill="#aec7e8" opacity="1">
+<polygon fill="none" stroke="black" points="320,-466 320,-481 442,-481 442,-466 320,-466" style="fill: rgb(174, 199, 232);"/>
+<text text-anchor="start" x="323" y="-471.6" font-family="courier new" font-size="8.00">azurerm_resource_group</text>
+<polygon fill="none" stroke="black" points="320,-451 320,-466 442,-466 442,-451 320,-451"/>
+<text text-anchor="start" x="373" y="-456.6" font-family="courier new" font-size="8.00">k8s</text>
+</g>
+<!-- [root] azurerm_container_registry.acrtest&#45;&gt;[root] azurerm_resource_group.k8s -->
+<g id="edge_0" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M407.091,-591.781C403.564,-583.523 399.622,-573.402 397,-564 390.539,-540.834 386.343,-513.783 383.876,-494.142"/>
+<polygon fill="black" stroke="black" points="387.335,-493.583 382.68,-484.065 380.383,-494.408 387.335,-493.583"/>
+</g>
+<!-- [root] var.azure_container_registry_name -->
+<g id="node_6" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="409,-538 409,-553 568,-553 568,-538 409,-538" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="480.5" y="-543.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="409,-523 409,-538 568,-538 568,-523 409,-523"/>
+<text text-anchor="start" x="412" y="-528.6" font-family="courier new" font-size="8.00">azure_container_registry_name</text>
+</g>
+<!-- [root] azurerm_container_registry.acrtest&#45;&gt;[root] var.azure_container_registry_name -->
+<g id="edge_1" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M433.045,-591.697C442.062,-583.05 453.118,-572.449 462.943,-563.027"/>
+<polygon fill="black" stroke="black" points="465.367,-565.552 470.163,-556.104 460.522,-560.499 465.367,-565.552"/>
+</g>
+<!-- [root] azurerm_kubernetes_cluster.k8s -->
+<g id="node_1" class="node" fill="#1f77b4" opacity="1">
+<polygon fill="none" stroke="black" points="195,-538 195,-553 338,-553 338,-538 195,-538" style="fill: rgb(31, 119, 180);"/>
+<text text-anchor="start" x="198" y="-543.6" font-family="courier new" font-size="8.00">azurerm_kubernetes_cluster</text>
+<polygon fill="none" stroke="black" points="195,-523 195,-538 338,-538 338,-523 195,-523"/>
+<text text-anchor="start" x="258.5" y="-528.6" font-family="courier new" font-size="8.00">k8s</text>
+</g>
+<!-- [root] azurerm_kubernetes_cluster.k8s&#45;&gt;[root] azurerm_resource_group.k8s -->
+<g id="edge_2" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M294.132,-519.876C309.168,-510.724 327.867,-499.342 344.06,-489.485"/>
+<polygon fill="black" stroke="black" points="346.038,-492.379 352.76,-484.19 342.398,-486.4 346.038,-492.379"/>
+</g>
+<!-- [root] var.cluster_name -->
+<g id="node_12" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="131,-466 131,-481 201,-481 201,-466 131,-466" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="158" y="-471.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="131,-451 131,-466 201,-466 201,-451 131,-451"/>
+<text text-anchor="start" x="134" y="-456.6" font-family="courier new" font-size="8.00">cluster_name</text>
+</g>
+<!-- [root] azurerm_kubernetes_cluster.k8s&#45;&gt;[root] var.cluster_name -->
+<g id="edge_8" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M241.537,-519.876C228.704,-510.893 212.804,-499.763 198.906,-490.034"/>
+<polygon fill="black" stroke="black" points="200.756,-487.057 190.557,-484.19 196.742,-492.792 200.756,-487.057"/>
+</g>
+<!-- [root] var.admin_username -->
+<g id="node_7" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="222,-466 222,-481 302,-481 302,-466 222,-466" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="254" y="-471.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="222,-451 222,-466 302,-466 302,-451 222,-451"/>
+<text text-anchor="start" x="225" y="-456.6" font-family="courier new" font-size="8.00">admin_username</text>
+</g>
+<!-- [root] azurerm_kubernetes_cluster.k8s&#45;&gt;[root] var.admin_username -->
+<g id="edge_3" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M265.011,-519.697C264.57,-511.983 264.041,-502.712 263.549,-494.112"/>
+<polygon fill="black" stroke="black" points="267.042,-493.888 262.977,-484.104 260.054,-494.288 267.042,-493.888"/>
+</g>
+<!-- [root] provider.azurerm -->
+<g id="node_4" class="node" fill="#ffbb78" opacity="1">
+<polygon fill="none" stroke="black" points="452,-394 452,-409 501,-409 501,-394 452,-394" style="fill: rgb(255, 187, 120);"/>
+<text text-anchor="start" x="455" y="-399.6" font-family="courier new" font-size="8.00">provider</text>
+<polygon fill="none" stroke="black" points="452,-379 452,-394 501,-394 501,-379 452,-379"/>
+<text text-anchor="start" x="458" y="-384.6" font-family="courier new" font-size="8.00">azurerm</text>
+</g>
+<!-- [root] azurerm_resource_group.k8s&#45;&gt;[root] provider.azurerm -->
+<g id="edge_11" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M406.197,-447.852C418.096,-439.61 432.416,-429.482 445,-420 445.725,-419.454 446.457,-418.898 447.193,-418.335"/>
+<polygon fill="black" stroke="black" points="449.408,-421.046 455.137,-412.134 445.1,-415.528 449.408,-421.046"/>
+</g>
+<!-- [root] var.location -->
+<g id="node_15" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="356,-394 356,-409 405,-409 405,-394 356,-394" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="372.5" y="-399.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="356,-379 356,-394 405,-394 405,-379 356,-379"/>
+<text text-anchor="start" x="359" y="-384.6" font-family="courier new" font-size="8.00">location</text>
+</g>
+<!-- [root] azurerm_resource_group.k8s&#45;&gt;[root] var.location -->
+<g id="edge_12" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M380.753,-447.697C380.643,-439.983 380.51,-430.712 380.387,-422.112"/>
+<polygon fill="black" stroke="black" points="383.887,-422.053 380.244,-412.104 376.888,-422.153 383.887,-422.053"/>
+</g>
+<!-- [root] null_resource.provision -->
+<g id="node_3" class="node" fill="#ff7f0e" opacity="1">
+<polygon fill="none" stroke="black" points="240,-682 240,-697 315,-697 315,-682 240,-682" style="fill: rgb(255, 127, 14);"/>
+<text text-anchor="start" x="243" y="-687.6" font-family="courier new" font-size="8.00">null_resource</text>
+<polygon fill="none" stroke="black" points="240,-667 240,-682 315,-682 315,-667 240,-667"/>
+<text text-anchor="start" x="253.5" y="-672.6" font-family="courier new" font-size="8.00">provision</text>
+</g>
+<!-- [root] null_resource.provision&#45;&gt;[root] azurerm_container_registry.acrtest -->
+<g id="edge_19" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M310.759,-663.876C329.22,-654.512 352.282,-642.814 372.017,-632.803"/>
+<polygon fill="black" stroke="black" points="373.777,-635.835 381.112,-628.19 370.61,-629.592 373.777,-635.835"/>
+</g>
+<!-- [root] null_resource.provision&#45;&gt;[root] azurerm_kubernetes_cluster.k8s -->
+<g id="edge_20" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M275.673,-663.871C273.798,-639.67 270.354,-595.211 268.122,-566.393"/>
+<polygon fill="black" stroke="black" points="271.594,-565.889 267.332,-556.189 264.614,-566.43 271.594,-565.889"/>
+</g>
+<!-- [root] provider.null -->
+<g id="node_5" class="node" fill="#ffbb78" opacity="1">
+<polygon fill="none" stroke="black" points="198,-610 198,-625 247,-625 247,-610 198,-610" style="fill: rgb(255, 187, 120);"/>
+<text text-anchor="start" x="201" y="-615.6" font-family="courier new" font-size="8.00">provider</text>
+<polygon fill="none" stroke="black" points="198,-595 198,-610 247,-610 247,-595 198,-595"/>
+<text text-anchor="start" x="211.5" y="-600.6" font-family="courier new" font-size="8.00">null</text>
+</g>
+<!-- [root] null_resource.provision&#45;&gt;[root] provider.null -->
+<g id="edge_22" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M263.404,-663.697C256.877,-655.389 248.932,-645.277 241.753,-636.141"/>
+<polygon fill="black" stroke="black" points="244.369,-633.805 235.439,-628.104 238.865,-638.13 244.369,-633.805"/>
+</g>
+<!-- [root] local.username -->
+<g id="node_17" class="node" fill="#ff7f0e" opacity="1">
+<polygon fill="none" stroke="black" points="126,-610 126,-625 175,-625 175,-610 126,-610" style="fill: rgb(255, 127, 14);"/>
+<text text-anchor="start" x="137" y="-615.6" font-family="courier new" font-size="8.00">local</text>
+<polygon fill="none" stroke="black" points="126,-595 126,-610 175,-610 175,-595 126,-595"/>
+<text text-anchor="start" x="129" y="-600.6" font-family="courier new" font-size="8.00">username</text>
+</g>
+<!-- [root] null_resource.provision&#45;&gt;[root] local.username -->
+<g id="edge_21" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M247.934,-663.918C243.289,-661.241 238.524,-658.526 234,-656 218.449,-647.317 201.122,-637.979 186.263,-630.072"/>
+<polygon fill="black" stroke="black" points="187.842,-626.948 177.368,-625.353 184.562,-633.132 187.842,-626.948"/>
+</g>
+<!-- [root] local.username&#45;&gt;[root] var.cluster_name -->
+<g id="edge_14" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M151.93,-591.871C154.657,-567.67 159.666,-523.211 162.913,-494.393"/>
+<polygon fill="black" stroke="black" points="166.421,-494.518 164.063,-484.189 159.465,-493.734 166.421,-494.518"/>
+</g>
+<!-- [root] meta.count&#45;boundary (count boundary fixup) -->
+<g id="node_18" class="node" fill="#ffbb78" opacity="1">
+<polygon fill="none" stroke="black" points="123,-754 123,-769 203,-769 203,-754 123,-754" style="fill: rgb(255, 187, 120);"/>
+<text text-anchor="start" x="152" y="-759.6" font-family="courier new" font-size="8.00">meta</text>
+<polygon fill="none" stroke="black" points="123,-739 123,-754 203,-754 203,-739 123,-739"/>
+<text text-anchor="start" x="126" y="-744.6" font-family="courier new" font-size="8.00">count-boundary</text>
+</g>
+<!-- [root] meta.count&#45;boundary (count boundary fixup)&#45;&gt;[root] null_resource.provision -->
+<g id="edge_15" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M190.888,-735.876C205.793,-726.724 224.329,-715.342 240.382,-705.485"/>
+<polygon fill="black" stroke="black" points="242.315,-708.405 249.005,-700.19 238.652,-702.44 242.315,-708.405"/>
+</g>
+<!-- [root] var.resource_storage_acct -->
+<g id="node_21" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="105,-682 105,-697 222,-697 222,-682 105,-682" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="155.5" y="-687.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="105,-667 105,-682 222,-682 222,-667 105,-667"/>
+<text text-anchor="start" x="108" y="-672.6" font-family="courier new" font-size="8.00">resource_storage_acct</text>
+</g>
+<!-- [root] meta.count&#45;boundary (count boundary fixup)&#45;&gt;[root] var.resource_storage_acct -->
+<g id="edge_18" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M163,-735.697C163,-727.983 163,-718.712 163,-710.112"/>
+<polygon fill="black" stroke="black" points="166.5,-710.104 163,-700.104 159.5,-710.104 166.5,-710.104"/>
+</g>
+<!-- [root] output.host -->
+<g id="node_19" class="node" fill="#98df8a" opacity="1">
+<polygon fill="none" stroke="black" points="32,-682 32,-697 70,-697 70,-682 32,-682" style="fill: rgb(152, 223, 138);"/>
+<text text-anchor="start" x="35" y="-687.6" font-family="courier new" font-size="8.00">output</text>
+<polygon fill="none" stroke="black" points="32,-667 32,-682 70,-682 70,-667 32,-667"/>
+<text text-anchor="start" x="40" y="-672.6" font-family="courier new" font-size="8.00">host</text>
+</g>
+<!-- [root] meta.count&#45;boundary (count boundary fixup)&#45;&gt;[root] output.host -->
+<g id="edge_16" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M135.602,-735.876C120.848,-726.655 102.475,-715.172 86.6233,-705.265"/>
+<polygon fill="black" stroke="black" points="88.4504,-702.279 78.1154,-699.947 84.7404,-708.215 88.4504,-702.279"/>
+</g>
+<!-- [root] provider.azurerm (close) -->
+<g id="node_22" class="node" fill="#ffbb78" opacity="1">
+<polygon fill="none" stroke="black" points="361,-682 361,-697 410,-697 410,-682 361,-682" style="fill: rgb(255, 187, 120);"/>
+<text text-anchor="start" x="364" y="-687.6" font-family="courier new" font-size="8.00">provider</text>
+<polygon fill="none" stroke="black" points="361,-667 361,-682 410,-682 410,-667 361,-667"/>
+<text text-anchor="start" x="367" y="-672.6" font-family="courier new" font-size="8.00">azurerm</text>
+</g>
+<!-- [root] provider.azurerm (close)&#45;&gt;[root] azurerm_container_registry.acrtest -->
+<g id="edge_25" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M392.416,-663.697C395.794,-655.813 399.87,-646.304 403.623,-637.546"/>
+<polygon fill="black" stroke="black" points="406.947,-638.675 407.67,-628.104 400.513,-635.917 406.947,-638.675"/>
+</g>
+<!-- [root] provider.azurerm (close)&#45;&gt;[root] azurerm_kubernetes_cluster.k8s -->
+<g id="edge_26" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M367.484,-663.802C357.396,-653.653 344.646,-640.403 334,-628 316.259,-607.331 297.574,-582.634 284.289,-564.506"/>
+<polygon fill="black" stroke="black" points="286.944,-562.206 278.229,-556.181 281.284,-566.325 286.944,-562.206"/>
+</g>
+<!-- [root] provider.null (close) -->
+<g id="node_23" class="node" fill="#ffbb78" opacity="1">
+<polygon fill="none" stroke="black" points="224,-754 224,-769 273,-769 273,-754 224,-754" style="fill: rgb(255, 187, 120);"/>
+<text text-anchor="start" x="227" y="-759.6" font-family="courier new" font-size="8.00">provider</text>
+<polygon fill="none" stroke="black" points="224,-739 224,-754 273,-754 273,-739 224,-739"/>
+<text text-anchor="start" x="237.5" y="-744.6" font-family="courier new" font-size="8.00">null</text>
+</g>
+<!-- [root] provider.null (close)&#45;&gt;[root] null_resource.provision -->
+<g id="edge_27" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M255.169,-735.697C258.435,-727.813 262.374,-718.304 266.002,-709.546"/>
+<polygon fill="black" stroke="black" points="269.32,-710.683 269.914,-700.104 262.853,-708.003 269.32,-710.683"/>
+</g>
+<!-- [root] provisioner.local&#45;exec (close) -->
+<g id="node_24" class="node" fill="#ff7f0e" opacity="1">
+<polygon fill="none" stroke="black" points="293,-754 293,-769 357,-769 357,-754 293,-754" style="fill: rgb(255, 127, 14);"/>
+<text text-anchor="start" x="296" y="-759.6" font-family="courier new" font-size="8.00">provisioner</text>
+<polygon fill="none" stroke="black" points="293,-739 293,-754 357,-754 357,-739 293,-739"/>
+<text text-anchor="start" x="298.5" y="-744.6" font-family="courier new" font-size="8.00">local-exec</text>
+</g>
+<!-- [root] provisioner.local&#45;exec (close)&#45;&gt;[root] null_resource.provision -->
+<g id="edge_28" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M313.135,-735.697C307.497,-727.474 300.646,-717.483 294.431,-708.421"/>
+<polygon fill="black" stroke="black" points="297.271,-706.372 288.729,-700.104 291.497,-710.331 297.271,-706.372"/>
+</g>
+<!-- [root] root -->
+<g id="node_25" class="node" fill="#ffbb78" opacity="1">
+<polygon fill="#ffbb78" stroke="black" points="323,-844 249,-844 249,-808 323,-808 323,-844" style="fill: rgb(255, 187, 120);"/>
+<text text-anchor="middle" x="286" y="-824.1" font-family="courier new" font-size="8.00">[root] root</text>
+</g>
+<!-- [root] root&#45;&gt;[root] meta.count&#45;boundary (count boundary fixup) -->
+<g id="edge_29" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M255.911,-807.876C239.68,-798.639 219.458,-787.131 202.029,-777.212"/>
+<polygon fill="black" stroke="black" points="203.627,-774.094 193.205,-772.19 200.165,-780.178 203.627,-774.094"/>
+</g>
+<!-- [root] root&#45;&gt;[root] provider.azurerm (close) -->
+<g id="edge_30" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M323.078,-808.428C338.572,-799.709 355.401,-787.559 366,-772 378.401,-753.796 382.93,-729.024 384.483,-710.237"/>
+<polygon fill="black" stroke="black" points="387.979,-710.42 385.081,-700.229 380.991,-710.002 387.979,-710.42"/>
+</g>
+<!-- [root] root&#45;&gt;[root] provider.null (close) -->
+<g id="edge_31" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M276.607,-807.697C272.235,-799.644 266.943,-789.894 262.105,-780.982"/>
+<polygon fill="black" stroke="black" points="265.132,-779.223 257.285,-772.104 258.98,-782.563 265.132,-779.223"/>
+</g>
+<!-- [root] root&#45;&gt;[root] provisioner.local&#45;exec (close) -->
+<g id="edge_32" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M295.64,-807.697C300.127,-799.644 305.559,-789.894 310.524,-780.982"/>
+<polygon fill="black" stroke="black" points="313.661,-782.544 315.47,-772.104 307.546,-779.137 313.661,-782.544"/>
+</g>
+<!-- [root] var.agent_count -->
+<g id="node_8" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="230,-394 230,-409 294,-409 294,-394 230,-394" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="254" y="-399.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="230,-379 230,-394 294,-394 294,-379 230,-379"/>
+<text text-anchor="start" x="233" y="-384.6" font-family="courier new" font-size="8.00">agent_count</text>
+</g>
+<!-- [root] var.admin_username&#45;&gt;[root] var.agent_count -->
+<g id="edge_33" class="edge" opacity="1">
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M262,-447.697C262,-436.846 262,-422.917 262,-412.104"/>
+</g>
+<!-- [root] var.azurek8s_sku -->
+<g id="node_9" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="227,-322 227,-337 297,-337 297,-322 227,-322" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="254" y="-327.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="227,-307 227,-322 297,-322 297,-307 227,-307"/>
+<text text-anchor="start" x="230" y="-312.6" font-family="courier new" font-size="8.00">azurek8s_sku</text>
+</g>
+<!-- [root] var.agent_count&#45;&gt;[root] var.azurek8s_sku -->
+<g id="edge_34" class="edge" opacity="1">
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M262,-375.697C262,-364.846 262,-350.917 262,-340.104"/>
+</g>
+<!-- [root] var.client_id -->
+<g id="node_10" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="235,-250 235,-265 289,-265 289,-250 235,-250" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="254" y="-255.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="235,-235 235,-250 289,-250 289,-235 235,-235"/>
+<text text-anchor="start" x="238" y="-240.6" font-family="courier new" font-size="8.00">client_id</text>
+</g>
+<!-- [root] var.azurek8s_sku&#45;&gt;[root] var.client_id -->
+<g id="edge_35" class="edge" opacity="1">
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M262,-303.697C262,-292.846 262,-278.917 262,-268.104"/>
+</g>
+<!-- [root] var.client_secret -->
+<g id="node_11" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="225,-178 225,-193 300,-193 300,-178 225,-178" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="254.5" y="-183.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="225,-163 225,-178 300,-178 300,-163 225,-163"/>
+<text text-anchor="start" x="228" y="-168.6" font-family="courier new" font-size="8.00">client_secret</text>
+</g>
+<!-- [root] var.client_id&#45;&gt;[root] var.client_secret -->
+<g id="edge_36" class="edge" opacity="1">
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M262,-231.697C262,-220.846 262,-206.917 262,-196.104"/>
+</g>
+<!-- [root] var.dns_prefix -->
+<g id="node_13" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="233,-106 233,-121 292,-121 292,-106 233,-106" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="254.5" y="-111.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="233,-91 233,-106 292,-106 292,-91 233,-91"/>
+<text text-anchor="start" x="236" y="-96.6" font-family="courier new" font-size="8.00">dns_prefix</text>
+</g>
+<!-- [root] var.client_secret&#45;&gt;[root] var.dns_prefix -->
+<g id="edge_37" class="edge" opacity="1">
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M262,-159.697C262,-148.846 262,-134.917 262,-124.104"/>
+</g>
+<!-- [root] var.ssh_public_key -->
+<g id="node_14" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="222,-34 222,-49 302,-49 302,-34 222,-34" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="254" y="-39.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="222,-19 222,-34 302,-34 302,-19 222,-19"/>
+<text text-anchor="start" x="225" y="-24.6" font-family="courier new" font-size="8.00">ssh_public_key</text>
+</g>
+<!-- [root] var.dns_prefix&#45;&gt;[root] var.ssh_public_key -->
+<g id="edge_38" class="edge" opacity="1">
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M262,-87.6966C262,-76.8463 262,-62.9167 262,-52.1043"/>
+</g>
+<!-- [root] var.resource_group_name -->
+<g id="node_16" class="node" fill="#2ca02c" opacity="1">
+<polygon fill="none" stroke="black" points="327,-322 327,-337 433,-337 433,-322 327,-322" style="fill: rgb(44, 160, 44);"/>
+<text text-anchor="start" x="372" y="-327.6" font-family="courier new" font-size="8.00">var</text>
+<polygon fill="none" stroke="black" points="327,-307 327,-322 433,-322 433,-307 327,-307"/>
+<text text-anchor="start" x="330" y="-312.6" font-family="courier new" font-size="8.00">resource_group_name</text>
+</g>
+<!-- [root] var.location&#45;&gt;[root] var.resource_group_name -->
+<g id="edge_39" class="edge" opacity="1">
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M380,-375.697C380,-364.846 380,-350.917 380,-340.104"/>
+</g>
+<!-- [root] output.kube_config -->
+<g id="node_20" class="node" fill="#98df8a" opacity="1">
+<polygon fill="none" stroke="black" points="16,-610 16,-625 80,-625 80,-610 16,-610" style="fill: rgb(152, 223, 138);"/>
+<text text-anchor="start" x="32" y="-615.6" font-family="courier new" font-size="8.00">output</text>
+<polygon fill="none" stroke="black" points="16,-595 16,-610 80,-610 80,-595 16,-595"/>
+<text text-anchor="start" x="19" y="-600.6" font-family="courier new" font-size="8.00">kube_config</text>
+</g>
+<!-- [root] output.host&#45;&gt;[root] output.kube_config -->
+<g id="edge_40" class="edge" opacity="1">
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M50.2584,-663.697C49.7934,-652.846 49.1964,-638.917 48.733,-628.104"/>
+</g>
+<!-- [root] output.kube_config&#45;&gt;[root] azurerm_kubernetes_cluster.k8s -->
+<g id="edge_24" class="edge" opacity="1">
+<path fill="none" stroke="black" d="M80.0542,-596.311C90.7849,-592.21 102.853,-587.755 114,-584 140.248,-575.157 169.351,-566.312 195.006,-558.833"/>
+<polygon fill="black" stroke="black" points="196.026,-562.182 204.657,-556.037 194.078,-555.458 196.026,-562.182"/>
+</g>
+</g>
+</g></svg>
