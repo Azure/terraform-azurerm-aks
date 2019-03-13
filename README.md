@@ -63,6 +63,11 @@ variable "agents_count" {
   default     = 2
 }
 
+variable "kubernetes_version" {
+  description = "Version of Kubernetes to install"
+  default     = "1.11.3"
+}
+
 variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster"
   default = ""
