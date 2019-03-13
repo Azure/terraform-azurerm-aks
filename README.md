@@ -79,6 +79,19 @@ variable "enable_http_application_routing" {
 }
 ```
 
+The module supports some outputs that may be used to configure a kubernetes
+provider after deploying an AKS cluster.
+
+```
+provider "kubernetes" {
+  host = "${module.aks.host}"
+
+  client_certificate     = "${base64decode(module.aks.client_certificate)}"
+  client_key             = "${base64decode(module.aks.client_key)}"
+  cluster_ca_certificate = "${base64decode(module.aks.cluster_ca_certificate)}"
+}
+```
+
 ## Authors
 
 Originally created by [Damien Caro](http://github.com/dcaro) and [Malte Lantin](http://github.com/n01d)
