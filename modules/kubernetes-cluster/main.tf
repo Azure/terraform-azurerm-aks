@@ -32,6 +32,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled                    = true
       log_analytics_workspace_id = "${var.log_analytics_workspace_id}"
     }
+
+    http_application_routing {
+      enabled = "${var.enable_http_application_routing}"
+    }
   }
 
   tags = "${var.tags}"
