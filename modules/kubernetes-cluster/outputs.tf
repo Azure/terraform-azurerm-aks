@@ -29,3 +29,7 @@ output "password" {
 output "raw_kube_config" {
   value = "${azurerm_kubernetes_cluster.main.kube_config_raw}"
 }
+
+output "http_application_routing_zone_name" {
+  value = "${azurerm_kubernetes_cluster.main.addon_profile.0.http_application_routing.0.http_application_routing_zone_name}"
+}
