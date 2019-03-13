@@ -49,3 +49,7 @@ variable "service_principal_client_secret" {
   description = "The Client Secret of the Service Principal assigned to Kubernetes"
 }
 
+variable "enable_http_application_routing" {
+  description = "Enable HTTP Application Routing Addon (forces recreation)"
+  default     = false
+}

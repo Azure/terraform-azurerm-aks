@@ -72,6 +72,11 @@ variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster"
   default     = ""
 }
+
+variable "enable_http_application_routing" {
+  description = "Enable HTTP Application Routing Addon (forces recreation)"
+  default     = false
+}
 ```
 
 The module supports some outputs that may be used to configure a kubernetes
