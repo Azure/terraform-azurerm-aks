@@ -36,10 +36,20 @@ variable "agents_size" {
   description = "The Azure VM Size of the Virtual Machines used in the Agent Pool"
 }
 
+variable "kubernetes_version" {
+  description = "Version of Kubernetes to install"
+  default     = "1.11.3"
+}
+
 variable "service_principal_client_id" {
   description = "The Client ID of the Service Principal assigned to Kubernetes"
 }
 
 variable "service_principal_client_secret" {
   description = "The Client Secret of the Service Principal assigned to Kubernetes"
+}
+
+variable "enable_http_application_routing" {
+  description = "Enable HTTP Application Routing Addon (forces recreation)"
+  default     = false
 }

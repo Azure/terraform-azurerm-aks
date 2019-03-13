@@ -3,7 +3,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
   dns_prefix          = "${var.prefix}"
-  kubernetes_version  = "1.11.3"
+  kubernetes_version  = "${var.kubernetes_version}"
 
   linux_profile {
     admin_username = "${var.admin_username}"
@@ -31,6 +31,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     oms_agent {
       enabled                    = true
       log_analytics_workspace_id = "${var.log_analytics_workspace_id}"
+    }
+
+    http_application_routing {
+      enabled = "${var.enable_http_application_routing}"
     }
   }
 
