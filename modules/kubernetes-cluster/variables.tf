@@ -36,6 +36,11 @@ variable "agents_size" {
   description = "The Azure VM Size of the Virtual Machines used in the Agent Pool"
 }
 
+variable "agents_disk_size" {
+  description = "Disk size for each Agent"
+  default     = 50
+}
+
 variable "kubernetes_version" {
   description = "Version of Kubernetes to install"
   default     = "1.11.3"
