@@ -26,6 +26,11 @@ variable "agents_size" {
   description = "The default virtual machine size for the Kubernetes agents"
 }
 
+variable "agents_disk_size" {
+  default     = 50
+  description = "Disk size of the agents"
+}
+
 variable "log_analytics_workspace_sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
   default     = "PerGB2018"
