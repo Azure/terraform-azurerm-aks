@@ -20,6 +20,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     vm_size         = "${var.agents_size}"
     os_type         = "Linux"
     os_disk_size_gb = "${var.agents_disk_size}"
+    vnet_subnet_id  = "${var.vnet_subnet_id}"
   }
 
   service_principal {

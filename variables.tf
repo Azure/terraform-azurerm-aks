@@ -31,6 +31,11 @@ variable "agents_disk_size" {
   description = "Disk size of the agents"
 }
 
+variable "vnet_subnet_id" {
+  default     = ""
+  description = "The ID of the Subnet where the Agents in the Pool should be provisioned. Changing this forces a new resource to be created"
+}
+
 variable "log_analytics_workspace_sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
   default     = "PerGB2018"

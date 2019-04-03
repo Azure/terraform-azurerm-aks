@@ -41,6 +41,10 @@ variable "agents_disk_size" {
   default     = 50
 }
 
+variable "vnet_subnet_id" {
+  description = "The ID of the Subnet where the Agents in the Pool should be provisioned. Changing this forces a new resource to be created"
+}
+
 variable "kubernetes_version" {
   description = "Version of Kubernetes to install"
   default     = "1.11.3"
