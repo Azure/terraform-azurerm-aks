@@ -3,7 +3,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
   dns_prefix          = "${var.prefix}"
-  kubernetes_version  = "1.11.3"
+  kubernetes_version  = "${var.kubernetes_version}"
 
   linux_profile {
     admin_username = "${var.admin_username}"
