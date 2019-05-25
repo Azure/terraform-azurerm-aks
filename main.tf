@@ -21,6 +21,7 @@ module "kubernetes" {
   service_principal_client_id     = "${var.CLIENT_ID}"
   service_principal_client_secret = "${var.CLIENT_SECRET}"
   log_analytics_workspace_id      = "${module.log_analytics_workspace.id}"
+  kubeconfig_path                 = "${var.kubeconfig_path}"
 }
 
 module "log_analytics_workspace" {
