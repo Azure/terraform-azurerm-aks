@@ -17,7 +17,7 @@ variable "location" {
 variable "tags" {
   default     = {}
   description = "Any tags that should be present on the Virtual Network resources"
-  type        = "map"
+  type        = map(string)
 }
 
 variable "admin_username" {
@@ -48,3 +48,4 @@ variable "service_principal_client_id" {
 variable "service_principal_client_secret" {
   description = "The Client Secret of the Service Principal assigned to Kubernetes"
 }
+
