@@ -1,6 +1,5 @@
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
-  default     = "cluster"
 }
 
 variable "location" {
