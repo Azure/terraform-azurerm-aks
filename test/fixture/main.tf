@@ -1,5 +1,5 @@
 provider "azurerm" {
-  version = "=1.16.0"
+  version = "~> 1.27"
 }
 
 resource "random_string" "prefix" {
