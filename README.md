@@ -13,6 +13,7 @@ module "aks" {
   CLIENT_ID = "your-service-principal-client-appid"
   CLIENT_SECRET = "your-service-principal-client-password"
   prefix = "your-custom-resource-prefix"
+  kubeconfig_path = "/home/user/.kube/mycluster.yaml"
 }
 ```
 
@@ -71,6 +72,10 @@ variable "kubernetes_version" {
 variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster"
   default     = ""
+}
+
+variable "kubeconfig_path" {
+  description = "full path to save the kubeconfig in (e.g. /root/.kube/mycluster.yaml). make sure to add this file to KUBECONFIG (e.g. export KUBECONFIG=$KUBECONFIG:/root/.kube/mycluster.yaml) in order to add it to your list of clusters" 
 }
 ```
 
