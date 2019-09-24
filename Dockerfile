@@ -18,3 +18,4 @@ RUN /bin/bash -c "curl https://raw.githubusercontent.com/golang/dep/master/insta
 
 COPY . /go/src/${MODULE_NAME}
 RUN chmod 744 test.sh
+ENTRYPOINT [""]
