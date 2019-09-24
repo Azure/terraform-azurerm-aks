@@ -19,7 +19,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     count           = var.agents_count
     vm_size         = var.agents_size
     os_type         = "Linux"
-    os_disk_size_gb = 50
+    os_disk_size_gb = var.os_disk_size_gb
   }
 
   service_principal {
@@ -36,4 +36,3 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   tags = var.tags
 }
-

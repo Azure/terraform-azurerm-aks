@@ -50,3 +50,8 @@ variable "public_ssh_key" {
   default     = ""
 }
 
+variable "os_disk_size_gb" {
+  description = "Disk size of nodes in GBs"
+  type        = number
+  default     = 50
+}
