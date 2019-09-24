@@ -21,7 +21,7 @@ COMMANDS=()
 if [ $1 == "validate" ] || [ $1 == "full" ]
 then
     COMMANDS+=("terraform fmt -check=true")
-    COMMANDS+=("terraform validate -check-variables=false")
+    COMMANDS+=("terraform validate")
     COMMANDS+=("dep ensure")
 fi
 
