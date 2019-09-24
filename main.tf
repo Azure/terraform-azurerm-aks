@@ -18,9 +18,11 @@ module "kubernetes" {
   agents_size                     = var.agents_size
   agents_count                    = var.agents_count
   kubernetes_version              = var.kubernetes_version
+  os_disk_size_gb                 = var.os_disk_size_gb
   service_principal_client_id     = var.CLIENT_ID
   service_principal_client_secret = var.CLIENT_SECRET
   log_analytics_workspace_id      = module.log_analytics_workspace.id
+  network_profile                 = var.network_profile
 }
 
 module "log_analytics_workspace" {

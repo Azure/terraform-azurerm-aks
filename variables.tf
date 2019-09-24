@@ -50,3 +50,28 @@ variable "public_ssh_key" {
   default     = ""
 }
 
+variable "os_disk_size_gb" {
+  description = "Disk size of nodes in GBs"
+  type        = number
+  default     = 50
+}
+
+variable "network_profile" {
+  description = "Variables defining the AKS network profile config"
+  type = object({
+    network_plugin     = string
+    network_policy     = string
+    dns_service_ip     = string
+    docker_bridge_cidr = string
+    pod_cidr           = string
+    service_cidr       = string
+  })
+  default = {
+    network_plugin     = "kubenet"
+    network_policy     = null
+    dns_service_ip     = null
+    docker_bridge_cidr = null
+    pod_cidr           = null
+    service_cidr       = null
+  }
+}

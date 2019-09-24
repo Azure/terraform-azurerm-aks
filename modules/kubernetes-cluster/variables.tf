@@ -49,3 +49,19 @@ variable "service_principal_client_secret" {
   description = "The Client Secret of the Service Principal assigned to Kubernetes"
 }
 
+variable "os_disk_size_gb" {
+  description = "Disk size of nodes in GBs"
+  type        = number
+}
+
+variable "network_profile" {
+  description = "Variables defining the AKS network profile config"
+  type = object({
+    network_plugin     = string
+    network_policy     = string
+    dns_service_ip     = string
+    docker_bridge_cidr = string
+    pod_cidr           = string
+    service_cidr       = string
+  })
+}

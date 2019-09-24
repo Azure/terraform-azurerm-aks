@@ -19,7 +19,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     count           = var.agents_count
     vm_size         = var.agents_size
     os_type         = "Linux"
-    os_disk_size_gb = 50
+    os_disk_size_gb = var.os_disk_size_gb
   }
 
   service_principal {
@@ -34,6 +34,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
+  network_profile {
+    network_plugin     = var.network_profile.network_plugin
+    network_policy     = var.network_profile.network_policy
+    dns_service_ip     = var.network_profile.dns_service_ip
+    docker_bridge_cidr = var.network_profile.docker_bridge_cidr
+    pod_cidr           = var.network_profile.pod_cidr
+    service_cidr       = var.network_profile.service_cidr
+  }
+
   tags = var.tags
 }
-
