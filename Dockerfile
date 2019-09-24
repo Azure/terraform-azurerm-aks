@@ -2,7 +2,7 @@
 ARG BUILD_TERRAFORM_VERSION=0.12.9
 FROM hashicorp/terraform:${BUILD_TERRAFORM_VERSION}
 
-RUN apk add --update bash curl
+RUN apk add --update bash curl go sh
 
 ARG MODULE_NAME="terraform-azurerm-aks"
 
