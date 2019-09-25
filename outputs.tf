@@ -1,32 +1,40 @@
+output "host" {
+  description = "The Kubernetes cluster server host."
+  value       = module.kubernetes.host
+}
+
 output "client_key" {
-  value = module.kubernetes.client_key
+  description = "Base64 encoded private key used by clients to authenticate to the Kubernetes cluster."
+  value       = module.kubernetes.client_key
 }
 
 output "client_certificate" {
-  value = module.kubernetes.client_certificate
+  description = "Base64 encoded public certificate used by clients to authenticate to the Kubernetes cluster."
+  value       = module.kubernetes.client_certificate
 }
 
 output "cluster_ca_certificate" {
-  value = module.kubernetes.cluster_ca_certificate
-}
-
-output "host" {
-  value = module.kubernetes.host
+  description = "Base64 encoded public CA certificate used as the root of trust for the Kubernetes cluster."
+  value       = module.kubernetes.cluster_ca_certificate
 }
 
 output "username" {
-  value = module.kubernetes.username
+  description = "A username used to authenticate to the Kubernetes cluster."
+  value       = module.kubernetes.username
 }
 
 output "password" {
-  value = module.kubernetes.password
+  description = "A password or token used to authenticate to the Kubernetes cluster."
+  value       = module.kubernetes.password
 }
 
 output "node_resource_group" {
-  value = module.kubernetes.node_resource_group
+  description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
+  value       = module.kubernetes.node_resource_group
 }
 
 output "location" {
-  value = module.kubernetes.location
+  description = "The location where the Managed Kubernetes Cluster was created."
+  value       = module.kubernetes.location
 }
 
