@@ -15,11 +15,19 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   agent_pool_profile {
-    name            = "nodepool"
-    count           = var.agents_count
-    vm_size         = var.agents_size
-    os_type         = "Linux"
-    os_disk_size_gb = var.os_disk_size_gb
+    name                = lookup(var.agent_pool_profile, "name", null)
+    count               = lookup(var.agent_pool_profile, "count", null)
+    vm_size             = lookup(var.agent_pool_profile, "vm_size", null)
+    availability_zones  = lookup(var.agent_pool_profile, "availability_zones", null)
+    enable_auto_scaling = lookup(var.agent_pool_profile, "enable_auto_scaling", null)
+    min_count           = lookup(var.agent_pool_profile, "min_count", null)
+    max_count           = lookup(var.agent_pool_profile, "max_count", null)
+    max_pods            = lookup(var.agent_pool_profile, "max_pods", null)
+    os_disk_size_gb     = lookup(var.agent_pool_profile, "os_disk_size_gb", null)
+    os_type             = lookup(var.agent_pool_profile, "os_type", null)
+    type                = lookup(var.agent_pool_profile, "type", null)
+    vnet_subnet_id      = lookup(var.agent_pool_profile, "vnet_subnet_id", null)
+    node_taints         = lookup(var.agent_pool_profile, "node_taints", null)
   }
 
   service_principal {
