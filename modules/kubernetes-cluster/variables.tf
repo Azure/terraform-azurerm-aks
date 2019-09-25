@@ -28,14 +28,6 @@ variable "admin_public_ssh_key" {
   description = "The SSH key to be used for the username defined in the `admin_username` variable."
 }
 
-variable "agents_count" {
-  description = "The number of Agents that should exist in the Agent Pool"
-}
-
-variable "agents_size" {
-  description = "The Azure VM Size of the Virtual Machines used in the Agent Pool"
-}
-
 variable "kubernetes_version" {
   description = "Version of Kubernetes to install"
   default     = "1.11.3"
@@ -52,6 +44,11 @@ variable "service_principal_client_secret" {
 variable "os_disk_size_gb" {
   description = "Disk size of nodes in GBs"
   type        = number
+}
+
+variable "agent_pool_profile" {
+  description = "An agent_pool_profile block"
+  type        = map(string)
 }
 
 variable "network_profile" {
