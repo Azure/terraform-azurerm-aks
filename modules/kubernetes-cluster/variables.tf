@@ -43,7 +43,7 @@ variable "service_principal_client_secret" {
 
 variable "agent_pool_profile" {
   description = "An agent_pool_profile block"
-  type        = map(string)
+  type        = any
 }
 
 variable "network_profile" {

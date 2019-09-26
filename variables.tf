@@ -42,7 +42,7 @@ variable "public_ssh_key" {
 
 variable "agent_pool_profile" {
   description = "An agent_pool_profile block, see terraform.io/docs/providers/azurerm/r/kubernetes_cluster.html#agent_pool_profile"
-  type        = map(string)
+  type        = any
   default = {
     name            = "nodepool"
     count           = 1
