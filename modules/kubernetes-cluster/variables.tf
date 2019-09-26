@@ -41,11 +41,6 @@ variable "service_principal_client_secret" {
   description = "The Client Secret of the Service Principal assigned to Kubernetes"
 }
 
-variable "os_disk_size_gb" {
-  description = "Disk size of nodes in GBs"
-  type        = number
-}
-
 variable "agent_pool_profile" {
   description = "An agent_pool_profile block"
   type        = map(string)
