@@ -1,3 +1,5 @@
+# terraform-azurerm-aks/kubernetes-cluster variables
+
 variable "log_analytics_workspace_id" {
   description = "The Log Analytics Workspace Id."
 }

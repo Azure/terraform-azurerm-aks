@@ -1,3 +1,5 @@
+# terraform-azurerm-aks/log-analytics-solution variables
+
 variable "resource_group_name" {
   description = "The name of the Resource Group in which the Log Analytics solution will be created"
 }

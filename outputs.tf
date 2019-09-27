@@ -38,3 +38,7 @@ output "location" {
   value       = module.kubernetes.location
 }
 
+output "kube_config_raw" {
+  description = "Raw Kubernetes config to be used by kubectl and other compatible tools."
+  value       = module.kubernetes.kube_config_raw
+}

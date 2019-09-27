@@ -1,3 +1,5 @@
+# terraform-azurerm-aks variables
+
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
 }
@@ -42,15 +44,15 @@ variable "public_ssh_key" {
 
 variable "agent_pool_profile" {
   description = "An agent_pool_profile block, see terraform.io/docs/providers/azurerm/r/kubernetes_cluster.html#agent_pool_profile"
-  type        = any
-  default = {
+  type        = list(any)
+  default = [{
     name            = "nodepool"
     count           = 1
     vm_size         = "standard_f2"
     os_type         = "Linux"
     agents_count    = 2
     os_disk_size_gb = 50
-  }
+  }]
 }
 
 variable "network_profile" {
