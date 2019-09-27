@@ -1,3 +1,5 @@
+# terraform-azurerm-aks/log-analytics-workspace variables
+
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group."
 }
