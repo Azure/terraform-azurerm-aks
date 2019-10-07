@@ -38,6 +38,11 @@ output "location" {
   value       = module.kubernetes.location
 }
 
+output "aks_resource_group" {
+  description = "Resource Group object which AKS resides in"
+  value       = azurerm_resource_group.main
+}
+
 output "kube_config_raw" {
   description = "Raw Kubernetes config to be used by kubectl and other compatible tools."
   value       = module.kubernetes.kube_config_raw

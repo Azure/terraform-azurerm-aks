@@ -40,4 +40,3 @@ module "log_analytics_solution" {
   workspace_resource_id = module.log_analytics_workspace.id
   workspace_name        = module.log_analytics_workspace.name
 }
-
