@@ -48,6 +48,29 @@ variable "agent_pool_profile" {
   type        = any
 }
 
+variable "default_node_pool" {
+  description = "An default_node_pool block"
+  type        = any
+}
+
+variable "default_node_pool_availability_zones" {
+  description = "The default_node_pools AZs"
+  type        = list(string)
+  default     = null
+}
+
+variable "default_node_pool_node_taints" {
+  description = "The default_node_pools node taints"
+  type        = list(string)
+  default     = null
+}
+
+# variable "aks_ignore_changes" {
+#   description = "lifecycle.aks_ignore_changes to ignore"
+#   type        = list(string)
+#   default     = []
+# }
+
 variable "network_profile" {
   description = "Variables defining the AKS network profile config"
   type = object({
