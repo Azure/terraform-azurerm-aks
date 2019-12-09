@@ -20,6 +20,8 @@ module "kubernetes" {
   service_principal_client_secret = var.CLIENT_SECRET
   log_analytics_workspace_id      = module.log_analytics_workspace.id
   agent_pool_profile              = var.agent_pool_profile
+  default_node_pool               = var.default_node_pool
+  aks_ignore_changes              = var.aks_ignore_changes
   network_profile                 = var.network_profile
   tags                            = var.tags
 }

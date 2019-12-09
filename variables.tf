@@ -64,6 +64,24 @@ variable "agent_pool_profile" {
   }]
 }
 
+variable "default_node_pool" {
+  description = "A default_node_pool block, see terraform.io/docs/providers/azurerm/r/kubernetes_cluster.html#default_node_pool"
+  type        = map(any)
+  default = {
+    name                = "nodepool"
+    vm_size             = "standard_f2"
+    enable_auto_scaling = true
+    os_disk_size_gb     = 50
+    type                = "VirtualMachineScaleSets"
+  }
+}
+
+variable "aks_ignore_changes" {
+  description = "lifecycle.aks_ignore_changes to ignore"
+  type        = list(string)
+  default     = [""]
+}
+
 variable "network_profile" {
   description = "Variables defining the AKS network profile config"
   type = object({

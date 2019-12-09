@@ -14,6 +14,23 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
+  default_node_pool {
+    name                  = lookup(default_node_pool.value, "name", null)
+    os_type               = lookup(default_node_pool.value, "os_type", null)
+    vm_size               = lookup(default_node_pool.value, "vm_size", null)
+    availability_zones    = lookup(default_node_pool.value, "availability_zones", null)
+    enable_auto_scaling   = lookup(default_node_pool.value, "enable_auto_scaling", null)
+    enable_node_public_ip = lookup(default_node_pool.value, "enable_node_public_ip", null)
+    max_pods              = lookup(default_node_pool.value, "max_pods", null)
+    node_taints           = lookup(default_node_pool.value, "node_taints", null)
+    os_disk_size_gb       = lookup(default_node_pool.value, "os_disk_size_gb", null)
+    type                  = lookup(default_node_pool.value, "type", null)
+    vnet_subnet_id        = lookup(default_node_pool.value, "vnet_subnet_id", null)
+    min_count             = lookup(default_node_pool.value, "min_count", null)
+    max_count             = lookup(default_node_pool.value, "max_count", null)
+    node_count            = lookup(default_node_pool.value, "node_count", null)
+  }
+
   dynamic "agent_pool_profile" {
     for_each = var.agent_pool_profile
     content {
@@ -52,6 +69,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     docker_bridge_cidr = var.network_profile.docker_bridge_cidr
     pod_cidr           = var.network_profile.pod_cidr
     service_cidr       = var.network_profile.service_cidr
+  }
+
+  lifecycle {
+    ignore_changes = var.aks_ignore_changes
   }
 
   tags = var.tags

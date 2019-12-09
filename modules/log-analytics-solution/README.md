@@ -1,4 +1,4 @@
-# basic example
+#  log-analytics-solution
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs

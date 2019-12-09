@@ -1,4 +1,4 @@
-# basic example
+# kubernetes-cluster
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
