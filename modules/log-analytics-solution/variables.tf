@@ -15,4 +15,3 @@ variable "workspace_resource_id" {
 variable "workspace_name" {
   description = "The name of the workspace created for Log Analytics"
 }
-

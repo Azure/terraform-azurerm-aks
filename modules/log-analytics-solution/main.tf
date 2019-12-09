@@ -10,4 +10,3 @@ resource "azurerm_log_analytics_solution" "main" {
     product   = "OMSGallery/ContainerInsights"
   }
 }
-

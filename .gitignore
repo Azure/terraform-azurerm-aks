@@ -11,7 +11,7 @@ terraform.tfvars
 # Terraform directory
 .terraform/
 terraform.tfstate.d/
-logs/ 
+logs/
 
 # Go vendor directory
 vendor/

@@ -1,5 +1,5 @@
 variable "name" {
-    default = "testkube"
+  default = "testkube"
 }
 
 variable "location" {
@@ -66,7 +66,7 @@ module "aks" {
   CLIENT_ID          = azuread_application.aks_service_principle.application_id
   CLIENT_SECRET      = random_password.aks_service_principle.result
   location           = var.location
-  network_profile    = {
+  network_profile = {
     network_plugin     = "azure"
     network_policy     = null
     dns_service_ip     = null

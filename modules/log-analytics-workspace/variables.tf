@@ -31,4 +31,3 @@ variable "log_retention_in_days" {
   description = "The retention period for the logs in days"
   default     = 30
 }
-

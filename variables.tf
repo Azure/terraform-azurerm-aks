@@ -2,44 +2,53 @@
 
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
+  type        = string
 }
 
 variable "location" {
   default     = "eastus"
   description = "The location for the AKS deployment"
+  type        = string
 }
 
 variable "CLIENT_ID" {
   description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
+  type        = string
 }
 
 variable "CLIENT_SECRET" {
   description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
+  type        = string
 }
 
 variable "admin_username" {
   default     = "azureuser"
   description = "The username of the local administrator to be created on the Kubernetes cluster"
+  type        = string
 }
 
 variable "log_analytics_workspace_sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
   default     = "PerGB2018"
+  type        = string
 }
 
 variable "log_retention_in_days" {
   description = "The retention period for the logs in days"
   default     = 30
+  type        = number
 }
 
 variable "kubernetes_version" {
   description = "Version of Kubernetes to install"
   default     = "1.14.5"
+  type        = string
 }
 
 variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster"
   default     = ""
+  type        = string
 }
 
 variable "agent_pool_profile" {
@@ -67,11 +76,11 @@ variable "network_profile" {
   })
   default = {
     network_plugin     = "kubenet"
-    network_policy     = null
-    dns_service_ip     = null
-    docker_bridge_cidr = null
-    pod_cidr           = null
-    service_cidr       = null
+    network_policy     = ""
+    dns_service_ip     = ""
+    docker_bridge_cidr = ""
+    pod_cidr           = ""
+    service_cidr       = ""
   }
 }
 
