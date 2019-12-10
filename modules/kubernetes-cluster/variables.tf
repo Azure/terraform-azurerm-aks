@@ -38,7 +38,7 @@ variable "agents_size" {
 
 variable "kubernetes_version" {
   description = "Version of Kubernetes to install"
-  default     = "1.11.3"
+  default     = "1.14.8"
 }
 
 variable "service_principal_client_id" {
