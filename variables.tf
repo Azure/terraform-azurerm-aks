@@ -42,7 +42,7 @@ variable "agents_count" {
 
 variable "kubernetes_version" {
   description = "Version of Kubernetes to install"
-  default     = "1.14.5"
+  default     = "1.14.8"
 }
 
 variable "public_ssh_key" {
