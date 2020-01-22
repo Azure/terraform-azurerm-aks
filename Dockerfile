@@ -2,7 +2,7 @@
 ARG BUILD_TERRAFORM_VERSION="0.12.10"
 FROM mcr.microsoft.com/terraform-test:${BUILD_TERRAFORM_VERSION}
 
-ARG MODULE_NAME="terraform-azurerm-network"
+ARG MODULE_NAME="terraform-azurerm-aks"
 
 # Declare default build configurations for terraform.
 ARG BUILD_ARM_SUBSCRIPTION_ID=""
@@ -19,6 +19,10 @@ ENV ARM_CLIENT_SECRET=${BUILD_ARM_CLIENT_SECRET}
 ENV ARM_TENANT_ID=${BUILD_ARM_TENANT_ID}
 ENV ARM_TEST_LOCATION=${BUILD_ARM_TEST_LOCATION}
 ENV ARM_TEST_LOCATION_ALT=${BUILD_ARM_TEST_LOCATION_ALT}
+
+# Set environment variables for variables used in AKS.
+ENV TF_VAR_client_id=${BUILD_ARM_CLIENT_ID}
+ENV TF_VAR_client_secret=${BUILD_ARM_CLIENT_SECRET}
 
 # Set work directory.
 RUN mkdir /go

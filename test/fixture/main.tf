@@ -1,22 +1,15 @@
-resource "random_string" "prefix" {
-  length  = 8
-  special = false
-  upper   = false
+resource "random_id" "prefix" {
+  byte_length = 8
 }
-
 resource "azurerm_resource_group" "main" {
-  name     = "${random_string.prefix.result}-rg"
+  name     = "${random_id.prefix.hex}-rg"
   location = var.location
 }
 
 module aks {
-  source                      = "../.."
-  prefix                      = "pre-${random_string.prefix.result}"
-  location                    = var.location
-  CLIENT_ID                   = var.CLIENT_ID
-  CLIENT_SECRET               = var.CLIENT_SECRET
-  admin_username              = var.admin_username
-  agents_size                 = var.agents_size
-  log_analytics_workspace_sku = var.log_analytics_workspace_sku
-  log_retention_in_days       = var.log_retention_in_days
+  resource_group_name = azurerm_resource_group.main.name
+  source            = "../.."
+  prefix            = "p${random_id.prefix.hex}"
+  client_id     = var.client_id
+  client_secret = var.client_secret
 }

@@ -6,19 +6,12 @@ variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
 }
 
-variable "location" {
-  default     = "eastus"
-  description = "The location for the AKS deployment"
-}
-
-variable "CLIENT_ID" {
+variable "client_id" {
   description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
-  default = ARM_CLIENT_ID
 }
 
-variable "CLIENT_SECRET" {
+variable "client_secret" {
   description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
-  default = ARM_CLIENT_SECRET
 }
 
 variable "admin_username" {
@@ -49,5 +42,11 @@ variable "agents_count" {
 variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster"
   default     = ""
+}
+
+variable "tags" {
+  default     = {}
+  description = "Any tags that should be present on the Virtual Network resources"
+  type        = map(string)
 }
 

@@ -4,36 +4,52 @@ import (
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/stretchr/testify/assert"
+	"github.com/gruntwork-io/terratest/modules/test-structure"
 )
 
 // An example of how to test the simple Terraform module in examples/terraform-basic-example using Terratest.
 func TestTerraformBasicExample(t *testing.T) {
 	t.Parallel()
 
-	expectedText := "foo"
+	fixtureFolder := "./fixture"
+
+	// Deploy the example
+	test_structure.RunTestStage(t, "setup", func() {
+		terraformOptions := configureTerraformOptions(t, fixtureFolder)
+
+		// Save the options so later test stages can use them
+		test_structure.SaveTerraformOptions(t, fixtureFolder, terraformOptions)
+
+		// This will init and apply the resources and fail the test if there are any errors
+		terraform.InitAndApply(t, terraformOptions)
+	})
+
+	// Check whether the length of output meets the requirement
+	test_structure.RunTestStage(t, "validate", func() {
+		terraformOptions := test_structure.LoadTerraformOptions(t, fixtureFolder)
+
+		aksID := terraform.Output(t, terraformOptions, "test_aks_id")
+		if len(aksID) <= 0 {
+			t.Fatal("Wrong output")
+		}
+	})
+
+	// At the end of the test, clean up any resources that were created
+	test_structure.RunTestStage(t, "teardown", func() {
+		terraformOptions := test_structure.LoadTerraformOptions(t, fixtureFolder)
+		terraform.Destroy(t, terraformOptions)
+	})
+}
+
+func configureTerraformOptions(t *testing.T, fixtureFolder string) *terraform.Options {
 
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "./fixture",
+		TerraformDir: fixtureFolder,
 
 		// Variables to pass to our Terraform code using -var options
-		Vars: map[string]interface{}{
-			"example": expectedText,
-		},
-
-		NoColor: true,
+		Vars: map[string]interface{}{},
 	}
 
-	// At the end of the test, run `terraform destroy` to clean up any resources that were created
-	defer terraform.Destroy(t, terraformOptions)
-
-	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
-	terraform.InitAndApply(t, terraformOptions)
-
-	// Run `terraform output` to get the value of an output variable
-	actualText := terraform.Output(t, terraformOptions, "example")
-
-	// Verify we're getting back the variable we expect
-	assert.Equal(t, expectedText, actualText)
+	return terraformOptions
 }
