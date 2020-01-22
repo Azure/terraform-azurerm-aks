@@ -11,14 +11,12 @@ variable "location" {
   description = "The location for the AKS deployment"
 }
 
-variable "CLIENT_ID" {
+variable "ARM_CLIENT_ID" {
   description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
-  default = ARM_CLIENT_ID
 }
 
-variable "CLIENT_SECRET" {
+variable "ARM_CLIENT_SECRET" {
   description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
-  default = ARM_CLIENT_SECRET
 }
 
 variable "admin_username" {

@@ -1,5 +1,5 @@
 data "azurerm_resource_group" "main" {
-  name     = var.resource_group_name
+  name = var.resource_group_name
 }
 
 module "ssh-key" {
@@ -16,8 +16,8 @@ module "kubernetes" {
   admin_public_ssh_key            = var.public_ssh_key == "" ? module.ssh-key.public_ssh_key : var.public_ssh_key
   agents_size                     = var.agents_size
   agents_count                    = var.agents_count
-  service_principal_client_id     = var.CLIENT_ID
-  service_principal_client_secret = var.CLIENT_SECRET
+  service_principal_client_id     = var.ARM_CLIENT_ID
+  service_principal_client_secret = var.ARM_CLIENT_SECRET
   log_analytics_workspace_id      = azurerm_log_analytics_workspace.main.id
 }
 
