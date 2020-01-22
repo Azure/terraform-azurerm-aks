@@ -1,3 +1,7 @@
+variable "resource_group_name" {
+  description = "Resource group name that the AKS will be created in"
+}
+
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
 }
@@ -9,10 +13,12 @@ variable "location" {
 
 variable "CLIENT_ID" {
   description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
+  default = ARM_CLIENT_ID
 }
 
 variable "CLIENT_SECRET" {
   description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
+  default = ARM_CLIENT_SECRET
 }
 
 variable "admin_username" {
@@ -38,11 +44,6 @@ variable "log_retention_in_days" {
 variable "agents_count" {
   description = "The number of Agents that should exist in the Agent Pool"
   default     = 2
-}
-
-variable "kubernetes_version" {
-  description = "Version of Kubernetes to install"
-  default     = "1.14.5"
 }
 
 variable "public_ssh_key" {

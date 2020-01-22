@@ -30,3 +30,16 @@ output "location" {
   value = module.kubernetes.location
 }
 
+output "azurerm_log_analytics_solution_id" {
+  value = azurerm_log_analytics_solution.main.id
+}
+
+output "azurerm_log_analytics_workspace_id" {
+  value = azurerm_log_analytics_workspace.main.id
+}
+
+output "azurerm_log_analytics_workspace_name" {
+  value = azurerm_log_analytics_workspace.main.name
+}
+
+
