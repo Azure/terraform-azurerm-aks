@@ -8,8 +8,8 @@ resource "azurerm_resource_group" "main" {
 
 module aks {
   resource_group_name = azurerm_resource_group.main.name
-  source            = "../.."
-  prefix            = "p${random_id.prefix.hex}"
-  client_id     = var.client_id
-  client_secret = var.client_secret
+  source              = "../.."
+  prefix              = "p${random_id.prefix.hex}"
+  client_id           = var.client_id
+  client_secret       = var.client_secret
 }

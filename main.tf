@@ -12,7 +12,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   dns_prefix          = var.prefix
-
+  kubernetes_version = var.kubernetes_version
   linux_profile {
     admin_username = var.admin_username
 
@@ -59,7 +59,7 @@ resource "azurerm_log_analytics_solution" "main" {
   location              = data.azurerm_resource_group.main.location
   resource_group_name   = var.resource_group_name
   workspace_resource_id = azurerm_log_analytics_workspace.main.id
-  workspace_name        = azurerm_log_analytics_workspace.main.id
+  workspace_name        = azurerm_log_analytics_workspace.main.name
 
   plan {
     publisher = "Microsoft"
