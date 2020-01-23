@@ -13,6 +13,12 @@ func TestTerraformBasicExample(t *testing.T) {
 
 	fixtureFolder := "./fixture"
 
+	// At the end of the test, clean up any resources that were created
+	defer test_structure.RunTestStage(t, "teardown", func() {
+		terraformOptions := test_structure.LoadTerraformOptions(t, fixtureFolder)
+		terraform.Destroy(t, terraformOptions)
+	})
+
 	// Deploy the example
 	test_structure.RunTestStage(t, "setup", func() {
 		terraformOptions := configureTerraformOptions(t, fixtureFolder)
@@ -34,11 +40,7 @@ func TestTerraformBasicExample(t *testing.T) {
 		}
 	})
 
-	// At the end of the test, clean up any resources that were created
-	test_structure.RunTestStage(t, "teardown", func() {
-		terraformOptions := test_structure.LoadTerraformOptions(t, fixtureFolder)
-		terraform.Destroy(t, terraformOptions)
-	})
+
 }
 
 func configureTerraformOptions(t *testing.T, fixtureFolder string) *terraform.Options {
