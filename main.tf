@@ -13,6 +13,7 @@ module "kubernetes" {
   prefix                               = var.prefix
   resource_group_name                  = azurerm_resource_group.main.name
   location                             = azurerm_resource_group.main.location
+  rbac_enabled                         = var.rbac_enabled
   admin_username                       = var.admin_username
   admin_public_ssh_key                 = var.public_ssh_key == "" ? module.ssh-key.public_ssh_key : var.public_ssh_key
   kubernetes_version                   = var.kubernetes_version

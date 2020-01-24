@@ -5,6 +5,10 @@ resource "azurerm_kubernetes_cluster" "main" {
   dns_prefix          = var.prefix
   kubernetes_version  = var.kubernetes_version
 
+  role_based_access_control {
+    enabled           = var.rbac_enabled
+  }
+
   linux_profile {
     admin_username = var.admin_username
 

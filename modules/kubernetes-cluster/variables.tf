@@ -12,6 +12,12 @@ variable "resource_group_name" {
   description = "The name of the Resource Group in which the Virtual Network"
 }
 
+variable "rbac_enabled" {
+  default     = true
+  description = "Boolean to enable or disable role-based access control"
+  type        = bool
+}
+
 variable "location" {
   description = "The Azure Region in which to create the Virtual Network"
 }

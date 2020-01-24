@@ -5,6 +5,12 @@ variable "prefix" {
   type        = string
 }
 
+variable "rbac_enabled" {
+  default     = true
+  description = "Boolean to enable or disable role-based access control"
+  type        = bool
+}
+
 variable "location" {
   default     = "eastus"
   description = "The location for the AKS deployment"
