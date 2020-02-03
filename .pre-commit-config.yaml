@@ -1,13 +1,12 @@
 ---
 repos:
 - repo: git://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.19.0
+  rev: v1.24.0
   hooks:
     - id: terraform_fmt
-    # - id: terraform_tflint # only works on real clouds
     - id: terraform_docs
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.3.0
+  rev: v2.4.0
   hooks:
     - id: end-of-file-fixer
     - id: trailing-whitespace
