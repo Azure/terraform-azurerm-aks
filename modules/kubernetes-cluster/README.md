@@ -20,7 +20,7 @@
 | kubernetes\_version | Version of Kubernetes to install | `string` | `"1.11.3"` | no |
 | location | The Azure Region in which to create the Virtual Network | `any` | n/a | yes |
 | log\_analytics\_workspace\_id | The Log Analytics Workspace Id. | `any` | n/a | yes |
-| network\_profile | Variables defining the AKS network profile config | <pre>object({<br>    network_plugin     = string<br>    network_policy     = string<br>    dns_service_ip     = string<br>    docker_bridge_cidr = string<br>    pod_cidr           = string<br>    service_cidr       = string<br>  })<br></pre> | n/a | yes |
+| network\_profile | Variables defining the AKS network profile config | <pre>object({<br>    network_plugin     = string<br>    network_policy     = string<br>    dns_service_ip     = string<br>    docker_bridge_cidr = string<br>    pod_cidr           = string<br>    service_cidr       = string<br>    load_balancer_sku  = string<br>  })<br></pre> | n/a | yes |
 | prefix | The prefix for the resources created in the specified Azure Resource Group. | `any` | n/a | yes |
 | rbac\_enabled | Boolean to enable or disable role-based access control | `bool` | `true` | no |
 | resource\_group\_name | The name of the Resource Group in which the Virtual Network | `any` | n/a | yes |

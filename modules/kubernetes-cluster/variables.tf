@@ -86,5 +86,6 @@ variable "network_profile" {
     docker_bridge_cidr = string
     pod_cidr           = string
     service_cidr       = string
+    load_balancer_sku  = string
   })
 }
