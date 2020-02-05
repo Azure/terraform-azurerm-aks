@@ -7,19 +7,16 @@ This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kub
 
 ```hcl
 resource "azurerm_resource_group" "example" {
-  name     = "example-RG"
-  location = "example-loc"
+  name     = "ask-resource-group"
+  location = "eastus"
 }
 
 module "aks" {
-  source  = "Azure/aks/azurerm"
-  version = "2.0.0"
-
-resource_group_name = azurerm_resource_group.main.name
-
-  client_id = "your-service-principal-client-appid"
-  client_secret = "your-service-principal-client-password"
-  prefix = "your-custom-resource-prefix"
+  source              = "Azure/aks/azurerm"
+  resource_group_name = azurerm_resource_group.example.name
+  client_id           = "your-service-principal-client-appid"
+  client_secret       = "your-service-principal-client-password"
+  prefix              = "prefix"
 }
 ```
 
@@ -28,8 +25,7 @@ provider after deploying an AKS cluster.
 
 ```hcl
 provider "kubernetes" {
-  host = "${module.aks.host}"
-
+  host                   = "${module.aks.host}"
   client_certificate     = "${base64decode(module.aks.client_certificate)}"
   client_key             = "${base64decode(module.aks.client_key)}"
   cluster_ca_certificate = "${base64decode(module.aks.cluster_ca_certificate)}"
