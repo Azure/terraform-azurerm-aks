@@ -36,6 +36,5 @@ WORKDIR /go/src/${MODULE_NAME}
 ENV GOPATH /go
 ENV PATH /usr/local/go/bin:$GOPATH/bin:$PATH
 RUN /bin/bash -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
-RUN terraform init
 
 RUN ["bundle", "install", "--gemfile", "./Gemfile"]

@@ -21,6 +21,10 @@ namespace :static do
     style_tf
   end
   task :lint do
+    success = system ("terraform init")
+    if not success
+      raise "ERROR: terraform init failed!\n".red
+    end
     lint_tf
   end
   task :format do
