@@ -1,5 +1,4 @@
 # Azure pipeline for Terraform AKS module
-
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -7,21 +6,18 @@ variables:
   image_name: terraform-azurerm-aks:$(build.buildId)
   terraform_version: 0.12.10
 
-stages:
-- stage: build
+jobs:
+- job: build
   displayName: 'docker build'
-  pr:
-    branches:
-      include:
-        - '*'
+  condition: and(eq(variables['Build.Reason'], 'PullRequest'))
+    - master
   steps:
     - script: docker build --build-arg BUILD_TERRAFORM_VERSION=${TERRAFORM_VERSION} -t ${IMAGE_NAME} .
     - script: docker run ${IMAGE_NAME} rake build
 
-- stage: full
+- job: full
   displayName: 'docker run'
-  trigger:
-    - master
+  condition: and(eq(variables['build.sourceBranch'], 'refs/heads/master'))
   steps:
     - script: docker build --build-arg BUILD_TERRAFORM_VERSION=${TERRAFORM_VERSION} -t ${IMAGE_NAME} .
     - script: docker run ${IMAGE_NAME} rake full
