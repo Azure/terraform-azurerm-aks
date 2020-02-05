@@ -6,18 +6,13 @@ variables:
   image_name: terraform-azurerm-aks:$(build.buildId)
   terraform_version: 0.12.10
 
-jobs:
-- job: build
-  displayName: 'docker build'
-  condition: and(eq(variables['Build.Reason'], 'PullRequest'))
-    - master
-  steps:
-    - script: docker build --build-arg BUILD_TERRAFORM_VERSION=${TERRAFORM_VERSION} -t ${IMAGE_NAME} .
-    - script: docker run ${IMAGE_NAME} rake build
+steps:
+  - script: docker build --build-arg BUILD_TERRAFORM_VERSION=${TERRAFORM_VERSION} -t ${IMAGE_NAME} .
+    displayName: 'docker build'
 
-- job: full
-  displayName: 'docker run'
-  condition: and(eq(variables['build.sourceBranch'], 'refs/heads/master'))
-  steps:
-    - script: docker build --build-arg BUILD_TERRAFORM_VERSION=${TERRAFORM_VERSION} -t ${IMAGE_NAME} .
-    - script: docker run ${IMAGE_NAME} rake full
+  - script: docker run ${IMAGE_NAME} rake build
+    displayName: 'validate'
+
+  - script: docker run $(IMAGE_NAME) rake full
+    displayName: 'full build'
+    condition: and(succeeded(),eq(variables['build.sourceBranch'], 'refs/heads/master'))
