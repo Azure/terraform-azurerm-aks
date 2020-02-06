@@ -63,9 +63,25 @@ Then simply run it in local shell:
 
 ```sh
 $ cd $GOPATH/src/{directory_name}/
-$ bundle install
-$ rake build
-$ rake e2e
+$ export PATH="/usr/local/go/bin:$GOPATH/bin:$PATH"
+$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+$ dep ensure
+
+# set service principal
+$ export ARM_CLIENT_ID="service-principal-client-id"
+$ export ARM_CLIENT_SECRET="service-principal-client-secret"
+$ export ARM_SUBSCRIPTION_ID="subscription-id"
+$ export ARM_TENANT_ID="tenant-id"
+$ export ARM_TEST_LOCATION="eastus"
+$ export ARM_TEST_LOCATION_ALT="eastus1"
+$ export ARM_TEST_LOCATION_ALT2="westus"
+
+# set aks variables
+$ export TF_VAR_client_id="service-principal-client-id"
+$ export TF_VAR_client_secret="service-principal-client-secret"
+
+# run test
+$ go test -v ./test/ -timeout 45m
 ```
 
 ### Docker
