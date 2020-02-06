@@ -71,7 +71,7 @@ $ export ARM_CLIENT_SECRET="service-principal-client-secret"
 $ export ARM_SUBSCRIPTION_ID="subscription-id"
 $ export ARM_TENANT_ID="tenant-id"
 $ export ARM_TEST_LOCATION="eastus"
-$ export ARM_TEST_LOCATION_ALT="eastus1"
+$ export ARM_TEST_LOCATION_ALT="eastus2"
 $ export ARM_TEST_LOCATION_ALT2="westus"
 
 # set aks variables
