@@ -63,8 +63,6 @@ Then simply run it in local shell:
 
 ```sh
 $ cd $GOPATH/src/{directory_name}/
-$ export PATH="/usr/local/go/bin:$GOPATH/bin:$PATH"
-$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 $ dep ensure
 
 # set service principal
