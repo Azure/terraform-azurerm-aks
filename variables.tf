@@ -1,17 +1,16 @@
+variable "resource_group_name" {
+  description = "Resource group name that the AKS will be created in"
+}
+
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
 }
 
-variable "location" {
-  default     = "eastus"
-  description = "The location for the AKS deployment"
-}
-
-variable "CLIENT_ID" {
+variable "client_id" {
   description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
 }
 
-variable "CLIENT_SECRET" {
+variable "client_secret" {
   description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
 }
 
@@ -40,13 +39,14 @@ variable "agents_count" {
   default     = 2
 }
 
-variable "kubernetes_version" {
-  description = "Version of Kubernetes to install"
-  default     = "1.14.5"
-}
-
 variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster"
   default     = ""
+}
+
+variable "tags" {
+  default     = {}
+  description = "Any tags that should be present on the Virtual Network resources"
+  type        = map(string)
 }
 

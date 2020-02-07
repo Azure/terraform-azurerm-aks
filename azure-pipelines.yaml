@@ -1,14 +1,18 @@
 # Azure pipeline for Terraform AKS module
-
 pool:
-  vmImage: 'Ubuntu 16.04'
+  vmImage: 'ubuntu-latest'
 
 variables:
-  imagename: terraform-azurerm-aks:$(build.buildId)
+  image_name: terraform-azurerm-aks:$(build.buildId)
+  terraform_version: 0.12.10
 
 steps:
-- script: docker build -f Dockerfile -t $(imageName) .
-  displayName: 'docker build'
+  - script: docker build --build-arg BUILD_TERRAFORM_VERSION=${TERRAFORM_VERSION} -t ${IMAGE_NAME} .
+    displayName: 'docker build'
 
-- script: docker run -e "ARM_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" -e "ARM_CLIENT_ID=$AZURE_CLIENT_ID" -e "ARM_CLIENT_SECRET=$AZURE_CLIENT_SECRET" -e "ARM_TENANT_ID=$AZURE_TENANT_ID" -e "ARM_TEST_LOCATION=WestUS2" -e "ARM_TEST_LOCATION_ALT=EastUS" --rm $(imageName) bash -c "./test.sh validate"
-  displayName: 'docker run'
+  - script: docker run ${IMAGE_NAME} rake build
+    displayName: 'validate'
+
+  - script: docker run $(IMAGE_NAME) rake full
+    displayName: 'full build'
+    condition: and(succeeded(),eq(variables['build.sourceBranch'], 'refs/heads/master'))

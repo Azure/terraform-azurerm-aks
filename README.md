@@ -6,86 +6,116 @@ This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kub
 ## Usage
 
 ```hcl
+resource "azurerm_resource_group" "example" {
+  name     = "ask-resource-group"
+  location = "eastus"
+}
+
 module "aks" {
-  source  = "Azure/aks/azurerm"
-  version = "2.0.0"
-
-  CLIENT_ID = "your-service-principal-client-appid"
-  CLIENT_SECRET = "your-service-principal-client-password"
-  prefix = "your-custom-resource-prefix"
-}
-```
-
-This module is configured through variables. Make sure to select an [Azure location that supports AKS](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=kubernetes-service) and to [have a Service Principal created](https://www.terraform.io/docs/providers/azurerm/authenticating_via_service_principal.html). If no public ssh key is set through variables, a newly generated public key will be used and the private key will be saved in a *private_ssh_key* file.
-
-See below for the default variable values.
-
-```hcl
-variable "prefix" {
-  description = "The prefix for the resources created in the specified Azure Resource Group"
-}
-
-variable "location" {
-  default     = "eastus"
-  description = "The location for the AKS deployment"
-}
-
-variable "CLIENT_ID" {
-  description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
-}
-
-variable "CLIENT_SECRET" {
-  description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
-}
-
-variable "admin_username" {
-  default     = "azureuser"
-  description = "The username of the local administrator to be created on the Kubernetes cluster"
-}
-
-variable "agents_size" {
-  default     = "Standard_F2"
-  description = "The default virtual machine size for the Kubernetes agents"
-}
-
-variable "log_analytics_workspace_sku" {
-  description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
-  default     = "PerGB2018"
-}
-
-variable "log_retention_in_days" {
-  description = "The retention period for the logs in days"
-  default     = 30
-}
-
-variable "agents_count" {
-  description = "The number of Agents that should exist in the Agent Pool"
-  default     = 2
-}
-
-variable "kubernetes_version" {
-  description = "Version of Kubernetes to install"
-  default     = "1.14.5"
-}
-
-variable "public_ssh_key" {
-  description = "A custom ssh key to control access to the AKS cluster"
-  default     = ""
+  source              = "Azure/aks/azurerm"
+  resource_group_name = azurerm_resource_group.example.name
+  client_id           = "your-service-principal-client-appid"
+  client_secret       = "your-service-principal-client-password"
+  prefix              = "prefix"
 }
 ```
 
 The module supports some outputs that may be used to configure a kubernetes
 provider after deploying an AKS cluster.
 
-```
+```hcl
 provider "kubernetes" {
-  host = "${module.aks.host}"
-
+  host                   = "${module.aks.host}"
   client_certificate     = "${base64decode(module.aks.client_certificate)}"
   client_key             = "${base64decode(module.aks.client_key)}"
   cluster_ca_certificate = "${base64decode(module.aks.cluster_ca_certificate)}"
 }
 ```
+
+## Test
+
+### Configurations
+
+- [Configure Terraform for Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/terraform-install-configure)
+
+We provide 2 ways to build, run, and test the module on a local development machine.  [Native (Mac/Linux)](#native-maclinux) or [Docker](#docker).
+
+### Native (Mac/Linux)
+
+#### Prerequisites
+
+- [Ruby **(~> 2.3)**](https://www.ruby-lang.org/en/downloads/)
+- [Bundler **(~> 1.15)**](https://bundler.io/)
+- [Terraform **(~> 0.11.7)**](https://www.terraform.io/downloads.html)
+- [Golang **(~> 1.10.3)**](https://golang.org/dl/)
+
+#### Environment setup
+
+We provide simple script to quickly set up module development environment:
+
+```sh
+$ curl -sSL https://raw.githubusercontent.com/Azure/terramodtest/master/tool/env_setup.sh | sudo bash
+```
+
+#### Run test
+
+Then simply run it in local shell:
+
+```sh
+$ cd $GOPATH/src/{directory_name}/
+$ dep ensure
+
+# set service principal
+$ export ARM_CLIENT_ID="service-principal-client-id"
+$ export ARM_CLIENT_SECRET="service-principal-client-secret"
+$ export ARM_SUBSCRIPTION_ID="subscription-id"
+$ export ARM_TENANT_ID="tenant-id"
+$ export ARM_TEST_LOCATION="eastus"
+$ export ARM_TEST_LOCATION_ALT="eastus2"
+$ export ARM_TEST_LOCATION_ALT2="westus"
+
+# set aks variables
+$ export TF_VAR_client_id="service-principal-client-id"
+$ export TF_VAR_client_secret="service-principal-client-secret"
+
+# run test
+$ go test -v ./test/ -timeout 45m
+```
+
+### Docker
+
+We provide a Dockerfile to build a new image based `FROM` the `mcr.microsoft.com/terraform-test` Docker hub image which adds additional tools / packages specific for this module (see Custom Image section).  Alternatively use only the `microsoft/terraform-test` Docker hub image [by using these instructions](https://github.com/Azure/terraform-test).
+
+#### Prerequisites
+
+- [Docker](https://www.docker.com/community-edition#/download)
+
+#### Custom Image
+
+This builds the custom image:
+
+```sh
+$ docker build --build-arg BUILD_ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID --build-arg BUILD_ARM_CLIENT_ID=$ARM_CLIENT_ID --build-arg BUILD_ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET --build-arg BUILD_ARM_TENANT_ID=$ARM_TENANT_ID -t azure-aks .
+```
+
+This runs the build and unit tests:
+
+```sh
+$ docker run --rm azure-aks /bin/bash -c "bundle install && rake build"
+```
+
+This runs the end to end tests:
+
+```sh
+$ docker run --rm azure-aks /bin/bash -c "bundle install && rake e2e"
+```
+
+This runs the full tests:
+
+```sh
+$ docker run --rm azure-aks /bin/bash -c "bundle install && rake full"
+```
+
 
 ## Authors
 
