@@ -39,6 +39,7 @@ This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kub
 | client\_certificate | Base64 encoded public certificate used by clients to authenticate to the Kubernetes cluster. |
 | client\_key | Base64 encoded private key used by clients to authenticate to the Kubernetes cluster. |
 | cluster\_ca\_certificate | Base64 encoded public CA certificate used as the root of trust for the Kubernetes cluster. |
+| cluster\_name | n/a |
 | host | The Kubernetes cluster server host. |
 | kube\_config\_raw | Raw Kubernetes config to be used by kubectl and other compatible tools. |
 | location | The location where the Managed Kubernetes Cluster was created. |

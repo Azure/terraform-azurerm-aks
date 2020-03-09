@@ -2,6 +2,10 @@ output "cluster_id" {
   value = azurerm_kubernetes_cluster.main.id
 }
 
+output "cluster_name" {
+  value = azurerm_kubernetes_cluster.main.name
+}
+
 output "client_key" {
   value = azurerm_kubernetes_cluster.main.kube_config[0].client_key
 }

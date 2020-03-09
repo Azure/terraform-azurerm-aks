@@ -36,6 +36,7 @@
 | client\_key | n/a |
 | cluster\_ca\_certificate | n/a |
 | cluster\_id | n/a |
+| cluster\_name | n/a |
 | host | n/a |
 | kube\_config\_raw | n/a |
 | location | n/a |

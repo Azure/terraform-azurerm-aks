@@ -43,6 +43,10 @@ output "aks_resource_group" {
   value       = azurerm_resource_group.main
 }
 
+output "cluster_name" {
+  value = module.kubernetes.cluster_name
+}
+
 output "kube_config_raw" {
   description = "Raw Kubernetes config to be used by kubectl and other compatible tools."
   value       = module.kubernetes.kube_config_raw
