@@ -25,7 +25,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   default_node_pool {
     name       = "nodepool"
     node_count = var.agents_count
-    //    enable_auto_scaling = var.enable_auto_scaling
     vm_size         = var.agents_size
     os_disk_size_gb = 50
   }

@@ -55,10 +55,3 @@ variable "enable_log_analytics_workspace" {
   description = "Enable creation of azurerm_log_analytics_workspace and azurerm_log_analytics_solution?"
   default     = true
 }
-
-//variable "enable_auto_scaling" {
-//  type = bool
-//  description = "Should the Kubernetes Auto Scaler be enabled for this Node Pool"
-//  default = true
-//}
-
