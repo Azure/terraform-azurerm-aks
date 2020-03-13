@@ -1,5 +1,5 @@
 variable "resource_group_name" {
-  description = "Resource group name that the AKS will be created in"
+  description = "The resource group name to be imported"
 }
 
 variable "prefix" {
@@ -20,7 +20,7 @@ variable "admin_username" {
 }
 
 variable "agents_size" {
-  default     = "Standard_F2"
+  default     = "Standard_D2s_v3"
   description = "The default virtual machine size for the Kubernetes agents"
 }
 
@@ -45,8 +45,20 @@ variable "public_ssh_key" {
 }
 
 variable "tags" {
-  default     = {}
-  description = "Any tags that should be present on the Virtual Network resources"
   type        = map(string)
+  description = "Any tags that should be present on the Virtual Network resources"
+  default     = {}
 }
+
+variable "enable_log_analytics_workspace" {
+  type        = bool
+  description = "Enable creation of azurerm_log_analytics_workspace and azurerm_log_analytics_solution?"
+  default     = true
+}
+
+//variable "enable_auto_scaling" {
+//  type = bool
+//  description = "Should the Kubernetes Auto Scaler be enabled for this Node Pool"
+//  default = true
+//}
 
