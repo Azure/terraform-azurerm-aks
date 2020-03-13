@@ -23,8 +23,8 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   default_node_pool {
-    name       = "nodepool"
-    node_count = var.agents_count
+    name            = "nodepool"
+    node_count      = var.agents_count
     vm_size         = var.agents_size
     os_disk_size_gb = 50
   }
