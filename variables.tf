@@ -52,6 +52,6 @@ variable "tags" {
 
 variable "enable_log_analytics_workspace" {
   type        = bool
-  description = "Enable creation of azurerm_log_analytics_workspace and azurerm_log_analytics_solution?"
+  description = "Enable the creation of azurerm_log_analytics_workspace and azurerm_log_analytics_solution or not"
   default     = true
 }
