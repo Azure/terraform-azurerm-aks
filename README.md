@@ -67,7 +67,7 @@ Then simply run it in local shell:
 
 ```sh
 $ cd $GOPATH/src/{directory_name}/
-$ dep ensure
+$ bundle install
 
 # set service principal
 $ export ARM_CLIENT_ID="service-principal-client-id"
@@ -83,7 +83,8 @@ $ export TF_VAR_client_id="service-principal-client-id"
 $ export TF_VAR_client_secret="service-principal-client-secret"
 
 # run test
-$ go test -v ./test/ -timeout 45m
+$ rake build
+$ rake full
 ```
 
 ### Docker
