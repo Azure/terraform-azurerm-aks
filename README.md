@@ -6,6 +6,10 @@ This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kub
 ## Usage
 
 ```hcl
+provider "azurerm" {
+  features {}
+}
+
 resource "azurerm_resource_group" "example" {
   name     = "ask-resource-group"
   location = "eastus"
@@ -25,10 +29,10 @@ provider after deploying an AKS cluster.
 
 ```hcl
 provider "kubernetes" {
-  host                   = "${module.aks.host}"
-  client_certificate     = "${base64decode(module.aks.client_certificate)}"
-  client_key             = "${base64decode(module.aks.client_key)}"
-  cluster_ca_certificate = "${base64decode(module.aks.cluster_ca_certificate)}"
+  host                   = module.aks.host
+  client_certificate     = base64decode(module.aks.client_certificate)
+  client_key             = base64decode(module.aks.client_key)
+  cluster_ca_certificate = base64decode(module.aks.cluster_ca_certificate)
 }
 ```
 
@@ -63,7 +67,7 @@ Then simply run it in local shell:
 
 ```sh
 $ cd $GOPATH/src/{directory_name}/
-$ dep ensure
+$ bundle install
 
 # set service principal
 $ export ARM_CLIENT_ID="service-principal-client-id"
@@ -79,7 +83,8 @@ $ export TF_VAR_client_id="service-principal-client-id"
 $ export TF_VAR_client_secret="service-principal-client-secret"
 
 # run test
-$ go test -v ./test/ -timeout 45m
+$ rake build
+$ rake full
 ```
 
 ### Docker
