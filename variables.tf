@@ -24,6 +24,11 @@ variable "agents_size" {
   description = "The default virtual machine size for the Kubernetes agents"
 }
 
+variable "vnet_subnet_id" {
+  default     = null
+  description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created." 
+}
+
 variable "log_analytics_workspace_sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
   default     = "PerGB2018"
