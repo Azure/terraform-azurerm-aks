@@ -34,3 +34,6 @@ output "aks_id" {
   value = azurerm_kubernetes_cluster.main.id
 }
 
+output "kube_config_raw" {
+  value = azurerm_kubernetes_cluster.main.kube_config_raw
+}
