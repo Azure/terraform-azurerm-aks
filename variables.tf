@@ -26,7 +26,7 @@ variable "agents_size" {
 
 variable "vnet_subnet_id" {
   default     = null
-  description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created."
+  description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created. (A Route Table must be configured on this Subnet)."
 }
 
 variable "log_analytics_workspace_sku" {
