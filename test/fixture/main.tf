@@ -1,26 +1,28 @@
 provider "azurerm" {
-  version = "~> 1.27"
+  features {}
 }
 
-resource "random_string" "prefix" {
-  length  = 8
-  special = false
-  upper   = false
+resource "random_id" "prefix" {
+  byte_length = 8
 }
-
 resource "azurerm_resource_group" "main" {
-  name     = "${random_string.prefix.result}-resources"
-  location = "${var.location}"
+  name     = "${random_id.prefix.hex}-rg"
+  location = var.location
 }
 
 module aks {
-  source                      = "../.."
-  prefix                      = "${random_string.prefix.result}"
-  location                    = "${var.location}"
-  CLIENT_ID                   = "${var.CLIENT_ID}"
-  CLIENT_SECRET               = "${var.CLIENT_SECRET}"
-  admin_username              = "${var.admin_username}"
-  agents_size                 = "${var.agents_size}"
-  log_analytics_workspace_sku = "${var.log_analytics_workspace_sku}"
-  log_retention_in_days       = "${var.log_retention_in_days}"
+  source              = "../.."
+  prefix              = "prefix-${random_id.prefix.hex}"
+  resource_group_name = azurerm_resource_group.main.name
+  client_id           = var.client_id
+  client_secret       = var.client_secret
+}
+
+module aks_without_monitor {
+  source                         = "../.."
+  prefix                         = "prefix2-${random_id.prefix.hex}"
+  resource_group_name            = azurerm_resource_group.main.name
+  client_id                      = var.client_id
+  client_secret                  = var.client_secret
+  enable_log_analytics_workspace = false
 }

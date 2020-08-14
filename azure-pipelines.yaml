@@ -1,14 +1,18 @@
 # Azure pipeline for Terraform AKS module
-
 pool:
-  vmImage: 'Ubuntu 16.04'
+  vmImage: 'ubuntu-latest'
 
 variables:
-  imagename: terraform-azurerm-aks:$(build.buildId)
+  image_name: terraform-azurerm-aks:$(build.buildId)
+  terraform_version: 0.12.20
 
 steps:
-- script: docker build -f Dockerfile -t $(imageName) .
-  displayName: 'docker build'
+  - script: docker build --build-arg BUILD_TERRAFORM_VERSION=$(terraform_version) --build-arg BUILD_ARM_SUBSCRIPTION_ID=$(ARM_SUBSCRIPTION_ID) --build-arg BUILD_ARM_CLIENT_ID=$(ARM_CLIENT_ID) --build-arg BUILD_ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET) --build-arg BUILD_ARM_TENANT_ID=$(ARM_TENANT_ID) -t $(image_name) .
+    displayName: 'docker build'
 
-- script: docker run -e "ARM_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" -e "ARM_CLIENT_ID=$AZURE_CLIENT_ID" -e "ARM_CLIENT_SECRET=$AZURE_CLIENT_SECRET" -e "ARM_TENANT_ID=$AZURE_TENANT_ID" -e "ARM_TEST_LOCATION=WestUS2" -e "ARM_TEST_LOCATION_ALT=EastUS" --rm $(imageName) bash -c "./test.sh validate"
-  displayName: 'docker run'
+  - script: docker run $(image_name) rake build
+    displayName: 'validate'
+
+  - script: docker run $(image_name) rake full
+    displayName: 'full build'
+    condition: and(succeeded(),eq(variables['build.sourceBranch'], 'refs/heads/master'))

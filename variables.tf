@@ -1,17 +1,16 @@
+variable "resource_group_name" {
+  description = "The resource group name to be imported"
+}
+
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
 }
 
-variable "location" {
-  default     = "eastus"
-  description = "The location for the AKS deployment"
-}
-
-variable "CLIENT_ID" {
+variable "client_id" {
   description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
 }
 
-variable "CLIENT_SECRET" {
+variable "client_secret" {
   description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
 }
 
@@ -21,7 +20,7 @@ variable "admin_username" {
 }
 
 variable "agents_size" {
-  default     = "Standard_F2"
+  default     = "Standard_D2s_v3"
   description = "The default virtual machine size for the Kubernetes agents"
 }
 
@@ -40,13 +39,19 @@ variable "agents_count" {
   default     = 2
 }
 
-variable "kubernetes_version" {
-  description = "Version of Kubernetes to install"
-  default     = "1.14.5"
-}
-
 variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster"
   default     = ""
 }
 
+variable "tags" {
+  type        = map(string)
+  description = "Any tags that should be present on the Virtual Network resources"
+  default     = {}
+}
+
+variable "enable_log_analytics_workspace" {
+  type        = bool
+  description = "Enable the creation of azurerm_log_analytics_workspace and azurerm_log_analytics_solution or not"
+  default     = true
+}
