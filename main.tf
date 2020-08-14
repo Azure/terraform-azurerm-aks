@@ -26,7 +26,8 @@ resource "azurerm_kubernetes_cluster" "main" {
     name            = "nodepool"
     node_count      = var.agents_count
     vm_size         = var.agents_size
-    os_disk_size_gb = 50
+    os_disk_size_gb = var.os_disk_size_gb
+    vnet_subnet_id  = var.vnet_subnet_id
   }
 
   service_principal {
@@ -34,10 +35,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     client_secret = var.client_secret
   }
 
-  dynamic addon_profile {
-    for_each = var.enable_log_analytics_workspace ? ["log_analytics"] : []
-    content {
-      oms_agent {
+  addon_profile {
+    http_application_routing {
+      enabled = var.enable_http_application_routing
+    }
+
+    dynamic oms_agent {
+      for_each = var.enable_log_analytics_workspace ? ["log_analytics"] : []
+      content {
         enabled                    = true
         log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
       }

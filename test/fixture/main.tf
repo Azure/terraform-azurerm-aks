@@ -10,12 +10,30 @@ resource "azurerm_resource_group" "main" {
   location = var.location
 }
 
-module aks {
-  source              = "../.."
-  prefix              = "prefix-${random_id.prefix.hex}"
+resource "azurerm_virtual_network" "test" {
+  name                = "${random_id.prefix.hex}-vn"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  client_id           = var.client_id
-  client_secret       = var.client_secret
+}
+
+resource "azurerm_subnet" "test" {
+  name                 = "${random_id.prefix.hex}-sn"
+  resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.test.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
+module aks {
+  source                             = "../.."
+  prefix                             = "prefix-${random_id.prefix.hex}"
+  resource_group_name                = azurerm_resource_group.main.name
+  client_id                          = var.client_id
+  client_secret                      = var.client_secret
+  vnet_subnet_id                     = azurerm_subnet.test.id
+  os_disk_size_gb                    = 60
+  http_application_routing_zone_name = true
+  depends_on                         = [azurerm_resource_group.main]
 }
 
 module aks_without_monitor {
@@ -25,4 +43,5 @@ module aks_without_monitor {
   client_id                      = var.client_id
   client_secret                  = var.client_secret
   enable_log_analytics_workspace = false
+  depends_on                     = [azurerm_resource_group.main]
 }
