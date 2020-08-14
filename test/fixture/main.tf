@@ -25,23 +25,23 @@ resource "azurerm_subnet" "test" {
 }
 
 module aks {
-  source                             = "../.."
-  prefix                             = "prefix-${random_id.prefix.hex}"
-  resource_group_name                = azurerm_resource_group.main.name
-  client_id                          = var.client_id
-  client_secret                      = var.client_secret
-  vnet_subnet_id                     = azurerm_subnet.test.id
-  os_disk_size_gb                    = 60
-  http_application_routing_zone_name = true
-  depends_on                         = [azurerm_resource_group.main]
-}
-
-module aks_without_monitor {
   source                          = "../.."
-  prefix                          = "prefix2-${random_id.prefix.hex}"
+  prefix                          = "prefix-${random_id.prefix.hex}"
   resource_group_name             = azurerm_resource_group.main.name
   client_id                       = var.client_id
   client_secret                   = var.client_secret
-  enable_http_application_routing = false
+  vnet_subnet_id                  = azurerm_subnet.test.id
+  os_disk_size_gb                 = 60
+  enable_http_application_routing = true
   depends_on                      = [azurerm_resource_group.main]
+}
+
+module aks_without_monitor {
+  source                         = "../.."
+  prefix                         = "prefix2-${random_id.prefix.hex}"
+  resource_group_name            = azurerm_resource_group.main.name
+  client_id                      = var.client_id
+  client_secret                  = var.client_secret
+  enable_log_analytics_workspace = false
+  depends_on                     = [azurerm_resource_group.main]
 }
