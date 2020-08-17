@@ -52,7 +52,6 @@ resource "azurerm_resource_group" "example" {
 
 module "aks" {
   source              = "Azure/aks/azurerm"
-  version             = "4.0.0"
   resource_group_name = azurerm_resource_group.example.name
   client_id           = "your-service-principal-client-appid"
   client_secret       = "your-service-principal-client-password"
