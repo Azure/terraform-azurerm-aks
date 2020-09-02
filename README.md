@@ -22,7 +22,6 @@ module "network" {
   subnet_prefixes     = ["10.0.1.0/24"]
   subnet_names        = ["subnet1"]
   depends_on          = [azurerm_resource_group.example]
-
 }
 
 module "aks" {
@@ -34,7 +33,7 @@ module "aks" {
   vnet_subnet_id      = module.network.vnet_subnets[0]
   os_disk_size_gb     = 50
 
-  depends_on = [azurerm_resource_group.example]
+  depends_on = [azurerm_resource_group.example, module.network]
 }
 ```
 
@@ -56,8 +55,6 @@ module "aks" {
   client_id           = "your-service-principal-client-appid"
   client_secret       = "your-service-principal-client-password"
   prefix              = "prefix"
-
-  depends_on = [azurerm_resource_group.example]
 }
 ```
 
