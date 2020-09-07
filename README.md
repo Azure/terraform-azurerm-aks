@@ -33,7 +33,7 @@ module "aks" {
   vnet_subnet_id      = module.network.vnet_subnets[0]
   os_disk_size_gb     = 50
 
-  depends_on = [azurerm_resource_group.example, module.network]
+  depends_on = [module.network]
 }
 ```
 
