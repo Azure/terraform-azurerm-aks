@@ -30,9 +30,19 @@ resource "azurerm_kubernetes_cluster" "main" {
     vnet_subnet_id  = var.vnet_subnet_id
   }
 
-  service_principal {
-    client_id     = var.client_id
-    client_secret = var.client_secret
+  dynamic service_principal {
+    for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
+    content {
+      client_id     = var.client_id
+      client_secret = var.client_secret
+    }
+  }
+
+  dynamic identity {
+    for_each = var.identity_type != "" ? ["identity"] : []
+    content {
+      type = var.identity_type
+    }
   }
 
   addon_profile {

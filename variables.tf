@@ -11,11 +11,13 @@ variable "prefix" {
 variable "client_id" {
   description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
   type        = string
+  default     = ""
 }
 
 variable "client_secret" {
   description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
   type        = string
+  default     = ""
 }
 
 variable "admin_username" {
@@ -82,4 +84,10 @@ variable "enable_http_application_routing" {
   description = "Enable HTTP Application Routing Addon (forces recreation)."
   type        = bool
   default     = false
+}
+
+variable "identity_type" {
+  description = "The type of identity used for the managed cluster.One of either `identity_type` or `service_principal` must be specified."
+  type        = string
+  default     = "SystemAssigned"
 }
