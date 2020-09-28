@@ -9,13 +9,15 @@ variable "prefix" {
 }
 
 variable "client_id" {
-  description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
+  description = "(Optional) The Client ID (appId) for the Service Principal used for the AKS deployment"
   type        = string
+  default     = ""
 }
 
 variable "client_secret" {
-  description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
+  description = "(Optional) The Client Secret (password) for the Service Principal used for the AKS deployment"
   type        = string
+  default     = ""
 }
 
 variable "admin_username" {

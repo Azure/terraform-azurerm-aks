@@ -3,6 +3,8 @@
 
 This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kubernetes Service) and adds support for monitoring with Log Analytics.
 
+-> **NOTE:** If you have not assigned `client_id` or `client_secret`, A `SystemAssigned` identity will be created.
+
 ## Usage in Terraform 0.13
 
 ```hcl
@@ -52,8 +54,6 @@ resource "azurerm_resource_group" "example" {
 module "aks" {
   source              = "Azure/aks/azurerm"
   resource_group_name = azurerm_resource_group.example.name
-  client_id           = "your-service-principal-client-appid"
-  client_secret       = "your-service-principal-client-password"
   prefix              = "prefix"
 }
 ```
