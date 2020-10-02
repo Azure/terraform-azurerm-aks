@@ -26,16 +26,23 @@ module "network" {
   depends_on          = [azurerm_resource_group.example]
 }
 
+data "azuread_group" "aks_cluster_admins" {
+  name = "AKS-cluster-admins"
+}
+
 module "aks" {
-  source              = "Azure/aks/azurerm"
-  resource_group_name = azurerm_resource_group.example.name
-  client_id           = "your-service-principal-client-appid"
-  client_secret       = "your-service-principal-client-password"
-  prefix              = "prefix"
-  vnet_subnet_id      = module.network.vnet_subnets[0]
-  os_disk_size_gb     = 50
-  enable_azure_policy = true
-  sku_tier            = "Paid" # defaults to Free
+  source                           = "Azure/aks/azurerm"
+  resource_group_name              = azurerm_resource_group.example.name
+  client_id                        = "your-service-principal-client-appid"
+  client_secret                    = "your-service-principal-client-password"
+  prefix                           = "prefix"
+  vnet_subnet_id                   = module.network.vnet_subnets[0]
+  os_disk_size_gb                  = 50
+  enable_azure_policy              = true
+  sku_tier                         = "Paid" # defaults to Free
+  enable_role_based_access_control = true
+  rbac_aad_admin_group_object_ids  = [data.azuread_group.aks_cluster_admins.id]
+  rbac_aad_managed                 = true
 
   depends_on = [module.network]
 }
