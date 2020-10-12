@@ -33,7 +33,7 @@ module aks {
   vnet_subnet_id                  = azurerm_subnet.test.id
   os_disk_size_gb                 = 60
   enable_http_application_routing = true
-  enable_policy                   = true
+  enable_azure_policy             = true
   depends_on                      = [azurerm_resource_group.main]
 }
 
