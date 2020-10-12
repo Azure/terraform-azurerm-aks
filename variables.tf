@@ -85,3 +85,9 @@ variable "enable_http_application_routing" {
   type        = bool
   default     = false
 }
+
+variable "enable_azure_policy" {
+  description = "Enable Azure Policy Addon."
+  type        = bool
+  default     = false
+}

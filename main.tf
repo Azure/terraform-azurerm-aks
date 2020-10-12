@@ -50,6 +50,13 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled = var.enable_http_application_routing
     }
 
+    dynamic azure_policy {
+      for_each = var.enable_azure_policy ? ["azure_policy"] : []
+      content {
+        enabled = true
+      }
+    }
+
     dynamic oms_agent {
       for_each = var.enable_log_analytics_workspace ? ["log_analytics"] : []
       content {
