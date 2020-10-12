@@ -38,7 +38,6 @@ func TestTerraformBasicExample(t *testing.T) {
 		if len(aksID) <= 0 {
 			t.Fatal("Wrong output")
 		}
-
 	})
 
 
