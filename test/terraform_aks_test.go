@@ -39,10 +39,6 @@ func TestTerraformBasicExample(t *testing.T) {
 			t.Fatal("Wrong output")
 		}
 
-		aksPaidSkuID := terraform.Output(t, terraformOptions, "test_aks_paid_sku_id")
-		if len(aksPaidSkuID) <= 0 {
-			t.Fatal("Error while deploying AKS with paid SKU")
-		}
 	})
 
 
