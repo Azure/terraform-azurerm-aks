@@ -35,6 +35,7 @@ module "aks" {
   vnet_subnet_id      = module.network.vnet_subnets[0]
   os_disk_size_gb     = 50
   enable_azure_policy = true
+  sku_tier            = "Paid" # defaults to Free
 
   depends_on = [module.network]
 }

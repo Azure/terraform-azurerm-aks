@@ -34,6 +34,7 @@ module aks {
   os_disk_size_gb                 = 60
   enable_http_application_routing = true
   enable_azure_policy             = true
+  sku_tier                        = "Paid"
   depends_on                      = [azurerm_resource_group.main]
 }
 

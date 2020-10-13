@@ -91,3 +91,9 @@ variable "enable_azure_policy" {
   type        = bool
   default     = false
 }
+
+variable "sku_tier" {
+  description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid"
+  type        = string
+  default     = "Free"
+}
