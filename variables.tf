@@ -92,6 +92,12 @@ variable "enable_azure_policy" {
   default     = false
 }
 
+variable "enable_kube_dashboard" {
+  description = "Enable Kubernetes web dashboard. NOTE: This add-on is set for deprecation. [https://docs.microsoft.com/en-us/azure/aks/kubernetes-dashboard]"
+  type        = bool
+  default     = false
+}
+
 variable "sku_tier" {
   description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid"
   type        = string
