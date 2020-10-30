@@ -100,8 +100,10 @@ variable "network_profile" {
 
 variable "default_node_pool" {
   description = "(Required) https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#default_node_pool"
-  type        = map
-  default     = {
+  type        = map(object)
+  default     = {}
+  # Example:
+  {
       name                  = "nodepool"
       node_count            = 2
       vm_size               = "Standard_D2s_v3"
