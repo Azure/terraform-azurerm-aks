@@ -40,7 +40,7 @@ variable "default_node_pool" {
 #
 #     default = [{
 #       orchestrator_version  = null
-#       name                  = default
+#       name                  = "default"
 #       node_count            = 3
 #       vm_size               = "Standard_D2s_v3"
 #       os_disk_size_gb       = 50
