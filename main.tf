@@ -25,7 +25,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   default_node_pool {
-      orchestrator_version  = looup(var.default_node_pool,"orchestrator_version",var.kubernetes_version)
+      orchestrator_version  = lookup(var.default_node_pool,"orchestrator_version",var.kubernetes_version)
       name                  = lookup(var.default_node_pool,"name","nodepool")
       node_count            = var.agents_count == null ? lookup(var.default_node_pool,"node_count",2) : var.agents_count
       vm_size               = lookup(var.default_node_pool,"vm_size","Standard_D2s_v3")
