@@ -12,6 +12,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   dns_prefix          = var.prefix
+  sku_tier            = var.sku_tier
 
   linux_profile {
     admin_username = var.admin_username
@@ -26,19 +27,40 @@ resource "azurerm_kubernetes_cluster" "main" {
     name            = "nodepool"
     node_count      = var.agents_count
     vm_size         = var.agents_size
-    os_disk_size_gb = 50
-    vnet_subnet_id  = var.vnet_subnet_id != null ? var.vnet_subnet_id : null
+    os_disk_size_gb = var.os_disk_size_gb
+    vnet_subnet_id  = var.vnet_subnet_id
   }
 
-  service_principal {
-    client_id     = var.client_id
-    client_secret = var.client_secret
-  }
-
-  dynamic addon_profile {
-    for_each = var.enable_log_analytics_workspace ? ["log_analytics"] : []
+  dynamic service_principal {
+    for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
     content {
-      oms_agent {
+      client_id     = var.client_id
+      client_secret = var.client_secret
+    }
+  }
+
+  dynamic identity {
+    for_each = var.client_id == "" || var.client_secret == "" ? ["identity"] : []
+    content {
+      type = "SystemAssigned"
+    }
+  }
+
+  addon_profile {
+    http_application_routing {
+      enabled = var.enable_http_application_routing
+    }
+
+    dynamic azure_policy {
+      for_each = var.enable_azure_policy ? ["azure_policy"] : []
+      content {
+        enabled = true
+      }
+    }
+
+    dynamic oms_agent {
+      for_each = var.enable_log_analytics_workspace ? ["log_analytics"] : []
+      content {
         enabled                    = true
         log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
       }

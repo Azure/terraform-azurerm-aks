@@ -3,7 +3,45 @@
 
 This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kubernetes Service) and adds support for monitoring with Log Analytics.
 
-## Usage
+-> **NOTE:** If you have not assigned `client_id` or `client_secret`, A `SystemAssigned` identity will be created.
+
+## Usage in Terraform 0.13
+
+```hcl
+provider "azurerm" {
+  features {}
+}
+
+resource "azurerm_resource_group" "example" {
+  name     = "ask-resource-group"
+  location = "eastus"
+}
+
+module "network" {
+  source              = "Azure/network/azurerm"
+  resource_group_name = azurerm_resource_group.example.name
+  address_space       = "10.0.0.0/16"
+  subnet_prefixes     = ["10.0.1.0/24"]
+  subnet_names        = ["subnet1"]
+  depends_on          = [azurerm_resource_group.example]
+}
+
+module "aks" {
+  source              = "Azure/aks/azurerm"
+  resource_group_name = azurerm_resource_group.example.name
+  client_id           = "your-service-principal-client-appid"
+  client_secret       = "your-service-principal-client-password"
+  prefix              = "prefix"
+  vnet_subnet_id      = module.network.vnet_subnets[0]
+  os_disk_size_gb     = 50
+  enable_azure_policy = true
+  sku_tier            = "Paid" # defaults to Free
+
+  depends_on = [module.network]
+}
+```
+
+## Usage in Terraform 0.12
 
 ```hcl
 provider "azurerm" {
@@ -18,8 +56,6 @@ resource "azurerm_resource_group" "example" {
 module "aks" {
   source              = "Azure/aks/azurerm"
   resource_group_name = azurerm_resource_group.example.name
-  client_id           = "your-service-principal-client-appid"
-  client_secret       = "your-service-principal-client-password"
   prefix              = "prefix"
 }
 ```
