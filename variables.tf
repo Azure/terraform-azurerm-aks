@@ -32,11 +32,6 @@ variable "agents_size" {
   type        = string
 }
 
-variable "vnet_subnet_id" {
-  default     = null
-  description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created. (A Route Table must be configured on this Subnet)."
-}
-
 variable "log_analytics_workspace_sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
   type        = string
