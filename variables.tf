@@ -108,3 +108,7 @@ variable "default_node_pool" {
       os_disk_size_gb       = 50
   }
 }
+
+variable "kubernetes_version" {
+  description = "(Optional) Version of Kubernetes specified when creating the AKS managed cluster. If not specified, the latest recommended version will be used at provisioning time (but won't auto-upgrade)."
+}
