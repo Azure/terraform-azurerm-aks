@@ -27,7 +27,7 @@ variable "admin_username" {
 }
 
 variable "agents_size" {
-  default     = "Standard_D2s_v3"
+  default     = null
   description = "The default virtual machine size for the Kubernetes agents"
   type        = string
 }
@@ -47,7 +47,7 @@ variable "log_retention_in_days" {
 variable "agents_count" {
   description = "The number of Agents that should exist in the Agent Pool"
   type        = number
-  default     = 2
+  default     = null
 }
 
 variable "public_ssh_key" {
@@ -69,15 +69,9 @@ variable "enable_log_analytics_workspace" {
 }
 
 variable "vnet_subnet_id" {
-  description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created."
+  description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created. If set this variable will overrride the default_node_pool var map key 'vnet_subnet_id'.(https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#vnet_subnet_id)"
   type        = string
   default     = null
-}
-
-variable "os_disk_size_gb" {
-  description = "Disk size of nodes in GBs."
-  type        = number
-  default     = 50
 }
 
 variable "enable_http_application_routing" {
@@ -102,4 +96,19 @@ variable "network_profile" {
   description = "(Optional) A map with the values to set the netwotk_profile config block. (https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#network_profile)"
   type        = map
   default     = {}
+}
+
+variable "default_node_pool" {
+  description = "(Required) https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#default_node_pool"
+  type        = map
+  default     = {
+      name                  = "nodepool"
+      node_count            = 2
+      vm_size               = "Standard_D2s_v3"
+      os_disk_size_gb       = 50
+  }
+}
+
+variable "kubernetes_version" {
+  description = "(Optional) Version of Kubernetes specified when creating the AKS managed cluster. If not specified, the latest recommended version will be used at provisioning time (but won't auto-upgrade)."
 }
