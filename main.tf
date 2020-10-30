@@ -25,7 +25,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   dynamic "default_node_pool" {
-    for_each = var.default_node_pool != [] ? var.default_node_pool : [{ name = "nodepool", node_count = var.agents_count, vmnet_subnet_id = var.vmnet_subnet_id}]
+    for_each = var.default_node_pool != [] ? var.default_node_pool : [{ name = "nodepool", node_count = var.agents_count, vm_size = var.agents_size, vmnet_subnet_id = var.vmnet_subnet_id}]
 
     content {
       orchestrator_version  = default_node_pool.value.orchestrator_version == null ? var.kubernetes_version : default_node_pool.value.orchestrator_version 
