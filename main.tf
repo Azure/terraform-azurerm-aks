@@ -46,6 +46,16 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
+  dynamic "network_profile" {
+    for_each = length(keys(var.network_profile)) == 0 ? [] : [var.network_profile]
+    content {
+      network_plugin     = lookup(network_profile.value,"network_plugin","kubenet")
+      dns_service_ip     = lookup(network_profile.value,"dns_service_ip",null)
+      docker_bridge_cidr = lookup(network_profile.value,"docker_bridge_cidr",null)
+      service_cidr       = lookup(network_profile.value,"service_cidr",null)
+    }
+  }
+
   addon_profile {
     http_application_routing {
       enabled = var.enable_http_application_routing
@@ -69,16 +79,6 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   tags = var.tags
 }
-
-  dynamic "network_profile" {
-    for_each = length(keys(var.network_profile)) == 0 ? [] : [var.network_profile]
-    content {
-    network_plugin     = lookup(network_profile.value,"network_plugin","kubenet")
-    dns_service_ip     = lookup(network_profile.value,"dns_service_ip",null)
-    docker_bridge_cidr = lookup(network_profile.value,"docker_bridge_cidr",null)
-    service_cidr       = lookup(network_profile.value,"service_cidr",null)
-    }
-  }
 
 resource "azurerm_log_analytics_workspace" "main" {
   count               = var.enable_log_analytics_workspace ? 1 : 0
