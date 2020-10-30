@@ -24,24 +24,28 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
-  default_node_pool {
-      orchestrator_version  = lookup(var.default_node_pool,"orchestrator_version",var.kubernetes_version)
-      name                  = lookup(var.default_node_pool,"name","nodepool")
-      node_count            = var.agents_count == null ? lookup(var.default_node_pool,"node_count",2) : var.agents_count
-      vm_size               = lookup(var.default_node_pool,"vm_size","Standard_D2s_v3")
-      os_disk_size_gb       = lookup(var.default_node_pool,"os_disk_size_gb",50)
-      vnet_subnet_id        = var.vnet_subnet_id == null ? lookup(var.default_node_pool,"vnet_subnet_id",null) : var.vnet_subnet_id
-      enable_node_public_ip = lookup(var.default_node_pool,"enable_node_public_ip",null)
-      enable_auto_scaling   = lookup(var.default_node_pool,"enable_auto_scaling",null)
-      availability_zones    = join(", ", lookup(var.default_node_pool,"availability_zones",null))
-      node_labels           = join(", ", lookup(var.default_node_pool,"node_labels",null))
-      node_taints           = join(", ", lookup(var.default_node_pool,"node_taints",null))
-      type                  = lookup(var.default_node_pool,"type",null)
-      tags                  = lookup(var.default_node_pool,"tags",null)
-      max_pods              = lookup(var.default_node_pool,"max_pods",null)
-      max_count             = lookup(var.default_node_pool,"max_count",null)
-      min_count             = lookup(var.default_node_pool,"min_count",null)
+  dynamic "default_node_pool" {
+    for_each = length(keys(var.default_node_pool)) == 1 ? [var.default_node_pool] : []
+
+    content {
+      orchestrator_version  = default_node_pool.value.orchestrator_version == null ? var.kubernetes_version : default_node_pool.value.orchestrator_version 
+      name                  = default_node_pool.value.name
+      node_count            = default_node_pool.value.node_count == null ? var.agents_count : default_node_pool.value.node_count
+      vm_size               = default_node_pool.value.vm_size
+      os_disk_size_gb       = default_node_pool.value.os_disk_size_gb
+      vnet_subnet_id        = default_node_pool.value.vnet_subnet_id == null ? var.vnet_subnet_id : default_node_pool.value.vnet_subnet_id 
+      enable_node_public_ip = default_node_pool.value.enable_node_public_ip
+      enable_auto_scaling   = default_node_pool.value.enable_auto_scaling
+      availability_zones    = default_node_pool.value.availability_zones
+      node_labels           = default_node_pool.value.node_labels
+      node_taints           = default_node_pool.value.node_taints
+      type                  = default_node_pool.value.type
+      tags                  = default_node_pool.value.tags
+      max_pods              = default_node_pool.value.max_pods
+      max_count             = default_node_pool.value.max_count
+      min_count             = default_node_pool.value.min_count
     }
+  }
 
   dynamic service_principal {
     for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []

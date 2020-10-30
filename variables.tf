@@ -27,7 +27,7 @@ variable "admin_username" {
 }
 
 variable "agents_size" {
-  default     = null
+  default     = "Standard_D2s_v3"
   description = "The default virtual machine size for the Kubernetes agents"
   type        = string
 }
@@ -47,7 +47,7 @@ variable "log_retention_in_days" {
 variable "agents_count" {
   description = "The number of Agents that should exist in the Agent Pool"
   type        = number
-  default     = null
+  default     = 2
 }
 
 variable "public_ssh_key" {
@@ -96,17 +96,6 @@ variable "network_profile" {
   description = "(Optional) A map with the values to set the netwotk_profile config block. (https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#network_profile)"
   type        = map
   default     = {}
-}
-
-variable "default_node_pool" {
-  description = "(Required) https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#default_node_pool"
-  type        = map(string)
-  default     = {
-      name                  = "nodepool"
-      node_count            = 2
-      vm_size               = "Standard_D2s_v3"
-      os_disk_size_gb       = 50 
-  }
 }
 
 variable "kubernetes_version" {
