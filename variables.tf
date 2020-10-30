@@ -102,3 +102,9 @@ variable "sku_tier" {
   type        = string
   default     = "Free"
 }
+
+variable "network_profile" {
+  description = "(Optional) A map with the values to set the netwotk_profile config block. (https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#network_profile)"
+  type        = map
+  default     = {}
+}
