@@ -11,7 +11,7 @@ variable "default_node_pool" {
       enable_auto_scaling   = bool
       availability_zones    = list(string)
       node_labels           = map(string)
-      node_taints           = map(string)
+      node_taints           = list(string)
       type                  = string
       tags                  = map(string)
       max_pods              = number
