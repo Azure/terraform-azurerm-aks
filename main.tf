@@ -33,9 +33,9 @@ resource "azurerm_kubernetes_cluster" "main" {
       vnet_subnet_id        = var.vnet_subnet_id == null ? lookup(var.default_node_pool,"vnet_subnet_id",null) : var.vnet_subnet_id
       enable_node_public_ip = lookup(var.default_node_pool,"enable_node_public_ip",null)
       enable_auto_scaling   = lookup(var.default_node_pool,"enable_auto_scaling",null)
-      availability_zones    = lookup(var.default_node_pool,"availability_zones",null)
-      node_labels           = lookup(var.default_node_pool,"node_labels",null)
-      node_taints           = lookup(var.default_node_pool,"node_taints",null)
+      availability_zones    = join(", ", lookup(var.default_node_pool,"availability_zones",null))
+      node_labels           = join(", ", lookup(var.default_node_pool,"node_labels",null))
+      node_taints           = join(", ", lookup(var.default_node_pool,"node_taints",null))
       type                  = lookup(var.default_node_pool,"type",null)
       tags                  = lookup(var.default_node_pool,"tags",null)
       max_pods              = lookup(var.default_node_pool,"max_pods",null)
