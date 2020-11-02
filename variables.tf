@@ -145,3 +145,14 @@ variable "network_plugin" {
   type        = string
   default     = "kubenet"
 }
+
+variable "kubernetes_version" {
+  description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
+  type        = string
+  default     = null
+}
+variable "orchestrator_version" {
+  description = "Specify which Kubernetes release to use for the orchestration layer. The default used is the latest Kubernetes version available in the region"
+  type        = string
+  default     = null
+}
