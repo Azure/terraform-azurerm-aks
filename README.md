@@ -13,7 +13,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "ask-resource-group"
+  name     = "aks-resource-group"
   location = "eastus"
 }
 
@@ -49,7 +49,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "ask-resource-group"
+  name     = "aks-resource-group"
   location = "eastus"
 }
 
