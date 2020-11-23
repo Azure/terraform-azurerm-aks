@@ -94,6 +94,8 @@ resource "azurerm_log_analytics_solution" "main" {
     publisher = "Microsoft"
     product   = "OMSGallery/ContainerInsights"
   }
+  
+  tags = var.tags
 }
 
 
