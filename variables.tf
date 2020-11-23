@@ -85,3 +85,15 @@ variable "enable_http_application_routing" {
   type        = bool
   default     = false
 }
+
+variable "enable_azure_policy" {
+  description = "Enable Azure Policy Addon."
+  type        = bool
+  default     = false
+}
+
+variable "sku_tier" {
+  description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid"
+  type        = string
+  default     = "Free"
+}

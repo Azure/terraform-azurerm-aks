@@ -12,6 +12,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   dns_prefix          = var.prefix
+  sku_tier            = var.sku_tier
 
   linux_profile {
     admin_username = var.admin_username
@@ -48,6 +49,13 @@ resource "azurerm_kubernetes_cluster" "main" {
   addon_profile {
     http_application_routing {
       enabled = var.enable_http_application_routing
+    }
+
+    dynamic azure_policy {
+      for_each = var.enable_azure_policy ? ["azure_policy"] : []
+      content {
+        enabled = true
+      }
     }
 
     dynamic oms_agent {
