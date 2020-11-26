@@ -100,6 +100,9 @@ variable "network_profile" {
 
 variable "kubernetes_version" {
   description = "(Optional) Version of Kubernetes specified when creating the AKS managed cluster. If not specified, the latest recommended version will be used at provisioning time (but won't auto-upgrade)."
+  type        = string
+  default     = null
+}
 variable "enable_role_based_access_control" {
   description = "Enable Role Based Access Control."
   type        = bool
