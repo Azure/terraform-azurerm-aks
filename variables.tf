@@ -100,4 +100,38 @@ variable "network_profile" {
 
 variable "kubernetes_version" {
   description = "(Optional) Version of Kubernetes specified when creating the AKS managed cluster. If not specified, the latest recommended version will be used at provisioning time (but won't auto-upgrade)."
+variable "enable_role_based_access_control" {
+  description = "Enable Role Based Access Control."
+  type        = bool
+  default     = false
+}
+
+variable "rbac_aad_managed" {
+  description = "Is the Azure Active Directory integration Managed, meaning that Azure will create/manage the Service Principal used for integration."
+  type        = bool
+  default     = false
+}
+
+variable "rbac_aad_admin_group_object_ids" {
+  description = "Object ID of groups with admin access."
+  type        = list(string)
+  default     = null
+}
+
+variable "rbac_aad_client_app_id" {
+  description = "The Client ID of an Azure Active Directory Application."
+  type        = string
+  default     = null
+}
+
+variable "rbac_aad_server_app_id" {
+  description = "The Server ID of an Azure Active Directory Application."
+  type        = string
+  default     = null
+}
+
+variable "rbac_aad_server_app_secret" {
+  description = "The Server Secret of an Azure Active Directory Application."
+  type        = string
+  default     = null
 }
