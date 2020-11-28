@@ -37,6 +37,8 @@ module "aks" {
   enable_azure_policy = true
   sku_tier            = "Paid" # defaults to Free
 
+  private_cluster_enabled = false # default value
+
   depends_on = [module.network]
 }
 ```
