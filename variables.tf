@@ -80,6 +80,12 @@ variable "os_disk_size_gb" {
   default     = 50
 }
 
+variable "enable_kube_dashboard" {
+  description = "Enable Kubernetes Dashboard."
+  type        = bool
+  default     = null
+}
+
 variable "enable_http_application_routing" {
   description = "Enable HTTP Application Routing Addon (forces recreation)."
   type        = bool
