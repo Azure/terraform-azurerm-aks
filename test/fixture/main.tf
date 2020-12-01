@@ -38,6 +38,17 @@ module aks {
   depends_on                      = [azurerm_resource_group.main]
 }
 
+module aks_with_scaling {
+  source              = "../.."
+  prefix              = "prefix-${random_id.prefix.hex}"
+  resource_group_name = azurerm_resource_group.main.name
+  enable_auto_scaling = true
+  agents_min_count    = 1
+  agents_max_count    = 2
+
+  depends_on = [azurerm_resource_group.main]
+}
+
 module aks_without_monitor {
   source                         = "../.."
   prefix                         = "prefix2-${random_id.prefix.hex}"
