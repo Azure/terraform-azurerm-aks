@@ -133,3 +133,21 @@ variable "rbac_aad_server_app_secret" {
   type        = string
   default     = null
 }
+
+variable "enable_auto_scaling" {
+  description = "Enable node pool autoscaling"
+  type        = bool
+  default     = false
+}
+
+variable "agents_max_count" {
+  type        = number
+  description = "Maximum number of nodes in a pool"
+  default     = null
+}
+
+variable "agents_min_count" {
+  type        = number
+  description = "Minimum number of nodes in a pool"
+  default     = null
+}

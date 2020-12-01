@@ -24,11 +24,14 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   default_node_pool {
-    name            = "nodepool"
-    node_count      = var.agents_count
-    vm_size         = var.agents_size
-    os_disk_size_gb = var.os_disk_size_gb
-    vnet_subnet_id  = var.vnet_subnet_id
+    name                = "nodepool"
+    node_count          = var.agents_count
+    vm_size             = var.agents_size
+    os_disk_size_gb     = var.os_disk_size_gb
+    vnet_subnet_id      = var.vnet_subnet_id
+    enable_auto_scaling = var.enable_auto_scaling
+    max_count           = var.enable_auto_scaling ? var.agents_max_count : null
+    min_count           = var.enable_auto_scaling ? var.agents_min_count : null
   }
 
   dynamic service_principal {
@@ -116,7 +119,7 @@ resource "azurerm_log_analytics_solution" "main" {
     publisher = "Microsoft"
     product   = "OMSGallery/ContainerInsights"
   }
-  
+
   tags = var.tags
 }
 
