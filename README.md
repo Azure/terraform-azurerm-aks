@@ -43,6 +43,9 @@ module "aks" {
   enable_role_based_access_control = true
   rbac_aad_admin_group_object_ids  = [data.azuread_group.aks_cluster_admins.id]
   rbac_aad_managed                 = true
+  enable_auto_scaling              = true
+  agents_min_count                 = 1
+  agents_max_count                 = 2
 
   depends_on = [module.network]
 }
