@@ -35,6 +35,7 @@ module aks {
   enable_http_application_routing = true
   enable_azure_policy             = true
   sku_tier                        = "Paid"
+  enable_kube_dashboard           = true
   depends_on                      = [azurerm_resource_group.main]
 }
 
@@ -43,23 +44,5 @@ module aks_without_monitor {
   prefix                         = "prefix2-${random_id.prefix.hex}"
   resource_group_name            = azurerm_resource_group.main.name
   enable_log_analytics_workspace = false
-  depends_on                     = [azurerm_resource_group.main]
-}
-
-module aks_with_kube_dashboard {
-  source                         = "../.."
-  prefix                         = "prefix2-${random_id.prefix.hex}"
-  resource_group_name            = azurerm_resource_group.main.name
-  enable_log_analytics_workspace = false
-  enable_kube_dashboard          = true
-  depends_on                     = [azurerm_resource_group.main]
-}
-
-module aks_without_kube_dashboard {
-  source                         = "../.."
-  prefix                         = "prefix2-${random_id.prefix.hex}"
-  resource_group_name            = azurerm_resource_group.main.name
-  enable_log_analytics_workspace = false
-  enable_kube_dashboard          = false
   depends_on                     = [azurerm_resource_group.main]
 }
