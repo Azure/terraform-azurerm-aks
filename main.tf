@@ -51,6 +51,13 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled = var.enable_http_application_routing
     }
 
+    dynamic kube_dashboard {
+      for_each = var.enable_kube_dashboard != null ? ["kube_dashboard"] : []
+      content {
+        enabled = var.enable_kube_dashboard
+      }
+    }
+
     dynamic azure_policy {
       for_each = var.enable_azure_policy ? ["azure_policy"] : []
       content {

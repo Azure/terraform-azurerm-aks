@@ -38,6 +38,7 @@ module "aks" {
   prefix                           = "prefix"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = 50
+  enable_kube_dashboard            = true
   enable_azure_policy              = true
   sku_tier                         = "Paid" # defaults to Free
   enable_role_based_access_control = true
