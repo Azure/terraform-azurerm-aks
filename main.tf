@@ -96,6 +96,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
+  network_profile {
+    network_plugin = var.network_plugin
+  }
+
   tags = var.tags
 }
 

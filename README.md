@@ -36,6 +36,7 @@ module "aks" {
   client_id                        = "your-service-principal-client-appid"
   client_secret                    = "your-service-principal-client-password"
   prefix                           = "prefix"
+  network_plugin                   = "azure"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = 50
   enable_kube_dashboard            = true
