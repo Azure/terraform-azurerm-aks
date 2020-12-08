@@ -35,6 +35,7 @@ module aks {
   enable_http_application_routing = true
   enable_azure_policy             = true
   sku_tier                        = "Paid"
+  enable_kube_dashboard           = true
   depends_on                      = [azurerm_resource_group.main]
 }
 
