@@ -30,6 +30,7 @@ module aks {
   resource_group_name             = azurerm_resource_group.main.name
   client_id                       = var.client_id
   client_secret                   = var.client_secret
+  network_plugin                  = "azure"
   vnet_subnet_id                  = azurerm_subnet.test.id
   os_disk_size_gb                 = 60
   enable_http_application_routing = true
