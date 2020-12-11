@@ -84,6 +84,11 @@ variable "private_cluster_enabled" {
   description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
   type        = bool
   default     = false
+
+variable "enable_kube_dashboard" {
+  description = "Enable Kubernetes Dashboard."
+  type        = bool
+  default     = null
 }
 
 variable "enable_http_application_routing" {
@@ -102,4 +107,46 @@ variable "sku_tier" {
   description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid"
   type        = string
   default     = "Free"
+}
+
+variable "enable_role_based_access_control" {
+  description = "Enable Role Based Access Control."
+  type        = bool
+  default     = false
+}
+
+variable "rbac_aad_managed" {
+  description = "Is the Azure Active Directory integration Managed, meaning that Azure will create/manage the Service Principal used for integration."
+  type        = bool
+  default     = false
+}
+
+variable "rbac_aad_admin_group_object_ids" {
+  description = "Object ID of groups with admin access."
+  type        = list(string)
+  default     = null
+}
+
+variable "rbac_aad_client_app_id" {
+  description = "The Client ID of an Azure Active Directory Application."
+  type        = string
+  default     = null
+}
+
+variable "rbac_aad_server_app_id" {
+  description = "The Server ID of an Azure Active Directory Application."
+  type        = string
+  default     = null
+}
+
+variable "rbac_aad_server_app_secret" {
+  description = "The Server Secret of an Azure Active Directory Application."
+  type        = string
+  default     = null
+}
+
+variable "network_plugin" {
+  description = "Network plugin to use for networking."
+  type        = string
+  default     = "kubenet"
 }

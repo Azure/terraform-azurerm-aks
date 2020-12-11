@@ -30,6 +30,12 @@ namespace :static do
   task :format do
     format_tf
   end
+  task :readme_style do
+    readme_style_tf
+  end
+  task :fixture_style do
+    fixture_style_tf
+  end
 end
 
 namespace :integration do
@@ -43,7 +49,7 @@ end
 
 task :prereqs => [ 'presteps:ensure' ]
 
-task :validate => [ 'static:style', 'static:lint' ]
+task :validate => [ 'static:style', 'static:lint', 'static:readme_style','static:fixture_style']
 
 task :format => [ 'static:format' ]
 

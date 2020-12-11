@@ -45,3 +45,7 @@ output "http_application_routing_zone_name" {
 output "system_assigned_identity" {
   value = azurerm_kubernetes_cluster.main.identity
 }
+
+output "kubelet_identity" {
+  value = azurerm_kubernetes_cluster.main.kubelet_identity
+}

@@ -1,5 +1,5 @@
 # Pull the base image with given version.
-ARG BUILD_TERRAFORM_VERSION="0.13.0"
+ARG BUILD_TERRAFORM_VERSION="0.13.5"
 FROM mcr.microsoft.com/terraform-test:${BUILD_TERRAFORM_VERSION}
 
 ARG MODULE_NAME="terraform-azurerm-aks"
@@ -25,9 +25,9 @@ ENV TF_VAR_client_id=${BUILD_ARM_CLIENT_ID}
 ENV TF_VAR_client_secret=${BUILD_ARM_CLIENT_SECRET}
 
 # Set work directory.
-RUN mkdir /go
-RUN mkdir /go/bin
-RUN mkdir /go/src
+RUN test -d /go     || mkdir /go
+RUN test -d /go/bin || mkdir /go/bin
+RUN test -d /go/src || mkdir /go/src
 RUN mkdir /go/src/${MODULE_NAME}
 COPY . /go/src/${MODULE_NAME}
 WORKDIR /go/src/${MODULE_NAME}
@@ -35,6 +35,7 @@ WORKDIR /go/src/${MODULE_NAME}
 # Install dep.
 ENV GOPATH /go
 ENV PATH /usr/local/go/bin:$GOPATH/bin:$PATH
+RUN go get github.com/katbyte/terrafmt
 RUN /bin/bash -c "curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh"
 
 RUN ["bundle", "install", "--gemfile", "./Gemfile"]
