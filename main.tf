@@ -51,6 +51,13 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled = var.enable_http_application_routing
     }
 
+    dynamic kube_dashboard {
+      for_each = var.enable_kube_dashboard != null ? ["kube_dashboard"] : []
+      content {
+        enabled = var.enable_kube_dashboard
+      }
+    }
+
     dynamic azure_policy {
       for_each = var.enable_azure_policy ? ["azure_policy"] : []
       content {
@@ -65,6 +72,32 @@ resource "azurerm_kubernetes_cluster" "main" {
         log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
       }
     }
+  }
+
+  role_based_access_control {
+    enabled = var.enable_role_based_access_control
+
+    dynamic azure_active_directory {
+      for_each = var.enable_role_based_access_control && var.rbac_aad_managed ? ["rbac"] : []
+      content {
+        managed                = true
+        admin_group_object_ids = var.rbac_aad_admin_group_object_ids
+      }
+    }
+
+    dynamic azure_active_directory {
+      for_each = var.enable_role_based_access_control && ! var.rbac_aad_managed ? ["rbac"] : []
+      content {
+        managed           = false
+        client_app_id     = var.rbac_aad_client_app_id
+        server_app_id     = var.rbac_aad_server_app_id
+        server_app_secret = var.rbac_aad_server_app_secret
+      }
+    }
+  }
+
+  network_profile {
+    network_plugin = var.network_plugin
   }
 
   tags = var.tags
@@ -94,6 +127,8 @@ resource "azurerm_log_analytics_solution" "main" {
     publisher = "Microsoft"
     product   = "OMSGallery/ContainerInsights"
   }
+
+  tags = var.tags
 }
 
 
