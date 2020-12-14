@@ -80,6 +80,18 @@ variable "os_disk_size_gb" {
   default     = 50
 }
 
+variable "private_cluster_enabled" {
+  description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
+  type        = bool
+  default     = false
+}
+
+variable "enable_kube_dashboard" {
+  description = "Enable Kubernetes Dashboard."
+  type        = bool
+  default     = null
+}
+
 variable "enable_http_application_routing" {
   description = "Enable HTTP Application Routing Addon (forces recreation)."
   type        = bool
@@ -134,6 +146,24 @@ variable "rbac_aad_server_app_secret" {
   default     = null
 }
 
+variable "network_plugin" {
+  description = "Network plugin to use for networking."
+  type        = string
+  default     = "kubenet"
+}
+
+variable "kubernetes_version" {
+  description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
+  type        = string
+  default     = null
+}
+
+variable "orchestrator_version" {
+  description = "Specify which Kubernetes release to use for the orchestration layer. The default used is the latest Kubernetes version available in the region"
+  type        = string
+  default     = null
+}
+
 variable "enable_auto_scaling" {
   description = "Enable node pool autoscaling"
   type        = bool
@@ -149,5 +179,3 @@ variable "agents_max_count" {
 variable "agents_min_count" {
   type        = number
   description = "Minimum number of nodes in a pool"
-  default     = null
-}
