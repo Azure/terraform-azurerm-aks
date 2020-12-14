@@ -116,11 +116,6 @@ variable "network_profile" {
   default     = {}
 }
 
-variable "kubernetes_version" {
-  description = "(Optional) Version of Kubernetes specified when creating the AKS managed cluster. If not specified, the latest recommended version will be used at provisioning time (but won't auto-upgrade)."
-  type        = string
-  default     = null
-}
 variable "enable_role_based_access_control" {
   description = "Enable Role Based Access Control."
   type        = bool
@@ -161,12 +156,6 @@ variable "network_plugin" {
   description = "Network plugin to use for networking."
   type        = string
   default     = "kubenet"
-}
-
-variable "kubernetes_version" {
-  description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
-  type        = string
-  default     = null
 }
 
 variable "orchestrator_version" {

@@ -9,7 +9,7 @@ module "ssh-key" {
 
 resource "azurerm_kubernetes_cluster" "main" {
   name                    = "${var.prefix}-aks"
-  kubernetes_version      = var.kubernetes_version
+  kubernetes_version      = var.orchestrator_version
   location                = data.azurerm_resource_group.main.location
   resource_group_name     = data.azurerm_resource_group.main.name
   dns_prefix              = var.prefix
@@ -28,7 +28,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   dynamic "default_node_pool" {
     for_each = var.default_node_pool
     content {
-      orchestrator_version  = default_node_pool.value.orchestrator_version == null ? var.kubernetes_version : default_node_pool.value.orchestrator_version 
+      orchestrator_version  = default_node_pool.value.orchestrator_version == null ? var.orchestrator_version : default_node_pool.value.orchestrator_version 
       name                  = default_node_pool.value.name
       node_count            = default_node_pool.value.node_count == null ? var.agents_count : default_node_pool.value.node_count
       vm_size               = default_node_pool.value.vm_size == null ? var.agents_size : default_node_pool.value.vm_size
