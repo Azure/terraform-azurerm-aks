@@ -38,6 +38,15 @@ variable "log_retention_in_days" {
   default     = 30
 }
 
+<<<<<<< HEAD
+=======
+variable "agents_count" {
+  description = "The number of Agents that should exist in the Agent Pool. Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes."
+  type        = number
+  default     = null
+}
+
+>>>>>>> tmp/master
 variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster"
   type        = string
@@ -138,3 +147,36 @@ variable "network_plugin" {
   type        = string
   default     = "kubenet"
 }
+<<<<<<< HEAD
+=======
+
+variable "kubernetes_version" {
+  description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
+  type        = string
+  default     = null
+}
+
+variable "orchestrator_version" {
+  description = "Specify which Kubernetes release to use for the orchestration layer. The default used is the latest Kubernetes version available in the region"
+  type        = string
+  default     = null
+}
+
+variable "enable_auto_scaling" {
+  description = "Enable node pool autoscaling"
+  type        = bool
+  default     = false
+}
+
+variable "agents_max_count" {
+  type        = number
+  description = "Maximum number of nodes in a pool"
+  default     = null
+}
+
+variable "agents_min_count" {
+  type        = number
+  description = "Minimum number of nodes in a pool"
+  default     = null
+}
+>>>>>>> tmp/master

@@ -25,6 +25,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
+<<<<<<< HEAD
  default_node_pool {
       orchestrator_version  = var.agentpool_kubernetes_version == null ? var.kubernetes_version : var.agentpool_kubernetes_version
       name                  = var.agentpool_name
@@ -42,6 +43,18 @@ resource "azurerm_kubernetes_cluster" "main" {
       max_pods              = var.agentpool_max_pods
       max_count             = var.agentpool_max_count
       min_count             = var.agentpool_min_count
+=======
+  default_node_pool {
+    orchestrator_version = var.orchestrator_version
+    name                 = "nodepool"
+    node_count           = var.agents_count
+    vm_size              = var.agents_size
+    os_disk_size_gb      = var.os_disk_size_gb
+    vnet_subnet_id       = var.vnet_subnet_id
+    enable_auto_scaling  = var.enable_auto_scaling
+    max_count            = var.enable_auto_scaling ? var.agents_max_count : null
+    min_count            = var.enable_auto_scaling ? var.agents_min_count : null
+>>>>>>> tmp/master
   }
   
   dynamic "service_principal" {
