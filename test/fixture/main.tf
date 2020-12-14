@@ -43,7 +43,8 @@ module "aks" {
   enable_auto_scaling             = true
   agents_min_count                = 1
   agents_max_count                = 2
-  depends_on                      = [azurerm_resource_group.main]
+
+  depends_on = [azurerm_resource_group.main]
 }
   
 module "aks_without_monitor" {
