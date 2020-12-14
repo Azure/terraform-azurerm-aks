@@ -8,12 +8,13 @@ module "ssh-key" {
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
-  name                = "${var.prefix}-aks"
-  location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main.name
-  dns_prefix          = var.prefix
-  kubernetes_version  = var.kubernetes_version
-  sku_tier            = var.sku_tier
+  name                    = "${var.prefix}-aks"
+  location                = data.azurerm_resource_group.main.location
+  resource_group_name     = data.azurerm_resource_group.main.name
+  dns_prefix              = var.prefix
+  sku_tier                = var.sku_tier
+  private_cluster_enabled = var.private_cluster_enabled
+
 
   linux_profile {
     admin_username = var.admin_username
