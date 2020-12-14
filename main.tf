@@ -15,7 +15,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   sku_tier                = var.sku_tier
   private_cluster_enabled = var.private_cluster_enabled
 
-
   linux_profile {
     admin_username = var.admin_username
 
@@ -133,3 +132,5 @@ resource "azurerm_log_analytics_solution" "main" {
 
   tags = var.tags
 }
+
+
