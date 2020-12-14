@@ -179,3 +179,5 @@ variable "agents_max_count" {
 variable "agents_min_count" {
   type        = number
   description = "Minimum number of nodes in a pool"
+  default     = null
+}
