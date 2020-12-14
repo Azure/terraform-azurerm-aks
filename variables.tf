@@ -26,12 +26,6 @@ variable "admin_username" {
   type        = string
 }
 
-variable "agents_size" {
-  default     = "Standard_D2s_v3"
-  description = "The default virtual machine size for the Kubernetes agents"
-  type        = string
-}
-
 variable "log_analytics_workspace_sku" {
   description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
   type        = string
@@ -42,12 +36,6 @@ variable "log_retention_in_days" {
   description = "The retention period for the logs in days"
   type        = number
   default     = 30
-}
-
-variable "agents_count" {
-  description = "The number of Agents that should exist in the Agent Pool"
-  type        = number
-  default     = 2
 }
 
 variable "public_ssh_key" {
@@ -66,18 +54,6 @@ variable "enable_log_analytics_workspace" {
   type        = bool
   description = "Enable the creation of azurerm_log_analytics_workspace and azurerm_log_analytics_solution or not"
   default     = true
-}
-
-variable "vnet_subnet_id" {
-  description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created. If set this variable will overrride the default_node_pool var map key 'vnet_subnet_id'.(https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#vnet_subnet_id)"
-  type        = string
-  default     = null
-}
-
-variable "os_disk_size_gb" {
-  description = "Disk size of nodes in GBs."
-  type        = number
-  default     = 50
 }
 
 variable "private_cluster_enabled" {
@@ -161,10 +137,4 @@ variable "network_plugin" {
   description = "Network plugin to use for networking."
   type        = string
   default     = "kubenet"
-}
-
-variable "orchestrator_version" {
-  description = "Specify which Kubernetes release to use for the orchestration layer. The default used is the latest Kubernetes version available in the region"
-  type        = string
-  default     = null
 }

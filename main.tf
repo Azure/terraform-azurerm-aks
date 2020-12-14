@@ -8,7 +8,7 @@ module "ssh-key" {
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
-  name                    = "${var.prefix}-aks"
+  name                    = var.prefix
   kubernetes_version      = var.kubernetes_version
   location                = data.azurerm_resource_group.main.location
   resource_group_name     = data.azurerm_resource_group.main.name
@@ -19,34 +19,31 @@ resource "azurerm_kubernetes_cluster" "main" {
   linux_profile {
     admin_username = var.admin_username
 
-    ssh_key {
+  ssh_key {
       # remove any new lines using the replace interpolation function
       key_data = replace(var.public_ssh_key == "" ? module.ssh-key.public_ssh_key : var.public_ssh_key, "\n", "")
     }
   }
 
-  dynamic "default_node_pool" {
-    for_each = var.default_node_pool
-    content {
-      orchestrator_version  = default_node_pool.value.orchestrator_version == null ? var.orchestrator_version : default_node_pool.value.orchestrator_version 
-      name                  = default_node_pool.value.name
-      node_count            = default_node_pool.value.node_count == null ? var.agents_count : default_node_pool.value.node_count
-      vm_size               = default_node_pool.value.vm_size == null ? var.agents_size : default_node_pool.value.vm_size
-      os_disk_size_gb       = default_node_pool.value.os_disk_size_gb == null ? var.os_disk_size_gb : default_node_pool.value.os_disk_size_gb
-      vnet_subnet_id        = default_node_pool.value.vnet_subnet_id == null ? var.vnet_subnet_id : default_node_pool.value.vnet_subnet_id 
-      enable_node_public_ip = default_node_pool.value.enable_node_public_ip
-      enable_auto_scaling   = default_node_pool.value.enable_auto_scaling
-      availability_zones    = default_node_pool.value.availability_zones
-      node_labels           = default_node_pool.value.node_labels
-      node_taints           = default_node_pool.value.node_taints
-      type                  = default_node_pool.value.type
-      tags                  = default_node_pool.value.tags
-      max_pods              = default_node_pool.value.max_pods
-      max_count             = default_node_pool.value.max_count
-      min_count             = default_node_pool.value.min_count
-    }
+ default_node_pool {
+      orchestrator_version  = var.agentpool_kubernetes_version == null ? var.kubernetes_version : var.agentpool_kubernetes_version
+      name                  = var.agentpool_name
+      node_count            = var.agentpool_node_count
+      vm_size               = var.agentpool_vm_size
+      os_disk_size_gb       = var.agentpool.os_disk_size_gb
+      vnet_subnet_id        = var.agentpool_vnet_subnet_id
+      enable_node_public_ip = var.agentpool_enable_node_public_ip
+      enable_auto_scaling   = var.agentpool_enable_auto_scaling
+      availability_zones    = var.agentpool_availability_zones
+      node_labels           = var.agentpool_node_labels
+      node_taints           = var.agentpool_node_taints
+      type                  = var.agentpool_type
+      tags                  = merge(var.tags, var.agentpool_tags)
+      max_pods              = var.agentpool_max_pods
+      max_count             = var.agentpool_max_count
+      min_count             = var.agentpool_min_count
   }
-
+  
   dynamic "service_principal" {
     for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
     content {
