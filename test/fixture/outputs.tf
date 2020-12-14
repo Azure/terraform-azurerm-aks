@@ -2,14 +2,6 @@ output "test_aks_id" {
   value = module.aks.aks_id
 }
 
-output "test_aks_kubernetes_version" {
-  value = module.aks.kubernetes_version
-}
-
-output "test_aks_orchestrator_version" {
-  value = module.aks.orchestrator_version
-}
-
 output "test_aks_without_monitor_id" {
   value = module.aks_without_monitor.aks_id
 }
