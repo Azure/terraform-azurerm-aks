@@ -51,7 +51,7 @@ module "aks" {
   enable_auto_scaling              = true
   agents_min_count                 = 1
   agents_max_count                 = 2
-  
+ 
   depends_on = [module.network]
 }
 ```
