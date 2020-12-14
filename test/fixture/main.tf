@@ -37,7 +37,7 @@ module aks {
   enable_azure_policy             = true
   sku_tier                        = "Paid"
   enable_kube_dashboard           = true
-  private_cluster_enabled         = false
+  private_cluster_enabled         = true
   depends_on                      = [azurerm_resource_group.main]
 }
 
