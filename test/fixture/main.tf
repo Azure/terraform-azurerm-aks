@@ -46,7 +46,7 @@ module "aks" {
 
   depends_on = [azurerm_resource_group.main]
 }
-  
+
 module "aks_without_monitor" {
   source                         = "../.."
   prefix                         = "prefix2-${random_id.prefix.hex}"
