@@ -45,8 +45,7 @@ module "aks" {
   enable_role_based_access_control = true
   rbac_aad_admin_group_object_ids  = [data.azuread_group.aks_cluster_admins.id]
   rbac_aad_managed                 = true
-
-  private_cluster_enabled = false # default value
+  private_cluster_enabled          = true # default value
 
   depends_on = [module.network]
 }
