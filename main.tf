@@ -19,44 +19,31 @@ resource "azurerm_kubernetes_cluster" "main" {
   linux_profile {
     admin_username = var.admin_username
 
-  ssh_key {
+    ssh_key {
       # remove any new lines using the replace interpolation function
       key_data = replace(var.public_ssh_key == "" ? module.ssh-key.public_ssh_key : var.public_ssh_key, "\n", "")
     }
   }
 
-<<<<<<< HEAD
- default_node_pool {
-      orchestrator_version  = var.agentpool_kubernetes_version == null ? var.kubernetes_version : var.agentpool_kubernetes_version
-      name                  = var.agentpool_name
-      node_count            = var.agentpool_node_count
-      vm_size               = var.agentpool_vm_size
-      os_disk_size_gb       = var.agentpool.os_disk_size_gb
-      vnet_subnet_id        = var.agentpool_vnet_subnet_id
-      enable_node_public_ip = var.agentpool_enable_node_public_ip
-      enable_auto_scaling   = var.agentpool_enable_auto_scaling
-      availability_zones    = var.agentpool_availability_zones
-      node_labels           = var.agentpool_node_labels
-      node_taints           = var.agentpool_node_taints
-      type                  = var.agentpool_type
-      tags                  = merge(var.tags, var.agentpool_tags)
-      max_pods              = var.agentpool_max_pods
-      max_count             = var.agentpool_max_count
-      min_count             = var.agentpool_min_count
-=======
   default_node_pool {
-    orchestrator_version = var.orchestrator_version
-    name                 = "nodepool"
-    node_count           = var.agents_count
-    vm_size              = var.agents_size
-    os_disk_size_gb      = var.os_disk_size_gb
-    vnet_subnet_id       = var.vnet_subnet_id
-    enable_auto_scaling  = var.enable_auto_scaling
-    max_count            = var.enable_auto_scaling ? var.agents_max_count : null
-    min_count            = var.enable_auto_scaling ? var.agents_min_count : null
->>>>>>> tmp/master
+    orchestrator_version  = var.orchestrator_version == null ? var.kubernetes_version : var.orchestrator_version
+    name                  = var.agents_name
+    node_count            = var.agents_count
+    vm_size               = var.agents_vm_size
+    os_disk_size_gb       = var.agents_os_disk_size_gb
+    vnet_subnet_id        = var.agents_vnet_subnet_id
+    enable_node_public_ip = var.agents_enable_node_public_ip
+    enable_auto_scaling   = var.agents_enable_auto_scaling
+    availability_zones    = var.agents_availability_zones
+    node_labels           = var.agents_node_labels
+    node_taints           = var.agents_node_taints
+    type                  = var.agents_type
+    tags                  = merge(var.tags, var.agents_tags)
+    max_pods              = var.agents_max_pods
+    max_count             = var.enable_auto_scaling ? var.agents_max_count : null
+    min_count             = var.enable_auto_scaling ? var.agents_min_count : null
   }
-  
+
   dynamic "service_principal" {
     for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
     content {
@@ -75,10 +62,10 @@ resource "azurerm_kubernetes_cluster" "main" {
   dynamic "network_profile" {
     for_each = length(keys(var.network_profile)) == 0 ? [] : [var.network_profile]
     content {
-      network_plugin     = lookup(network_profile.value,"network_plugin","kubenet")
-      dns_service_ip     = lookup(network_profile.value,"dns_service_ip",null)
-      docker_bridge_cidr = lookup(network_profile.value,"docker_bridge_cidr",null)
-      service_cidr       = lookup(network_profile.value,"service_cidr",null)
+      network_plugin     = lookup(network_profile.value, "network_plugin", "kubenet")
+      dns_service_ip     = lookup(network_profile.value, "dns_service_ip", null)
+      docker_bridge_cidr = lookup(network_profile.value, "docker_bridge_cidr", null)
+      service_cidr       = lookup(network_profile.value, "service_cidr", null)
     }
   }
 
@@ -122,7 +109,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
 
     dynamic "azure_active_directory" {
-      for_each = var.enable_role_based_access_control && ! var.rbac_aad_managed ? ["rbac"] : []
+      for_each = var.enable_role_based_access_control && !var.rbac_aad_managed ? ["rbac"] : []
       content {
         managed           = false
         client_app_id     = var.rbac_aad_client_app_id
