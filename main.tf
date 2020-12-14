@@ -25,14 +25,15 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   default_node_pool {
-    name            = "nodepool"
-    node_count      = var.agents_count
-    vm_size         = var.agents_size
-    os_disk_size_gb = var.os_disk_size_gb
-    vnet_subnet_id  = var.vnet_subnet_id
+    orchestrator_version = var.orchestrator_version
+    name                 = "nodepool"
+    node_count           = var.agents_count
+    vm_size              = var.agents_size
+    os_disk_size_gb      = var.os_disk_size_gb
+    vnet_subnet_id       = var.vnet_subnet_id
   }
 
-  dynamic service_principal {
+  dynamic "service_principal" {
     for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
     content {
       client_id     = var.client_id
@@ -40,7 +41,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
-  dynamic identity {
+  dynamic "identity" {
     for_each = var.client_id == "" || var.client_secret == "" ? ["identity"] : []
     content {
       type = "SystemAssigned"
@@ -52,21 +53,21 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled = var.enable_http_application_routing
     }
 
-    dynamic kube_dashboard {
+    dynamic "kube_dashboard" {
       for_each = var.enable_kube_dashboard != null ? ["kube_dashboard"] : []
       content {
         enabled = var.enable_kube_dashboard
       }
     }
 
-    dynamic azure_policy {
+    dynamic "azure_policy" {
       for_each = var.enable_azure_policy ? ["azure_policy"] : []
       content {
         enabled = true
       }
     }
 
-    dynamic oms_agent {
+    dynamic "oms_agent" {
       for_each = var.enable_log_analytics_workspace ? ["log_analytics"] : []
       content {
         enabled                    = true
@@ -78,7 +79,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   role_based_access_control {
     enabled = var.enable_role_based_access_control
 
-    dynamic azure_active_directory {
+    dynamic "azure_active_directory" {
       for_each = var.enable_role_based_access_control && var.rbac_aad_managed ? ["rbac"] : []
       content {
         managed                = true
@@ -86,7 +87,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       }
     }
 
-    dynamic azure_active_directory {
+    dynamic "azure_active_directory" {
       for_each = var.enable_role_based_access_control && ! var.rbac_aad_managed ? ["rbac"] : []
       content {
         managed           = false
