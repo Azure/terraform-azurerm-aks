@@ -8,12 +8,13 @@ module "ssh-key" {
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
-  name                = "${var.prefix}-aks"
-  kubernetes_version  = var.kubernetes_version
-  location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main.name
-  dns_prefix          = var.prefix
-  sku_tier            = var.sku_tier
+  name                    = "${var.prefix}-aks"
+  kubernetes_version      = var.kubernetes_version
+  location                = data.azurerm_resource_group.main.location
+  resource_group_name     = data.azurerm_resource_group.main.name
+  dns_prefix              = var.prefix
+  sku_tier                = var.sku_tier
+  private_cluster_enabled = var.private_cluster_enabled
 
   linux_profile {
     admin_username = var.admin_username
@@ -26,13 +27,12 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   dynamic "default_node_pool" {
     for_each = var.default_node_pool
-
     content {
       orchestrator_version  = default_node_pool.value.orchestrator_version == null ? var.kubernetes_version : default_node_pool.value.orchestrator_version 
       name                  = default_node_pool.value.name
       node_count            = default_node_pool.value.node_count == null ? var.agents_count : default_node_pool.value.node_count
-      vm_size               = default_node_pool.value.vm_size
-      os_disk_size_gb       = default_node_pool.value.os_disk_size_gb
+      vm_size               = default_node_pool.value.vm_size == null ? var.agents_size : default_node_pool.value.vm_size
+      os_disk_size_gb       = default_node_pool.value.os_disk_size_gb == null ? var.os_disk_size_gb : default_node_pool.value.os_disk_size_gb
       vnet_subnet_id        = default_node_pool.value.vnet_subnet_id == null ? var.vnet_subnet_id : default_node_pool.value.vnet_subnet_id 
       enable_node_public_ip = default_node_pool.value.enable_node_public_ip
       enable_auto_scaling   = default_node_pool.value.enable_auto_scaling
@@ -47,7 +47,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
-  dynamic service_principal {
+  dynamic "service_principal" {
     for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
     content {
       client_id     = var.client_id
@@ -55,7 +55,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
-  dynamic identity {
+  dynamic "identity" {
     for_each = var.client_id == "" || var.client_secret == "" ? ["identity"] : []
     content {
       type = "SystemAssigned"
@@ -77,14 +77,21 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled = var.enable_http_application_routing
     }
 
-    dynamic azure_policy {
+    dynamic "kube_dashboard" {
+      for_each = var.enable_kube_dashboard != null ? ["kube_dashboard"] : []
+      content {
+        enabled = var.enable_kube_dashboard
+      }
+    }
+
+    dynamic "azure_policy" {
       for_each = var.enable_azure_policy ? ["azure_policy"] : []
       content {
         enabled = true
       }
     }
 
-    dynamic oms_agent {
+    dynamic "oms_agent" {
       for_each = var.enable_log_analytics_workspace ? ["log_analytics"] : []
       content {
         enabled                    = true
@@ -96,7 +103,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   role_based_access_control {
     enabled = var.enable_role_based_access_control
 
-    dynamic azure_active_directory {
+    dynamic "azure_active_directory" {
       for_each = var.enable_role_based_access_control && var.rbac_aad_managed ? ["rbac"] : []
       content {
         managed                = true
@@ -104,7 +111,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       }
     }
 
-    dynamic azure_active_directory {
+    dynamic "azure_active_directory" {
       for_each = var.enable_role_based_access_control && ! var.rbac_aad_managed ? ["rbac"] : []
       content {
         managed           = false
@@ -113,6 +120,10 @@ resource "azurerm_kubernetes_cluster" "main" {
         server_app_secret = var.rbac_aad_server_app_secret
       }
     }
+  }
+
+  network_profile {
+    network_plugin = var.network_plugin
   }
 
   tags = var.tags
@@ -141,7 +152,7 @@ resource "azurerm_log_analytics_solution" "main" {
     publisher = "Microsoft"
     product   = "OMSGallery/ContainerInsights"
   }
-  
+
   tags = var.tags
 }
 
