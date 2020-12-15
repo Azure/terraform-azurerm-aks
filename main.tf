@@ -27,7 +27,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   default_node_pool {
     orchestrator_version  = var.orchestrator_version == null ? var.kubernetes_version : var.orchestrator_version
-    name                  = var.agents_name
+    name                  = var.agents_pool_name
     node_count            = var.agents_count
     vm_size               = var.agents_size
     os_disk_size_gb       = var.os_disk_size_gb
