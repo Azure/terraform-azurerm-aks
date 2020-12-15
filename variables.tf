@@ -47,7 +47,7 @@ variable "log_retention_in_days" {
 variable "agents_count" {
   description = "The number of Agents that should exist in the Agent Pool. Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes."
   type        = number
-  default     = null
+  default     = 2
 }
 
 variable "public_ssh_key" {
