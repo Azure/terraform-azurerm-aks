@@ -56,7 +56,7 @@ module "aks_without_monitor" {
   depends_on                     = [azurerm_resource_group.main]
 }
 
-module "aks" {
+module "aks_network_profile_config" {
   source                          = "../.."
   prefix                          = "prefix-${random_id.prefix.hex}"
   resource_group_name             = azurerm_resource_group.main.name
