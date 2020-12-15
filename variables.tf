@@ -176,6 +176,18 @@ variable "net_profile_outbound_type" {
   default     = "loadBalancer"
 }
 
+variable "net_profile_pod_cidr" {
+  description = " (Optional) The CIDR to use for pod IP addresses. This field can only be set when network_plugin is set to kubenet. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
+variable "net_profile_service_cidr" {
+  description = "(Optional) The Network Range used by the Kubernetes service. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
 variable "kubernetes_version" {
   description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
   type        = string
