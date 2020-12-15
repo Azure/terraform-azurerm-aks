@@ -81,6 +81,6 @@ module "aks_network_profile_config" {
   net_profile_docker_bridge_cidr  = "170.10.0.1/16"
   net_profile_service_cidr        = "10.0.0.0/16"
   net_profile_dns_service_ip      = "10.0.0.10"
-
+  
   depends_on = [azurerm_resource_group.main]
 }

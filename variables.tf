@@ -206,7 +206,7 @@ variable "agents_min_count" {
   default     = null
 }
 
-variable "agents_name" {
+variable "agents_pool_name" {
   description = "The default Azure AKS agentpool (nodepool) name."
   type        = string
   default     = "nodepool"
