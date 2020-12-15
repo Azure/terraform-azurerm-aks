@@ -152,6 +152,30 @@ variable "network_plugin" {
   default     = "kubenet"
 }
 
+variable "network_policy" {
+  description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
+  type        = string
+  default     = "calico"
+}
+
+variable "net_profile_dns_service_ip" {
+  description = "(Optional) IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
+variable "net_profile_docker_bridge_cidr" {
+  description = "(Optional) IP address (in CIDR notation) used as the Docker bridge IP address on nodes. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
+variable "net_profile_outbound_type" {
+  description = "(Optional) The outbound (egress) routing method which should be used for this Kubernetes Cluster. Possible values are loadBalancer and userDefinedRouting. Defaults to loadBalancer."
+  type        = string
+  default     = "loadBalancer"
+}
+
 variable "kubernetes_version" {
   description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
   type        = string
@@ -180,4 +204,46 @@ variable "agents_min_count" {
   type        = number
   description = "Minimum number of nodes in a pool"
   default     = null
+}
+
+variable "agents_name" {
+  description = "The default Azure AKS agentpool (nodepool) name."
+  type        = string
+  default     = "nodepool"
+}
+
+variable "agents_enable_node_public_ip" {
+  description = "(Optional) Should nodes in this Node Pool have a Public IP Address? Defaults to false."
+  type        = bool
+  default     = false
+}
+
+variable "agents_availability_zones" {
+  description = "(Optional) A list of Availability Zones across which the Node Pool should be spread. Changing this forces a new resource to be created."
+  type        = list(string)
+  default     = []
+}
+
+variable "agents_labels" {
+  description = "(Optional) A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created."
+  type        = map(string)
+  default     = {}
+}
+
+variable "agents_type" {
+  description = "(Optional) The type of Node Pool which should be created. Possible values are AvailabilitySet and VirtualMachineScaleSets. Defaults to VirtualMachineScaleSets."
+  type        = string
+  default     = "VirtualMachineScaleSets"
+}
+
+variable "agents_tags" {
+  description = "(Optional) A mapping of tags to assign to the Node Pool."
+  type        = map(string)
+  default     = {}
+}
+
+variable "agents_max_pods" {
+  description = "(Optional) The maximum number of pods that can run on each agent. Changing this forces a new resource to be created."
+  type        = number
+  default     = 250
 }

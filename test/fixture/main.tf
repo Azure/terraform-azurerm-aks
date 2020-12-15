@@ -55,3 +55,32 @@ module "aks_without_monitor" {
   enable_log_analytics_workspace = false
   depends_on                     = [azurerm_resource_group.main]
 }
+
+module "aks" {
+  source                          = "../.."
+  prefix                          = "prefix-${random_id.prefix.hex}"
+  resource_group_name             = azurerm_resource_group.main.name
+  client_id                       = var.client_id
+  client_secret                   = var.client_secret
+  kubernetes_version              = "1.19.3"
+  orchestrator_version            = "1.19.3"
+  network_plugin                  = "azure"
+  vnet_subnet_id                  = azurerm_subnet.test.id
+  os_disk_size_gb                 = 60
+  enable_http_application_routing = true
+  enable_azure_policy             = true
+  sku_tier                        = "Paid"
+  enable_kube_dashboard           = true
+  private_cluster_enabled         = true
+  enable_auto_scaling             = true
+  agents_min_count                = 1
+  agents_max_count                = 2
+  agents_max_pods                 = 100
+  network_plugin                  = "azure"
+  network_policy                  = "azure"
+  net_profile_docker_bridge_cidr  = "170.10.0.1/16"
+  net_profile_service_cidr        = "10.0.0.0/16"
+  net_profile_dns_service_ip      = "10.0.0.10"
+
+  depends_on = [azurerm_resource_group.main]
+}
