@@ -35,7 +35,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     enable_auto_scaling   = var.enable_auto_scaling
     max_count             = var.enable_auto_scaling ? var.agents_max_count : null
     min_count             = var.enable_auto_scaling ? var.agents_min_count : null
-    enable_node_public_ip = var.agents_enable_node_public_ip
+    enable_node_public_ip = var.enable_node_public_ip
     availability_zones    = var.agents_availability_zones
     node_labels           = var.agents_labels
     type                  = var.agents_type

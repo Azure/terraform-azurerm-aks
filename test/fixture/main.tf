@@ -72,6 +72,7 @@ module "aks_network_profile_config" {
   sku_tier                        = "Paid"
   enable_kube_dashboard           = true
   private_cluster_enabled         = true
+  enable_node_public_ip           = false
   enable_auto_scaling             = true
   agents_min_count                = 1
   agents_max_count                = 2
@@ -81,6 +82,7 @@ module "aks_network_profile_config" {
   net_profile_docker_bridge_cidr  = "170.10.0.1/16"
   net_profile_service_cidr        = "10.0.0.0/16"
   net_profile_dns_service_ip      = "10.0.0.10"
+
   
   depends_on = [azurerm_resource_group.main]
 }

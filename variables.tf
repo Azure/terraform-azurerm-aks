@@ -224,7 +224,7 @@ variable "agents_pool_name" {
   default     = "nodepool"
 }
 
-variable "agents_enable_node_public_ip" {
+variable "enable_node_public_ip" {
   description = "(Optional) Should nodes in this Node Pool have a Public IP Address? Defaults to false."
   type        = bool
   default     = false
