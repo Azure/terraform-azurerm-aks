@@ -40,7 +40,12 @@ module "aks" {
   sku_tier                        = "Paid"
   enable_kube_dashboard           = true
   private_cluster_enabled         = true
-  depends_on                      = [azurerm_resource_group.main]
+  enable_auto_scaling             = true
+  agents_min_count                = 1
+  agents_max_count                = 2
+  agents_count                    = null
+
+  depends_on = [azurerm_resource_group.main]
 }
 
 module "aks_without_monitor" {

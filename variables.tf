@@ -45,7 +45,7 @@ variable "log_retention_in_days" {
 }
 
 variable "agents_count" {
-  description = "The number of Agents that should exist in the Agent Pool"
+  description = "The number of Agents that should exist in the Agent Pool. Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes."
   type        = number
   default     = 2
 }
@@ -161,5 +161,23 @@ variable "kubernetes_version" {
 variable "orchestrator_version" {
   description = "Specify which Kubernetes release to use for the orchestration layer. The default used is the latest Kubernetes version available in the region"
   type        = string
+  default     = null
+}
+
+variable "enable_auto_scaling" {
+  description = "Enable node pool autoscaling"
+  type        = bool
+  default     = false
+}
+
+variable "agents_max_count" {
+  type        = number
+  description = "Maximum number of nodes in a pool"
+  default     = null
+}
+
+variable "agents_min_count" {
+  type        = number
+  description = "Minimum number of nodes in a pool"
   default     = null
 }
