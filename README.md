@@ -51,7 +51,7 @@ module "aks" {
   enable_auto_scaling              = true
   agents_min_count                 = 1
   agents_max_count                 = 2
-  agents_count                     = null
+  agents_count                     = null # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
 
   depends_on = [module.network]
 }
