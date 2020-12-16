@@ -155,7 +155,7 @@ variable "network_plugin" {
 variable "network_policy" {
   description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
   type        = string
-  default     = "calico"
+  default     = null
 }
 
 variable "net_profile_dns_service_ip" {
@@ -233,7 +233,7 @@ variable "enable_node_public_ip" {
 variable "agents_availability_zones" {
   description = "(Optional) A list of Availability Zones across which the Node Pool should be spread. Changing this forces a new resource to be created."
   type        = list(string)
-  default     = []
+  default     = null
 }
 
 variable "agents_labels" {
@@ -257,5 +257,5 @@ variable "agents_tags" {
 variable "agents_max_pods" {
   description = "(Optional) The maximum number of pods that can run on each agent. Changing this forces a new resource to be created."
   type        = number
-  default     = 250
+  default     = null
 }
