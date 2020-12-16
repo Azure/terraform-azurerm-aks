@@ -8,7 +8,7 @@ module "ssh-key" {
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
-  name                    = var.prefix
+  name                    = "${var.prefix}-aks"
   kubernetes_version      = var.kubernetes_version
   location                = data.azurerm_resource_group.main.location
   resource_group_name     = data.azurerm_resource_group.main.name
@@ -26,7 +26,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   default_node_pool {
-    orchestrator_version  = var.orchestrator_version == null ? var.kubernetes_version : var.orchestrator_version
+    orchestrator_version  = var.orchestrator_version
     name                  = var.agents_pool_name
     node_count            = var.agents_count
     vm_size               = var.agents_size
