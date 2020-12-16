@@ -35,7 +35,10 @@ module "aks" {
   resource_group_name              = azurerm_resource_group.example.name
   client_id                        = "your-service-principal-client-appid"
   client_secret                    = "your-service-principal-client-password"
+  kubernetes_version               = "1.19.3"
+  orchestrator_version             = "1.19.3"
   prefix                           = "prefix"
+  network_plugin                   = "azure"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = 50
   enable_kube_dashboard            = true
@@ -44,6 +47,11 @@ module "aks" {
   enable_role_based_access_control = true
   rbac_aad_admin_group_object_ids  = [data.azuread_group.aks_cluster_admins.id]
   rbac_aad_managed                 = true
+  private_cluster_enabled          = true # default value
+  enable_auto_scaling              = true
+  agents_min_count                 = 1
+  agents_max_count                 = 2
+  agents_count                     = null # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
 
   depends_on = [module.network]
 }

@@ -24,22 +24,31 @@ resource "azurerm_subnet" "test" {
   address_prefixes     = ["10.52.0.0/24"]
 }
 
-module aks {
+module "aks" {
   source                          = "../.."
   prefix                          = "prefix-${random_id.prefix.hex}"
   resource_group_name             = azurerm_resource_group.main.name
   client_id                       = var.client_id
   client_secret                   = var.client_secret
+  kubernetes_version              = "1.19.3"
+  orchestrator_version            = "1.19.3"
+  network_plugin                  = "azure"
   vnet_subnet_id                  = azurerm_subnet.test.id
   os_disk_size_gb                 = 60
   enable_http_application_routing = true
   enable_azure_policy             = true
   sku_tier                        = "Paid"
   enable_kube_dashboard           = true
-  depends_on                      = [azurerm_resource_group.main]
+  private_cluster_enabled         = true
+  enable_auto_scaling             = true
+  agents_min_count                = 1
+  agents_max_count                = 2
+  agents_count                    = null
+
+  depends_on = [azurerm_resource_group.main]
 }
 
-module aks_without_monitor {
+module "aks_without_monitor" {
   source                         = "../.."
   prefix                         = "prefix2-${random_id.prefix.hex}"
   resource_group_name            = azurerm_resource_group.main.name
