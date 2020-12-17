@@ -48,10 +48,29 @@ module "aks" {
   rbac_aad_admin_group_object_ids  = [data.azuread_group.aks_cluster_admins.id]
   rbac_aad_managed                 = true
   private_cluster_enabled          = true # default value
+  enable_http_application_routing = true
+  enable_azure_policy             = true  
   enable_auto_scaling              = true
   agents_min_count                 = 1
   agents_max_count                 = 2
   agents_count                     = null # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
+  agents_max_pods                 = 100
+  agents_pool_name                = "defaultnodepool"
+  agents_availability_zones       = ["1", "2"]
+  agents_type                     = "VirtualMachineScaleSets"
+
+  agents_labels = {
+    "nodepool" : "defaultnodepool"
+  }
+
+  agents_tags = {
+    "Agent" : "defaultnodepoolagent"
+  }
+
+  network_policy                 = "azure"
+  net_profile_dns_service_ip     = "10.0.0.10"
+  net_profile_docker_bridge_cidr = "170.10.0.1/16"
+  net_profile_service_cidr       = "10.0.0.0/16"
 
   depends_on = [module.network]
 }
