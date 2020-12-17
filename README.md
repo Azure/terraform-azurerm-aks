@@ -41,13 +41,12 @@ module "aks" {
   network_plugin                   = "azure"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = 50
-  enable_kube_dashboard            = true
-  enable_azure_policy              = true
   sku_tier                         = "Paid" # defaults to Free
   enable_role_based_access_control = true
   rbac_aad_admin_group_object_ids  = [data.azuread_group.aks_cluster_admins.id]
   rbac_aad_managed                 = true
   private_cluster_enabled          = true # default value
+  enable_kube_dashboard            = true
   enable_http_application_routing  = true
   enable_azure_policy              = true
   enable_auto_scaling              = true
