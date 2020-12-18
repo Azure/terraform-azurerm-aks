@@ -46,7 +46,6 @@ module "aks" {
   rbac_aad_admin_group_object_ids  = [data.azuread_group.aks_cluster_admins.id]
   rbac_aad_managed                 = true
   private_cluster_enabled          = true # default value
-  enable_kube_dashboard            = true
   enable_http_application_routing  = true
   enable_azure_policy              = true
   enable_auto_scaling              = true
