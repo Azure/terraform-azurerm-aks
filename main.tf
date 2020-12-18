@@ -9,6 +9,7 @@ module "ssh-key" {
 
 resource "azurerm_kubernetes_cluster" "main" {
   name                    = "${var.prefix}-aks"
+  kubernetes_version      = var.kubernetes_version
   location                = data.azurerm_resource_group.main.location
   resource_group_name     = data.azurerm_resource_group.main.name
   dns_prefix              = var.prefix
@@ -25,15 +26,21 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   default_node_pool {
-    orchestrator_version = var.orchestrator_version
-    name                 = "nodepool"
-    node_count           = var.agents_count
-    vm_size              = var.agents_size
-    os_disk_size_gb      = var.os_disk_size_gb
-    vnet_subnet_id       = var.vnet_subnet_id
-    enable_auto_scaling  = var.enable_auto_scaling
-    max_count            = var.enable_auto_scaling ? var.agents_max_count : null
-    min_count            = var.enable_auto_scaling ? var.agents_min_count : null
+    orchestrator_version  = var.orchestrator_version
+    name                  = var.agents_pool_name
+    node_count            = var.agents_count
+    vm_size               = var.agents_size
+    os_disk_size_gb       = var.os_disk_size_gb
+    vnet_subnet_id        = var.vnet_subnet_id
+    enable_auto_scaling   = var.enable_auto_scaling
+    max_count             = var.enable_auto_scaling ? var.agents_max_count : null
+    min_count             = var.enable_auto_scaling ? var.agents_min_count : null
+    enable_node_public_ip = var.enable_node_public_ip
+    availability_zones    = var.agents_availability_zones
+    node_labels           = var.agents_labels
+    type                  = var.agents_type
+    tags                  = merge(var.tags, var.agents_tags)
+    max_pods              = var.agents_max_pods
   }
 
   dynamic "service_principal" {
@@ -102,7 +109,13 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   network_profile {
-    network_plugin = var.network_plugin
+    network_plugin     = var.network_plugin
+    network_policy     = var.network_policy
+    dns_service_ip     = var.net_profile_dns_service_ip
+    docker_bridge_cidr = var.net_profile_docker_bridge_cidr
+    outbound_type      = var.net_profile_outbound_type
+    pod_cidr           = var.net_profile_pod_cidr
+    service_cidr       = var.net_profile_service_cidr
   }
 
   tags = var.tags
