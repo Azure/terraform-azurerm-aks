@@ -46,7 +46,6 @@ module "aks" {
   rbac_aad_admin_group_object_ids  = [data.azuread_group.aks_cluster_admins.id]
   rbac_aad_managed                 = true
   private_cluster_enabled          = true # default value
-  enable_kube_dashboard            = true
   enable_http_application_routing  = true
   enable_azure_policy              = true
   enable_auto_scaling              = true
@@ -54,7 +53,7 @@ module "aks" {
   agents_max_count                 = 2
   agents_count                     = null # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
   agents_max_pods                  = 100
-  agents_pool_name                 = "defaultnodepool"
+  agents_pool_name                 = "exnodepool"
   agents_availability_zones        = ["1", "2"]
   agents_type                      = "VirtualMachineScaleSets"
 
