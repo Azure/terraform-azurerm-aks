@@ -6,11 +6,13 @@ variable "resource_group_name" {
 variable "cluster_name" {
   description = "(Optional) The name for the resources created in the specified Azure Resource Group. This variable overwrites the 'prefix' var"
   type        = string
+  default     = ""
 }
 
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
   type        = string
+  default     = ""
 }
 
 variable "client_id" {
