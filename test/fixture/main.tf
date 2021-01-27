@@ -1,35 +1,10 @@
-provider "azurerm" {
-  features {}
-}
-
-resource "random_id" "prefix" {
-  byte_length = 8
-}
-resource "azurerm_resource_group" "main" {
-  name     = "${random_id.prefix.hex}-rg"
-  location = var.location
-}
-
-resource "azurerm_virtual_network" "test" {
-  name                = "${random_id.prefix.hex}-vn"
-  address_space       = ["10.52.0.0/16"]
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-}
-
-resource "azurerm_subnet" "test" {
-  name                 = "${random_id.prefix.hex}-sn"
-  resource_group_name  = azurerm_resource_group.main.name
-  virtual_network_name = azurerm_virtual_network.test.name
-  address_prefixes     = ["10.52.0.0/24"]
-}
-
+// Cluster with monitoring and additonal node pools
 module "aks" {
   source                          = "../.."
   prefix                          = "prefix-${random_id.prefix.hex}"
   resource_group_name             = azurerm_resource_group.main.name
-  client_id                       = var.client_id
-  client_secret                   = var.client_secret
+  client_id                       = azuread_application.this.application_id
+  client_secret                   = azuread_service_principal_password.this.value
   kubernetes_version              = "1.19.3"
   orchestrator_version            = "1.19.3"
   network_plugin                  = "azure"
@@ -61,9 +36,25 @@ module "aks" {
   net_profile_docker_bridge_cidr = "170.10.0.1/16"
   net_profile_service_cidr       = "10.0.0.0/16"
 
+  node_pools = {
+    nodepool1 = {
+      vm_size             = "Standard_DS2_v2"
+      node_count          = 1
+      enable_auto_scaling = true
+      max_count           = 5
+      min_count           = 2
+    }
+    nodepool2 = {
+      vm_size    = "Standard_DS2_v2"
+      node_count = 1
+    }
+  }
+
   depends_on = [azurerm_resource_group.main]
 }
 
+
+// cluster with default node pool and no monitoring
 module "aks_without_monitor" {
   source                         = "../.."
   prefix                         = "prefix2-${random_id.prefix.hex}"
@@ -73,3 +64,4 @@ module "aks_without_monitor" {
   net_profile_pod_cidr           = "10.1.0.0/16"
   depends_on                     = [azurerm_resource_group.main]
 }
+

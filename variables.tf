@@ -6,7 +6,15 @@ variable "resource_group_name" {
 variable "prefix" {
   description = "The prefix for the resources created in the specified Azure Resource Group"
   type        = string
+  default     = ""
 }
+
+variable "suffix" {
+  description = "The suffix for the resources created in the specified Azure Resource Group"
+  type        = string
+  default     = ""
+}
+
 
 variable "client_id" {
   description = "(Optional) The Client ID (appId) for the Service Principal used for the AKS deployment"
@@ -258,4 +266,23 @@ variable "agents_max_pods" {
   description = "(Optional) The maximum number of pods that can run on each agent. Changing this forces a new resource to be created."
   type        = number
   default     = null
+}
+
+variable "node_pools" {
+  default     = {}
+  description = "Map of maps for node pool objects, its a bit complex, see example in tests. "
+  // i cant work out how to do this and still make things optional ... see examples folder
+  # type = map(map(object({
+  #   vm_size             = string
+  #   node_count          = number
+  #   availability_zones  = bool
+  #   enable_auto_scaling = bool
+  #   max_count           = number
+  #   min_count           = number
+  #   max_pods            = number
+  #   node_tains          = list(string)
+  #   os_disk_size_gb     = number
+  #   os_type             = string
+  #   vnet_subnet_id      = string
+  # })))
 }

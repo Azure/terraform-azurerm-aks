@@ -1,4 +1,4 @@
-data "azurerm_resource_group" "main" {
+data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
 
@@ -7,11 +7,11 @@ module "ssh-key" {
   public_ssh_key = var.public_ssh_key == "" ? "" : var.public_ssh_key
 }
 
-resource "azurerm_kubernetes_cluster" "main" {
-  name                    = "${var.prefix}-aks"
+resource "azurerm_kubernetes_cluster" "this" {
+  name                    = "${var.prefix}aks${var.suffix}"
   kubernetes_version      = var.kubernetes_version
-  location                = data.azurerm_resource_group.main.location
-  resource_group_name     = data.azurerm_resource_group.main.name
+  location                = data.azurerm_resource_group.this.location
+  resource_group_name     = data.azurerm_resource_group.this.name
   dns_prefix              = var.prefix
   sku_tier                = var.sku_tier
   private_cluster_enabled = var.private_cluster_enabled
@@ -81,7 +81,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       for_each = var.enable_log_analytics_workspace ? ["log_analytics"] : []
       content {
         enabled                    = true
-        log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
+        log_analytics_workspace_id = azurerm_log_analytics_workspace.this[0].id
       }
     }
   }
@@ -121,11 +121,32 @@ resource "azurerm_kubernetes_cluster" "main" {
   tags = var.tags
 }
 
+resource "azurerm_kubernetes_cluster_node_pool" "this" {
+  for_each              = var.node_pools
+  name                  = each.key
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.this.id
+  vm_size               = each.value.vm_size
+  node_count            = each.value.node_count
 
-resource "azurerm_log_analytics_workspace" "main" {
+  // optional
+  availability_zones  = lookup(each.value, "availability_zones", null)
+  enable_auto_scaling = lookup(each.value, "enable_auto_scaling", null)
+  max_count           = lookup(each.value, "max_count", null)
+  min_count           = lookup(each.value, "min_count", null)
+  max_pods            = lookup(each.value, "max_pods", null)
+  node_taints         = lookup(each.value, "node_taints", null)
+  os_disk_size_gb     = lookup(each.value, "os_disk_size_gb", null)
+  os_type             = lookup(each.value, "os_type", "Linux")
+  vnet_subnet_id      = lookup(each.value, "vnet_subnet_id ", var.vnet_subnet_id)
+  lifecycle {
+    ignore_changes = [node_count]
+  }
+}
+
+resource "azurerm_log_analytics_workspace" "this" {
   count               = var.enable_log_analytics_workspace ? 1 : 0
-  name                = "${var.prefix}-workspace"
-  location            = data.azurerm_resource_group.main.location
+  name                = "${var.prefix}log${var.suffix}" // https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations#management-and-governance
+  location            = data.azurerm_resource_group.this.location
   resource_group_name = var.resource_group_name
   sku                 = var.log_analytics_workspace_sku
   retention_in_days   = var.log_retention_in_days
@@ -133,13 +154,13 @@ resource "azurerm_log_analytics_workspace" "main" {
   tags = var.tags
 }
 
-resource "azurerm_log_analytics_solution" "main" {
+resource "azurerm_log_analytics_solution" "this" {
   count                 = var.enable_log_analytics_workspace ? 1 : 0
   solution_name         = "ContainerInsights"
-  location              = data.azurerm_resource_group.main.location
+  location              = data.azurerm_resource_group.this.location
   resource_group_name   = var.resource_group_name
-  workspace_resource_id = azurerm_log_analytics_workspace.main[0].id
-  workspace_name        = azurerm_log_analytics_workspace.main[0].name
+  workspace_resource_id = azurerm_log_analytics_workspace.this[0].id
+  workspace_name        = azurerm_log_analytics_workspace.this[0].name
 
   plan {
     publisher = "Microsoft"
