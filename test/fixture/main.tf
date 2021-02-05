@@ -73,3 +73,13 @@ module "aks_without_monitor" {
   net_profile_pod_cidr           = "10.1.0.0/16"
   depends_on                     = [azurerm_resource_group.main]
 }
+
+module "aks_cluster_name" {
+  source                         = "../.."
+  cluster_name                   = "test-cluster"
+  resource_group_name            = azurerm_resource_group.main.name
+  enable_log_analytics_workspace = false
+  enable_kube_dashboard          = false
+  net_profile_pod_cidr           = "10.1.0.0/16"
+  depends_on                     = [azurerm_resource_group.main]
+}
