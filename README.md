@@ -37,7 +37,7 @@ module "aks" {
   client_secret                    = "your-service-principal-client-password"
   kubernetes_version               = "1.19.3"
   orchestrator_version             = "1.19.3"
-  prefix                           = "prefix"
+  cluster_name                     = "cluster-name"
   network_plugin                   = "azure"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = 50
