@@ -63,26 +63,17 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled = var.enable_http_application_routing
     }
 
-    dynamic "kube_dashboard" {
-      for_each = var.enable_kube_dashboard != null ? ["kube_dashboard"] : []
-      content {
-        enabled = var.enable_kube_dashboard
-      }
+    kube_dashboard {
+      enabled = var.enable_kube_dashboard
     }
 
-    dynamic "azure_policy" {
-      for_each = var.enable_azure_policy ? ["azure_policy"] : []
-      content {
-        enabled = true
-      }
+    azure_policy {
+      enabled = var.enable_azure_policy
     }
 
-    dynamic "oms_agent" {
-      for_each = var.enable_log_analytics_workspace ? ["log_analytics"] : []
-      content {
-        enabled                    = true
-        log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
-      }
+    oms_agent {
+      enabled                    = var.enable_log_analytics_workspace
+      log_analytics_workspace_id = var.enable_log_analytics_workspace ? azurerm_log_analytics_workspace.main[0].id : null
     }
   }
 
