@@ -49,3 +49,27 @@ output "system_assigned_identity" {
 output "kubelet_identity" {
   value = azurerm_kubernetes_cluster.main.kubelet_identity
 }
+
+output "admin_client_key" {
+  value = length(azurerm_kubernetes_cluster.main.kube_admin_config) > 0 ? azurerm_kubernetes_cluster.main.kube_admin_config.0.client_key : ""
+}
+
+output "admin_client_certificate" {
+  value = length(azurerm_kubernetes_cluster.main.kube_admin_config) > 0 ? azurerm_kubernetes_cluster.main.kube_admin_config.0.client_certificate : ""
+}
+
+output "admin_cluster_ca_certificate" {
+  value = length(azurerm_kubernetes_cluster.main.kube_admin_config) > 0 ? azurerm_kubernetes_cluster.main.kube_admin_config.0.cluster_ca_certificate : ""
+}
+
+output "admin_host" {
+  value = length(azurerm_kubernetes_cluster.main.kube_admin_config) > 0 ? azurerm_kubernetes_cluster.main.kube_admin_config.0.host : ""
+}
+
+output "admin_username" {
+  value = length(azurerm_kubernetes_cluster.main.kube_admin_config) > 0 ? azurerm_kubernetes_cluster.main.kube_admin_config.0.username : ""
+}
+
+output "admin_password" {
+  value = length(azurerm_kubernetes_cluster.main.kube_admin_config) > 0 ? azurerm_kubernetes_cluster.main.kube_admin_config.0.password : ""
+}
