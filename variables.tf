@@ -89,7 +89,7 @@ variable "private_cluster_enabled" {
 variable "enable_kube_dashboard" {
   description = "Enable Kubernetes Dashboard."
   type        = bool
-  default     = null
+  default     = false
 }
 
 variable "enable_http_application_routing" {
