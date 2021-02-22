@@ -35,8 +35,8 @@ resource "azurerm_kubernetes_cluster" "main" {
       os_disk_size_gb       = var.os_disk_size_gb
       vnet_subnet_id        = var.vnet_subnet_id
       enable_auto_scaling   = var.enable_auto_scaling
-      max_count             = var.enable_auto_scaling ? var.agents_max_count : null
-      min_count             = var.enable_auto_scaling ? var.agents_min_count : null
+      max_count             = null
+      min_count             = null
       enable_node_public_ip = var.enable_node_public_ip
       availability_zones    = var.agents_availability_zones
       node_labels           = var.agents_labels
@@ -55,8 +55,8 @@ resource "azurerm_kubernetes_cluster" "main" {
       os_disk_size_gb       = var.os_disk_size_gb
       vnet_subnet_id        = var.vnet_subnet_id
       enable_auto_scaling   = var.enable_auto_scaling
-      max_count             = var.enable_auto_scaling ? var.agents_max_count : null
-      min_count             = var.enable_auto_scaling ? var.agents_min_count : null
+      max_count             = var.agents_max_count
+      min_count             = var.agents_min_count
       enable_node_public_ip = var.enable_node_public_ip
       availability_zones    = var.agents_availability_zones
       node_labels           = var.agents_labels
