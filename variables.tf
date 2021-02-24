@@ -9,16 +9,16 @@ variable "cluster_name" {
   default     = null
 }
 
-variable "cluster_analytics_workspace" {
+variable "cluster_log_analytics_workspace_name" {
   description = "(Optional) The name of the Analytics workspace"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "prefix" {
-  description = "The prefix for the resources created in the specified Azure Resource Group"
+  description = "(Required) The prefix for the resources created in the specified Azure Resource Group"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "client_id" {
