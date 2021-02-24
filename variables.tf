@@ -18,7 +18,6 @@ variable "cluster_log_analytics_workspace_name" {
 variable "prefix" {
   description = "(Required) The prefix for the resources created in the specified Azure Resource Group"
   type        = string
-  default     = null
 }
 
 variable "client_id" {
