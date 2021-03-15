@@ -16,6 +16,8 @@ resource "azurerm_kubernetes_cluster" "main" {
   sku_tier                = var.sku_tier
   private_cluster_enabled = var.private_cluster_enabled
 
+  api_server_authorized_ip_ranges = length(var.api_server_authorized_ip_ranges) > 0 ? var.api_server_authorized_ip_ranges : []
+
   linux_profile {
     admin_username = var.admin_username
 

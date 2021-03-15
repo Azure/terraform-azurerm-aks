@@ -259,3 +259,9 @@ variable "agents_max_pods" {
   type        = number
   default     = null
 }
+
+variable "api_server_authorized_ip_ranges" {
+  description = "(Optional) The IP ranges to whitelist for incoming traffic to the masters."
+  type        = list(string)
+  default     = []
+}
