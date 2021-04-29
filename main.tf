@@ -25,22 +25,45 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
-  default_node_pool {
-    orchestrator_version  = var.orchestrator_version
-    name                  = var.agents_pool_name
-    node_count            = var.agents_count
-    vm_size               = var.agents_size
-    os_disk_size_gb       = var.os_disk_size_gb
-    vnet_subnet_id        = var.vnet_subnet_id
-    enable_auto_scaling   = var.enable_auto_scaling
-    max_count             = var.enable_auto_scaling ? var.agents_max_count : null
-    min_count             = var.enable_auto_scaling ? var.agents_min_count : null
-    enable_node_public_ip = var.enable_node_public_ip
-    availability_zones    = var.agents_availability_zones
-    node_labels           = var.agents_labels
-    type                  = var.agents_type
-    tags                  = merge(var.tags, var.agents_tags)
-    max_pods              = var.agents_max_pods
+  dynamic "default_node_pool" {
+    for_each = var.enable_auto_scaling == true ? [] : ["default_node_pool_manually_scaled"]
+    content {
+      orchestrator_version  = var.orchestrator_version
+      name                  = var.agents_pool_name
+      node_count            = var.agents_count
+      vm_size               = var.agents_size
+      os_disk_size_gb       = var.os_disk_size_gb
+      vnet_subnet_id        = var.vnet_subnet_id
+      enable_auto_scaling   = var.enable_auto_scaling
+      max_count             = null
+      min_count             = null
+      enable_node_public_ip = var.enable_node_public_ip
+      availability_zones    = var.agents_availability_zones
+      node_labels           = var.agents_labels
+      type                  = var.agents_type
+      tags                  = merge(var.tags, var.agents_tags)
+      max_pods              = var.agents_max_pods
+    }
+  }
+
+  dynamic "default_node_pool" {
+    for_each = var.enable_auto_scaling == true ? ["default_node_pool_auto_scaled"] : []
+    content {
+      orchestrator_version  = var.orchestrator_version
+      name                  = var.agents_pool_name
+      vm_size               = var.agents_size
+      os_disk_size_gb       = var.os_disk_size_gb
+      vnet_subnet_id        = var.vnet_subnet_id
+      enable_auto_scaling   = var.enable_auto_scaling
+      max_count             = var.agents_max_count
+      min_count             = var.agents_min_count
+      enable_node_public_ip = var.enable_node_public_ip
+      availability_zones    = var.agents_availability_zones
+      node_labels           = var.agents_labels
+      type                  = var.agents_type
+      tags                  = merge(var.tags, var.agents_tags)
+      max_pods              = var.agents_max_pods
+    }
   }
 
   dynamic "service_principal" {
@@ -63,26 +86,17 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled = var.enable_http_application_routing
     }
 
-    dynamic "kube_dashboard" {
-      for_each = var.enable_kube_dashboard != null ? ["kube_dashboard"] : []
-      content {
-        enabled = var.enable_kube_dashboard
-      }
+    kube_dashboard {
+      enabled = var.enable_kube_dashboard
     }
 
-    dynamic "azure_policy" {
-      for_each = var.enable_azure_policy ? ["azure_policy"] : []
-      content {
-        enabled = true
-      }
+    azure_policy {
+      enabled = var.enable_azure_policy
     }
 
-    dynamic "oms_agent" {
-      for_each = var.enable_log_analytics_workspace ? ["log_analytics"] : []
-      content {
-        enabled                    = true
-        log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
-      }
+    oms_agent {
+      enabled                    = var.enable_log_analytics_workspace
+      log_analytics_workspace_id = var.enable_log_analytics_workspace ? azurerm_log_analytics_workspace.main[0].id : null
     }
   }
 
