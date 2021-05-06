@@ -57,3 +57,8 @@ output "test_username" {
 output "test_password" {
   value = module.aks.password
 }
+
+output "test_kube_raw" {
+  sensitive = true
+  value     = module.aks.kube_config_raw
+}
