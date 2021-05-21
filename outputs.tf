@@ -35,7 +35,8 @@ output "aks_id" {
 }
 
 output "kube_config_raw" {
-  value = nonsensitive(azurerm_kubernetes_cluster.main.kube_config_raw)
+  sensitive = true
+  value     = azurerm_kubernetes_cluster.main.kube_config_raw
 }
 
 output "http_application_routing_zone_name" {
