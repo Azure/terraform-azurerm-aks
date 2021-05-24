@@ -3,8 +3,20 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "cluster_name" {
+  description = "(Optional) The name for the AKS resources created in the specified Azure Resource Group. This variable overwrites the 'prefix' var (The 'prefix' var will still be applied to the dns_prefix if it is set)"
+  type        = string
+  default     = null
+}
+
+variable "cluster_log_analytics_workspace_name" {
+  description = "(Optional) The name of the Analytics workspace"
+  type        = string
+  default     = null
+}
+
 variable "prefix" {
-  description = "The prefix for the resources created in the specified Azure Resource Group"
+  description = "(Required) The prefix for the resources created in the specified Azure Resource Group"
   type        = string
 }
 
