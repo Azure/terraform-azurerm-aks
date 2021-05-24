@@ -271,3 +271,15 @@ variable "agents_max_pods" {
   type        = number
   default     = null
 }
+
+variable "identity_type" {
+  description = "(Optional) The type of identity used for the managed cluster. Conflict with `client_id` and `client_secret`. Possible values are `SystemAssigned` and `UserAssigned`. If `UserAssigned` is set, a `user_assigned_identity_id` must be set as well."
+  type        = string
+  default     = "SystemAssigned"
+}
+
+variable "user_assigned_identity_id" {
+  description = "(Optional) The ID of a user assigned identity."
+  type        = string
+  default     = null
+}

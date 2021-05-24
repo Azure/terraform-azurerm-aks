@@ -24,6 +24,12 @@ resource "azurerm_subnet" "test" {
   address_prefixes     = ["10.52.0.0/24"]
 }
 
+resource "azurerm_user_assigned_identity" "test" {
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  name                = "${random_id.prefix.hex}-identity"
+}
+
 module "aks" {
   source                          = "../.."
   prefix                          = "prefix-${random_id.prefix.hex}"
@@ -81,5 +87,7 @@ module "aks_cluster_name" {
   cluster_log_analytics_workspace_name = "test-cluster"
   enable_kube_dashboard                = false
   net_profile_pod_cidr                 = "10.1.0.0/16"
+  identity_type                        = "UserAssigned"
+  user_assigned_identity_id            = azurerm_user_assigned_identity.test.id
   depends_on                           = [azurerm_resource_group.main]
 }
