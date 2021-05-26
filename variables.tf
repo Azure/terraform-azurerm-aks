@@ -283,3 +283,9 @@ variable "user_assigned_identity_id" {
   type        = string
   default     = null
 }
+
+variable "enable_host_encryption" {
+  description = "Enable Host Encryption for default node pool. Encryption at host feature must be enabled on the subscription: https://docs.microsoft.com/azure/virtual-machines/linux/disks-enable-host-based-encryption-cli"
+  type        = bool
+  default     = false
+}
