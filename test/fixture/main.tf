@@ -41,6 +41,7 @@ module "aks" {
   os_disk_size_gb                 = 60
   enable_http_application_routing = true
   enable_azure_policy             = true
+  enable_host_encryption          = true
   sku_tier                        = "Paid"
   private_cluster_enabled         = true
   enable_auto_scaling             = true
