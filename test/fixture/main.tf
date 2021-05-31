@@ -34,6 +34,7 @@ module "aks" {
   source                          = "../.."
   prefix                          = "prefix-${random_id.prefix.hex}"
   resource_group_name             = azurerm_resource_group.main.name
+  location                        = var.location
   client_id                       = var.client_id
   client_secret                   = var.client_secret
   network_plugin                  = "azure"
@@ -73,6 +74,7 @@ module "aks_without_monitor" {
   source                         = "../.."
   prefix                         = "prefix2-${random_id.prefix.hex}"
   resource_group_name            = azurerm_resource_group.main.name
+  location                       = var.location
   enable_log_analytics_workspace = false
   enable_kube_dashboard          = false
   net_profile_pod_cidr           = "10.1.0.0/16"
@@ -84,6 +86,7 @@ module "aks_cluster_name" {
   cluster_name                         = "test-cluster"
   prefix                               = "prefix"
   resource_group_name                  = azurerm_resource_group.main.name
+  location                             = var.location
   enable_log_analytics_workspace       = true
   cluster_log_analytics_workspace_name = "test-cluster"
   enable_kube_dashboard                = false
