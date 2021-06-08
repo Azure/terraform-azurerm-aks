@@ -289,3 +289,8 @@ variable "enable_host_encryption" {
   type        = bool
   default     = false
 }
+
+variable "location" {
+  description = "Location (Region) for AKS Cluster.  If not set, will use Resource Group location"
+  type        = string
+}
