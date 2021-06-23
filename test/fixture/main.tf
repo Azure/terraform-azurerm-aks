@@ -43,7 +43,8 @@ module "aks" {
   enable_azure_policy             = true
   enable_host_encryption          = true
   sku_tier                        = "Paid"
-  private_cluster_enabled         = true
+  private_cluster_enabled         = false
+  api_server_authorized_ip_ranges = ["1.1.1.1/32"]
   enable_auto_scaling             = true
   agents_min_count                = 1
   agents_max_count                = 2

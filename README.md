@@ -46,7 +46,8 @@ module "aks" {
   enable_role_based_access_control = true
   rbac_aad_admin_group_object_ids  = [data.azuread_group.aks_cluster_admins.id]
   rbac_aad_managed                 = true
-  private_cluster_enabled          = true # default value
+  private_cluster_enabled          = false # default value
+  api_server_authorized_ip_ranges  = ["1.1.1.1/32"] # Only supported for public clusters
   enable_http_application_routing  = true
   enable_azure_policy              = true
   enable_auto_scaling              = true
