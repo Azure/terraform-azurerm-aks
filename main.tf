@@ -107,7 +107,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       content {
         managed                = true
         admin_group_object_ids = var.rbac_aad_admin_group_object_ids
-        azure_rbac_enabled     = true
       }
     }
 
