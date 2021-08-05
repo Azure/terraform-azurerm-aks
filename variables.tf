@@ -92,6 +92,12 @@ variable "os_disk_size_gb" {
   default     = 50
 }
 
+variable "os_disk_type" {
+  description = "(Optional) Type of disk the nodes should use for the Operating System. Possible values are `Ephemeral` and `Managed`. Defaults to `Managed`."
+  type        = string
+  default     = "Managed"
+}
+
 variable "private_cluster_enabled" {
   description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
   type        = bool
@@ -288,4 +294,10 @@ variable "enable_host_encryption" {
   description = "Enable Host Encryption for default node pool. Encryption at host feature must be enabled on the subscription: https://docs.microsoft.com/azure/virtual-machines/linux/disks-enable-host-based-encryption-cli"
   type        = bool
   default     = false
+}
+
+variable "ingress_application_gateway_id" {
+  description = "(Optional) ID of the Application Gateway should be used for ingress"
+  type        = string
+  default     = null
 }

@@ -74,3 +74,7 @@ output "admin_username" {
 output "admin_password" {
   value = length(azurerm_kubernetes_cluster.main.kube_admin_config) > 0 ? azurerm_kubernetes_cluster.main.kube_admin_config.0.password : ""
 }
+
+output "ingress_application_gateway_identity" {
+  value = var.ingress_application_gateway_id != null ? flatten(azurerm_kubernetes_cluster.main.addon_profile[*].ingress_application_gateway[*].ingress_application_gateway_identity[*]) : []
+}

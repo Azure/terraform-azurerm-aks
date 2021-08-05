@@ -44,6 +44,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       tags                   = merge(var.tags, var.agents_tags)
       max_pods               = var.agents_max_pods
       enable_host_encryption = var.enable_host_encryption
+      os_disk_type           = var.os_disk_type
     }
   }
 
@@ -65,6 +66,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       tags                   = merge(var.tags, var.agents_tags)
       max_pods               = var.agents_max_pods
       enable_host_encryption = var.enable_host_encryption
+      os_disk_type           = var.os_disk_type
     }
   }
 
@@ -85,6 +87,11 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   addon_profile {
+    ingress_application_gateway {
+      enabled    = var.ingress_application_gateway_id != null
+      gateway_id = var.ingress_application_gateway_id
+    }
+
     http_application_routing {
       enabled = var.enable_http_application_routing
     }
@@ -166,4 +173,11 @@ resource "azurerm_log_analytics_solution" "main" {
   tags = var.tags
 }
 
+resource "azurerm_role_assignment" "ingress_gw_management" {
+  principal_id         = azurerm_kubernetes_cluster.main.addon_profile[0].ingress_application_gateway[0].ingress_application_gateway_identity[0].object_id
+  scope                = var.ingress_application_gateway_id
+  role_definition_name = "Contributor"
+  description          = "Allow application gateway controller to manage the application gateway"
 
+  count = var.ingress_application_gateway_id == null ? 0 : 1
+}
