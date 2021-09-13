@@ -289,3 +289,9 @@ variable "enable_host_encryption" {
   type        = bool
   default     = false
 }
+
+variable "node_resource_group" {
+  description = "The name of the Resource Group where the Kubernetes Nodes should exist. Changing this forces a new resource to be created."
+  type        = string
+  default     = ""
+}

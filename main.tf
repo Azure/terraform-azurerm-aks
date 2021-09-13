@@ -15,6 +15,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   dns_prefix              = var.prefix
   sku_tier                = var.sku_tier
   private_cluster_enabled = var.private_cluster_enabled
+  node_resource_group     = var.node_resource_group == "" ? null : var.node_resource_group
 
   linux_profile {
     admin_username = var.admin_username
