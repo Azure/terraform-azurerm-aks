@@ -289,3 +289,9 @@ variable "enable_host_encryption" {
   type        = bool
   default     = false
 }
+
+variable "private_cluster_public_fqdn_enabled" {
+  description = "Enable public fqdn for private cluster"
+  type        = bool
+  default     = false
+}
