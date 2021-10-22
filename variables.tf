@@ -356,3 +356,9 @@ variable "oidc_issuer_enabled" {
   type        = bool
   default     = false
 }
+
+variable "only_critical_addons_enabled" {
+  description = "(Optional) Enabling this option will taint default node pool with `CriticalAddonsOnly=true:NoSchedule` taint. Changing this forces a new resource to be created."
+  type        = bool
+  default     = null
+}
