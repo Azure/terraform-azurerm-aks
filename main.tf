@@ -37,45 +37,47 @@ resource "azurerm_kubernetes_cluster" "main" {
   dynamic "default_node_pool" {
     for_each = var.enable_auto_scaling == true ? [] : ["default_node_pool_manually_scaled"]
     content {
-      orchestrator_version   = var.orchestrator_version
-      name                   = var.agents_pool_name
-      node_count             = var.agents_count
-      vm_size                = var.agents_size
-      os_disk_size_gb        = var.os_disk_size_gb
-      os_disk_type           = var.os_disk_type
-      vnet_subnet_id         = var.vnet_subnet_id
-      enable_auto_scaling    = var.enable_auto_scaling
-      max_count              = null
-      min_count              = null
-      enable_node_public_ip  = var.enable_node_public_ip
-      zones                  = var.agents_availability_zones
-      node_labels            = var.agents_labels
-      type                   = var.agents_type
-      tags                   = merge(var.tags, var.agents_tags)
-      max_pods               = var.agents_max_pods
-      enable_host_encryption = var.enable_host_encryption
+      orchestrator_version         = var.orchestrator_version
+      name                         = var.agents_pool_name
+      node_count                   = var.agents_count
+      vm_size                      = var.agents_size
+      os_disk_size_gb              = var.os_disk_size_gb
+      os_disk_type                 = var.os_disk_type
+      vnet_subnet_id               = var.vnet_subnet_id
+      enable_auto_scaling          = var.enable_auto_scaling
+      max_count                    = null
+      min_count                    = null
+      enable_node_public_ip        = var.enable_node_public_ip
+      zones                        = var.agents_availability_zones
+      node_labels                  = var.agents_labels
+      type                         = var.agents_type
+      tags                         = merge(var.tags, var.agents_tags)
+      max_pods                     = var.agents_max_pods
+      enable_host_encryption       = var.enable_host_encryption
+      only_critical_addons_enabled = var.only_critical_addons_enabled
     }
   }
 
   dynamic "default_node_pool" {
     for_each = var.enable_auto_scaling == true ? ["default_node_pool_auto_scaled"] : []
     content {
-      orchestrator_version   = var.orchestrator_version
-      name                   = var.agents_pool_name
-      vm_size                = var.agents_size
-      os_disk_size_gb        = var.os_disk_size_gb
-      os_disk_type           = var.os_disk_type
-      vnet_subnet_id         = var.vnet_subnet_id
-      enable_auto_scaling    = var.enable_auto_scaling
-      max_count              = var.agents_max_count
-      min_count              = var.agents_min_count
-      enable_node_public_ip  = var.enable_node_public_ip
-      zones                  = var.agents_availability_zones
-      node_labels            = var.agents_labels
-      type                   = var.agents_type
-      tags                   = merge(var.tags, var.agents_tags)
-      max_pods               = var.agents_max_pods
-      enable_host_encryption = var.enable_host_encryption
+      orchestrator_version         = var.orchestrator_version
+      name                         = var.agents_pool_name
+      vm_size                      = var.agents_size
+      os_disk_size_gb              = var.os_disk_size_gb
+      os_disk_type                 = var.os_disk_type
+      vnet_subnet_id               = var.vnet_subnet_id
+      enable_auto_scaling          = var.enable_auto_scaling
+      max_count                    = var.agents_max_count
+      min_count                    = var.agents_min_count
+      enable_node_public_ip        = var.enable_node_public_ip
+      zones                        = var.agents_availability_zones
+      node_labels                  = var.agents_labels
+      type                         = var.agents_type
+      tags                         = merge(var.tags, var.agents_tags)
+      max_pods                     = var.agents_max_pods
+      enable_host_encryption       = var.enable_host_encryption
+      only_critical_addons_enabled = var.only_critical_addons_enabled
     }
   }
 
