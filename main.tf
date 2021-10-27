@@ -85,6 +85,11 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   addon_profile {
+    aci_connector_linux {
+      enabled     = var.enable_aci_connector_linux
+      subnet_name = var.aci_connector_linux_subnet_name
+    }
+
     http_application_routing {
       enabled = var.enable_http_application_routing
     }

@@ -98,6 +98,12 @@ variable "private_cluster_enabled" {
   default     = false
 }
 
+variable "enable_aci_connector_linux" {
+  description = "Enable Virtual Node pool"
+  type        = bool
+  default     = false
+}
+
 variable "enable_kube_dashboard" {
   description = "Enable Kubernetes Dashboard."
   type        = bool
@@ -288,4 +294,10 @@ variable "enable_host_encryption" {
   description = "Enable Host Encryption for default node pool. Encryption at host feature must be enabled on the subscription: https://docs.microsoft.com/azure/virtual-machines/linux/disks-enable-host-based-encryption-cli"
   type        = bool
   default     = false
+}
+
+variable "aci_connector_linux_subnet_name" {
+  description = "(Optional) aci_connector_linux subnet name"
+  type        = string
+  default     = null
 }
