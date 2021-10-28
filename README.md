@@ -59,6 +59,10 @@ module "aks" {
   agents_availability_zones        = ["1", "2"]
   agents_type                      = "VirtualMachineScaleSets"
 
+  api_server_authorized_ip_ranges  = [
+    "192.168.0.0/16"
+  ]
+
   agents_labels = {
     "nodepool" : "defaultnodepool"
   }

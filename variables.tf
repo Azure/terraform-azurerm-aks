@@ -272,6 +272,12 @@ variable "agents_max_pods" {
   default     = null
 }
 
+variable "api_server_authorized_ip_ranges" {
+  description = "(Optional) The IP ranges to whitelist for incoming traffic to the masters."
+  type        = list(string)
+  default     = []
+}
+
 variable "identity_type" {
   description = "(Optional) The type of identity used for the managed cluster. Conflict with `client_id` and `client_secret`. Possible values are `SystemAssigned` and `UserAssigned`. If `UserAssigned` is set, a `user_assigned_identity_id` must be set as well."
   type        = string
