@@ -49,6 +49,7 @@ module "aks" {
   private_cluster_enabled          = true # default value
   enable_http_application_routing  = true
   enable_azure_policy              = true
+  enable_open_service_mesh         = true
   enable_auto_scaling              = true
   enable_host_encryption           = true
   agents_min_count                 = 1

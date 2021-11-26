@@ -101,6 +101,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled                    = var.enable_log_analytics_workspace
       log_analytics_workspace_id = var.enable_log_analytics_workspace ? azurerm_log_analytics_workspace.main[0].id : null
     }
+
+    open_service_mesh {
+      enabled = var.enable_open_service_mesh
+    }
   }
 
   role_based_access_control {
