@@ -116,7 +116,7 @@ variable "enable_azure_policy" {
   default     = false
 }
 
-variable "open_service_mesh" {
+variable "enable_open_service_mesh" {
   description = "Enable Open Service Mesh Addon."
   type        = bool
   default     = false
