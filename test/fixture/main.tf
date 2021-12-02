@@ -45,6 +45,7 @@ module "aks" {
   sku_tier                        = "Paid"
   private_cluster_enabled         = true
   enable_auto_scaling             = true
+  enable_maintenance_window       = false
   agents_min_count                = 1
   agents_max_count                = 2
   agents_count                    = null
