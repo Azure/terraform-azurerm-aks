@@ -308,8 +308,8 @@ variable "maintenance_allowed" {
 variable "maintenance_not_allowed" {
   description = "Days and hours when maintenance is not allowed"
   type = list(object({
-    day = string
-    hours = list(string)
+    end = string
+    start = string
   }))
   default = []
 }
