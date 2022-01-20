@@ -33,6 +33,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       node_count             = var.agents_count
       vm_size                = var.agents_size
       os_disk_size_gb        = var.os_disk_size_gb
+      os_disk_type           = var.os_disk_type
       vnet_subnet_id         = var.vnet_subnet_id
       enable_auto_scaling    = var.enable_auto_scaling
       max_count              = null
@@ -54,6 +55,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       name                   = var.agents_pool_name
       vm_size                = var.agents_size
       os_disk_size_gb        = var.os_disk_size_gb
+      os_disk_type           = var.os_disk_type
       vnet_subnet_id         = var.vnet_subnet_id
       enable_auto_scaling    = var.enable_auto_scaling
       max_count              = var.agents_max_count

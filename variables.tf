@@ -92,6 +92,12 @@ variable "os_disk_size_gb" {
   default     = 50
 }
 
+variable "os_disk_type" {
+  description = "The type of disk which should be used for the Operating System. Possible values are Ephemeral and Managed. Defaults to Managed. Changing this forces a new resource to be created."
+  type        = string
+  default     = "Managed"
+}
+
 variable "private_cluster_enabled" {
   description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
   type        = bool
