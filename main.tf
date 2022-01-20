@@ -1,3 +1,7 @@
+locals {
+  enable_ingress_application_gateway = var.enable_ingress_application_gateway == null ? false : var.enable_ingress_application_gateway
+}
+
 data "azurerm_resource_group" "main" {
   name = var.resource_group_name
 }
@@ -101,12 +105,16 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled                    = var.enable_log_analytics_workspace
       log_analytics_workspace_id = var.enable_log_analytics_workspace ? azurerm_log_analytics_workspace.main[0].id : null
     }
-    
-    ingress_application_gateway {
-      enabled                    = var.enable_ingress_application_gateway
-      gateway_id                 = var.ingress_application_gateway_gateway_id
-      subnet_cidr                = var.ingress_application_gateway_subnet_cidr
-      subnet_id                  = var.ingress_application_gateway_subnet_id      
+
+    dynamic "ingress_application_gateway" {
+      for_each = local.enable_ingress_application_gateway ? [1] : []
+      content {
+        enabled      = var.enable_ingress_application_gateway
+        gateway_id   = var.ingress_application_gateway_id
+        gateway_name = var.ingress_application_gateway_name
+        subnet_cidr  = var.ingress_application_gateway_subnet_cidr
+        subnet_id    = var.ingress_application_gateway_subnet_id
+      }
     }
   }
 
