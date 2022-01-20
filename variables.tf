@@ -273,25 +273,31 @@ variable "agents_max_pods" {
 }
 
 variable "enable_ingress_application_gateway" {
-  description = "If true will enable Application Gateway ingress controller to this Kubernetes Cluster"
+  description = "Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster?"
   type        = bool
-  default     = false
+  default     = null
 }
 
-variable "ingress_application_gateway_gateway_id" {
-  description = "The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster"
+variable "ingress_application_gateway_id" {
+  description = "The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster."
+  type        = string
+  default     = null
+}
+
+variable "ingress_application_gateway_name" {
+  description = "The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
   type        = string
   default     = null
 }
 
 variable "ingress_application_gateway_subnet_cidr" {
-  description = "The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster"
+  description = "The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
   type        = string
   default     = null
 }
 
 variable "ingress_application_gateway_subnet_id" {
-  description = "The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster"
+  description = "The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
   type        = string
   default     = null
 }
