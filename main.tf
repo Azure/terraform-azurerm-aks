@@ -1,7 +1,3 @@
-locals {
-  enable_ingress_application_gateway = var.enable_ingress_application_gateway == null ? false : var.enable_ingress_application_gateway
-}
-
 data "azurerm_resource_group" "main" {
   name = var.resource_group_name
 }
@@ -107,7 +103,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
 
     dynamic "ingress_application_gateway" {
-      for_each = local.enable_ingress_application_gateway ? [1] : []
+      for_each = var.enable_ingress_application_gateway == null ? [] : ["ingress_application_gateway"]
       content {
         enabled      = var.enable_ingress_application_gateway
         gateway_id   = var.ingress_application_gateway_id
