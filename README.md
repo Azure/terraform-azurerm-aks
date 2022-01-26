@@ -68,6 +68,10 @@ module "aks" {
     "Agent" : "defaultnodepoolagent"
   }
 
+  enable_ingress_application_gateway = true
+  ingress_application_gateway_name = "aks-agw"
+  ingress_application_gateway_subnet_cidr = "10.52.1.0/24"
+
   network_policy                 = "azure"
   net_profile_dns_service_ip     = "10.0.0.10"
   net_profile_docker_bridge_cidr = "170.10.0.1/16"
