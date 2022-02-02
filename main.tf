@@ -144,6 +144,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     outbound_type      = var.net_profile_outbound_type
     pod_cidr           = var.net_profile_pod_cidr
     service_cidr       = var.net_profile_service_cidr
+    load_balancer_sku  = var.load_balancer_sku
   }
 
   tags = var.tags
