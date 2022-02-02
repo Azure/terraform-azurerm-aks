@@ -159,7 +159,7 @@ variable "rbac_aad_server_app_secret" {
 }
 
 variable "load_balancer_sku" {
-  description = "balancert SKU, standard/basic."
+  description = "balancer SKU, standard/basic."
   type        = string
   default     = "standard"
 }
