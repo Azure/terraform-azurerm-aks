@@ -158,6 +158,12 @@ variable "rbac_aad_server_app_secret" {
   default     = null
 }
 
+variable "load_balancer_sku" {
+  description = "balancert SKU, standard/basic."
+  type        = string
+  default     = "standard"
+}
+
 variable "network_plugin" {
   description = "Network plugin to use for networking."
   type        = string
