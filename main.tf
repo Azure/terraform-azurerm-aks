@@ -4,7 +4,7 @@ data "azurerm_resource_group" "main" {
 
 module "ssh-key" {
   source            = "./modules/ssh-key"
-  public_ssh_key    = var.public_ssh_key == "" ? "" : var.public_ssh_key
+  public_ssh_key    = var.public_ssh_key
   write_private_key = var.write_private_key
 }
 
