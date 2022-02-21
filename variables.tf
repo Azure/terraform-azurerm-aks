@@ -318,3 +318,9 @@ variable "enable_host_encryption" {
   type        = bool
   default     = false
 }
+
+variable "write_private_key" {
+  description = "Whether to create a ./private_ssh_key file containing the private key."
+  type        = bool
+  default     = true
+}
