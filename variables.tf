@@ -324,3 +324,9 @@ variable "node_resource_group" {
   type        = string
   default     = null
 }
+
+variable "disk_encryption_set_id" {
+  description = "(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes."
+  type        = string
+  default     = null
+}
