@@ -318,3 +318,9 @@ variable "enable_host_encryption" {
   type        = bool
   default     = false
 }
+
+variable "disk_encryption_set_id" {
+  description = "(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes."
+  type        = string
+  default     = null
+}
