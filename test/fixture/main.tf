@@ -93,6 +93,6 @@ module "aks_cluster_name" {
   enable_kube_dashboard                = false
   net_profile_pod_cidr                 = "10.1.0.0/16"
   identity_type                        = "UserAssigned"
-  user_assigned_identity_id            = azurerm_user_assigned_identity.test.id
+  identity_ids                         = [azurerm_user_assigned_identity.test.id]
   depends_on                           = [azurerm_resource_group.main]
 }
