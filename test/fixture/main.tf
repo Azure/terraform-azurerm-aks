@@ -61,8 +61,8 @@ module "aks" {
     "Agent" : "agentTag"
   }
 
-  enable_ingress_application_gateway = true
-  ingress_application_gateway_name = "${random_id.prefix.hex}-agw"
+  enable_ingress_application_gateway      = true
+  ingress_application_gateway_name        = "${random_id.prefix.hex}-agw"
   ingress_application_gateway_subnet_cidr = "10.52.1.0/24"
 
   network_policy                 = "azure"
@@ -93,6 +93,6 @@ module "aks_cluster_name" {
   enable_kube_dashboard                = false
   net_profile_pod_cidr                 = "10.1.0.0/16"
   identity_type                        = "UserAssigned"
-  user_assigned_identity_id            = azurerm_user_assigned_identity.test.id
+  identity_ids                         = [azurerm_user_assigned_identity.test.id]
   depends_on                           = [azurerm_resource_group.main]
 }
