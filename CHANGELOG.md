@@ -25,12 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `addon_profile` block has been deprecated in azurerm 3.0
 - Duplicate `default_node_pool` was removed and replaced with in-block ternary
 - Renamed CHANGLOG.md to CHANGELOG.md
+- `max_node`, `min_node` and `node_count` are not mutually exclusive.
 
 ### Security
 - In-repo ssh module. This generated a local file on the agent with a private key (highly unsafe!) and was unused. Replaced by a `tls_private_key` block without a file output
 
 ### Removed
-- `max_node`, `min_node` and `node_count` are not mutually exclusive.
 - `agent_` particle in variables.tf. AKS uses node pools and nodes in their terminology
 
 ## [4.15.0] - 2022-05-06
