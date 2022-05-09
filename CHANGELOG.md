@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [5.0.0] - 2022-05-09
 
 ### Added
-- Taints to default node pool
+- `node_taints` to default node pool
   
 ### Changed
 - Upgraded to Terraform 1.1.9 from 0.13.0
