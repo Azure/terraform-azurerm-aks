@@ -40,12 +40,14 @@ output "kube_config_raw" {
 }
 
 output "kube_admin_config_raw" {
-  sensitive = true
-  value     = azurerm_kubernetes_cluster.main.kube_admin_config_raw
+  sensitive   = true
+  value       = azurerm_kubernetes_cluster.main.kube_admin_config_raw
+  description = "Raw Kubernetes config for the admin account to be used by kubectl and other compatible tools. This is only available when Role Based Access Control with Azure Active Directory is enabled and local accounts enabled."
 }
 
 output "http_application_routing_zone_name" {
-  value = length(azurerm_kubernetes_cluster.main.addon_profile) > 0 && length(azurerm_kubernetes_cluster.main.addon_profile[0].http_application_routing) > 0 ? azurerm_kubernetes_cluster.main.addon_profile[0].http_application_routing[0].http_application_routing_zone_name : ""
+  value       = try(azurerm_kubernetes_cluster.main.http_application_routing_zone_name, null)
+  description = "The Zone Name of the HTTP Application Routing."
 }
 
 output "system_assigned_identity" {

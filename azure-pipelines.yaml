@@ -4,7 +4,7 @@ pool:
 
 variables:
   image_name: terraform-azurerm-aks:$(build.buildId)
-  terraform_version: 0.13.0
+  terraform_version: 1.1.9
 
 steps:
   - script: docker build --build-arg BUILD_TERRAFORM_VERSION=$(terraform_version) --build-arg BUILD_ARM_SUBSCRIPTION_ID=$(ARM_SUBSCRIPTION_ID) --build-arg BUILD_ARM_CLIENT_ID=$(ARM_CLIENT_ID) --build-arg BUILD_ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET) --build-arg BUILD_ARM_TENANT_ID=$(ARM_TENANT_ID) -t $(image_name) .
