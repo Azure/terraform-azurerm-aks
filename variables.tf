@@ -266,6 +266,12 @@ variable "agents_tags" {
   default     = {}
 }
 
+variable "agents_taints" {
+  description = "(Optional) A mapping of taints to assign to the Node Pool."
+  type        = map(string)
+  default     = {}
+}
+
 variable "agents_max_pods" {
   description = "(Optional) The maximum number of pods that can run on each agent. Changing this forces a new resource to be created."
   type        = number

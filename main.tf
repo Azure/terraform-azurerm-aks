@@ -41,6 +41,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       enable_node_public_ip  = var.enable_node_public_ip
       availability_zones     = var.agents_availability_zones
       node_labels            = var.agents_labels
+      node_taints            = var.agents_taints
       type                   = var.agents_type
       tags                   = merge(var.tags, var.agents_tags)
       max_pods               = var.agents_max_pods
@@ -62,6 +63,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       enable_node_public_ip  = var.enable_node_public_ip
       availability_zones     = var.agents_availability_zones
       node_labels            = var.agents_labels
+      node_taints            = var.agents_taints
       type                   = var.agents_type
       tags                   = merge(var.tags, var.agents_tags)
       max_pods               = var.agents_max_pods
