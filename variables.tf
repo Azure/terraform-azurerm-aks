@@ -32,6 +32,7 @@ variable "kubernetes_version" {
 variable "prefix" {
   type        = string
   description = "(Optional) The prefix for the resources created in the specified Azure Resource Group."
+  default     = null
 }
 
 variable "dns_prefix" {
@@ -225,9 +226,9 @@ variable "node_labels" {
 }
 
 variable "node_taints" {
-  type        = map(string)
+  type        = list(string)
   description = "(Optional) A mapping of taints to assign to the Node Pool."
-  default     = {}
+  default     = []
 }
 
 variable "node_tags" {
@@ -310,7 +311,7 @@ variable "log_analytics_workspace_enabled" {
   default     = true
 }
 
-variable "cluster_log_analytics_workspace_name" {
+variable "log_analytics_workspace_name" {
   type        = string
   description = "(Optional) If enabled, the name of the Log Analytics Workspace."
   default     = null

@@ -1,6 +1,6 @@
 variable "location" {
-  default = "eastus"
+  default = "westeurope"
 }
 
-variable "client_id" {}
-variable "client_secret" {}
+# variable "client_id" {}
+# variable "client_secret" {}

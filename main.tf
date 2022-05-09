@@ -13,7 +13,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location                = data.azurerm_resource_group.main.location
   resource_group_name     = data.azurerm_resource_group.main.name
   node_resource_group     = var.node_resource_group
-  dns_prefix              = var.dns_prefix != null ? var.dns_prefix : try(var.prefix, null)
+  dns_prefix              = coalesce(var.dns_prefix, var.prefix, var.cluster_name)
   sku_tier                = var.sku_tier
   private_cluster_enabled = var.private_cluster_enabled
 
@@ -47,7 +47,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   dynamic "service_principal" {
-    for_each = var.service_principal_enabled ? { "loop" : "once" } : {}
+    for_each = var.service_principal_enabled ? { "loop" = "once" } : {}
     content {
       client_id     = var.client_id
       client_secret = var.client_secret
@@ -62,8 +62,12 @@ resource "azurerm_kubernetes_cluster" "main" {
   azure_policy_enabled             = var.azure_policy_enabled
   http_application_routing_enabled = var.http_application_routing_enabled
 
-  oms_agent {
-    log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id != null ? azurerm_log_analytics_workspace.main[0].id : null
+  dynamic "oms_agent" {
+    for_each = try(azurerm_log_analytics_workspace.main[0].id, null) != null ? { "loop" = "once" } : {}
+
+    content {
+      log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
+    }
   }
 
   dynamic "ingress_application_gateway" {
@@ -101,7 +105,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 # Log Analytics
 resource "azurerm_log_analytics_workspace" "main" {
   count               = var.log_analytics_workspace_enabled ? 1 : 0
-  name                = var.cluster_log_analytics_workspace_name == null ? "${var.prefix}-workspace" : var.cluster_log_analytics_workspace_name
+  name                = var.log_analytics_workspace_name == null ? "${try(var.prefix, var.cluster_name)}-workspace" : var.log_analytics_workspace_name
   location            = data.azurerm_resource_group.main.location
   resource_group_name = var.resource_group_name
   sku                 = var.log_analytics_workspace_sku
