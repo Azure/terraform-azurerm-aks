@@ -324,3 +324,23 @@ variable "node_resource_group" {
   type        = string
   default     = null
 }
+
+variable "private_dns_zone_id" {
+  description = <<EOT
+(Optional) Either the ID of Private DNS Zone which should be delegated to this Cluster,
+or System to have AKS manage this or None.
+In case of None you will need to bring your own DNS server and set up resolving,
+otherwise cluster will have issues after provisioning.
+Changing this forces a new resource to be created.
+EOT
+  type        = string
+  default     = null
+}
+
+variable "private_cluster_public_fqdn_enabled" {
+  description = <<EOT
+(Optional) Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false.
+EOT
+  type        = bool
+  default     = false
+}
