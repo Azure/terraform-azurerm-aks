@@ -1,7 +1,7 @@
 # General settings
 variable "resource_group_name" {
   type        = string
-  description = "The resource group name to be used for the AKS deployment."
+  description = "(Required) The resource group name to be used for the AKS deployment."
 }
 
 variable "node_resource_group" {
@@ -25,7 +25,7 @@ variable "cluster_name" {
 
 variable "kubernetes_version" {
   type        = string
-  description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
+  description = "(Optional) Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region."
   default     = null
 }
 
@@ -43,8 +43,14 @@ variable "dns_prefix" {
 
 variable "private_cluster_enabled" {
   type        = bool
-  description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
+  description = "(Optional) Should this Kubernetes Cluster have its API server only exposed on internal IP addresses? This provides a Private IP Address for the Kubernetes API on the Virtual Network where the Kubernetes Cluster is located. Defaults to false. Changing this forces a new resource to be created."
   default     = false
+}
+
+variable "private_dns_zone_id" {
+  type        = string
+  description = "(Optional) Either the ID of Private DNS Zone which should be delegated to this Cluster, System to have AKS manage this or None. In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning. Changing this forces a new resource to be created."
+  default     = null
 }
 
 variable "sku_tier" {
@@ -69,20 +75,20 @@ variable "azure_policy_enabled" {
 # Linux profile settings
 variable "admin_username" {
   type        = string
-  description = "The username of the local administrator to be created on the AKS deployment."
+  description = "(Optional) The username of the local administrator to be created on the AKS deployment."
   default     = "azureadmin"
 }
 
 variable "public_ssh_key" {
   type        = string
-  description = "A custom SSH key to control access to the AKS deployment."
+  description = "(Optional) A custom SSH key to control access to the AKS deployment."
   default     = null
 }
 
 # RBAC settings
 variable "enable_role_based_access_control" {
   type        = bool
-  description = "Enables Role Based Access Control."
+  description = "(Optional) Enables Role Based Access Control."
   default     = false
 }
 
@@ -94,7 +100,7 @@ variable "service_principal_enabled" {
 
 variable "rbac_aad_managed" {
   type        = bool
-  description = "If set to true, Azure will create/manage a Service Principal used for integration."
+  description = "(Optional) If set to true, Azure will create/manage a Service Principal used for integration."
   default     = true
 }
 
@@ -137,7 +143,7 @@ variable "rbac_aad_admin_group_object_ids" {
 # Default Node Pool settings
 variable "vm_size" {
   type        = string
-  description = "(Required) The size of the Virtual Machine, such as Standard_DS2_v2. The Microsoft-recommended default size for AKS nodes."
+  description = "(Optional) The size of the Virtual Machine, such as Standard_DS2_v2. The Microsoft-recommended default size for AKS nodes."
   default     = "Standard_DS2_v2"
 }
 
@@ -191,19 +197,19 @@ variable "enable_auto_scaling" {
 
 variable "max_count" {
   type        = number
-  description = "(Required) The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000."
+  description = "(Optional) The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000."
   default     = null
 }
 
 variable "min_count" {
   type        = number
-  description = "(Required) The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000."
+  description = "(Optional) The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000."
   default     = null
 }
 
 variable "default_node_pool_name" {
   type        = string
-  description = "(Required) The name which should be used for the default Kubernetes Node Pool. Changing this forces a new resource to be created."
+  description = "(Optional) The name which should be used for the default Kubernetes Node Pool. Changing this forces a new resource to be created."
   default     = "default"
 }
 
@@ -252,7 +258,7 @@ variable "max_pods" {
 # Network settings
 variable "network_plugin" {
   type        = string
-  description = "(Required) Network plugin to use for networking. Currently supported values are azure and kubenet. Changing this forces a new resource to be created."
+  description = "(Optional) Network plugin to use for networking. Currently supported values are azure and kubenet. Changing this forces a new resource to be created."
   default     = "azure"
 }
 
@@ -294,7 +300,7 @@ variable "service_cidr" {
 
 variable "identity_type" {
   type        = string
-  description = "(Required) Specifies the type of Managed Service Identity that should be configured on this Kubernetes Cluster. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both)."
+  description = "(Optional) Specifies the type of Managed Service Identity that should be configured on this Kubernetes Cluster. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both)."
   default     = "SystemAssigned"
 }
 
@@ -363,5 +369,68 @@ variable "ingress_application_gateway_subnet_cidr" {
 variable "ingress_application_gateway_subnet_id" {
   type        = string
   description = "(Optional) The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
+  default     = null
+}
+
+# Key Vault integration
+variable "key_vault_secrets_provider_enabled" {
+  type        = bool
+  description = "(Optional) Enables the Key Vault Secret provider."
+  default     = false
+}
+
+variable "key_vault_secrets_provider" {
+  type = list(object({
+    secret_rotation_enabled  = bool
+    secret_rotation_interval = string
+  }))
+  description = "(Optional) A key_vault_secrets_provider block. For more details, please visit [Azure Keyvault Secrets Provider for AKS](https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver)."
+  default = [
+    {
+      secret_rotation_enabled  = true
+      secret_rotation_interval = "2m"
+    }
+  ]
+}
+
+
+# Maintenance windows
+variable "allowed_maintenance_windows" {
+  type = list(object({
+    day   = string
+    hours = list(number)
+  }))
+  description = "(Optional) List of allowed Maintenance Windows for AKS."
+  default = [
+    {
+      day   = "Saturday"
+      hours = [01]
+    },
+    {
+      day   = "Sunday"
+      hours = [01]
+    }
+  ]
+}
+
+variable "not_allowed_maintenance_windows" {
+  type = list(object({
+    start = string
+    end   = string
+  }))
+  description = "(Optional) The start and end of a time span, formatted as an RFC3339 (2022-01-01T00:00:00Z) string."
+  default     = []
+}
+
+# Azure Container registry
+variable "azure_container_registry_enabled" {
+  type        = bool
+  description = "(Optional) Should the AKS deployment access a Container Registry?"
+  default     = false
+}
+
+variable "azure_container_registry_id" {
+  type        = string
+  description = "(Optional) The ID of the Container Registry."
   default     = null
 }

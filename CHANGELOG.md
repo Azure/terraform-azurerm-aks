@@ -4,10 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [5.0.0] - 2022-05-09
+## [5.0.0] - 2022-05-13
 
 ### Added
 - `node_taints` to default node pool
+- Maintenance window supports
+- Key Vault secrets provider
+- Verbose outputs
+- More test
+- Attachment to a container registry via `azurerm_role_assignment`
   
 ### Changed
 - Upgraded to Terraform 1.1.9 from 0.13.0
@@ -25,10 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `addon_profile` block has been deprecated in azurerm 3.0
 - Duplicate `default_node_pool` was removed and replaced with in-block ternary
 - Renamed CHANGLOG.md to CHANGELOG.md
-- `max_node`, `min_node` and `node_count` are not mutually exclusive.
+- `max_node`, `min_node` and `node_count` are not mutually exclusive
 
 ### Security
-- In-repo ssh module. This generated a local file on the agent with a private key (highly unsafe!) and was unused. Replaced by a `tls_private_key` block without a file output
+- Deleted in-repo ssh module. This generated a local file on the agent with a private key (highly unsafe!) and was unused. Replaced by a `tls_private_key` block without a file output
 
 ### Removed
 - `agent_` particle in variables.tf. AKS uses node pools and nodes in their terminology

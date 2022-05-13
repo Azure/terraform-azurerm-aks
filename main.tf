@@ -8,7 +8,7 @@ resource "tls_private_key" "main" {
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
-  name                    = var.cluster_name != null ? var.cluster_name : "${var.prefix}-aks"
+  name                    = var.cluster_name != null ? var.cluster_name : var.prefix
   kubernetes_version      = var.kubernetes_version
   location                = data.azurerm_resource_group.main.location
   resource_group_name     = data.azurerm_resource_group.main.name
@@ -16,6 +16,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   dns_prefix              = coalesce(var.dns_prefix, var.prefix, var.cluster_name)
   sku_tier                = var.sku_tier
   private_cluster_enabled = var.private_cluster_enabled
+  private_dns_zone_id     = var.private_dns_zone_id
 
   linux_profile {
     admin_username = var.admin_username
@@ -99,13 +100,42 @@ resource "azurerm_kubernetes_cluster" "main" {
     service_cidr       = var.service_cidr
   }
 
+  dynamic "key_vault_secrets_provider" {
+    for_each = var.key_vault_secrets_provider_enabled ? var.key_vault_secrets_provider : []
+
+    content {
+      secret_rotation_enabled  = key_vault_secrets_provider.value.secret_rotation_enabled
+      secret_rotation_interval = key_vault_secrets_provider.value.secret_rotation_interval
+    }
+  }
+
+  maintenance_window {
+    dynamic "allowed" {
+      for_each = var.allowed_maintenance_windows
+
+      content {
+        day   = allowed.value.day
+        hours = allowed.value.hours
+      }
+    }
+
+    dynamic "not_allowed" {
+      for_each = var.not_allowed_maintenance_windows
+
+      content {
+        start = not_allowed.value.start
+        end   = not_allowed.value.end
+      }
+    }
+  }
+
   tags = var.tags
 }
 
 # Log Analytics
 resource "azurerm_log_analytics_workspace" "main" {
   count               = var.log_analytics_workspace_enabled ? 1 : 0
-  name                = var.log_analytics_workspace_name == null ? "${try(var.prefix, var.cluster_name)}-workspace" : var.log_analytics_workspace_name
+  name                = var.log_analytics_workspace_name == null ? "${coalesce(var.cluster_name, var.prefix)}-workspace" : var.log_analytics_workspace_name
   location            = data.azurerm_resource_group.main.location
   resource_group_name = var.resource_group_name
   sku                 = var.log_analytics_workspace_sku
@@ -130,4 +160,11 @@ resource "azurerm_log_analytics_solution" "main" {
   tags = var.tags
 }
 
-
+# Permissions on provided Azure Container Registry
+resource "azurerm_role_assignment" "azure_container_registry" {
+  count                            = var.azure_container_registry_enabled ? 1 : 0
+  principal_id                     = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
+  role_definition_name             = "AcrPull"
+  scope                            = var.azure_container_registry_id
+  skip_service_principal_aad_check = true
+}

@@ -34,13 +34,28 @@ func TestTerraformBasicExample(t *testing.T) {
 	test_structure.RunTestStage(t, "validate", func() {
 		terraformOptions := test_structure.LoadTerraformOptions(t, fixtureFolder)
 
-		aksID := terraform.Output(t, terraformOptions, "test_aks_id")
-		if len(aksID) <= 0 {
-			t.Fatal("Wrong output")
+		// Kubenet
+		aks_kubenet_aks_id := terraform.Output(t, terraformOptions, "aks_kubenet_aks_id")
+		if len(aks_kubenet_aks_id) <= 0 {
+			t.Fatal("aks_kubenet_aks_id is empty.")
+		}
+
+		aks_kubenet_kube_config_raw := terraform.Output(t, terraformOptions, "aks_kubenet_kube_config_raw")
+		if len(aks_kubenet_kube_config_raw) <= 0 {
+			t.Fatal("aks_kubenet_kube_config_raw is empty.")
+		}
+
+		// Private
+		aks_private_aks_id := terraform.Output(t, terraformOptions, "aks_private_aks_id")
+		if len(aks_private_aks_id) <= 0 {
+			t.Fatal("aks_private_aks_id is empty.")
+		}
+
+		aks_private_identity := terraform.Output(t, terraformOptions, "aks_private_identity")
+		if len(aks_private_identity) <= 0 {
+			t.Fatal("aks_private_identity is empty.")
 		}
 	})
-
-
 }
 
 func configureTerraformOptions(t *testing.T, fixtureFolder string) *terraform.Options {
