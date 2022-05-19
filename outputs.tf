@@ -30,8 +30,8 @@ output "http_application_routing_zone_name" {
 
 output "identity" {
   value = {
-    "principical_id" = azurerm_kubernetes_cluster.main.identity[0].principal_id
-    "tenant_id"      = azurerm_kubernetes_cluster.main.identity[0].tenant_id
+    "principal_id" = azurerm_kubernetes_cluster.main.identity[0].principal_id
+    "tenant_id"    = azurerm_kubernetes_cluster.main.identity[0].tenant_id
   }
   description = "The Principal and Tenant IDs associated with this Managed Service Identity."
 }
