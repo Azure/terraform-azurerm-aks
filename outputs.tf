@@ -81,5 +81,5 @@ output "admin_password" {
 }
 
 output "addon_profile" {
-  value = azurerm_kubernetes_cluster.main.addon_profile
+  value = azurerm_kubernetes_cluster.main.addon_profile.0
 }
