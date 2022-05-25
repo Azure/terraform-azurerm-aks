@@ -338,3 +338,10 @@ EOT
   type        = bool
   default     = false
 }
+
+variable "node_resource_group" {
+  description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
+  type        = string
+  default     = null
+}
+
