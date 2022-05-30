@@ -278,6 +278,35 @@ variable "agents_max_pods" {
   default     = null
 }
 
+variable "enable_ingress_application_gateway" {
+  description = "Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster?"
+  type        = bool
+  default     = null
+}
+
+variable "ingress_application_gateway_id" {
+  description = "The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster."
+  type        = string
+  default     = null
+}
+
+variable "ingress_application_gateway_name" {
+  description = "The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
+  type        = string
+  default     = null
+}
+
+variable "ingress_application_gateway_subnet_cidr" {
+  description = "The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
+  type        = string
+  default     = null
+}
+
+variable "ingress_application_gateway_subnet_id" {
+  description = "The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
+  type        = string
+  default     = null
+}
 variable "identity_type" {
   description = "(Optional) The type of identity used for the managed cluster. Conflict with `client_id` and `client_secret`. Possible values are `SystemAssigned` and `UserAssigned`. If `UserAssigned` is set, a `user_assigned_identity_id` must be set as well."
   type        = string
@@ -294,4 +323,10 @@ variable "enable_host_encryption" {
   description = "Enable Host Encryption for default node pool. Encryption at host feature must be enabled on the subscription: https://docs.microsoft.com/azure/virtual-machines/linux/disks-enable-host-based-encryption-cli"
   type        = bool
   default     = false
+}
+
+variable "node_resource_group" {
+  description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
+  type        = string
+  default     = null
 }

@@ -12,6 +12,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   kubernetes_version      = var.kubernetes_version
   location                = data.azurerm_resource_group.main.location
   resource_group_name     = data.azurerm_resource_group.main.name
+  node_resource_group     = var.node_resource_group
   dns_prefix              = var.prefix
   sku_tier                = var.sku_tier
   private_cluster_enabled = var.private_cluster_enabled
@@ -102,6 +103,17 @@ resource "azurerm_kubernetes_cluster" "main" {
     oms_agent {
       enabled                    = var.enable_log_analytics_workspace
       log_analytics_workspace_id = var.enable_log_analytics_workspace ? azurerm_log_analytics_workspace.main[0].id : null
+    }
+
+    dynamic "ingress_application_gateway" {
+      for_each = var.enable_ingress_application_gateway == null ? [] : ["ingress_application_gateway"]
+      content {
+        enabled      = var.enable_ingress_application_gateway
+        gateway_id   = var.ingress_application_gateway_id
+        gateway_name = var.ingress_application_gateway_name
+        subnet_cidr  = var.ingress_application_gateway_subnet_cidr
+        subnet_id    = var.ingress_application_gateway_subnet_id
+      }
     }
   }
 
