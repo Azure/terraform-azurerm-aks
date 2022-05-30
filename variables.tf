@@ -329,7 +329,7 @@ variable "maintenance_allowed" {
   description = "Days and hours when maintenance is allowed"
   type = list(object({
     day = string
-    hours = list(string)
+    hours = list(number)
   }))
   default = []
 }
