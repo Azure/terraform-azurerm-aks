@@ -95,7 +95,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
 
     dynamic "not_allowed" {
-      for_each = var.enable_maintenance_window == true ? var.maintenance_not_allowed : []
+      for_each = var.enable_maintenance_window ? var.maintenance_not_allowed : []
       content {
         start = not_allowed.value.start
         end = not_allowed.value.end
