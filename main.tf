@@ -87,7 +87,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   maintenance_window {
     dynamic "allowed" {
-      for_each = var.enable_maintenance_window == true ? var.maintenance_allowed : []
+      for_each = var.enable_maintenance_window ? var.maintenance_allowed : []
       content {
         day = allowed.value.day
         hours = allowed.value.hours
