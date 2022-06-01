@@ -39,12 +39,9 @@ func TestTerraformBasicExample(t *testing.T) {
 			t.Fatal("Wrong output")
 		}
 	})
-
-
 }
 
 func configureTerraformOptions(t *testing.T, fixtureFolder string) *terraform.Options {
-
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
 		TerraformDir: fixtureFolder,
