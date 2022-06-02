@@ -344,3 +344,8 @@ EOT
   type        = bool
   default     = false
 }
+
+variable "agents_only_critical_addons" {
+  type    = bool
+  default = false
+}
