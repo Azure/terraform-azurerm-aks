@@ -15,6 +15,12 @@ variable "cluster_log_analytics_workspace_name" {
   default     = null
 }
 
+variable "location" {
+  description = "Location of cluster, if not defined it will be read from the resource-group"
+  type        = string
+  default     = null
+}
+
 variable "prefix" {
   description = "(Required) The prefix for the resources created in the specified Azure Resource Group"
   type        = string

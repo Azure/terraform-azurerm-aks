@@ -61,8 +61,8 @@ module "aks" {
     "Agent" : "agentTag"
   }
 
-  enable_ingress_application_gateway = true
-  ingress_application_gateway_name = "${random_id.prefix.hex}-agw"
+  enable_ingress_application_gateway      = true
+  ingress_application_gateway_name        = "${random_id.prefix.hex}-agw"
   ingress_application_gateway_subnet_cidr = "10.52.1.0/24"
 
   network_policy                 = "azure"
