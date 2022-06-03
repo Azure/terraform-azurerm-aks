@@ -79,3 +79,7 @@ output "admin_username" {
 output "admin_password" {
   value = length(azurerm_kubernetes_cluster.main.kube_admin_config) > 0 ? azurerm_kubernetes_cluster.main.kube_admin_config.0.password : ""
 }
+
+output "fqdn" {
+  value = azurerm_kubernetes_cluster.main.fqdn
+}
