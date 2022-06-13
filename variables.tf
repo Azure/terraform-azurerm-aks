@@ -76,7 +76,7 @@ variable "public_ssh_key" {
 
 variable "tags" {
   type        = map(string)
-  description = "Any tags that should be present on the Virtual Network resources"
+  description = "Any tags that should be present on the AKS cluster resources"
   default     = {}
 }
 
