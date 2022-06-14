@@ -149,7 +149,7 @@ variable "rbac_aad_managed" {
 variable "rbac_aad_admin_group_object_ids" {
   description = "Object ID of groups with admin access."
   type        = list(string)
-  default     = null
+  default     = []
 }
 
 variable "rbac_aad_client_app_id" {
@@ -257,7 +257,7 @@ variable "enable_node_public_ip" {
 variable "agents_availability_zones" {
   description = "(Optional) A list of Availability Zones across which the Node Pool should be spread. Changing this forces a new resource to be created."
   type        = list(string)
-  default     = null
+  default     = []
 }
 
 variable "agents_labels" {
