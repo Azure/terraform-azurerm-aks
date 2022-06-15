@@ -321,7 +321,7 @@ variable "identity_type" {
 }
 
 variable "identity_ids" {
-  description = "(Optional) The IDs of a user assigned identity."
+  description = "(Optional) Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster."
   type        = list(string)
   default     = null
 }
