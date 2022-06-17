@@ -110,12 +110,6 @@ variable "private_cluster_enabled" {
   default     = false
 }
 
-variable "enable_kube_dashboard" {
-  description = "Enable Kubernetes Dashboard."
-  type        = bool
-  default     = false
-}
-
 variable "enable_http_application_routing" {
   description = "Enable HTTP Application Routing Addon (forces recreation)."
   type        = bool
