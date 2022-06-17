@@ -87,6 +87,11 @@ output "admin_password" {
   value = length(azurerm_kubernetes_cluster.main.kube_admin_config) > 0 ? azurerm_kubernetes_cluster.main.kube_admin_config.0.password : ""
 }
 
-output "addon_profile" {
-  value = try(azurerm_kubernetes_cluster.main.addon_profile.0, null)
+output "http_application_routing_enabled" {
+  value = try(azurerm_kubernetes_cluster.main.http_application_routing_enabled, null)
 }
+
+output "azure_policy_enabled" {
+  value = try(azurerm_kubernetes_cluster.main.azure_policy_enabled, null)
+}
+
