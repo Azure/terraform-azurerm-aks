@@ -99,7 +99,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   open_service_mesh_enabled = var.enable_open_service_mesh
-    
+
   dynamic "ingress_application_gateway" {
     for_each = var.enable_ingress_application_gateway == null ? [] : ["ingress_application_gateway"]
     content {
