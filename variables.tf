@@ -15,6 +15,12 @@ variable "cluster_log_analytics_workspace_name" {
   default     = null
 }
 
+variable "location" {
+  description = "Location of cluster, if not defined it will be read from the resource-group"
+  type        = string
+  default     = null
+}
+
 variable "prefix" {
   description = "(Required) The prefix for the resources created in the specified Azure Resource Group"
   type        = string
@@ -70,7 +76,7 @@ variable "public_ssh_key" {
 
 variable "tags" {
   type        = map(string)
-  description = "Any tags that should be present on the Virtual Network resources"
+  description = "Any tags that should be present on the AKS cluster resources"
   default     = {}
 }
 
@@ -90,6 +96,12 @@ variable "os_disk_size_gb" {
   description = "Disk size of nodes in GBs."
   type        = number
   default     = 50
+}
+
+variable "os_disk_type" {
+  description = "The type of disk which should be used for the Operating System. Possible values are `Ephemeral` and `Managed`. Defaults to `Managed`. Changing this forces a new resource to be created."
+  type        = string
+  default     = "Managed"
 }
 
 variable "private_cluster_enabled" {
@@ -307,15 +319,16 @@ variable "ingress_application_gateway_subnet_id" {
   type        = string
   default     = null
 }
+
 variable "identity_type" {
   description = "(Optional) The type of identity used for the managed cluster. Conflict with `client_id` and `client_secret`. Possible values are `SystemAssigned` and `UserAssigned`. If `UserAssigned` is set, a `user_assigned_identity_id` must be set as well."
   type        = string
   default     = "SystemAssigned"
 }
 
-variable "user_assigned_identity_id" {
-  description = "(Optional) The ID of a user assigned identity."
-  type        = string
+variable "identity_ids" {
+  description = "(Optional) Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster."
+  type        = list(string)
   default     = null
 }
 
@@ -323,4 +336,10 @@ variable "enable_host_encryption" {
   description = "Enable Host Encryption for default node pool. Encryption at host feature must be enabled on the subscription: https://docs.microsoft.com/azure/virtual-machines/linux/disks-enable-host-based-encryption-cli"
   type        = bool
   default     = false
+}
+
+variable "node_resource_group" {
+  description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
+  type        = string
+  default     = null
 }
