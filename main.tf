@@ -2,9 +2,14 @@ data "azurerm_resource_group" "main" {
   name = var.resource_group_name
 }
 
-module "ssh-key" {
-  source         = "./modules/ssh-key"
-  public_ssh_key = var.public_ssh_key == "" ? "" : var.public_ssh_key
+moved {
+  from = module.ssh-key.tls_private_key.ssh
+  to   = tls_private_key.ssh
+}
+
+resource "tls_private_key" "ssh" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
@@ -22,7 +27,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
     ssh_key {
       # remove any new lines using the replace interpolation function
-      key_data = replace(var.public_ssh_key == "" ? module.ssh-key.public_ssh_key : var.public_ssh_key, "\n", "")
+      key_data = replace(coalesce(var.public_ssh_key, tls_private_key.ssh.public_key_openssh), "\n", "")
     }
   }
 
