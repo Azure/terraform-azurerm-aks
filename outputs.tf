@@ -133,3 +133,14 @@ output "open_service_mesh_enabled" {
 output "oidc_issuer_url" {
   value = azurerm_kubernetes_cluster.main.oidc_issuer_url
 }
+
+output "generated_cluster_public_ssh_key" {
+  description = "The cluster will use this generated public key as ssh key when `var.public_ssh_key` is empty or null."
+  value       = var.public_ssh_key == "" || var.public_ssh_key == null ? tls_private_key.ssh.public_key_openssh : null
+}
+
+output "generated_cluster_private_ssh_key" {
+  description = "The cluster will use this generated private key as ssh key when `var.public_ssh_key` is empty or null."
+  sensitive   = true
+  value       = var.public_ssh_key == "" || var.public_ssh_key == null ? tls_private_key.ssh.private_key_pem : null
+}
