@@ -94,12 +94,12 @@ resource "azurerm_kubernetes_cluster" "main" {
   dynamic "oms_agent" {
     for_each = var.enable_log_analytics_workspace ? ["oms_agent"] : []
     content {
-      log_analytics_workspace_id = var.enable_log_analytics_workspace ? azurerm_log_analytics_workspace.main[0].id : null
+      log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
     }
   }
 
   dynamic "ingress_application_gateway" {
-    for_each = var.enable_ingress_application_gateway == null ? [] : ["ingress_application_gateway"]
+    for_each = var.enable_ingress_application_gateway ? ["ingress_application_gateway"] : []
     content {
       gateway_id   = var.ingress_application_gateway_id
       gateway_name = var.ingress_application_gateway_name
