@@ -86,18 +86,49 @@ output "admin_password" {
   value = try(azurerm_kubernetes_cluster.main.kube_admin_config[0].password, "")
 }
 
-output "addon_profile" {
-  value = {
-    aci_connector_linux                 = try(azurerm_kubernetes_cluster.main.aci_connector_linux[0], null)
-    aci_connector_linux_enabled         = can(azurerm_kubernetes_cluster.main.aci_connector_linux[0])
-    azure_policy_enabled                = azurerm_kubernetes_cluster.main.azure_policy_enabled
-    http_application_routing_enabled    = azurerm_kubernetes_cluster.main.http_application_routing_enabled
-    ingress_application_gateway         = try(azurerm_kubernetes_cluster.main.ingress_application_gateway[0], null)
-    ingress_application_gateway_enabled = can(azurerm_kubernetes_cluster.main.ingress_application_gateway[0])
-    key_vault_secrets_provider          = try(azurerm_kubernetes_cluster.main.key_vault_secrets_provider[0], null)
-    key_vault_secrets_provider_enabled  = can(azurerm_kubernetes_cluster.main.key_vault_secrets_provider[0])
-    oms_agent                           = try(azurerm_kubernetes_cluster.main.oms_agent[0], null)
-    oms_agent_enabled                   = can(azurerm_kubernetes_cluster.main.oms_agent[0])
-    open_service_mesh_enabled           = azurerm_kubernetes_cluster.main.open_service_mesh_enabled
-  }
+output "aci_connector_linux" {
+  value = try(azurerm_kubernetes_cluster.main.aci_connector_linux[0], null)
 }
+
+output "aci_connector_linux_enabled" {
+  value = can(azurerm_kubernetes_cluster.main.aci_connector_linux[0])
+}
+
+output "azure_policy_enabled" {
+  value = azurerm_kubernetes_cluster.main.azure_policy_enabled
+}
+
+output "http_application_routing_enabled" {
+  value = azurerm_kubernetes_cluster.main.http_application_routing_enabled
+}
+
+output "ingress_application_gateway" {
+  value = try(azurerm_kubernetes_cluster.main.ingress_application_gateway[0], null)
+}
+
+output "ingress_application_gateway_enabled" {
+  value = can(azurerm_kubernetes_cluster.main.ingress_application_gateway[0])
+}
+
+output "key_vault_secrets_provider" {
+  value = try(azurerm_kubernetes_cluster.main.key_vault_secrets_provider[0], null)
+}
+
+output "key_vault_secrets_provider_enabled" {
+  value = can(azurerm_kubernetes_cluster.main.key_vault_secrets_provider[0])
+}
+
+output "oms_agent" {
+  value = try(azurerm_kubernetes_cluster.main.oms_agent[0], null)
+}
+
+output "oms_agent_enabled" {
+  value = can(azurerm_kubernetes_cluster.main.oms_agent[0])
+}
+
+output "open_service_mesh_enabled" {
+  value = azurerm_kubernetes_cluster.main.open_service_mesh_enabled
+}
+
+
+
