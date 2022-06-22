@@ -30,12 +30,14 @@ variable "client_id" {
   description = "(Optional) The Client ID (appId) for the Service Principal used for the AKS deployment"
   type        = string
   default     = ""
+  nullable    = false
 }
 
 variable "client_secret" {
   description = "(Optional) The Client Secret (password) for the Service Principal used for the AKS deployment"
   type        = string
   default     = ""
+  nullable    = false
 }
 
 variable "api_server_authorized_ip_ranges" {
@@ -364,9 +366,14 @@ variable "ingress_application_gateway_subnet_id" {
 }
 
 variable "identity_type" {
-  description = "(Optional) The type of identity used for the managed cluster. Conflict with `client_id` and `client_secret`. Possible values are `SystemAssigned` and `UserAssigned`. If `UserAssigned` is set, a `user_assigned_identity_id` must be set as well."
+  description = "(Optional) The type of identity used for the managed cluster. Conflict with `client_id` and `client_secret`. Possible values are `SystemAssigned`, `UserAssigned`, `SystemAssigned, UserAssigned`(to enable both). If `UserAssigned` or `SystemAssigned, UserAssigned` is set, an `identity_ids` must be set as well."
   type        = string
   default     = "SystemAssigned"
+
+  validation {
+    condition     = var.identity_type == "SystemAssigned" || var.identity_type == "UserAssigned" || var.identity_type == "SystemAssigned, UserAssigned"
+    error_message = "`identity_type`'s possible values are `SystemAssigned`, `UserAssigned`, `SystemAssigned, UserAssigned`(to enable both)."
+  }
 }
 
 variable "identity_ids" {
