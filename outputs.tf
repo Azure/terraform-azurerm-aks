@@ -54,7 +54,7 @@ output "http_application_routing_zone_name" {
   value = azurerm_kubernetes_cluster.main.http_application_routing_zone_name != null ? azurerm_kubernetes_cluster.main.http_application_routing_zone_name : ""
 }
 
-output "system_assigned_identity" {
+output "cluster_identity" {
   value = azurerm_kubernetes_cluster.main.identity
 }
 

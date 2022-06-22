@@ -152,8 +152,19 @@ resource "azurerm_kubernetes_cluster" "main" {
   oidc_issuer_enabled = var.oidc_issuer_enabled
 
   tags = var.tags
-}
 
+  lifecycle {
+    precondition {
+      condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type != "")
+      error_message = "Either `client_id` and `client_secret` or `identity_type` must be set."
+    }
+    precondition {
+      # Why don't use var.identity_ids != null && length(var.identity_ids)>0 ? Because bool expression in Terraform is not short circuit so even var.identity_ids is null Terraform will still invoke length function with null and cause error. https://github.com/hashicorp/terraform/issues/24128
+      condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type == "SystemAssigned") || (var.identity_ids == null ? false :length(var.identity_ids) > 0)
+      error_message = "If use identity and `UserAssigned` or `SystemAssigned, UserAssigned` is set, an `identity_ids` must be set as well."
+    }
+  }
+}
 
 resource "azurerm_log_analytics_workspace" "main" {
   count               = var.enable_log_analytics_workspace ? 1 : 0
