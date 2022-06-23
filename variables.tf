@@ -150,6 +150,18 @@ variable "rbac_aad_admin_group_object_ids" {
   default     = null
 }
 
+variable "rbac_aad_azure_rbac_enabled" {
+  description = "(Optional) Is Role Based Access Control based on Azure AD enabled?"
+  type        = bool
+  default     = null
+}
+
+variable "rbac_aad_tenant_id" {
+  description = "(Optional) The Tenant ID used for Azure Active Directory Application. If this isn't specified the Tenant ID of the current Subscription is used."
+  type        = string
+  default     = null
+}
+
 variable "rbac_aad_client_app_id" {
   description = "The Client ID of an Azure Active Directory Application."
   type        = string

@@ -123,6 +123,8 @@ resource "azurerm_kubernetes_cluster" "main" {
     content {
       managed                = true
       admin_group_object_ids = var.rbac_aad_admin_group_object_ids
+      azure_rbac_enabled     = var.rbac_aad_azure_rbac_enabled
+      tenant_id              = var.rbac_aad_tenant_id
     }
   }
 
@@ -133,6 +135,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       client_app_id     = var.rbac_aad_client_app_id
       server_app_id     = var.rbac_aad_server_app_id
       server_app_secret = var.rbac_aad_server_app_secret
+      tenant_id         = var.rbac_aad_tenant_id
     }
   }
 
