@@ -7,7 +7,7 @@ output "test_aks_without_monitor_id" {
 }
 
 output "test_aks_without_monitor_identity" {
-  value = module.aks_without_monitor.system_assigned_identity
+  value = module.aks_without_monitor.cluster_identity
 }
 
 output "test_admin_client_key" {
