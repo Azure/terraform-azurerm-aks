@@ -68,12 +68,3 @@ output "test_kube_raw" {
   sensitive = true
   value     = module.aks.kube_config_raw
 }
-
-output "test_cluster_ssh_public_key" {
-  value = module.aks.generated_cluster_public_ssh_key
-}
-
-output "test_cluster_ssh_private_key" {
-  sensitive = true
-  value     = module.aks.generated_cluster_private_ssh_key
-}
