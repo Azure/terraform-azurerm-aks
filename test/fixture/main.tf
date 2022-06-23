@@ -90,6 +90,8 @@ module "aks_cluster_name" {
   prefix                               = "prefix"
   resource_group_name                  = azurerm_resource_group.main.name
   enable_log_analytics_workspace       = true
+  # Not necessary, just for demo purpose.
+  admin_username                       = "azureuser"
   cluster_log_analytics_workspace_name = "test-cluster"
   net_profile_pod_cidr                 = "10.1.0.0/16"
   identity_type                        = "UserAssigned"

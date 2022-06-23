@@ -22,12 +22,15 @@ resource "azurerm_kubernetes_cluster" "main" {
   sku_tier                = var.sku_tier
   private_cluster_enabled = var.private_cluster_enabled
 
-  linux_profile {
-    admin_username = var.admin_username
+  dynamic "linux_profile" {
+    for_each = var.admin_username == null ? [] : ["linux_profile"]
+    content {
+      admin_username = var.admin_username
 
-    ssh_key {
-      # remove any new lines using the replace interpolation function
-      key_data = replace(coalesce(var.public_ssh_key, tls_private_key.ssh.public_key_openssh), "\n", "")
+      ssh_key {
+        # remove any new lines using the replace interpolation function
+        key_data = replace(coalesce(var.public_ssh_key, tls_private_key.ssh.public_key_openssh), "\n", "")
+      }
     }
   }
 
