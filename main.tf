@@ -138,6 +138,8 @@ resource "azurerm_kubernetes_cluster" "main" {
     service_cidr       = var.net_profile_service_cidr
   }
 
+  oidc_issuer_enabled = var.oidc_issuer_enabled
+
   tags = var.tags
 }
 
