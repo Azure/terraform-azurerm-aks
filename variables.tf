@@ -118,7 +118,7 @@ variable "enable_http_application_routing" {
   default     = false
 }
 
-variable "enable_azure_policy" {
+variable "azure_policy_enabled" {
   description = "Enable Azure Policy Addon."
   type        = bool
   default     = false
