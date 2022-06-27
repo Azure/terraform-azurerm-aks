@@ -130,5 +130,6 @@ output "open_service_mesh_enabled" {
   value = azurerm_kubernetes_cluster.main.open_service_mesh_enabled
 }
 
-
-
+output "oidc_issuer_url" {
+  value = azurerm_kubernetes_cluster.main.oidc_issuer_url
+}
