@@ -42,6 +42,7 @@ module "aks" {
   enable_http_application_routing = true
   enable_azure_policy             = true
   enable_host_encryption          = true
+  enable_log_analytics_workspace  = true
   sku_tier                        = "Paid"
   private_cluster_enabled         = true
   enable_auto_scaling             = true
@@ -77,8 +78,8 @@ module "aks_without_monitor" {
   source                         = "../.."
   prefix                         = "prefix2-${random_id.prefix.hex}"
   resource_group_name            = azurerm_resource_group.main.name
+  #checkov:skip=CKV_AZURE_4:The logging is turn off for demo purpose. DO NOT DO THIS IN PRODUCTION ENVIRONMENT!
   enable_log_analytics_workspace = false
-  enable_kube_dashboard          = false
   net_profile_pod_cidr           = "10.1.0.0/16"
   depends_on                     = [azurerm_resource_group.main]
 }
@@ -90,9 +91,8 @@ module "aks_cluster_name" {
   resource_group_name                  = azurerm_resource_group.main.name
   enable_log_analytics_workspace       = true
   cluster_log_analytics_workspace_name = "test-cluster"
-  enable_kube_dashboard                = false
   net_profile_pod_cidr                 = "10.1.0.0/16"
   identity_type                        = "UserAssigned"
-  user_assigned_identity_id            = azurerm_user_assigned_identity.test.id
+  identity_ids                         = [azurerm_user_assigned_identity.test.id]
   depends_on                           = [azurerm_resource_group.main]
 }
