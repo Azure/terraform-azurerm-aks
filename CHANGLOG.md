@@ -1,8 +1,7 @@
-## 4.15.0 (May 06, 2022)
+## 5.0.0 (June 16, 2022)
 
 ENHANCEMENTS:
 
-* Added output for `kube_admin_config_raw` ([#146](https://github.com/Azure/terraform-azurerm-aks/pull/146))
-* Include `node_resource_group` as variable ([#136](https://github.com/Azure/terraform-azurerm-aks/pull/136))
+Bump AzureRM Provider version to 3.3.0  ([#157](https://github.com/Azure/terraform-azurerm-aks/pull/157))
 
 BUG FIXES:

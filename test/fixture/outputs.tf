@@ -35,27 +35,33 @@ output "test_admin_password" {
 }
 
 output "test_client_key" {
-  value = module.aks.client_key
+  sensitive = true
+  value     = module.aks.client_key
 }
 
 output "test_client_certificate" {
-  value = module.aks.client_certificate
+  sensitive = true
+  value     = module.aks.client_certificate
 }
 
 output "test_cluster_ca_certificate" {
-  value = module.aks.client_certificate
+  sensitive = true
+  value     = module.aks.client_certificate
 }
 
 output "test_host" {
-  value = module.aks.host
+  sensitive = true
+  value     = module.aks.host
 }
 
 output "test_username" {
-  value = module.aks.username
+  sensitive = true
+  value     = module.aks.username
 }
 
 output "test_password" {
-  value = module.aks.password
+  sensitive = true
+  value     = module.aks.password
 }
 
 output "test_kube_raw" {

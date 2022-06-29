@@ -15,6 +15,12 @@ variable "cluster_log_analytics_workspace_name" {
   default     = null
 }
 
+variable "location" {
+  description = "Location of cluster, if not defined it will be read from the resource-group"
+  type        = string
+  default     = null
+}
+
 variable "prefix" {
   description = "(Required) The prefix for the resources created in the specified Azure Resource Group"
   type        = string
@@ -70,7 +76,7 @@ variable "public_ssh_key" {
 
 variable "tags" {
   type        = map(string)
-  description = "Any tags that should be present on the Virtual Network resources"
+  description = "Any tags that should be present on the AKS cluster resources"
   default     = {}
 }
 
@@ -78,6 +84,7 @@ variable "enable_log_analytics_workspace" {
   type        = bool
   description = "Enable the creation of azurerm_log_analytics_workspace and azurerm_log_analytics_solution or not"
   default     = true
+  nullable    = false
 }
 
 variable "vnet_subnet_id" {
@@ -92,14 +99,15 @@ variable "os_disk_size_gb" {
   default     = 50
 }
 
-variable "private_cluster_enabled" {
-  description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
-  type        = bool
-  default     = false
+variable "os_disk_type" {
+  description = "The type of disk which should be used for the Operating System. Possible values are `Ephemeral` and `Managed`. Defaults to `Managed`. Changing this forces a new resource to be created."
+  type        = string
+  default     = "Managed"
+  nullable    = false
 }
 
-variable "enable_kube_dashboard" {
-  description = "Enable Kubernetes Dashboard."
+variable "private_cluster_enabled" {
+  description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
   type        = bool
   default     = false
 }
@@ -126,12 +134,14 @@ variable "enable_role_based_access_control" {
   description = "Enable Role Based Access Control."
   type        = bool
   default     = false
+  nullable    = false
 }
 
 variable "rbac_aad_managed" {
   description = "Is the Azure Active Directory integration Managed, meaning that Azure will create/manage the Service Principal used for integration."
   type        = bool
   default     = false
+  nullable    = false
 }
 
 variable "rbac_aad_admin_group_object_ids" {
@@ -162,6 +172,7 @@ variable "network_plugin" {
   description = "Network plugin to use for networking."
   type        = string
   default     = "kubenet"
+  nullable    = false
 }
 
 variable "network_policy" {
@@ -234,6 +245,7 @@ variable "agents_pool_name" {
   description = "The default Azure AKS agentpool (nodepool) name."
   type        = string
   default     = "nodepool"
+  nullable    = false
 }
 
 variable "enable_node_public_ip" {
@@ -275,7 +287,8 @@ variable "agents_max_pods" {
 variable "enable_ingress_application_gateway" {
   description = "Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster?"
   type        = bool
-  default     = null
+  default     = false
+  nullable    = false
 }
 
 variable "ingress_application_gateway_id" {
@@ -301,15 +314,16 @@ variable "ingress_application_gateway_subnet_id" {
   type        = string
   default     = null
 }
+
 variable "identity_type" {
   description = "(Optional) The type of identity used for the managed cluster. Conflict with `client_id` and `client_secret`. Possible values are `SystemAssigned` and `UserAssigned`. If `UserAssigned` is set, a `user_assigned_identity_id` must be set as well."
   type        = string
   default     = "SystemAssigned"
 }
 
-variable "user_assigned_identity_id" {
-  description = "(Optional) The ID of a user assigned identity."
-  type        = string
+variable "identity_ids" {
+  description = "(Optional) Specifies a list of User Assigned Managed Identity IDs to be assigned to this Kubernetes Cluster."
+  type        = list(string)
   default     = null
 }
 
@@ -340,8 +354,13 @@ EOT
 }
 
 variable "node_resource_group" {
-  description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
+  description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster. Changing this forces a new resource to be created."
   type        = string
   default     = null
 }
 
+variable "oidc_issuer_enabled" {
+  description = "Enable or Disable the OIDC issuer URL. Defaults to false."
+  type        = bool
+  default     = false
+}
