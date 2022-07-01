@@ -8,6 +8,7 @@ moved {
 }
 
 resource "tls_private_key" "ssh" {
+  count = var.admin_username == null ? 0 : 1
   algorithm = "RSA"
   rsa_bits  = 2048
 }
