@@ -30,7 +30,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
       ssh_key {
         # remove any new lines using the replace interpolation function
-        key_data = replace(coalesce(var.public_ssh_key, tls_private_key.ssh.public_key_openssh), "\n", "")
+        key_data = replace(coalesce(var.public_ssh_key, tls_private_key.ssh[0].public_key_openssh), "\n", "")
       }
     }
   }
