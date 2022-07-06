@@ -40,7 +40,7 @@ module "aks" {
   vnet_subnet_id                   = azurerm_subnet.test.id
   os_disk_size_gb                  = 60
   enable_http_application_routing  = true
-  enable_azure_policy              = true
+  azure_policy_enabled             = true
   enable_host_encryption           = true
   enable_role_based_access_control = true
   rbac_aad_managed                 = true
