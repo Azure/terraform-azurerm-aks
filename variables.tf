@@ -356,3 +356,9 @@ variable "oidc_issuer_enabled" {
   type        = bool
   default     = false
 }
+
+variable "additional_node_pools" {
+  description = "Specify a map of node pools where key - the name if the pool, value - the object which represents the parameters for pool`s configuration. Dy default nothing will be createdy"
+  type        = map(any)
+  default     = {}
+}

@@ -83,19 +83,19 @@ module "aks_without_monitor" {
   enable_role_based_access_control = true
   rbac_aad_managed                 = true
   #checkov:skip=CKV_AZURE_4:The logging is turn off for demo purpose. DO NOT DO THIS IN PRODUCTION ENVIRONMENT!
-  enable_log_analytics_workspace   = false
-  net_profile_pod_cidr             = "10.1.0.0/16"
-  depends_on                       = [azurerm_resource_group.main]
+  enable_log_analytics_workspace = false
+  net_profile_pod_cidr           = "10.1.0.0/16"
+  depends_on                     = [azurerm_resource_group.main]
 }
 
 module "aks_cluster_name" {
-  source                               = "../.."
-  cluster_name                         = "test-cluster"
-  prefix                               = "prefix"
-  resource_group_name                  = azurerm_resource_group.main.name
-  enable_role_based_access_control     = true
-  rbac_aad_managed                     = true
-  enable_log_analytics_workspace       = true
+  source                           = "../.."
+  cluster_name                     = "test-cluster"
+  prefix                           = "prefix"
+  resource_group_name              = azurerm_resource_group.main.name
+  enable_role_based_access_control = true
+  rbac_aad_managed                 = true
+  enable_log_analytics_workspace   = true
   # Not necessary, just for demo purpose.
   admin_username                       = "azureuser"
   cluster_log_analytics_workspace_name = "test-cluster"
@@ -103,4 +103,23 @@ module "aks_cluster_name" {
   identity_type                        = "UserAssigned"
   identity_ids                         = [azurerm_user_assigned_identity.test.id]
   depends_on                           = [azurerm_resource_group.main]
+}
+
+module "aks_with_additional_node_pools" {
+  source                           = "../.."
+  prefix                           = "prefix2-${random_id.prefix.hex}"
+  resource_group_name              = azurerm_resource_group.main.name
+  enable_role_based_access_control = true
+  rbac_aad_managed                 = true
+  enable_log_analytics_workspace   = true
+  net_profile_pod_cidr             = "10.1.0.0/16"
+  depends_on                       = [azurerm_resource_group.main]
+
+  additional_node_pools = {
+    "test1" = {
+      name       = "testpool"
+      vm_size    = "Standard_A4_v2"
+      node_count = 3
+    }
+  }
 }
