@@ -87,6 +87,16 @@ variable "enable_log_analytics_workspace" {
   nullable    = false
 }
 
+variable "log_analytics_workspace" {
+  type = object({
+    id   = string
+    name = string
+  })
+  description = "(Optional) Existing azurerm_log_analytics_workspace to attach azurerm_log_analytics_solution"
+  default     = null
+  nullable    = true
+}
+
 variable "vnet_subnet_id" {
   description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created."
   type        = string

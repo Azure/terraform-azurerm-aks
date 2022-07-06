@@ -104,7 +104,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   dynamic "oms_agent" {
     for_each = var.enable_log_analytics_workspace ? ["oms_agent"] : []
     content {
-      log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
+      log_analytics_workspace_id = var.log_analytics_workspace == null ? azurerm_log_analytics_workspace.main[0].id : var.log_analytics_workspace.id
     }
   }
 
@@ -168,7 +168,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
 
 resource "azurerm_log_analytics_workspace" "main" {
-  count               = var.enable_log_analytics_workspace ? 1 : 0
+  count               = var.enable_log_analytics_workspace && var.log_analytics_workspace == null ? 1 : 0
   name                = var.cluster_log_analytics_workspace_name == null ? "${var.prefix}-workspace" : var.cluster_log_analytics_workspace_name
   location            = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name = var.resource_group_name
@@ -183,8 +183,8 @@ resource "azurerm_log_analytics_solution" "main" {
   solution_name         = "ContainerInsights"
   location              = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name   = var.resource_group_name
-  workspace_resource_id = azurerm_log_analytics_workspace.main[0].id
-  workspace_name        = azurerm_log_analytics_workspace.main[0].name
+  workspace_resource_id = var.log_analytics_workspace == null ? azurerm_log_analytics_workspace.main[0].id : var.log_analytics_workspace.id
+  workspace_name        = var.log_analytics_workspace == null ? azurerm_log_analytics_workspace.main[0].name : var.log_analytics_workspace.name
 
   plan {
     publisher = "Microsoft"
@@ -193,5 +193,3 @@ resource "azurerm_log_analytics_solution" "main" {
 
   tags = var.tags
 }
-
-
