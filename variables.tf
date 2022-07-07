@@ -89,10 +89,11 @@ variable "enable_log_analytics_workspace" {
 
 variable "log_analytics_workspace" {
   type = object({
-    id   = string
-    name = string
+    id                  = string
+    name                = string
+    resource_group_name = string
   })
-  description = "(Optional) Existing azurerm_log_analytics_workspace to attach azurerm_log_analytics_solution"
+  description = "(Optional) Existing azurerm_log_analytics_workspace to attach azurerm_log_analytics_solution. `resource_group_name` is optional and should be used when Log Analytics Workspace is in different RG than AKS."
   default     = null
   nullable    = true
 }
