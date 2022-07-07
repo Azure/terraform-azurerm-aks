@@ -368,3 +368,24 @@ variable "only_critical_addons_enabled" {
   type        = bool
   default     = null
 }
+
+variable "key_vault_secrets_provider_enabled" {
+  description = "(Optional) Whether to use the Azure Key Vault Provider for Secrets Store CSI Driver in an AKS cluster. For more details: https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver"
+  type        = bool
+  default     = false
+  nullable    = false
+}
+
+variable "secret_rotation_enabled" {
+  description = "Is secret rotation enabled? This variable is only used when enable_key_vault_secrets_provider is true and defaults to false"
+  type        = bool
+  default     = false
+  nullable    = false
+}
+
+variable "secret_rotation_interval" {
+  description = "The interval to poll for secret rotation. This attribute is only set when secret_rotation is true and defaults to 2m"
+  type        = string
+  default     = "2m"
+  nullable    = false
+}

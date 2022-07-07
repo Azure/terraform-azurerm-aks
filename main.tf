@@ -120,6 +120,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
+  dynamic "key_vault_secrets_provider" {
+    for_each = var.key_vault_secrets_provider_enabled ? ["key_vault_secrets_provider"] : []
+    content {
+      secret_rotation_enabled  = var.secret_rotation_enabled
+      secret_rotation_interval = var.secret_rotation_interval
+    }
+  }
+
   role_based_access_control_enabled = var.enable_role_based_access_control
 
   dynamic "azure_active_directory_role_based_access_control" {
