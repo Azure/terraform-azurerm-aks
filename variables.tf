@@ -129,9 +129,9 @@ variable "enable_azure_policy" {
 }
 
 variable "enable_open_service_mesh" {
-  description = "Enable Open Service Mesh Addon."
+  description = "Is Open Service Mesh enabled? For more details, please visit [Open Service Mesh for AKS](https://docs.microsoft.com/azure/aks/open-service-mesh-about)."
   type        = bool
-  default     = false
+  default     = null
 }
 
 variable "sku_tier" {
