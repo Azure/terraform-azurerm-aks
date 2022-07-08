@@ -399,6 +399,12 @@ variable "private_dns_zone_id" {
   default     = null
 }
 
+variable "disk_encryption_set_id" {
+  description = "(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes. More information [can be found in the documentation](https://docs.microsoft.com/azure/aks/azure-disk-customer-managed-keys). Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
 variable "oidc_issuer_enabled" {
   description = "Enable or Disable the OIDC issuer URL. Defaults to false."
   type        = bool
@@ -430,10 +436,4 @@ variable "secret_rotation_interval" {
   type        = string
   default     = "2m"
   nullable    = false
-}
-
-variable "local_account_disabled" {
-  description = "(Optional) - If `true` local accounts will be disabled. Defaults to `false`. See [the documentation](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts) for more information."
-  type        = bool
-  default     = null
 }
