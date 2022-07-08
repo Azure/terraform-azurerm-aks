@@ -124,6 +124,12 @@ variable "azure_policy_enabled" {
   default     = false
 }
 
+variable "enable_open_service_mesh" {
+  description = "Is Open Service Mesh enabled? For more details, please visit [Open Service Mesh for AKS](https://docs.microsoft.com/azure/aks/open-service-mesh-about)."
+  type        = bool
+  default     = null
+}
+
 variable "sku_tier" {
   description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid"
   type        = string
