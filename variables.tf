@@ -82,9 +82,16 @@ variable "tags" {
 
 variable "enable_log_analytics_workspace" {
   type        = bool
-  description = "Enable the creation of azurerm_log_analytics_workspace and azurerm_log_analytics_solution or not"
+  description = "Enable the integration of azurerm_log_analytics_workspace and azurerm_log_analytics_solution: https://docs.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-onboard"
   default     = true
   nullable    = false
+}
+
+variable "log_analytics_solution_id" {
+  type        = string
+  description = "(Optional) Existing azurerm_log_analytics_solution ID. Providing ID disables creation of azurerm_log_analytics_solution."
+  default     = null
+  nullable    = true
 }
 
 variable "log_analytics_workspace" {
@@ -92,14 +99,14 @@ variable "log_analytics_workspace" {
     id   = string
     name = string
   })
-  description = "(Optional) Existing azurerm_log_analytics_workspace to attach azurerm_log_analytics_solution."
+  description = "(Optional) Existing azurerm_log_analytics_workspace to attach azurerm_log_analytics_solution. Providing the config disables creation of azurerm_log_analytics_workspace."
   default     = null
   nullable    = true
 }
 
 variable "log_analytics_workspace_resource_group_name" {
   type        = string
-  description = "(Optional) Resource group name to create Log Analytics Container Insights Solution."
+  description = "(Optional) Resource group name to create azurerm_log_analytics_solution."
   default     = null
   nullable    = true
 }
