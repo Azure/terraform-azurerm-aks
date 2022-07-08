@@ -19,6 +19,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location                            = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name                 = data.azurerm_resource_group.main.name
   node_resource_group                 = var.node_resource_group
+  disk_encryption_set_id              = var.disk_encryption_set_id
   dns_prefix                          = var.prefix
   sku_tier                            = var.sku_tier
   private_cluster_enabled             = var.private_cluster_enabled

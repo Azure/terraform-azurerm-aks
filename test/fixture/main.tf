@@ -1,7 +1,3 @@
-provider "azurerm" {
-  features {}
-}
-
 resource "random_id" "prefix" {
   byte_length = 8
 }
@@ -39,6 +35,7 @@ module "aks" {
   network_plugin                   = "azure"
   vnet_subnet_id                   = azurerm_subnet.test.id
   os_disk_size_gb                  = 60
+  disk_encryption_set_id           = azurerm_disk_encryption_set.des.id
   enable_http_application_routing  = true
   azure_policy_enabled             = true
   enable_host_encryption           = true
@@ -81,6 +78,7 @@ module "aks_without_monitor" {
   source                           = "../.."
   prefix                           = "prefix2-${random_id.prefix.hex}"
   resource_group_name              = azurerm_resource_group.main.name
+  disk_encryption_set_id           = azurerm_disk_encryption_set.des.id
   enable_role_based_access_control = true
   rbac_aad_managed                 = true
   private_cluster_enabled          = true
@@ -96,6 +94,7 @@ module "aks_cluster_name" {
   cluster_name                         = "test-cluster"
   prefix                               = "prefix"
   resource_group_name                  = azurerm_resource_group.main.name
+  disk_encryption_set_id               = azurerm_disk_encryption_set.des.id
   enable_role_based_access_control     = true
   rbac_aad_managed                     = true
   enable_log_analytics_workspace       = true
