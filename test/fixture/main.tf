@@ -82,6 +82,7 @@ module "aks_without_monitor" {
   resource_group_name              = azurerm_resource_group.main.name
   enable_role_based_access_control = true
   rbac_aad_managed                 = true
+  private_cluster_enabled          = true
   #checkov:skip=CKV_AZURE_4:The logging is turn off for demo purpose. DO NOT DO THIS IN PRODUCTION ENVIRONMENT!
   enable_log_analytics_workspace   = false
   net_profile_pod_cidr             = "10.1.0.0/16"
@@ -96,6 +97,7 @@ module "aks_cluster_name" {
   enable_role_based_access_control     = true
   rbac_aad_managed                     = true
   enable_log_analytics_workspace       = true
+  private_cluster_enabled              = true
   # Not necessary, just for demo purpose.
   admin_username                       = "azureuser"
   cluster_log_analytics_workspace_name = "test-cluster"
