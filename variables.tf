@@ -437,3 +437,9 @@ variable "secret_rotation_interval" {
   default     = "2m"
   nullable    = false
 }
+
+variable "local_account_disabled" {
+  description = "(Optional) - If `true` local accounts will be disabled. Defaults to `false`. See [the documentation](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts) for more information."
+  type        = bool
+  default     = null
+}
