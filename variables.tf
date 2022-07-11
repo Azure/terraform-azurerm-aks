@@ -38,6 +38,12 @@ variable "client_secret" {
   default     = ""
 }
 
+variable "api_server_authorized_ip_ranges" {
+  type        = set(string)
+  description = "(Optional) The IP ranges to allow for incoming traffic to the server nodes."
+  default     = null
+}
+
 variable "admin_username" {
   default     = null
   description = "The username of the local administrator to be created on the Kubernetes cluster. Set this variable to `null` to turn off the cluster's `linux_profile`. Changing this forces a new resource to be created."
