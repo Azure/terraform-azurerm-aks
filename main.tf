@@ -24,7 +24,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   private_cluster_enabled             = var.private_cluster_enabled
   private_dns_zone_id                 = var.private_dns_zone_id
   private_cluster_public_fqdn_enabled = var.private_cluster_public_fqdn_enabled
-  local_account_disabled  = var.local_account_disabled
+  local_account_disabled              = var.local_account_disabled
 
   dynamic "linux_profile" {
     for_each = var.admin_username == null ? [] : ["linux_profile"]
