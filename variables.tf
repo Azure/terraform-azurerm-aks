@@ -39,8 +39,8 @@ variable "client_secret" {
 }
 
 variable "admin_username" {
-  default     = "azureuser"
-  description = "The username of the local administrator to be created on the Kubernetes cluster"
+  default     = null
+  description = "The username of the local administrator to be created on the Kubernetes cluster. Set this variable to `null` to turn off the cluster's `linux_profile`. Changing this forces a new resource to be created."
   type        = string
 }
 
@@ -69,7 +69,7 @@ variable "agents_count" {
 }
 
 variable "public_ssh_key" {
-  description = "A custom ssh key to control access to the AKS cluster"
+  description = "A custom ssh key to control access to the AKS cluster. Changing this forces a new resource to be created."
   type        = string
   default     = ""
 }
@@ -82,9 +82,33 @@ variable "tags" {
 
 variable "enable_log_analytics_workspace" {
   type        = bool
-  description = "Enable the creation of azurerm_log_analytics_workspace and azurerm_log_analytics_solution or not"
+  description = "Enable the integration of azurerm_log_analytics_workspace and azurerm_log_analytics_solution: https://docs.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-onboard"
   default     = true
   nullable    = false
+}
+
+variable "log_analytics_solution_id" {
+  type        = string
+  description = "(Optional) Existing azurerm_log_analytics_solution ID. Providing ID disables creation of azurerm_log_analytics_solution."
+  default     = null
+  nullable    = true
+}
+
+variable "log_analytics_workspace" {
+  type = object({
+    id   = string
+    name = string
+  })
+  description = "(Optional) Existing azurerm_log_analytics_workspace to attach azurerm_log_analytics_solution. Providing the config disables creation of azurerm_log_analytics_workspace."
+  default     = null
+  nullable    = true
+}
+
+variable "log_analytics_workspace_resource_group_name" {
+  type        = string
+  description = "(Optional) Resource group name to create azurerm_log_analytics_solution."
+  default     = null
+  nullable    = true
 }
 
 variable "vnet_subnet_id" {
@@ -118,10 +142,16 @@ variable "enable_http_application_routing" {
   default     = false
 }
 
-variable "enable_azure_policy" {
+variable "azure_policy_enabled" {
   description = "Enable Azure Policy Addon."
   type        = bool
   default     = false
+}
+
+variable "enable_open_service_mesh" {
+  description = "Is Open Service Mesh enabled? For more details, please visit [Open Service Mesh for AKS](https://docs.microsoft.com/azure/aks/open-service-mesh-about)."
+  type        = bool
+  default     = null
 }
 
 variable "sku_tier" {
@@ -147,6 +177,18 @@ variable "rbac_aad_managed" {
 variable "rbac_aad_admin_group_object_ids" {
   description = "Object ID of groups with admin access."
   type        = list(string)
+  default     = null
+}
+
+variable "rbac_aad_azure_rbac_enabled" {
+  description = "(Optional) Is Role Based Access Control based on Azure AD enabled?"
+  type        = bool
+  default     = null
+}
+
+variable "rbac_aad_tenant_id" {
+  description = "(Optional) The Tenant ID used for Azure Active Directory Application. If this isn't specified the Tenant ID of the current Subscription is used."
+  type        = string
   default     = null
 }
 
@@ -351,8 +393,47 @@ variable "node_resource_group" {
   default     = null
 }
 
+variable "private_dns_zone_id" {
+  description = "(Optional) Either the ID of Private DNS Zone which should be delegated to this Cluster, `System` to have AKS manage this or `None`. In case of `None` you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
 variable "oidc_issuer_enabled" {
   description = "Enable or Disable the OIDC issuer URL. Defaults to false."
   type        = bool
   default     = false
+}
+
+variable "only_critical_addons_enabled" {
+  description = "(Optional) Enabling this option will taint default node pool with `CriticalAddonsOnly=true:NoSchedule` taint. Changing this forces a new resource to be created."
+  type        = bool
+  default     = null
+}
+
+variable "key_vault_secrets_provider_enabled" {
+  description = "(Optional) Whether to use the Azure Key Vault Provider for Secrets Store CSI Driver in an AKS cluster. For more details: https://docs.microsoft.com/en-us/azure/aks/csi-secrets-store-driver"
+  type        = bool
+  default     = false
+  nullable    = false
+}
+
+variable "secret_rotation_enabled" {
+  description = "Is secret rotation enabled? This variable is only used when enable_key_vault_secrets_provider is true and defaults to false"
+  type        = bool
+  default     = false
+  nullable    = false
+}
+
+variable "secret_rotation_interval" {
+  description = "The interval to poll for secret rotation. This attribute is only set when secret_rotation is true and defaults to 2m"
+  type        = string
+  default     = "2m"
+  nullable    = false
+}
+
+variable "local_account_disabled" {
+  description = "(Optional) - If `true` local accounts will be disabled. Defaults to `false`. See [the documentation](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts) for more information."
+  type        = bool
+  default     = null
 }
