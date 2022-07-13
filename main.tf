@@ -14,16 +14,17 @@ resource "tls_private_key" "ssh" {
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
-  name                    = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
-  kubernetes_version      = var.kubernetes_version
-  location                = coalesce(var.location, data.azurerm_resource_group.main.location)
-  resource_group_name     = data.azurerm_resource_group.main.name
-  node_resource_group     = var.node_resource_group
-  dns_prefix              = var.prefix
-  sku_tier                = var.sku_tier
-  private_cluster_enabled = var.private_cluster_enabled
-  private_dns_zone_id     = var.private_dns_zone_id
-  local_account_disabled  = var.local_account_disabled
+  name                                = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
+  kubernetes_version                  = var.kubernetes_version
+  location                            = coalesce(var.location, data.azurerm_resource_group.main.location)
+  resource_group_name                 = data.azurerm_resource_group.main.name
+  node_resource_group                 = var.node_resource_group
+  dns_prefix                          = var.prefix
+  sku_tier                            = var.sku_tier
+  private_cluster_enabled             = var.private_cluster_enabled
+  private_dns_zone_id                 = var.private_dns_zone_id
+  private_cluster_public_fqdn_enabled = var.private_cluster_public_fqdn_enabled
+  local_account_disabled              = var.local_account_disabled
 
   dynamic "linux_profile" {
     for_each = var.admin_username == null ? [] : ["linux_profile"]

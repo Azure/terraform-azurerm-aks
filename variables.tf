@@ -375,6 +375,18 @@ variable "enable_host_encryption" {
   default     = false
 }
 
+variable "private_dns_zone_id" {
+  description = "(Optional) Either the ID of Private DNS Zone which should be delegated to this Cluster, `System` to have AKS manage this or `None`. In case of `None` you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
+variable "private_cluster_public_fqdn_enabled" {
+  description = "(Optional) Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to `false`."
+  type        = bool
+  default     = false
+}
+
 variable "node_resource_group" {
   description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster. Changing this forces a new resource to be created."
   type        = string
