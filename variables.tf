@@ -137,7 +137,7 @@ variable "enable_node_public_ip" {
   default     = false
 }
 
-variable "enable_http_application_routing" {
+variable "http_application_routing_enabled" {
   type        = bool
   description = "Enable HTTP Application Routing Addon (forces recreation)."
   default     = false
@@ -160,7 +160,7 @@ variable "identity_type" {
   }
 }
 
-variable "enable_ingress_application_gateway" {
+variable "ingress_application_gateway_enabled" {
   type        = bool
   description = "Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster?"
   default     = false
@@ -233,7 +233,7 @@ variable "log_analytics_workspace" {
   nullable    = true
 }
 
-variable "enable_log_analytics_workspace" {
+variable "log_analytics_workspace_enabled" {
   type        = bool
   description = "Enable the integration of azurerm_log_analytics_workspace and azurerm_log_analytics_solution: https://docs.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-onboard"
   default     = true
@@ -320,7 +320,7 @@ variable "only_critical_addons_enabled" {
   default     = null
 }
 
-variable "enable_open_service_mesh" {
+variable "open_service_mesh_enabled" {
   type        = bool
   description = "Is Open Service Mesh enabled? For more details, please visit [Open Service Mesh for AKS](https://docs.microsoft.com/azure/aks/open-service-mesh-about)."
   default     = null
@@ -412,7 +412,7 @@ variable "rbac_aad_tenant_id" {
   default     = null
 }
 
-variable "enable_role_based_access_control" {
+variable "role_based_access_control_enabled" {
   type        = bool
   description = "Enable Role Based Access Control."
   default     = false

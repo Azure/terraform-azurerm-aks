@@ -23,16 +23,16 @@ resource "azurerm_kubernetes_cluster" "main" {
   api_server_authorized_ip_ranges     = var.api_server_authorized_ip_ranges
   azure_policy_enabled                = var.azure_policy_enabled
   disk_encryption_set_id              = var.disk_encryption_set_id
-  http_application_routing_enabled    = var.enable_http_application_routing
+  http_application_routing_enabled    = var.http_application_routing_enabled
   kubernetes_version                  = var.kubernetes_version
   local_account_disabled              = var.local_account_disabled
   node_resource_group                 = var.node_resource_group
   oidc_issuer_enabled                 = var.oidc_issuer_enabled
-  open_service_mesh_enabled           = var.enable_open_service_mesh
+  open_service_mesh_enabled           = var.open_service_mesh_enabled
   private_cluster_enabled             = var.private_cluster_enabled
   private_dns_zone_id                 = var.private_dns_zone_id
   private_cluster_public_fqdn_enabled = var.private_cluster_public_fqdn_enabled
-  role_based_access_control_enabled   = var.enable_role_based_access_control
+  role_based_access_control_enabled   = var.role_based_access_control_enabled
   sku_tier                            = var.sku_tier
   tags                                = var.tags
 
@@ -83,7 +83,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   dynamic "azure_active_directory_role_based_access_control" {
-    for_each = var.enable_role_based_access_control && var.rbac_aad_managed ? ["rbac"] : []
+    for_each = var.role_based_access_control_enabled && var.rbac_aad_managed ? ["rbac"] : []
     content {
       managed                = true
       tenant_id              = var.rbac_aad_tenant_id
@@ -92,7 +92,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "azure_active_directory_role_based_access_control" {
-    for_each = var.enable_role_based_access_control && !var.rbac_aad_managed ? ["rbac"] : []
+    for_each = var.role_based_access_control_enabled && !var.rbac_aad_managed ? ["rbac"] : []
     content {
       managed           = false
       tenant_id         = var.rbac_aad_tenant_id
@@ -111,7 +111,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   dynamic "ingress_application_gateway" {
-    for_each = var.enable_ingress_application_gateway ? ["ingress_application_gateway"] : []
+    for_each = var.ingress_application_gateway_enabled ? ["ingress_application_gateway"] : []
     content {
       gateway_id   = var.ingress_application_gateway_id
       gateway_name = var.ingress_application_gateway_name
@@ -151,7 +151,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   dynamic "oms_agent" {
-    for_each = var.enable_log_analytics_workspace ? ["oms_agent"] : []
+    for_each = var.log_analytics_workspace_enabled ? ["oms_agent"] : []
     content {
       log_analytics_workspace_id = var.log_analytics_workspace == null ? azurerm_log_analytics_workspace.main[0].id : var.log_analytics_workspace.id
     }
@@ -179,7 +179,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 }
 
 resource "azurerm_log_analytics_workspace" "main" {
-  count = var.enable_log_analytics_workspace && var.log_analytics_workspace == null ? 1 : 0
+  count = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null ? 1 : 0
 
   name                = var.cluster_log_analytics_workspace_name == null ? "${var.prefix}-workspace" : var.cluster_log_analytics_workspace_name
   location            = coalesce(var.location, data.azurerm_resource_group.main.location)
@@ -191,7 +191,7 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 resource "azurerm_log_analytics_solution" "main" {
-  count                 = var.enable_log_analytics_workspace && var.log_analytics_solution_id == null ? 1 : 0
+  count                 = var.log_analytics_workspace_enabled && var.log_analytics_solution_id == null ? 1 : 0
   solution_name         = "ContainerInsights"
   location              = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name   = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)

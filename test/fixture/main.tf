@@ -49,10 +49,10 @@ module "aks" {
   disk_encryption_set_id                  = azurerm_disk_encryption_set.des.id
   enable_auto_scaling                     = true
   enable_host_encryption                  = true
-  enable_http_application_routing         = true
-  enable_ingress_application_gateway      = true
-  enable_log_analytics_workspace          = true
-  enable_role_based_access_control        = true
+  http_application_routing_enabled         = true
+  ingress_application_gateway_enabled      = true
+  log_analytics_workspace_enabled          = true
+  role_based_access_control_enabled        = true
   ingress_application_gateway_name        = "${random_id.prefix.hex}-agw"
   ingress_application_gateway_subnet_cidr = "10.52.1.0/24"
   local_account_disabled                  = true
@@ -76,8 +76,8 @@ module "aks_without_monitor" {
   resource_group_name              = azurerm_resource_group.main.name
   disk_encryption_set_id           = azurerm_disk_encryption_set.des.id
   #checkov:skip=CKV_AZURE_4:The logging is turn off for demo purpose. DO NOT DO THIS IN PRODUCTION ENVIRONMENT!
-  enable_log_analytics_workspace   = false
-  enable_role_based_access_control = true
+  log_analytics_workspace_enabled   = false
+  role_based_access_control_enabled = true
   local_account_disabled           = true
   net_profile_pod_cidr             = "10.1.0.0/16"
   private_cluster_enabled          = true
@@ -95,8 +95,8 @@ module "aks_cluster_name" {
   cluster_log_analytics_workspace_name = "test-cluster"
   cluster_name                         = "test-cluster"
   disk_encryption_set_id               = azurerm_disk_encryption_set.des.id
-  enable_log_analytics_workspace       = true
-  enable_role_based_access_control     = true
+  log_analytics_workspace_enabled       = true
+  role_based_access_control_enabled     = true
   identity_ids                         = [azurerm_user_assigned_identity.test.id]
   identity_type                        = "UserAssigned"
   local_account_disabled               = true
