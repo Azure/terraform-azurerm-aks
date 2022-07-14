@@ -16,6 +16,10 @@ Running the `terraform plan` first to inspect the plan is strongly advised.
 
 Now Terraform core's lowest version is v1.2.0 and terraform-provider-azurerm's lowest version is v3.3.0.
 
+### variable `user_assigned_identity_id` has been renamed.
+
+variable `user_assigned_identity_id` has been renamed to `identity_ids` and it's type has been changed from `string` to `list(string)`.
+
 ### `addon_profile` in outputs is no longer available. 
 
 It has been broken into the following new outputs: 
@@ -63,6 +67,18 @@ A `moved` block has been added to relocate the existing `tls_private_key` resour
 Resource `tls_private_key`'s creation now is conditional. Users may see the destruction of existing `tls_private_key` in the generated plan if `var.admin_username` is `null`.
 
 ### `system_assigned_identity` in the output has been renamed to `cluster_identity`
+
+### The following outputs are now sensitive. All outputs referenced them must declare sensitive too
+
+* `client_certificate`
+* `client_key`
+* `cluster_ca_certificate`
+* `generated_cluster_private_ssh_key`
+* `host`
+* `kube_admin_config_raw`
+* `kube_config_raw`
+* `password`
+* `username`
 
 ## Usage in Terraform 0.13
 

@@ -2,6 +2,7 @@
 
 ENHANCEMENTS:
 
+* Variable `enable_kube_dashboard` has been remove as [#181](https://github.com/Azure/terraform-azurerm-aks/issues/181) described. ([#181](https://github.com/Azure/terraform-azurerm-aks/pull/181))
 * Add new variable `location` so we can define location for the resources explicitly. ([#172](https://github.com/Azure/terraform-azurerm-aks/pull/172))
 * Bump AzureRM Provider version to 3.3.0.  ([#157](https://github.com/Azure/terraform-azurerm-aks/pull/157))
 * Add new variable `private_dns_zone_id` to make argument `private_dns_zone_id` configurable. ([#174](https://github.com/Azure/terraform-azurerm-aks/pull/174))
