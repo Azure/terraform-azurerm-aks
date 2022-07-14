@@ -8,90 +8,97 @@ moved {
 }
 
 resource "tls_private_key" "ssh" {
-  count     = var.admin_username == null ? 0 : 1
+  count = var.admin_username == null ? 0 : 1
+
   algorithm = "RSA"
   rsa_bits  = 2048
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
-  name                                = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
-  kubernetes_version                  = var.kubernetes_version
-  location                            = coalesce(var.location, data.azurerm_resource_group.main.location)
-  resource_group_name                 = data.azurerm_resource_group.main.name
-  node_resource_group                 = var.node_resource_group
-  disk_encryption_set_id              = var.disk_encryption_set_id
+  name                = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
+  location            = coalesce(var.location, data.azurerm_resource_group.main.location)
+  resource_group_name = data.azurerm_resource_group.main.name
+
   dns_prefix                          = var.prefix
-  sku_tier                            = var.sku_tier
+  api_server_authorized_ip_ranges     = var.api_server_authorized_ip_ranges
+  azure_policy_enabled                = var.azure_policy_enabled
+  disk_encryption_set_id              = var.disk_encryption_set_id
+  http_application_routing_enabled    = var.enable_http_application_routing
+  kubernetes_version                  = var.kubernetes_version
+  local_account_disabled              = var.local_account_disabled
+  node_resource_group                 = var.node_resource_group
+  oidc_issuer_enabled                 = var.oidc_issuer_enabled
+  open_service_mesh_enabled           = var.enable_open_service_mesh
   private_cluster_enabled             = var.private_cluster_enabled
   private_dns_zone_id                 = var.private_dns_zone_id
   private_cluster_public_fqdn_enabled = var.private_cluster_public_fqdn_enabled
-  local_account_disabled              = var.local_account_disabled
-  api_server_authorized_ip_ranges     = var.api_server_authorized_ip_ranges
-
-  dynamic "linux_profile" {
-    for_each = var.admin_username == null ? [] : ["linux_profile"]
-    content {
-      admin_username = var.admin_username
-
-      ssh_key {
-        # remove any new lines using the replace interpolation function
-        key_data = replace(coalesce(var.public_ssh_key, tls_private_key.ssh[0].public_key_openssh), "\n", "")
-      }
-    }
-  }
+  role_based_access_control_enabled   = var.enable_role_based_access_control
+  sku_tier                            = var.sku_tier
+  tags                                = var.tags
 
   dynamic "default_node_pool" {
     for_each = var.enable_auto_scaling == true ? [] : ["default_node_pool_manually_scaled"]
     content {
-      orchestrator_version         = var.orchestrator_version
       name                         = var.agents_pool_name
-      node_count                   = var.agents_count
       vm_size                      = var.agents_size
+      enable_auto_scaling          = var.enable_auto_scaling
+      enable_host_encryption       = var.enable_host_encryption
+      enable_node_public_ip        = var.enable_node_public_ip
+      max_pods                     = var.agents_max_pods
+      node_labels                  = var.agents_labels
+      only_critical_addons_enabled = var.only_critical_addons_enabled
+      orchestrator_version         = var.orchestrator_version
       os_disk_size_gb              = var.os_disk_size_gb
       os_disk_type                 = var.os_disk_type
-      vnet_subnet_id               = var.vnet_subnet_id
-      enable_auto_scaling          = var.enable_auto_scaling
-      max_count                    = null
-      min_count                    = null
-      enable_node_public_ip        = var.enable_node_public_ip
-      zones                        = var.agents_availability_zones
-      node_labels                  = var.agents_labels
       type                         = var.agents_type
       tags                         = merge(var.tags, var.agents_tags)
-      max_pods                     = var.agents_max_pods
-      enable_host_encryption       = var.enable_host_encryption
-      only_critical_addons_enabled = var.only_critical_addons_enabled
+      vnet_subnet_id               = var.vnet_subnet_id
+      max_count                    = null
+      min_count                    = null
+      node_count                   = var.agents_count
+      zones                        = var.agents_availability_zones
     }
   }
-
   dynamic "default_node_pool" {
     for_each = var.enable_auto_scaling == true ? ["default_node_pool_auto_scaled"] : []
     content {
-      orchestrator_version         = var.orchestrator_version
       name                         = var.agents_pool_name
       vm_size                      = var.agents_size
+      enable_auto_scaling          = var.enable_auto_scaling
+      enable_host_encryption       = var.enable_host_encryption
+      enable_node_public_ip        = var.enable_node_public_ip
+      max_pods                     = var.agents_max_pods
+      node_labels                  = var.agents_labels
+      only_critical_addons_enabled = var.only_critical_addons_enabled
+      orchestrator_version         = var.orchestrator_version
       os_disk_size_gb              = var.os_disk_size_gb
       os_disk_type                 = var.os_disk_type
-      vnet_subnet_id               = var.vnet_subnet_id
-      enable_auto_scaling          = var.enable_auto_scaling
-      max_count                    = var.agents_max_count
-      min_count                    = var.agents_min_count
-      enable_node_public_ip        = var.enable_node_public_ip
-      zones                        = var.agents_availability_zones
-      node_labels                  = var.agents_labels
       type                         = var.agents_type
       tags                         = merge(var.tags, var.agents_tags)
-      max_pods                     = var.agents_max_pods
-      enable_host_encryption       = var.enable_host_encryption
-      only_critical_addons_enabled = var.only_critical_addons_enabled
+      vnet_subnet_id               = var.vnet_subnet_id
+      max_count                    = var.agents_max_count
+      min_count                    = var.agents_min_count
+      zones                        = var.agents_availability_zones
     }
   }
 
-  dynamic "service_principal" {
-    for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
+  dynamic "azure_active_directory_role_based_access_control" {
+    for_each = var.enable_role_based_access_control && var.rbac_aad_managed ? ["rbac"] : []
     content {
-      client_id     = var.client_id
-      client_secret = var.client_secret
+      managed                = true
+      tenant_id              = var.rbac_aad_tenant_id
+      admin_group_object_ids = var.rbac_aad_admin_group_object_ids
+      azure_rbac_enabled     = var.rbac_aad_azure_rbac_enabled
+    }
+  }
+  dynamic "azure_active_directory_role_based_access_control" {
+    for_each = var.enable_role_based_access_control && !var.rbac_aad_managed ? ["rbac"] : []
+    content {
+      managed           = false
+      tenant_id         = var.rbac_aad_tenant_id
+      client_app_id     = var.rbac_aad_client_app_id
+      server_app_id     = var.rbac_aad_server_app_id
+      server_app_secret = var.rbac_aad_server_app_secret
     }
   }
 
@@ -102,19 +109,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       identity_ids = var.identity_ids
     }
   }
-
-  http_application_routing_enabled = var.enable_http_application_routing
-
-  azure_policy_enabled = var.azure_policy_enabled
-
-  dynamic "oms_agent" {
-    for_each = var.enable_log_analytics_workspace ? ["oms_agent"] : []
-    content {
-      log_analytics_workspace_id = var.log_analytics_workspace == null ? azurerm_log_analytics_workspace.main[0].id : var.log_analytics_workspace.id
-    }
-  }
-
-  open_service_mesh_enabled = var.enable_open_service_mesh
 
   dynamic "ingress_application_gateway" {
     for_each = var.enable_ingress_application_gateway ? ["ingress_application_gateway"] : []
@@ -134,26 +128,15 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
-  role_based_access_control_enabled = var.enable_role_based_access_control
-
-  dynamic "azure_active_directory_role_based_access_control" {
-    for_each = var.enable_role_based_access_control && var.rbac_aad_managed ? ["rbac"] : []
+  dynamic "linux_profile" {
+    for_each = var.admin_username == null ? [] : ["linux_profile"]
     content {
-      managed                = true
-      admin_group_object_ids = var.rbac_aad_admin_group_object_ids
-      azure_rbac_enabled     = var.rbac_aad_azure_rbac_enabled
-      tenant_id              = var.rbac_aad_tenant_id
-    }
-  }
+      admin_username = var.admin_username
 
-  dynamic "azure_active_directory_role_based_access_control" {
-    for_each = var.enable_role_based_access_control && !var.rbac_aad_managed ? ["rbac"] : []
-    content {
-      managed           = false
-      client_app_id     = var.rbac_aad_client_app_id
-      server_app_id     = var.rbac_aad_server_app_id
-      server_app_secret = var.rbac_aad_server_app_secret
-      tenant_id         = var.rbac_aad_tenant_id
+      ssh_key {
+        # remove any new lines using the replace interpolation function
+        key_data = replace(coalesce(var.public_ssh_key, tls_private_key.ssh[0].public_key_openssh), "\n", "")
+      }
     }
   }
 
@@ -167,9 +150,20 @@ resource "azurerm_kubernetes_cluster" "main" {
     service_cidr       = var.net_profile_service_cidr
   }
 
-  oidc_issuer_enabled = var.oidc_issuer_enabled
+  dynamic "oms_agent" {
+    for_each = var.enable_log_analytics_workspace ? ["oms_agent"] : []
+    content {
+      log_analytics_workspace_id = var.log_analytics_workspace == null ? azurerm_log_analytics_workspace.main[0].id : var.log_analytics_workspace.id
+    }
+  }
 
-  tags = var.tags
+  dynamic "service_principal" {
+    for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
+    content {
+      client_id     = var.client_id
+      client_secret = var.client_secret
+    }
+  }
 
   lifecycle {
     precondition {
@@ -178,14 +172,15 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
     precondition {
       # Why don't use var.identity_ids != null && length(var.identity_ids)>0 ? Because bool expression in Terraform is not short circuit so even var.identity_ids is null Terraform will still invoke length function with null and cause error. https://github.com/hashicorp/terraform/issues/24128
-      condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type == "SystemAssigned") || (var.identity_ids == null ? false :length(var.identity_ids) > 0)
+      condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type == "SystemAssigned") || (var.identity_ids == null ? false : length(var.identity_ids) > 0)
       error_message = "If use identity and `UserAssigned` or `SystemAssigned, UserAssigned` is set, an `identity_ids` must be set as well."
     }
   }
 }
 
 resource "azurerm_log_analytics_workspace" "main" {
-  count               = var.enable_log_analytics_workspace && var.log_analytics_workspace == null ? 1 : 0
+  count = var.enable_log_analytics_workspace && var.log_analytics_workspace == null ? 1 : 0
+
   name                = var.cluster_log_analytics_workspace_name == null ? "${var.prefix}-workspace" : var.cluster_log_analytics_workspace_name
   location            = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
