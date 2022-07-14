@@ -15,10 +15,9 @@ resource "tls_private_key" "ssh" {
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
-  name                = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
-  location            = coalesce(var.location, data.azurerm_resource_group.main.location)
-  resource_group_name = data.azurerm_resource_group.main.name
-
+  name                                = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
+  location                            = coalesce(var.location, data.azurerm_resource_group.main.location)
+  resource_group_name                 = data.azurerm_resource_group.main.name
   dns_prefix                          = var.prefix
   api_server_authorized_ip_ranges     = var.api_server_authorized_ip_ranges
   azure_policy_enabled                = var.azure_policy_enabled
