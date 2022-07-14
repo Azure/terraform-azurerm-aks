@@ -4,7 +4,7 @@ data "azurerm_resource_group" "main" {
 
 moved {
   from = module.ssh-key.tls_private_key.ssh
-  to   = tls_private_key.ssh
+  to   = tls_private_key.ssh[0]
 }
 
 resource "tls_private_key" "ssh" {
