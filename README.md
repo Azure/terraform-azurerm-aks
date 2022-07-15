@@ -68,6 +68,25 @@ Resource `tls_private_key`'s creation now is conditional. Users may see the dest
 
 ### `system_assigned_identity` in the output has been renamed to `cluster_identity`
 
+The `system_assigned_identity` was:
+
+```hcl
+output "system_assigned_identity" {
+  value = azurerm_kubernetes_cluster.main.identity
+}
+```
+
+Now it has been renamed to `cluster_identity`, and the block has been changed to:
+
+```hcl
+output "cluster_identity" {
+  description = "The `azurerm_kubernetes_cluster`'s `identity` block."
+  value       = try(azurerm_kubernetes_cluster.main.identity[0], null)
+}
+```
+
+The callers who used to read the cluster's identity block need to remove the index in their expression, from `module.aks.system_assigned_identity[0]` to `module.aks.cluster_identity`.
+
 ### The following outputs are now sensitive. All outputs referenced them must declare sensitive too
 
 * `client_certificate`
