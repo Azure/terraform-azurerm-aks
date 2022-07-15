@@ -80,98 +80,121 @@ Resource `tls_private_key`'s creation now is conditional. Users may see the dest
 * `password`
 * `username`
 
-## Usage in Terraform 0.13
+## Usage in Terraform 1.2.0
 
 ```hcl
 provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "example" {
-  name     = "aks-resource-group"
-  location = "eastus"
+resource "random_id" "prefix" {
+  byte_length = 8
+}
+resource "azurerm_resource_group" "main" {
+  location = var.location
+  name     = "${random_id.prefix.hex}-rg"
 }
 
-module "network" {
-  source              = "Azure/network/azurerm"
-  resource_group_name = azurerm_resource_group.example.name
-  address_space       = "10.52.0.0/16"
-  subnet_prefixes     = ["10.52.0.0/24"]
-  subnet_names        = ["subnet1"]
-  depends_on          = [azurerm_resource_group.example]
+resource "azurerm_virtual_network" "test" {
+  name                = "${random_id.prefix.hex}-vn"
+  resource_group_name = azurerm_resource_group.main.name
+  address_space       = ["10.52.0.0/16"]
+  location            = azurerm_resource_group.main.location
 }
 
-data "azuread_group" "aks_cluster_admins" {
-  display_name = "AKS-cluster-admins"
+resource "azurerm_subnet" "test" {
+  name                 = "${random_id.prefix.hex}-sn"
+  resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.test.name
+  address_prefixes     = ["10.52.0.0/24"]
+}
+
+resource "azurerm_user_assigned_identity" "test" {
+  name                = "${random_id.prefix.hex}-identity"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
 }
 
 module "aks" {
-  source                           = "Azure/aks/azurerm"
-  resource_group_name              = azurerm_resource_group.example.name
-  client_id                        = "your-service-principal-client-appid"
-  client_secret                    = "your-service-principal-client-password"
-  kubernetes_version               = "1.23.5"
-  orchestrator_version             = "1.23.5"
-  prefix                           = "prefix"
-  cluster_name                     = "cluster-name"
-  network_plugin                   = "azure"
-  vnet_subnet_id                   = module.network.vnet_subnets[0]
-  os_disk_size_gb                  = 50
-  sku_tier                         = "Paid" # defaults to Free
-  enable_role_based_access_control = true
-  rbac_aad_admin_group_object_ids  = [data.azuread_group.aks_cluster_admins.id]
-  rbac_aad_managed                 = true
-  private_cluster_enabled          = true # default value
-  enable_http_application_routing  = true
-  enable_azure_policy              = true
-  enable_open_service_mesh         = true
-  enable_auto_scaling              = true
-  enable_host_encryption           = true
-  agents_min_count                 = 1
-  agents_max_count                 = 2
-  agents_count                     = null # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
-  agents_max_pods                  = 100
-  agents_pool_name                 = "exnodepool"
-  agents_availability_zones        = ["1", "2"]
-  agents_type                      = "VirtualMachineScaleSets"
+  source = "../.."
 
-  agents_labels = {
-    "nodepool" : "defaultnodepool"
+  prefix                    = "prefix-${random_id.prefix.hex}"
+  resource_group_name       = azurerm_resource_group.main.name
+  agents_availability_zones = ["1", "2"]
+  agents_count              = null
+  agents_labels             = {
+    "node1" : "label1"
   }
-
-  agents_tags = {
-    "Agent" : "defaultnodepoolagent"
+  agents_max_count = 2
+  agents_max_pods  = 100
+  agents_min_count = 1
+  agents_pool_name = "testnodepool"
+  agents_tags      = {
+    "Agent" : "agentTag"
   }
-
-  enable_ingress_application_gateway      = true
-  ingress_application_gateway_name        = "aks-agw"
+  agents_type                             = "VirtualMachineScaleSets"
+  azure_policy_enabled                    = true
+  client_id                               = var.client_id
+  client_secret                           = var.client_secret
+  enable_auto_scaling                     = true
+  enable_host_encryption                  = true
+  http_application_routing_enabled        = true
+  ingress_application_gateway_enabled     = true
+  log_analytics_workspace_enabled         = true
+  role_based_access_control_enabled       = true
+  ingress_application_gateway_name        = "${random_id.prefix.hex}-agw"
   ingress_application_gateway_subnet_cidr = "10.52.1.0/24"
+  local_account_disabled                  = true
+  net_profile_dns_service_ip              = "10.0.0.10"
+  net_profile_docker_bridge_cidr          = "170.10.0.1/16"
+  net_profile_service_cidr                = "10.0.0.0/16"
+  network_plugin                          = "azure"
+  network_policy                          = "azure"
+  os_disk_size_gb                         = 60
+  private_cluster_enabled                 = true
+  rbac_aad_managed                        = true
+  sku_tier                                = "Paid"
+  vnet_subnet_id                          = azurerm_subnet.test.id
 
-  network_policy                 = "azure"
-  net_profile_dns_service_ip     = "10.0.0.10"
-  net_profile_docker_bridge_cidr = "170.10.0.1/16"
-  net_profile_service_cidr       = "10.0.0.0/16"
-
-  depends_on = [module.network]
-}
-```
-
-## Usage in Terraform 0.12
-
-```hcl
-provider "azurerm" {
-  features {}
+  depends_on = [azurerm_resource_group.main]
 }
 
-resource "azurerm_resource_group" "example" {
-  name     = "aks-resource-group"
-  location = "eastus"
+module "aks_without_monitor" {
+  source = "../.."
+
+  prefix                            = "prefix2-${random_id.prefix.hex}"
+  resource_group_name               = azurerm_resource_group.main.name
+  azure_policy_enabled              = true
+  log_analytics_workspace_enabled   = true
+  role_based_access_control_enabled = true
+  local_account_disabled            = true
+  net_profile_pod_cidr              = "10.1.0.0/16"
+  private_cluster_enabled           = true
+  rbac_aad_managed                  = true
+
+  depends_on = [azurerm_resource_group.main]
 }
 
-module "aks" {
-  source              = "Azure/aks/azurerm"
-  resource_group_name = azurerm_resource_group.example.name
-  prefix              = "prefix"
+module "aks_cluster_name" {
+  source = "../.."
+
+  prefix                               = "prefix"
+  resource_group_name                  = azurerm_resource_group.main.name
+  # Not necessary, just for demo purpose.
+  admin_username                       = "azureuser"
+  azure_policy_enabled                 = true
+  cluster_log_analytics_workspace_name = "test-cluster"
+  cluster_name                         = "test-cluster"
+  log_analytics_workspace_enabled      = true
+  role_based_access_control_enabled    = true
+  identity_ids                         = [azurerm_user_assigned_identity.test.id]
+  identity_type                        = "UserAssigned"
+  local_account_disabled               = true
+  net_profile_pod_cidr                 = "10.1.0.0/16"
+  private_cluster_enabled              = true
+  rbac_aad_managed                     = true
+
+  depends_on = [azurerm_resource_group.main]
 }
 ```
 
@@ -186,6 +209,8 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.aks.cluster_ca_certificate)
 }
 ```
+
+To try the module, please run `terraform apply` command in `test/fixture` folder.
 
 ## Test
 
