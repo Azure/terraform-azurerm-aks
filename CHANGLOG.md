@@ -22,7 +22,7 @@ ENHANCEMENTS:
 * Set argument `private_cluster_enabled` to `true` in the test code. ([#219](https://github.com/Azure/terraform-azurerm-aks/pull/219))
 * Add new variable `disk_encryption_set_id` to make argument `disk_encryption_set_id` configurable. Create resource `azurerm_disk_encryption_set` in the test code to turn disk encryption on for the cluster. ([#195](https://github.com/Azure/terraform-azurerm-aks/pull/195))
 * Add new variable `api_server_authorized_ip_ranges` to make argument `api_server_authorized_ip_ranges` configurable. ([#220](https://github.com/Azure/terraform-azurerm-aks/pull/220))
-* Rename output `system_assigned_identity` to `cluster_identity` since it could be user assigned identity. ([#197](https://github.com/Azure/terraform-azurerm-aks/pull/197))
+* Rename output `system_assigned_identity` to `cluster_identity` since it could be user assigned identity, Remove the index inside output's value expression. ([#197](https://github.com/Azure/terraform-azurerm-aks/pull/197))
 
 BUG FIXES:
 
