@@ -73,8 +73,8 @@ resource "azurerm_disk_encryption_set" "des" {
 
 resource "azurerm_key_vault_access_policy" "des" {
   key_vault_id    = azurerm_key_vault.des_vault.id
-  tenant_id       = azurerm_disk_encryption_set.des.identity.0.tenant_id
-  object_id       = azurerm_disk_encryption_set.des.identity.0.principal_id
+  tenant_id       = azurerm_disk_encryption_set.des.identity[0].tenant_id
+  object_id       = azurerm_disk_encryption_set.des.identity[0].principal_id
   key_permissions = [
     "Get",
     "WrapKey",

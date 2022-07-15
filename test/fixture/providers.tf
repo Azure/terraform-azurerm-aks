@@ -10,6 +10,10 @@ terraform {
       source  = "anschoewe/curl"
       version = ">=1.0.2"
     }
+    random = {
+      source = "hashicorp/random"
+      version = ">=3.3.0"
+    }
   }
 }
 
