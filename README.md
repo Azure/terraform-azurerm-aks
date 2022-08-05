@@ -38,6 +38,7 @@ It has been broken into the following new outputs:
 
 ### The following variables have been renamed from `enable_xxx` to `xxx_enabled`
 
+* `enable_azure_policy` has been renamed to `azure_policy_enabled`
 * `enable_http_application_routing` has been renamed to `http_application_routing_enabled`
 * `enable_ingress_application_gateway` has been renamed to `ingress_application_gateway_enabled`
 * `enable_log_analytics_workspace` has been renamed to `log_analytics_workspace_enabled`
