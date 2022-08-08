@@ -33,14 +33,14 @@ module "aks" {
   resource_group_name       = azurerm_resource_group.main.name
   agents_availability_zones = ["1", "2"]
   agents_count              = null
-  agents_labels             = {
+  agents_labels = {
     "node1" : "label1"
   }
   agents_max_count = 2
   agents_max_pods  = 100
   agents_min_count = 1
   agents_pool_name = "testnodepool"
-  agents_tags      = {
+  agents_tags = {
     "Agent" : "agentTag"
   }
   agents_type                             = "VirtualMachineScaleSets"
@@ -74,10 +74,10 @@ module "aks" {
 module "aks_without_monitor" {
   source = "../.."
 
-  prefix                            = "prefix2-${random_id.prefix.hex}"
-  resource_group_name               = azurerm_resource_group.main.name
-  azure_policy_enabled              = true
-  disk_encryption_set_id            = azurerm_disk_encryption_set.des.id
+  prefix                 = "prefix2-${random_id.prefix.hex}"
+  resource_group_name    = azurerm_resource_group.main.name
+  azure_policy_enabled   = true
+  disk_encryption_set_id = azurerm_disk_encryption_set.des.id
   #checkov:skip=CKV_AZURE_4:The logging is turn off for demo purpose. DO NOT DO THIS IN PRODUCTION ENVIRONMENT!
   log_analytics_workspace_enabled   = false
   role_based_access_control_enabled = true
@@ -92,8 +92,8 @@ module "aks_without_monitor" {
 module "aks_cluster_name" {
   source = "../.."
 
-  prefix                               = "prefix"
-  resource_group_name                  = azurerm_resource_group.main.name
+  prefix              = "prefix"
+  resource_group_name = azurerm_resource_group.main.name
   # Not necessary, just for demo purpose.
   admin_username                       = "azureuser"
   azure_policy_enabled                 = true

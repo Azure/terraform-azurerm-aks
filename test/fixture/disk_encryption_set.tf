@@ -41,7 +41,7 @@ resource "azurerm_key_vault_key" "des_key" {
   key_vault_id = azurerm_key_vault.des_vault.id
   key_type     = "RSA-HSM"
   key_size     = 2048
-  key_opts     = [
+  key_opts = [
     "decrypt",
     "encrypt",
     "sign",
@@ -72,9 +72,9 @@ resource "azurerm_disk_encryption_set" "des" {
 }
 
 resource "azurerm_key_vault_access_policy" "des" {
-  key_vault_id    = azurerm_key_vault.des_vault.id
-  tenant_id       = azurerm_disk_encryption_set.des.identity[0].tenant_id
-  object_id       = azurerm_disk_encryption_set.des.identity[0].principal_id
+  key_vault_id = azurerm_key_vault.des_vault.id
+  tenant_id    = azurerm_disk_encryption_set.des.identity[0].tenant_id
+  object_id    = azurerm_disk_encryption_set.des.identity[0].principal_id
   key_permissions = [
     "Get",
     "WrapKey",
@@ -83,9 +83,9 @@ resource "azurerm_key_vault_access_policy" "des" {
 }
 
 resource "azurerm_key_vault_access_policy" "current_user" {
-  key_vault_id    = azurerm_key_vault.des_vault.id
-  tenant_id       = data.azurerm_client_config.current.tenant_id
-  object_id       = coalesce(var.managed_identity_principal_id, data.azurerm_client_config.current.object_id)
+  key_vault_id = azurerm_key_vault.des_vault.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = coalesce(var.managed_identity_principal_id, data.azurerm_client_config.current.object_id)
   key_permissions = [
     "Get",
     "Create",
