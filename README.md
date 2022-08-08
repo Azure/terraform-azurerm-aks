@@ -142,14 +142,14 @@ module "aks" {
   resource_group_name       = azurerm_resource_group.main.name
   agents_availability_zones = ["1", "2"]
   agents_count              = null
-  agents_labels             = {
+  agents_labels = {
     "node1" : "label1"
   }
   agents_max_count = 2
   agents_max_pods  = 100
   agents_min_count = 1
   agents_pool_name = "testnodepool"
-  agents_tags      = {
+  agents_tags = {
     "Agent" : "agentTag"
   }
   agents_type                             = "VirtualMachineScaleSets"
@@ -198,8 +198,8 @@ module "aks_without_monitor" {
 module "aks_cluster_name" {
   source = "../.."
 
-  prefix                               = "prefix"
-  resource_group_name                  = azurerm_resource_group.main.name
+  prefix              = "prefix"
+  resource_group_name = azurerm_resource_group.main.name
   # Not necessary, just for demo purpose.
   admin_username                       = "azureuser"
   azure_policy_enabled                 = true
