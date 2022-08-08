@@ -2,7 +2,7 @@
 
 ENHANCEMENTS:
 
-* Variable `enable_kube_dashboard` has been remove as [#181](https://github.com/Azure/terraform-azurerm-aks/issues/181) described. ([#187](https://github.com/Azure/terraform-azurerm-aks/pull/187))
+* Variable `enable_kube_dashboard` has been removed as [#181](https://github.com/Azure/terraform-azurerm-aks/issues/181) described. ([#187](https://github.com/Azure/terraform-azurerm-aks/pull/187))
 * Add new variable `location` so we can define location for the resources explicitly. ([#172](https://github.com/Azure/terraform-azurerm-aks/pull/172))
 * Bump AzureRM Provider version to 3.3.0.  ([#157](https://github.com/Azure/terraform-azurerm-aks/pull/157))
 * Add new variable `private_dns_zone_id` to make argument `private_dns_zone_id` configurable. ([#174](https://github.com/Azure/terraform-azurerm-aks/pull/174))
@@ -23,7 +23,7 @@ ENHANCEMENTS:
 * Set argument `private_cluster_enabled` to `true` in the test code. ([#219](https://github.com/Azure/terraform-azurerm-aks/pull/219))
 * Add new variable `disk_encryption_set_id` to make argument `disk_encryption_set_id` configurable. Create resource `azurerm_disk_encryption_set` in the test code to turn disk encryption on for the cluster. ([#195](https://github.com/Azure/terraform-azurerm-aks/pull/195))
 * Add new variable `api_server_authorized_ip_ranges` to make argument `api_server_authorized_ip_ranges` configurable. ([#220](https://github.com/Azure/terraform-azurerm-aks/pull/220))
-* Rename output `system_assigned_identity` to `cluster_identity` since it could be user assigned identity, Remove the index inside output's value expression. ([#197](https://github.com/Azure/terraform-azurerm-aks/pull/197))
+* Rename output `system_assigned_identity` to `cluster_identity` since it could be user assigned identity. Remove the index inside output's value expression. ([#197](https://github.com/Azure/terraform-azurerm-aks/pull/197))
 * Rename `var.enable_azure_policy` to `var.azure_policy_enabled` to meet the naming convention. Set `azure_policy_enabled` to `true` in test fixture code. ([#203](https://github.com/Azure/terraform-azurerm-aks/pull/203))
 
 BUG FIXES:

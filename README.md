@@ -8,7 +8,7 @@ This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kub
 
 ## Notice on Upgrade to V5.x
 
-V5.0.0 is a major version upgrade and a lot of breaking changes have been introduced. Extremely cautious must be taken during the upgrade to avoid resource replacement and downtime by accident.
+V5.0.0 is a major version upgrade and a lot of breaking changes have been introduced. Extreme caution must be taken during the upgrade to avoid resource replacement and downtime by accident.
 
 Running the `terraform plan` first to inspect the plan is strongly advised.
 
@@ -57,7 +57,7 @@ It has been broken into the following new outputs:
 
 ### `var.admin_username`'s default value has been removed
 
-In v4.x `var.admin_username` has a default value `azureuser` and has been removed in V5.0.0. Since the `admin_username` argument in `linux_profile` block is a ForceNew argument, any value change to this argument will trigger a Kubernetes cluster replacement **SO THE EXTREMELY CAUTIOUS MUST BE TAKEN**. The module's callers must set `var.admin_username` to `azureuser` explicitly if they didn't set it before.
+In v4.x `var.admin_username` has a default value `azureuser` and has been removed in V5.0.0. Since the `admin_username` argument in `linux_profile` block is a ForceNew argument, any value change to this argument will trigger a Kubernetes cluster replacement **SO THE EXTREME CAUTION MUST BE TAKEN**. The module's callers must set `var.admin_username` to `azureuser` explicitly if they didn't set it before.
 
 ### `module.ssh-key` has been removed
 
@@ -88,7 +88,7 @@ output "cluster_identity" {
 
 The callers who used to read the cluster's identity block need to remove the index in their expression, from `module.aks.system_assigned_identity[0]` to `module.aks.cluster_identity`.
 
-### The following outputs are now sensitive. All outputs referenced them must declare sensitive too
+### The following outputs are now sensitive. All outputs referenced them must be declared as sensitive too
 
 * `client_certificate`
 * `client_key`
