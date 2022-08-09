@@ -1,0 +1,29 @@
+name: E2E Test
+on:
+  pull_request:
+    types: [ 'opened', 'synchronize' ]
+    paths:
+      - '.github/**'
+      - '**.go'
+      - '**.tf'
+      - '.github/workflows/**'
+      - '**.md'
+
+jobs:
+  acc-tests:
+    runs-on: [self-hosted, 1ES.Pool=AzureVerifiedTerraformModule]
+    environment:
+      name: acctests
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.19.0'
+      - uses: actions/checkout@v3
+      - name: e2e test
+        env:
+          MSI_ID: 'fe405819-42c4-4877-a28d-f96b88d7994b'
+        run: |
+          az login --identity --username $MSI_ID
+          export ARM_SUBSCRIPTION_ID=$(az login --identity --username $MSI_ID | jq -r '.[0] | .id')
+          export ARM_TENANT_ID=$(az login --identity --username $MSI_ID | jq -r '.[0] | .tenantId')
+          ARM_USE_MSI=true PATH=$PATH:/go/bin:/usr/local/go/bin make e2e-test
