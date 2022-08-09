@@ -1,6 +1,4 @@
 terraform {
-  required_version = ">= 1.2"
-
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -8,11 +6,11 @@ terraform {
     }
     curl = {
       source  = "anschoewe/curl"
-      version = ">=1.0.2"
+      version = "1.0.2"
     }
     random = {
       source  = "hashicorp/random"
-      version = ">=3.3.0"
+      version = "3.3.2"
     }
   }
 }
@@ -31,3 +29,5 @@ provider "azurerm" {
 }
 
 provider "curl" {}
+
+provider "random" {}

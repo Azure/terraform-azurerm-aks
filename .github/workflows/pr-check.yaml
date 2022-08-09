@@ -1,0 +1,57 @@
+name: Pre Pull Request Check
+on:
+  pull_request:
+    types: ['opened', 'synchronize']
+    paths:
+      - '.github/**'
+      - '**.go'
+      - '**.tf'
+      - '.github/workflows/**'
+      - '**.md'
+
+jobs:
+  prepr-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.17.0'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - name: make tools
+        run: |
+          make tools
+      - name: gofmtcheck
+        run: |
+          make gofmtcheck
+      - name: gencheck
+        run: |
+          make gencheck
+      - name: tfvalidatecheck
+        run: |
+          make tfvalidatecheck
+      - name: tffmtcheck
+        run: |
+          make tffmtcheck
+      - name: terrafmtcheck
+        run: |
+          make terrafmtcheck
+      - name: golint
+        run: |
+          make golint
+      - name: tflint
+        run: |
+          make tflint
+      - name: Run Checkov action
+        id: checkov
+        if: ${{env.SKIP_CHECKOV == ''}}
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: ./
+          framework: terraform
+          quiet: true
+          output_format: sarif
+          download_external_modules: true
