@@ -2,9 +2,9 @@ data "azurerm_client_config" "current" {}
 
 resource "random_string" "key_vault_prefix" {
   length  = 6
-  numeric = false
   special = false
   upper   = false
+  numeric = false
 }
 
 data "curl" "public_ip" {
@@ -20,9 +20,9 @@ locals {
 }
 
 resource "azurerm_key_vault" "des_vault" {
-  location                    = azurerm_resource_group.main.location
+  location                    = local.resource_group.location
   name                        = "${random_string.key_vault_prefix.result}-des-keyvault"
-  resource_group_name         = azurerm_resource_group.main.name
+  resource_group_name         = local.resource_group.name
   sku_name                    = "premium"
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   enabled_for_disk_encryption = true
@@ -61,9 +61,9 @@ resource "azurerm_key_vault_key" "des_key" {
 
 resource "azurerm_disk_encryption_set" "des" {
   key_vault_key_id    = azurerm_key_vault_key.des_key.id
-  location            = azurerm_resource_group.main.location
+  location            = local.resource_group.location
   name                = "des"
-  resource_group_name = azurerm_resource_group.main.name
+  resource_group_name = local.resource_group.name
 
   identity {
     type = "SystemAssigned"

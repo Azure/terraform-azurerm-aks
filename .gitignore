@@ -8,10 +8,12 @@ terraform.tfvars
 *.tfstate.backup
 *.tfvars
 
+**/.terraform.lock.hcl
+
 # Terraform directory
 .terraform/
 terraform.tfstate.d/
-logs/ 
+logs/
 
 # Go vendor directory
 vendor/
@@ -48,3 +50,13 @@ Gemfile.lock
 
 # SSH Key
 private_ssh_key
+
+# generated readme by the pr-check job
+
+README-generated.md
+
+**/override.tf
+
+.tflint.hcl
+
+tfmod-scaffold/
