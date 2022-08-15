@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: 8BitJonny/gh-get-current-pr@2.1.0
         id: PR
-      # checkov:skip=CKV_GHA_3
+      # checkov:skip=CKV_GHA_3 bypass check for CKV_GHA_3 since the GITHUB_TOKEN will be a one-time token https://docs.bridgecrew.io/docs/suspicious-use-of-curl-with-secrets
       - name: Warn remaining PR branch
         run: |
           echo "=====> Query remaining pull requests"
