@@ -8,6 +8,18 @@ variable "resource_group_name" {
   description = "The resource group name to be imported"
 }
 
+variable "aci_connector_linux_enabled" {
+  description = "Enable Virtual Node pool"
+  type        = bool
+  default     = false
+}
+
+variable "aci_connector_linux_subnet_name" {
+  description = "(Optional) aci_connector_linux subnet name"
+  type        = string
+  default     = null
+}
+
 variable "admin_username" {
   type        = string
   description = "The username of the local administrator to be created on the Kubernetes cluster. Set this variable to `null` to turn off the cluster's `linux_profile`. Changing this forces a new resource to be created."
