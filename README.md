@@ -1,7 +1,7 @@
 # terraform-azurerm-aks
 
 ## Deploys a Kubernetes cluster on AKS with monitoring support through Azure Log Analytics
-
+ 
 This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kubernetes Service) and adds support for monitoring with Log Analytics.
 
 -> **NOTE:** If you have not assigned `client_id` or `client_secret`, A `SystemAssigned` identity will be created.
