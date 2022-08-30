@@ -9,7 +9,7 @@ ENHANCEMENTS:
 * Add new variable `open_service_mesh_enabled` to make argument `open_service_mesh_enabled` configurable. ([#132](https://github.com/Azure/terraform-azurerm-aks/pull/132))
 * Remove `addon_profile` in the outputs since the block has been removed from provider 3.x. Extract embedded blocks inside `addon_profile` block into standalone outputs. ([#188](https://github.com/Azure/terraform-azurerm-aks/pull/188))
 * Add `nullable = true` to some variables to simplify the conditional expressions. ([#193](https://github.com/Azure/terraform-azurerm-aks/pull/193))
-* Add new variable `oidc_issuer_enabled` to make argument `oidc_issuer_enabled` configurable. ([#205](https://github.com/Azure/terraform-azurerm-aks/pull/205) 
+* Add new variable `oidc_issuer_enabled` to make argument `oidc_issuer_enabled` configurable. ([#205](https://github.com/Azure/terraform-azurerm-aks/pull/205)
 * Add new output `oidc_issuer_url` to expose the created issuer URL from the module. [#206](https://github.com/Azure/terraform-azurerm-aks/pull/206))
 * Turn monitoring on in the test code. ([#201](https://github.com/Azure/terraform-azurerm-aks/pull/201))
 * Add new variables `private_dns_zone_id` and `private_cluster_public_fqdn_enabled` to make arguments `private_dns_zone_id` and `private_cluster_public_fqdn_enabled` configurable. ([#149](https://github.com/Azure/terraform-azurerm-aks/pull/149))
@@ -35,3 +35,4 @@ BUG FIXES:
 * Loose the restriction on `tls` provider's version to include major version greater than 3.0. [#228](https://github.com/Azure/terraform-azurerm-aks/issues/228)
 * Mark some outputs as sensitive. [#231](https://github.com/Azure/terraform-azurerm-aks/pull/231)
 * Output Kubernetes Cluster Name. [#234](https://github.com/Azure/terraform-azurerm-aks/pull/234)
+* Require minimum `hashicorp/azurerm` provider version to 3.21.0 (fixes for AKS 1.24) [#238](https://github.com/Azure/terraform-azurerm-aks/pull/238)

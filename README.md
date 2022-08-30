@@ -14,15 +14,15 @@ Running the `terraform plan` first to inspect the plan is strongly advised.
 
 ### Terraform and terraform-provider-azurerm version restrictions
 
-Now Terraform core's lowest version is v1.2.0 and terraform-provider-azurerm's lowest version is v3.3.0.
+Now Terraform core's lowest version is v1.2.0 and terraform-provider-azurerm's lowest version is v3.21.0.
 
 ### variable `user_assigned_identity_id` has been renamed.
 
 variable `user_assigned_identity_id` has been renamed to `identity_ids` and it's type has been changed from `string` to `list(string)`.
 
-### `addon_profile` in outputs is no longer available. 
+### `addon_profile` in outputs is no longer available.
 
-It has been broken into the following new outputs: 
+It has been broken into the following new outputs:
 
 * `aci_connector_linux`
 * `aci_connector_linux_enabled`
@@ -346,14 +346,14 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 | Name                                                                      | Version |
 |---------------------------------------------------------------------------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.2  |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm)       | ~> 3.3  |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm)       | ~> 3.21 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls)                   | >= 3.1  |
 
 ## Providers
 
 | Name                                                          | Version |
 |---------------------------------------------------------------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.18.0  |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 3.21 |
 | <a name="provider_tls"></a> [tls](#provider\_tls)             | 4.0.1   |
 
 ## Modules
