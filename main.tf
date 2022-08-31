@@ -141,6 +141,13 @@ resource "azurerm_kubernetes_cluster" "main" {
       }
     }
   }
+  dynamic "microsoft_defender" {
+    for_each = var.microsoft_defender_enabled ? ["microsoft_defender"] : []
+
+    content {
+      log_analytics_workspace_id = var.log_analytics_workspace_id == null ? azurerm_log_analytics_workspace.main[0].id : var.log_analytics_workspace.id
+    }
+  }
   network_profile {
     network_plugin     = var.network_plugin
     dns_service_ip     = var.net_profile_dns_service_ip
@@ -165,15 +172,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       client_secret = var.client_secret
     }
   }
-
-  dynamic "microsoft_defender" {
-    for_each = var.microsoft_defender_enabled ? ["microsoft_defender"] : []
-
-    content {
-      log_analytics_workspace_id = var.log_analytics_workspace_id == null ? azurerm_log_analytics_workspace.main[0].id : var.log_analytics_workspace.id
-    }
-  }
-
   lifecycle {
     precondition {
       condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type != "")
