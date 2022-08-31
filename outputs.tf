@@ -49,6 +49,11 @@ output "aks_id" {
   value       = azurerm_kubernetes_cluster.main.id
 }
 
+output "aks_name" {
+  description = "The `aurerm_kubernetes-cluster`'s name."
+  value       = azurerm_kubernetes_cluster.main.name
+}
+
 output "azure_policy_enabled" {
   description = "The `azurerm_kubernetes_cluster`'s `azure_policy_enabled` argument. Should the Azure Policy Add-On be enabled? For more details please visit [Understand Azure Policy for Azure Kubernetes Service](https://docs.microsoft.com/en-ie/azure/governance/policy/concepts/rego-for-aks)"
   value       = azurerm_kubernetes_cluster.main.azure_policy_enabled
