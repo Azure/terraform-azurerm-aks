@@ -259,6 +259,13 @@ variable "log_retention_in_days" {
   default     = 30
 }
 
+variable "microsoft_defender_enabled" {
+  type        = bool
+  description = "(Optional) Is Microsoft Defender on the cluster enabled?"
+  default     = false
+  nullable    = false
+}
+
 variable "net_profile_dns_service_ip" {
   type        = string
   description = "(Optional) IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created."
@@ -449,11 +456,4 @@ variable "vnet_subnet_id" {
   type        = string
   description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created."
   default     = null
-}
-
-variable "microsoft_defender_enabled" {
-  type        = bool
-  description = "(Optional) Is Microsoft Defender on the cluster enabled?"
-  default     = false
-  nullable    = false
 }
