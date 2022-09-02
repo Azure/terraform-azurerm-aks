@@ -11,7 +11,7 @@ on:
 
 jobs:
   acc-tests:
-    runs-on: [self-hosted, tfmodule]
+    runs-on: [self-hosted, 1ES.Pool=AzureVerifiedTerraformModule]
     environment:
       name: acctests
     steps:
