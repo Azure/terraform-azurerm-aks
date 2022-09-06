@@ -145,7 +145,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     for_each = var.microsoft_defender_enabled ? ["microsoft_defender"] : []
 
     content {
-      log_analytics_workspace_id = var.log_analytics_workspace_id == null ? azurerm_log_analytics_workspace.main[0].id : var.log_analytics_workspace.id
+      log_analytics_workspace_id = coalesce(try(var.log_analytics_workspace.id, null), azurerm_log_analytics_workspace.main[0].id)
     }
   }
   network_profile {
