@@ -7,3 +7,4 @@ ENHANCEMENTS:
 * Loose the restriction on `tls` provider's version to include major version greater than 3.0. [#228](https://github.com/Azure/terraform-azurerm-aks/issues/228)
 * Mark some outputs as sensitive. [#231](https://github.com/Azure/terraform-azurerm-aks/pull/231)
 * Output Kubernetes Cluster Name. [#234](https://github.com/Azure/terraform-azurerm-aks/pull/234)
+* Add Microsoft Defender support. [#232](https://github.com/Azure/terraform-azurerm-aks/pull/232)
