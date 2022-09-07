@@ -174,6 +174,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       client_secret = var.client_secret
     }
   }
+
   lifecycle {
     precondition {
       condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type != "")
