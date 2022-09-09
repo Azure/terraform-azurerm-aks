@@ -57,6 +57,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       type                         = var.agents_type
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
+      ultra_ssd_enabled            = var.ultra_ssd_enabled
     }
   }
   dynamic "default_node_pool" {
@@ -80,6 +81,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       type                         = var.agents_type
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
+      ultra_ssd_enabled            = var.ultra_ssd_enabled
     }
   }
 
