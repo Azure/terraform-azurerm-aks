@@ -59,6 +59,22 @@ output "azure_policy_enabled" {
   value       = azurerm_kubernetes_cluster.main.azure_policy_enabled
 }
 
+output "azurerm_log_analytics_workspace_id" {
+  description = "The id of the created Log Analytics workspace"
+  value       = try(azurerm_log_analytics_workspace.main[0].id, null)
+}
+
+output "azurerm_log_analytics_workspace_name" {
+  description = "The name of the created Log Analytics workspace"
+  value       = try(azurerm_log_analytics_workspace.main[0].name, null)
+}
+
+output "azurerm_log_analytics_workspace_primary_shared_key" {
+  description = "Specifies the workspace key of the log analytics workspace"
+  sensitive   = true
+  value       = try(azurerm_log_analytics_workspace.main[0].primary_shared_key, null)
+}
+
 output "client_certificate" {
   description = "The `client_certificate` in the `azurerm_kubernetes_cluster`'s `kube_config` block. Base64 encoded public certificate used by clients to authenticate to the Kubernetes cluster."
   sensitive   = true
