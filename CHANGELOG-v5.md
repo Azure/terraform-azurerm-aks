@@ -29,10 +29,3 @@ ENHANCEMENTS:
 BUG FIXES:
 
 * Change the incorrect description of variable `tags`. ([#175](https://github.com/Azure/terraform-azurerm-aks/pull/175))
-
-# 5.1.0 (August 31, 2022)
-
-* Loose the restriction on `tls` provider's version to include major version greater than 3.0. [#228](https://github.com/Azure/terraform-azurerm-aks/issues/228)
-* Mark some outputs as sensitive. [#231](https://github.com/Azure/terraform-azurerm-aks/pull/231)
-* Output Kubernetes Cluster Name. [#234](https://github.com/Azure/terraform-azurerm-aks/pull/234)
-* Require minimum `hashicorp/azurerm` provider version to 3.21.0 (fixes for AKS 1.24) [#238](https://github.com/Azure/terraform-azurerm-aks/pull/238)
