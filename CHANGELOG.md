@@ -8,6 +8,7 @@ ENHANCEMENTS:
 * Mark some outputs as sensitive. [#231](https://github.com/Azure/terraform-azurerm-aks/pull/231)
 * Output Kubernetes Cluster Name. [#234](https://github.com/Azure/terraform-azurerm-aks/pull/234)
 * Add Microsoft Defender support. [#232](https://github.com/Azure/terraform-azurerm-aks/pull/232)
+* Add outputs for created Log Analytics workspace. [#243](https://github.com/Azure/terraform-azurerm-aks/pull/243)
 
 # BUG FIXES:
 
