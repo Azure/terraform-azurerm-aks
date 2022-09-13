@@ -24,11 +24,11 @@ resource "azurerm_virtual_network" "test" {
 }
 
 resource "azurerm_subnet" "test" {
-  address_prefixes                               = ["10.52.0.0/24"]
-  name                                           = "${random_id.prefix.hex}-sn"
-  resource_group_name                            = local.resource_group.name
-  virtual_network_name                           = azurerm_virtual_network.test.name
-  enforce_private_link_endpoint_network_policies = true
+  address_prefixes                          = ["10.52.0.0/24"]
+  name                                      = "${random_id.prefix.hex}-sn"
+  resource_group_name                       = local.resource_group.name
+  virtual_network_name                      = azurerm_virtual_network.test.name
+  private_endpoint_network_policies_enabled = true
 }
 
 module "aks_without_monitor" {
