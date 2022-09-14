@@ -84,7 +84,13 @@ resource "azurerm_kubernetes_cluster" "main" {
       ultra_ssd_enabled            = var.ultra_ssd_enabled
     }
   }
+  dynamic "aci_connector_linux" {
+    for_each = var.aci_connector_linux_enabled ? ["aci_connector_linux"] : []
 
+    content {
+      subnet_name = var.aci_connector_linux_subnet_name
+    }
+  }
   dynamic "azure_active_directory_role_based_access_control" {
     for_each = var.role_based_access_control_enabled && var.rbac_aad_managed ? ["rbac"] : []
 
@@ -124,6 +130,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       subnet_id    = var.ingress_application_gateway_subnet_id
     }
   }
+
   dynamic "key_vault_secrets_provider" {
     for_each = var.key_vault_secrets_provider_enabled ? ["key_vault_secrets_provider"] : []
 
