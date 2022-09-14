@@ -55,9 +55,9 @@ resource "azurerm_kubernetes_cluster" "main" {
       os_disk_type                 = var.os_disk_type
       tags                         = merge(var.tags, var.agents_tags)
       type                         = var.agents_type
+      ultra_ssd_enabled            = var.ultra_ssd_enabled
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
-      ultra_ssd_enabled            = var.ultra_ssd_enabled
     }
   }
   dynamic "default_node_pool" {
@@ -79,9 +79,9 @@ resource "azurerm_kubernetes_cluster" "main" {
       os_disk_type                 = var.os_disk_type
       tags                         = merge(var.tags, var.agents_tags)
       type                         = var.agents_type
+      ultra_ssd_enabled            = var.ultra_ssd_enabled
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
-      ultra_ssd_enabled            = var.ultra_ssd_enabled
     }
   }
   dynamic "aci_connector_linux" {
