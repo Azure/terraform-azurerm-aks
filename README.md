@@ -122,7 +122,7 @@ provider "kubernetes" {
 }
 ```
 
-To try the module, please run `terraform apply` command in `examples`'s sub folder.
+There're some examples in the examples folder. You can execute `terraform apply` command in `examples`'s sub folder to try the module. These examples are tested against every PR with the [E2E Test](#Pre-Commit--Pr-Check--Test).
 
 ## Pre-Commit & Pr-Check & Test
 
@@ -202,7 +202,6 @@ docker run --rm -v $(pwd):/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_ci
 ```
 
 On Windows Powershell:
-``
 ```text
 docker run --rm -v ${pwd}:/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_cidr="<your_cidr>" -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
 ```
