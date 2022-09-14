@@ -13,3 +13,9 @@ ENHANCEMENTS:
 # BUG FIXES:
 
 * Update hashicorp/terraform-provider-azurerm to version 3.21.0. [#238](https://github.com/Azure/terraform-azurerm-aks/pull/238)
+
+## 6.1.0 (September 15, 2022)
+
+ENHANCEMENTS:
+
+* Add `aci_connector_linux` addon. [#230](https://github.com/Azure/terraform-azurerm-aks/pull/230)
