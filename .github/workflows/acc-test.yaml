@@ -9,9 +9,6 @@ on:
       - '.github/workflows/**'
       - '**.md'
 
-env:
-  MSI_ID: 'fe405819-42c4-4877-a28d-f96b88d7994b'
-
 jobs:
   acc-tests:
     runs-on: [self-hosted, 1ES.Pool=AzureVerifiedTerraformModule]
