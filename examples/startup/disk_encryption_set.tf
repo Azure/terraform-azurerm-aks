@@ -51,12 +51,13 @@ resource "azurerm_key_vault_key" "des_key" {
   expiration_date = timeadd("${formatdate("YYYY-MM-DD", timestamp())}T00:00:00Z", "168h")
   key_size        = 2048
 
-  lifecycle {
-    ignore_changes = [expiration_date]
-  }
   depends_on = [
     azurerm_key_vault_access_policy.current_user
   ]
+
+  lifecycle {
+    ignore_changes = [expiration_date]
+  }
 }
 
 resource "azurerm_disk_encryption_set" "des" {

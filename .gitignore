@@ -58,5 +58,6 @@ README-generated.md
 **/override.tf
 
 .tflint.hcl
+.tflint_example.hcgitl
 
 tfmod-scaffold/
