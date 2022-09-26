@@ -20,3 +20,4 @@ ENHANCEMENTS:
 
 * Add `aci_connector_linux` addon. [#230](https://github.com/Azure/terraform-azurerm-aks/pull/230)
 * Restrict Terraform Core version for example cod to `>= 1.2`. [#253](https://github.com/Azure/terraform-azurerm-aks/pull/253)
+* Adds support for Ultra Disks by enabling the option. [#245](https://github.com/Azure/terraform-azurerm-aks/pull/245)
