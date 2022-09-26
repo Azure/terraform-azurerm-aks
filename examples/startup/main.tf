@@ -55,17 +55,31 @@ module "aks" {
   ingress_application_gateway_subnet_cidr = "10.52.1.0/24"
   local_account_disabled                  = true
   log_analytics_workspace_enabled         = true
-  net_profile_dns_service_ip              = "10.0.0.10"
-  net_profile_docker_bridge_cidr          = "170.10.0.1/16"
-  net_profile_service_cidr                = "10.0.0.0/16"
-  network_plugin                          = "azure"
-  network_policy                          = "azure"
-  os_disk_size_gb                         = 60
-  private_cluster_enabled                 = true
-  rbac_aad_managed                        = true
-  role_based_access_control_enabled       = true
-  sku_tier                                = "Paid"
-  vnet_subnet_id                          = azurerm_subnet.test.id
+  maintenance_window = {
+    allowed = [
+      {
+        day   = "Sunday",
+        hours = 23
+      },
+    ]
+    not_allowed = [
+      {
+        start = "2035-01-01T20:00:00.00Z08:00",
+        end   = "2035-01-01T21:00:00.00Z08:00"
+      },
+    ]
+  }
+  net_profile_dns_service_ip        = "10.0.0.10"
+  net_profile_docker_bridge_cidr    = "170.10.0.1/16"
+  net_profile_service_cidr          = "10.0.0.0/16"
+  network_plugin                    = "azure"
+  network_policy                    = "azure"
+  os_disk_size_gb                   = 60
+  private_cluster_enabled           = true
+  rbac_aad_managed                  = true
+  role_based_access_control_enabled = true
+  sku_tier                          = "Paid"
+  vnet_subnet_id                    = azurerm_subnet.test.id
 
   agents_labels = {
     "node1" : "label1"
