@@ -30,7 +30,7 @@ body:
     attributes:
       label: Terraform Version
       description: Which Terraform version are you using?
-      placeholder: 1.2.8
+      placeholder: Example value, 1.2.8
     validations:
       required: true
   - type: input
@@ -38,7 +38,7 @@ body:
     attributes:
       label: Module Version
       description: Which module version are you using?
-      placeholder: 5.0.0
+      placeholder: Example value, 6.0.0
     validations:
       required: true
   - type: input
@@ -46,7 +46,7 @@ body:
     attributes:
       label: AzureRM Provider Version
       description: Which AzureRM Provider version are you using?
-      placeholder: 3.0.0
+      placeholder: Example value, 3.21.1
     validations:
       required: true
   - type: input
