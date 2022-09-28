@@ -273,7 +273,7 @@ variable "log_retention_in_days" {
 
 variable "microsoft_defender_enabled" {
   type        = bool
-  description = "(Optional) Is Microsoft Defender on the cluster enabled?"
+  description = "(Optional) Is Microsoft Defender on the cluster enabled? Requires a Log Analytics Workspace."
   default     = false
   nullable    = false
 }
