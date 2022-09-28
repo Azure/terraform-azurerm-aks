@@ -216,6 +216,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type == "SystemAssigned") || (var.identity_ids == null ? false : length(var.identity_ids) > 0)
       error_message = "If use identity and `UserAssigned` or `SystemAssigned, UserAssigned` is set, an `identity_ids` must be set as well."
     }
+    precondition {
+      condition     = (var.microsoft_defender_enabled == true && var.log_analytics_workspace_enabled == true) || var.microsoft_defender_enabled == false
+      error_message = "Enabling Microsoft Defender requires that `log_analytics_workspace_enabled` be set to true."
+    }
   }
 }
 
