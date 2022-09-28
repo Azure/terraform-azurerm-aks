@@ -17,8 +17,8 @@ locals {
       # `log_analytics_workspace` is supplied. Let's use that.
       id   = var.log_analytics_workspace.id
       name = var.log_analytics_workspace.name
-  }
-  ) : null   # Finally, the Log Analytics Workspace should be disabled.
+    }
+  ) : null # Finally, the Log Analytics Workspace should be disabled.
 
 } # /end locals clause
 
