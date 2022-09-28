@@ -15,10 +15,6 @@ jobs:
     environment:
       name: acctests
     steps:
-      - uses: hashicorp/setup-terraform@v2
-      - uses: actions/setup-go@v3
-        with:
-          go-version: '>=1.19.0'
       - uses: actions/checkout@v3
       - name: e2e test
         run: |
