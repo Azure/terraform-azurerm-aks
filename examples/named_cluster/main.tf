@@ -54,7 +54,7 @@ module "aks_cluster_name" {
     allowed = [
       {
         day   = "Sunday",
-        hours = 23
+        hours = [22, 23]
       },
     ]
   }

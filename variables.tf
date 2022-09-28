@@ -275,7 +275,7 @@ variable "maintenance_window" {
   type = object({
     allowed = optional(list(object({
       day   = string
-      hours = number
+      hours = set(number)
     })), []),
     not_allowed = optional(list(object({
       end   = string
