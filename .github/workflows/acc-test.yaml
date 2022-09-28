@@ -15,20 +15,16 @@ jobs:
     environment:
       name: acctests
     steps:
-      - uses: hashicorp/setup-terraform@v2
-      - uses: actions/setup-go@v3
-        with:
-          go-version: '>=1.19.0'
       - uses: actions/checkout@v3
       - name: e2e test
         run: |
           az login --identity --username $MSI_ID > /dev/null
           export ARM_SUBSCRIPTION_ID=$(az login --identity --username $MSI_ID | jq -r '.[0] | .id')
           export ARM_TENANT_ID=$(az login --identity --username $MSI_ID | jq -r '.[0] | .tenantId')
-          ARM_USE_MSI=true make e2e-test
+          docker run --rm -v $(pwd):/src -w /src --network=host -e MSI_ID -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_USE_MSI=true mcr.microsoft.com/azterraform:latest make e2e-test
       - name: version-upgrade test
         run: |
           az login --identity --username $MSI_ID > /dev/null
           export ARM_SUBSCRIPTION_ID=$(az login --identity --username $MSI_ID | jq -r '.[0] | .id')
           export ARM_TENANT_ID=$(az login --identity --username $MSI_ID | jq -r '.[0] | .tenantId')
-          ARM_USE_MSI=true make version-upgrade-test
+          docker run --rm -v $(pwd):/src -w /src --network=host -e MSI_ID -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_USE_MSI=true mcr.microsoft.com/azterraform:latest make version-upgrade-test
