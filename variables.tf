@@ -228,7 +228,6 @@ variable "location" {
   default     = null
 }
 
-# tflint-ignore: terraform_unused_declarations
 variable "log_analytics_solution_id" {
   type        = string
   description = "(Optional) Existing azurerm_log_analytics_solution ID. Providing ID disables creation of azurerm_log_analytics_solution."

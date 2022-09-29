@@ -234,7 +234,7 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 resource "azurerm_log_analytics_solution" "main" {
-  count = local.create_analytics_workspace ? 1 : 0
+  count = (local.create_analytics_workspace && var.log_analytics_solution_id == null) ? 1 : 0
 
   location              = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name   = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
