@@ -227,6 +227,14 @@ variable "location" {
   description = "Location of cluster, if not defined it will be read from the resource-group"
   default     = null
 }
+
+variable "log_analytics_solution_id" {
+  type        = string
+  description = "(Optional) Existing azurerm_log_analytics_solution ID. Providing ID disables creation of azurerm_log_analytics_solution."
+  default     = null
+  nullable    = true
+}
+
 variable "log_analytics_workspace" {
   type = object({
     id   = string
