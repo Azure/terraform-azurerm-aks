@@ -273,14 +273,14 @@ variable "log_retention_in_days" {
 
 variable "maintenance_window" {
   type = object({
-    allowed = optional(list(object({
+    allowed = list(object({
       day   = string
       hours = set(number)
-    })), []),
-    not_allowed = optional(list(object({
+    })),
+    not_allowed = list(object({
       end   = string
       start = string
-    })), []),
+    })),
   })
   description = "(Optional) Maintenance configuration of the managed cluster."
   default     = null

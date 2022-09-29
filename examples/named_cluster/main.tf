@@ -57,6 +57,7 @@ module "aks_cluster_name" {
         hours = [22, 23]
       },
     ]
+    not_allowed = []
   }
   net_profile_pod_cidr              = "10.1.0.0/16"
   private_cluster_enabled           = true
