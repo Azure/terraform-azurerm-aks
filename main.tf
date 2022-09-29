@@ -20,7 +20,7 @@ locals {
     }
   ) : null # Finally, the Log Analytics Workspace should be disabled.
 
-} # /end locals clause
+}
 
 data "azurerm_resource_group" "main" {
   name = var.resource_group_name
@@ -174,7 +174,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "microsoft_defender" {
-
     for_each = var.microsoft_defender_enabled ? ["microsoft_defender"] : []
 
     content {
