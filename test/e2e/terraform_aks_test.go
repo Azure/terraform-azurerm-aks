@@ -26,7 +26,15 @@ func TestExamplesStartup(t *testing.T) {
 		aksId, ok := output["test_aks_id"].(string)
 		assert.True(t, ok)
 		assert.Regexp(t, regexp.MustCompile("/subscriptions/.+/resourceGroups/.+/providers/Microsoft.ContainerService/managedClusters/.+"), aksId)
+		assertOutputNotEmpty(t, output, "test_cluster_portal_fqdn")
+		assertOutputNotEmpty(t, output, "test_cluster_private_fqdn")
 	})
+}
+
+func assertOutputNotEmpty(t *testing.T, output test_helper.TerraformOutput, name string) {
+	o, ok := output[name].(string)
+	assert.True(t, ok)
+	assert.NotEqual(t, "", o)
 }
 
 func TestExamplesWithoutMonitor(t *testing.T) {

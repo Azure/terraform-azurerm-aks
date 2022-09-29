@@ -47,6 +47,14 @@ output "test_cluster_ca_certificate" {
   value     = module.aks.client_certificate
 }
 
+output "test_cluster_portal_fqdn" {
+  value = module.aks.cluster_portal_fqdn
+}
+
+output "test_cluster_private_fqdn" {
+  value = module.aks.cluster_private_fqdn
+}
+
 output "test_host" {
   sensitive = true
   value     = module.aks.host
