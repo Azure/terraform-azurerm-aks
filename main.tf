@@ -175,7 +175,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
   dynamic "microsoft_defender" {
 
-    for_each = (var.microsoft_defender_enabled && var.log_analytics_workspace_enabled) ? ["microsoft_defender"] : []
+    for_each = var.microsoft_defender_enabled ? ["microsoft_defender"] : []
 
     content {
       log_analytics_workspace_id = local.log_analytics_workspace.id
@@ -217,7 +217,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "If use identity and `UserAssigned` or `SystemAssigned, UserAssigned` is set, an `identity_ids` must be set as well."
     }
     precondition {
-      condition     = (var.microsoft_defender_enabled == true && var.log_analytics_workspace_enabled == true) || var.microsoft_defender_enabled == false
+      condition     = !var.microsoft_defender_enabled || var.log_analytics_workspace_enabled
       error_message = "Enabling Microsoft Defender requires that `log_analytics_workspace_enabled` be set to true."
     }
   }
