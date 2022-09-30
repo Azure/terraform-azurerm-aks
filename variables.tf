@@ -288,7 +288,7 @@ variable "maintenance_window" {
 
 variable "microsoft_defender_enabled" {
   type        = bool
-  description = "(Optional) Is Microsoft Defender on the cluster enabled?"
+  description = "(Optional) Is Microsoft Defender on the cluster enabled? Requires `var.log_analytics_workspace_enabled` to be `true` to set this variable to `true`."
   default     = false
   nullable    = false
 }

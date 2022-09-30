@@ -1,3 +1,27 @@
+locals {
+
+  # Abstract the decision whether to create an Analytics Workspace or not.
+  create_analytics_solution  = var.log_analytics_workspace_enabled && var.log_analytics_solution_id == null
+  create_analytics_workspace = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null
+  # Abstract the decision whether to use an Analytics Workspace supplied via vars, provision one ourselves or leave it null.
+  # This guarantees that local.log_analytics_workspace will contain a valid `id` and `name` IFF log_analytics_workspace_enabled
+  # is set to `true`.
+  log_analytics_workspace = var.log_analytics_workspace_enabled ? (
+    # The Log Analytics Workspace should be enabled:
+    var.log_analytics_workspace == null ? {
+      # `log_analytics_workspace_enabled` is `true` but `log_analytics_workspace` was not supplied.
+      # Create an `azurerm_log_analytics_workspace` resource and use that.
+      id   = azurerm_log_analytics_workspace.main[0].id
+      name = azurerm_log_analytics_workspace.main[0].name
+      } : {
+      # `log_analytics_workspace` is supplied. Let's use that.
+      id   = var.log_analytics_workspace.id
+      name = var.log_analytics_workspace.name
+    }
+  ) : null # Finally, the Log Analytics Workspace should be disabled.
+
+}
+
 data "azurerm_resource_group" "main" {
   name = var.resource_group_name
 }
@@ -175,7 +199,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     for_each = var.microsoft_defender_enabled ? ["microsoft_defender"] : []
 
     content {
-      log_analytics_workspace_id = coalesce(try(var.log_analytics_workspace.id, null), azurerm_log_analytics_workspace.main[0].id)
+      log_analytics_workspace_id = local.log_analytics_workspace.id
     }
   }
   network_profile {
@@ -191,7 +215,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     for_each = var.log_analytics_workspace_enabled ? ["oms_agent"] : []
 
     content {
-      log_analytics_workspace_id = var.log_analytics_workspace == null ? azurerm_log_analytics_workspace.main[0].id : var.log_analytics_workspace.id
+      log_analytics_workspace_id = local.log_analytics_workspace.id
     }
   }
   dynamic "service_principal" {
@@ -213,11 +237,15 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type == "SystemAssigned") || (var.identity_ids == null ? false : length(var.identity_ids) > 0)
       error_message = "If use identity and `UserAssigned` or `SystemAssigned, UserAssigned` is set, an `identity_ids` must be set as well."
     }
+    precondition {
+      condition     = !(var.microsoft_defender_enabled && !var.log_analytics_workspace_enabled)
+      error_message = "Enabling Microsoft Defender requires that `log_analytics_workspace_enabled` be set to true."
+    }
   }
 }
 
 resource "azurerm_log_analytics_workspace" "main" {
-  count = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null ? 1 : 0
+  count = local.create_analytics_workspace ? 1 : 0
 
   location            = coalesce(var.location, data.azurerm_resource_group.main.location)
   name                = var.cluster_log_analytics_workspace_name == null ? "${var.prefix}-workspace" : var.cluster_log_analytics_workspace_name
@@ -228,13 +256,13 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 resource "azurerm_log_analytics_solution" "main" {
-  count = var.log_analytics_workspace_enabled && var.log_analytics_solution_id == null ? 1 : 0
+  count = local.create_analytics_solution ? 1 : 0
 
   location              = coalesce(var.location, data.azurerm_resource_group.main.location)
   resource_group_name   = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
   solution_name         = "ContainerInsights"
-  workspace_name        = var.log_analytics_workspace != null ? var.log_analytics_workspace.name : azurerm_log_analytics_workspace.main[0].name
-  workspace_resource_id = var.log_analytics_workspace != null ? var.log_analytics_workspace.id : azurerm_log_analytics_workspace.main[0].id
+  workspace_name        = local.log_analytics_workspace.name
+  workspace_resource_id = local.log_analytics_workspace.id
   tags                  = var.tags
 
   plan {
