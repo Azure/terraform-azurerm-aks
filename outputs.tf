@@ -93,9 +93,24 @@ output "cluster_ca_certificate" {
   value       = azurerm_kubernetes_cluster.main.kube_config[0].cluster_ca_certificate
 }
 
+output "cluster_fqdn" {
+  description = "The FQDN of the Azure Kubernetes Managed Cluster."
+  value       = azurerm_kubernetes_cluster.main.fqdn
+}
+
 output "cluster_identity" {
   description = "The `azurerm_kubernetes_cluster`'s `identity` block."
   value       = try(azurerm_kubernetes_cluster.main.identity[0], null)
+}
+
+output "cluster_portal_fqdn" {
+  description = "The FQDN for the Azure Portal resources when private link has been enabled, which is only resolvable inside the Virtual Network used by the Kubernetes Cluster."
+  value       = azurerm_kubernetes_cluster.main.portal_fqdn
+}
+
+output "cluster_private_fqdn" {
+  description = "The FQDN for the Kubernetes Cluster when private link has been enabled, which is only resolvable inside the Virtual Network used by the Kubernetes Cluster."
+  value       = azurerm_kubernetes_cluster.main.private_fqdn
 }
 
 output "generated_cluster_private_ssh_key" {

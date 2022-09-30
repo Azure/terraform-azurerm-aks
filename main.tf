@@ -173,6 +173,28 @@ resource "azurerm_kubernetes_cluster" "main" {
       }
     }
   }
+  dynamic "maintenance_window" {
+    for_each = var.maintenance_window != null ? ["maintenance_window"] : []
+
+    content {
+      dynamic "allowed" {
+        for_each = var.maintenance_window.allowed
+
+        content {
+          day   = allowed.value.day
+          hours = allowed.value.hours
+        }
+      }
+      dynamic "not_allowed" {
+        for_each = var.maintenance_window.not_allowed
+
+        content {
+          end   = not_allowed.value.end
+          start = not_allowed.value.start
+        }
+      }
+    }
+  }
   dynamic "microsoft_defender" {
     for_each = var.microsoft_defender_enabled ? ["microsoft_defender"] : []
 

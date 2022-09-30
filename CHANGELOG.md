@@ -21,3 +21,6 @@ ENHANCEMENTS:
 * Add `aci_connector_linux` addon. [#230](https://github.com/Azure/terraform-azurerm-aks/pull/230)
 * Restrict Terraform Core version for example cod to `>= 1.2`. [#253](https://github.com/Azure/terraform-azurerm-aks/pull/253)
 * Adds support for Ultra Disks by enabling the option. [#245](https://github.com/Azure/terraform-azurerm-aks/pull/245)
+* Add new outputs: `cluster_fqdn`, `cluster_portal_fqdn` and `cluster_private_fqdn`. [#251](https://github.com/Azure/terraform-azurerm-aks/pull/245)
+* Add new variable `maintenance_window` so we can set `maintenance_window` argument for `azurerm_kubernetes_cluster` resource. [#256](https://github.com/Azure/terraform-azurerm-aks/pull/245)
+* Change Terraform AzureRM Provider version to `>= 3.21`. [#248](https://github.com/Azure/terraform-azurerm-aks/pull/248)

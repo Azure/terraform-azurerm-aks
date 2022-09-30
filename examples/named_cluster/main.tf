@@ -50,8 +50,17 @@ module "aks_cluster_name" {
   identity_ids                         = [azurerm_user_assigned_identity.test.id]
   identity_type                        = "UserAssigned"
   log_analytics_workspace_enabled      = true
-  net_profile_pod_cidr                 = "10.1.0.0/16"
-  private_cluster_enabled              = true
-  rbac_aad_managed                     = true
-  role_based_access_control_enabled    = true
+  maintenance_window = {
+    allowed = [
+      {
+        day   = "Sunday",
+        hours = [22, 23]
+      },
+    ]
+    not_allowed = []
+  }
+  net_profile_pod_cidr              = "10.1.0.0/16"
+  private_cluster_enabled           = true
+  rbac_aad_managed                  = true
+  role_based_access_control_enabled = true
 }

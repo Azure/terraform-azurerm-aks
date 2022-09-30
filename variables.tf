@@ -271,6 +271,21 @@ variable "log_retention_in_days" {
   default     = 30
 }
 
+variable "maintenance_window" {
+  type = object({
+    allowed = list(object({
+      day   = string
+      hours = set(number)
+    })),
+    not_allowed = list(object({
+      end   = string
+      start = string
+    })),
+  })
+  description = "(Optional) Maintenance configuration of the managed cluster."
+  default     = null
+}
+
 variable "microsoft_defender_enabled" {
   type        = bool
   description = "(Optional) Is Microsoft Defender on the cluster enabled? Requires `var.log_analytics_workspace_enabled` to be `true` to set this variable to `true`."
