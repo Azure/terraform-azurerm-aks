@@ -15,29 +15,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      - name: gofmtcheck
+      - name: pr-check
         run: |
-          docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make gofmtcheck
-      - name: gencheck
-        run: |
-          docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make gencheck
-      - name: tfvalidatecheck
-        run: |
-          docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make tfvalidatecheck
-      - name: tffmtcheck
-        run: |
-          docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make tffmtcheck
-      - name: terrafmtcheck
-        run: |
-          docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make terrafmtcheck
-      - name: golint
-        run: |
-          docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make golint
-      - name: tflint
-        run: |
-          docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make tflint
-      - name: Run Checkov action
-        id: checkov
-        if: ${{env.SKIP_CHECKOV == ''}}
-        run: |
-          docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make checkovcheck
+         docker run --rm -v $(pwd):/src -w /src -e SKIP_CHECKOV mcr.microsoft.com/azterraform:latest make pr-check
