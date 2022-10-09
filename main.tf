@@ -232,8 +232,8 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 locals {
-  azurerm_log_analytics_workspace_id   = azurerm_log_analytics_workspace.main[0].id
-  azurerm_log_analytics_workspace_name = azurerm_log_analytics_workspace.main[0].name
+  azurerm_log_analytics_workspace_id   = try(azurerm_log_analytics_workspace.main[0].id, null)
+  azurerm_log_analytics_workspace_name = try(azurerm_log_analytics_workspace.main[0].name, null)
 }
 
 resource "azurerm_log_analytics_solution" "main" {
