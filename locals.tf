@@ -1,6 +1,6 @@
 locals {
   # Abstract the decision whether to create an Analytics Workspace or not.
-  create_analytics_solution  = var.log_analytics_workspace_enabled && var.log_analytics_solution_id == null
+  create_analytics_solution  = var.log_analytics_workspace_enabled && var.log_analytics_solution == null
   create_analytics_workspace = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null
   # Abstract the decision whether to use an Analytics Workspace supplied via vars, provision one ourselves or leave it null.
   # This guarantees that local.log_analytics_workspace will contain a valid `id` and `name` IFF log_analytics_workspace_enabled

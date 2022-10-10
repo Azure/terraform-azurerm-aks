@@ -94,7 +94,9 @@ func TestLogAnalyticsWorkspaceEnabledNoSolutionProvidedShouldCreateSolution(t *t
 func TestLogAnalyticsWorkspaceEnabledSolutionProvidedShouldNotCreateSolution(t *testing.T) {
 	vars := dummyRequiredVariables()
 	vars["log_analytics_workspace_enabled"] = true
-	vars["log_analytics_solution_id"] = "dummySolutionId"
+	vars["log_analytics_solution"] = map[string]interface{}{
+		"id": "dummySolutionId",
+	}
 	test_helper.RunE2ETest(t, "../../", "unit-test-fixture", terraform.Options{
 		Upgrade: false,
 		Vars:    vars,
