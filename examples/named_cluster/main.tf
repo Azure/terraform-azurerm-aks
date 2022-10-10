@@ -37,6 +37,15 @@ resource "azurerm_user_assigned_identity" "test" {
   resource_group_name = local.resource_group.name
 }
 
+# Just for demo purpose, not necessary to named cluster.
+resource "azurerm_log_analytics_workspace" "main" {
+  location            = local.resource_group.location
+  name                = "prefix-workspace"
+  resource_group_name = local.resource_group.name
+  retention_in_days   = 30
+  sku                 = "PerGB2018"
+}
+
 module "aks_cluster_name" {
   source = "../.."
 
@@ -50,6 +59,10 @@ module "aks_cluster_name" {
   identity_ids                         = [azurerm_user_assigned_identity.test.id]
   identity_type                        = "UserAssigned"
   log_analytics_workspace_enabled      = true
+  log_analytics_workspace = {
+    id   = azurerm_log_analytics_workspace.main.id
+    name = azurerm_log_analytics_workspace.main.name
+  }
   maintenance_window = {
     allowed = [
       {
