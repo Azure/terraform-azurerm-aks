@@ -27,7 +27,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   local_account_disabled              = var.local_account_disabled
   node_resource_group                 = var.node_resource_group
   oidc_issuer_enabled                 = var.oidc_issuer_enabled
-  workload_identity_enabled           = var.workload_identity_enabled
   open_service_mesh_enabled           = var.open_service_mesh_enabled
   private_cluster_enabled             = var.private_cluster_enabled
   private_cluster_public_fqdn_enabled = var.private_cluster_public_fqdn_enabled
@@ -35,6 +34,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   role_based_access_control_enabled   = var.role_based_access_control_enabled
   sku_tier                            = var.sku_tier
   tags                                = var.tags
+  workload_identity_enabled           = var.workload_identity_enabled
 
   dynamic "default_node_pool" {
     for_each = var.enable_auto_scaling == true ? [] : ["default_node_pool_manually_scaled"]

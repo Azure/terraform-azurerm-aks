@@ -348,12 +348,6 @@ variable "oidc_issuer_enabled" {
   default     = false
 }
 
-variable "workload_identity_enabled" {
-  description = "Enable or Disable Workload Identity. Defaults to false."
-  type        = bool
-  default     = false
-}
-
 variable "only_critical_addons_enabled" {
   type        = bool
   description = "(Optional) Enabling this option will taint default node pool with `CriticalAddonsOnly=true:NoSchedule` taint. Changing this forces a new resource to be created."
@@ -495,4 +489,10 @@ variable "vnet_subnet_id" {
   type        = string
   description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created."
   default     = null
+}
+
+variable "workload_identity_enabled" {
+  description = "Enable or Disable Workload Identity. Defaults to false."
+  type        = bool
+  default     = false
 }
