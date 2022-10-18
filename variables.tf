@@ -490,3 +490,9 @@ variable "vnet_subnet_id" {
   description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created."
   default     = null
 }
+
+variable "workload_identity_enabled" {
+  description = "Enable or Disable Workload Identity. Defaults to false."
+  type        = bool
+  default     = false
+}

@@ -34,6 +34,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   role_based_access_control_enabled   = var.role_based_access_control_enabled
   sku_tier                            = var.sku_tier
   tags                                = var.tags
+  workload_identity_enabled           = var.workload_identity_enabled
 
   dynamic "default_node_pool" {
     for_each = var.enable_auto_scaling == true ? [] : ["default_node_pool_manually_scaled"]
