@@ -13,7 +13,6 @@ jobs:
   breaking-detect:
     runs-on: ubuntu-latest
     permissions:
-      #      issues: write
       pull-requests: write
     steps:
       - name: checkout
@@ -22,6 +21,7 @@ jobs:
         run: |
           docker pull mcr.microsoft.com/azterraform:latest
           change=$(docker run --rm -t -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest breaking_detect /src ${{ github.repository_owner }} ${{ github.event.repository.name }} ${{ github.base_ref }})
+          echo $change
           if [ ! -z "$change" ]; then
             msg=$(printf "Potential Breaking Changes in ${{ github.event.pull_request.head.sha }}:\n${change}")
             jq -n --arg msg "$msg" '{body: $msg}' > body.txt
