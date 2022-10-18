@@ -10,7 +10,7 @@ ENHANCEMENTS:
 * Add Microsoft Defender support. [#232](https://github.com/Azure/terraform-azurerm-aks/pull/232)
 * Add outputs for created Log Analytics workspace. [#243](https://github.com/Azure/terraform-azurerm-aks/pull/243)
 
-# BUG FIXES:
+BUG FIXES:
 
 * Update hashicorp/terraform-provider-azurerm to version 3.21.0. [#238](https://github.com/Azure/terraform-azurerm-aks/pull/238)
 
@@ -25,6 +25,14 @@ ENHANCEMENTS:
 * Add new variable `maintenance_window` so we can set `maintenance_window` argument for `azurerm_kubernetes_cluster` resource. [#256](https://github.com/Azure/terraform-azurerm-aks/pull/245)
 * Change Terraform AzureRM Provider version to `>= 3.21`. [#248](https://github.com/Azure/terraform-azurerm-aks/pull/248)
 
-# BUG FIXES:
+BUG FIXES:
 
 * Make the Azure Defender clause robust against a non-existent `log_analytics_workspace`. [#258](https://github.com/Azure/terraform-azurerm-aks/pull/258)
+
+## 6.2.0 (October 18, 2022)
+
+ENHANCEMENTS:
+
+* Add new variable `workload_identity_enabled`. [#266](https://github.com/Azure/terraform-azurerm-aks/pull/266)
+
+BUG FIXES:
