@@ -379,6 +379,12 @@ variable "os_disk_type" {
   nullable    = false
 }
 
+variable "pod_subnet_id" {
+  type        = string
+  description = "(Optional) The ID of the Subnet where the pods in the default Node Pool should exist. Changing this forces a new resource to be created."
+  default     = null
+}
+
 variable "private_cluster_enabled" {
   type        = bool
   description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
