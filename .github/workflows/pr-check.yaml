@@ -8,6 +8,7 @@ on:
       - '**.tf'
       - '.github/workflows/**'
       - '**.md'
+      - '**/go.mod'
 
 jobs:
   prepr-check:
