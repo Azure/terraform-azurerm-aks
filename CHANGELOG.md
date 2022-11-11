@@ -2,4 +2,6 @@
 
 ENHANCEMENTS:
 
+Add support for `pod_subnet_id` - ([#271](https://github.com/Azure/terraform-azurerm-aks/pull/146))
+
 BUG FIXES:
