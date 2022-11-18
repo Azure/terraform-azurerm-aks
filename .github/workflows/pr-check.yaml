@@ -29,9 +29,7 @@ jobs:
           languages: go
       - name: build
         run: |
-          cd test
-          go mod vendor
-          go build ./...
+          make build-test
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
       - name: Breaking Change Brief
