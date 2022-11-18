@@ -27,7 +27,7 @@ jobs:
         uses: github/codeql-action/init@v2
         with:
           languages: go
-      - name: build
+      - name: build-test
         run: |
           make build-test
       - name: Perform CodeQL Analysis
