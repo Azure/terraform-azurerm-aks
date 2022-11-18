@@ -27,14 +27,8 @@ jobs:
         uses: github/codeql-action/init@v2
         with:
           languages: go
-      - name: build
-        run: |
-          cd test/e2e
-          go test -c -o e2e
-          cd ../unit
-          go test -c -o unit
-          cd ../upgrade
-          go test -c -o upgrade
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
       - name: Breaking Change Brief
