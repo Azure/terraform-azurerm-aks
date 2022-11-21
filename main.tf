@@ -185,13 +185,14 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
   network_profile {
     network_plugin     = var.network_plugin
-    load_balancer_sku  = var.load_balancer_sku
     dns_service_ip     = var.net_profile_dns_service_ip
     docker_bridge_cidr = var.net_profile_docker_bridge_cidr
+    load_balancer_sku  = var.load_balancer_sku
     network_policy     = var.network_policy
     outbound_type      = var.net_profile_outbound_type
     pod_cidr           = var.net_profile_pod_cidr
     service_cidr       = var.net_profile_service_cidr
+
     dynamic "load_balancer_profile" {
       for_each = var.load_balancer_profile != null && var.load_balancer_sku == "Standard" ? ["load_balancer_profile"] : []
 

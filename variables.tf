@@ -223,17 +223,17 @@ variable "kubernetes_version" {
   default     = null
 }
 
-variable "load_balancer_sku" {
-  type        = string
-  description = "(Optional) Specifies the SKU of the Load Balancer used for this Kubernetes Cluster. Possible values are basic and standard. Defaults to standard."
-  default     = null
-}
-
 variable "load_balancer_profile" {
   type        = bool
   description = "(Optional) A load_balancer_profile block. This can only be specified when load_balancer_sku is set to standard."
   default     = null
   nullable    = true
+}
+
+variable "load_balancer_sku" {
+  type        = string
+  description = "(Optional) Specifies the SKU of the Load Balancer used for this Kubernetes Cluster. Possible values are basic and standard. Defaults to standard."
+  default     = null
 }
 
 variable "local_account_disabled" {
