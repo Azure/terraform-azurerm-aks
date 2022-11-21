@@ -234,10 +234,6 @@ variable "load_balancer_profile" {
   description = "(Optional) A load_balancer_profile block. This can only be specified when load_balancer_sku is set to standard."
   default     = null
   nullable    = true
-  validation {
-    condition     = var.load_balancer_sku == "Standard"
-    error_message = "Can only be specified when load_balancer_sku is set to standard"
-  }
 }
 
 variable "local_account_disabled" {
@@ -315,12 +311,6 @@ variable "managed_outbound_ip_count" {
   description = "(Optional) Count of desired managed outbound IPs for the cluster load balancer. Must be between 1 and 100 inclusive"
   default     = null
   nullable    = true
-
-  validation {
-    condition     = var.outbound_ip_address_ids == null && var.outbound_ip_prefix_ids == null
-    error_message = "The fields managed_outbound_ip_count, outbound_ip_address_ids and outbound_ip_prefix_ids are mutually exclusive"
-  }
-
 }
 
 variable "managed_outbound_ipv6_count" {
@@ -428,11 +418,6 @@ variable "outbound_ip_address_ids" {
   description = "(Optional) The ID of the Public IP Addresses which should be used for outbound communication for the cluster load balancer."
   default     = null
   nullable    = true
-
-  validation {
-    condition     = var.managed_outbound_ip_count == null && var.outbound_ip_prefix_ids == null
-    error_message = "The fields managed_outbound_ip_count, outbound_ip_address_ids and outbound_ip_prefix_ids are mutually exclusive"
-  }
 }
 
 variable "outbound_ip_prefix_ids" {
@@ -440,10 +425,6 @@ variable "outbound_ip_prefix_ids" {
   description = "(Optional) The ID of the outbound Public IP Address Prefixes which should be used for the cluster load balancer."
   default     = null
   nullable    = true
-  validation {
-    condition     = var.managed_outbound_ip_count == null && var.managed_outbound_ip_count == null
-    error_message = "The fields managed_outbound_ip_count, outbound_ip_address_ids and outbound_ip_prefix_ids are mutually exclusive"
-  }
 }
 
 variable "outbound_ports_allocated" {

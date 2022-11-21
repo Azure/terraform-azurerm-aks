@@ -24,7 +24,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   dns_prefix                          = var.prefix
   http_application_routing_enabled    = var.http_application_routing_enabled
   kubernetes_version                  = var.kubernetes_version
-  load_balancer_sku                   = var.load_balancer_sku
   local_account_disabled              = var.local_account_disabled
   node_resource_group                 = var.node_resource_group
   oidc_issuer_enabled                 = var.oidc_issuer_enabled
@@ -154,18 +153,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
-  dynamic "load_balancer_profile" {
-    for_each = var.load_balancer_profile != null && var.load_balancer_sku == "Standard" ? ["load_balancer_profile"] : []
-
-    content {
-      idle_timeout_in_minutes     = var.idle_timeout_in_minutes
-      managed_outbound_ip_count   = var.managed_outbound_ip_count
-      managed_outbound_ipv6_count = var.managed_outbound_ipv6_count
-      outbound_ip_address_ids     = var.outbound_ip_address_ids
-      outbound_ip_prefix_ids      = var.outbound_ip_prefix_ids
-      outbound_ports_allocated    = var.outbound_ports_allocated
-    }
-  }
 
   dynamic "maintenance_window" {
     for_each = var.maintenance_window != null ? ["maintenance_window"] : []
@@ -198,12 +185,25 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
   network_profile {
     network_plugin     = var.network_plugin
+    load_balancer_sku  = var.load_balancer_sku
     dns_service_ip     = var.net_profile_dns_service_ip
     docker_bridge_cidr = var.net_profile_docker_bridge_cidr
     network_policy     = var.network_policy
     outbound_type      = var.net_profile_outbound_type
     pod_cidr           = var.net_profile_pod_cidr
     service_cidr       = var.net_profile_service_cidr
+    dynamic "load_balancer_profile" {
+      for_each = var.load_balancer_profile != null && var.load_balancer_sku == "Standard" ? ["load_balancer_profile"] : []
+
+      content {
+        idle_timeout_in_minutes     = var.idle_timeout_in_minutes
+        managed_outbound_ip_count   = var.managed_outbound_ip_count
+        managed_outbound_ipv6_count = var.managed_outbound_ipv6_count
+        outbound_ip_address_ids     = var.outbound_ip_address_ids
+        outbound_ip_prefix_ids      = var.outbound_ip_prefix_ids
+        outbound_ports_allocated    = var.outbound_ports_allocated
+      }
+    }
   }
   dynamic "oms_agent" {
     for_each = var.log_analytics_workspace_enabled ? ["oms_agent"] : []
