@@ -19,6 +19,19 @@ jobs:
       - name: pr-check
         run: |
           docker run --rm -v $(pwd):/src -w /src -e SKIP_CHECKOV mcr.microsoft.com/azterraform:latest make pr-check
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: go
+      - name: build-test
+        run: |
+          make build-test
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
       - name: Breaking Change Brief
         run: |
           c=$(docker run --rm -t -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest breaking_detect /src ${{ github.repository_owner }} ${{ github.event.repository.name }} ${{ github.base_ref }})
