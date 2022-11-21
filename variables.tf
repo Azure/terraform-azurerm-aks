@@ -172,6 +172,13 @@ variable "identity_type" {
   }
 }
 
+variable "idle_timeout_in_minutes" {
+  type        = number
+  description = "(Optional) Desired outbound flow idle timeout in minutes for the cluster load balancer. Must be between 4 and 120 inclusive."
+  default     = 30
+  nullable    = false
+}
+
 variable "ingress_application_gateway_enabled" {
   type        = bool
   description = "Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster?"
@@ -214,6 +221,23 @@ variable "kubernetes_version" {
   type        = string
   description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
   default     = null
+}
+
+variable "load_balancer_sku" {
+  type        = string
+  description = "(Optional) Specifies the SKU of the Load Balancer used for this Kubernetes Cluster. Possible values are basic and standard. Defaults to standard."
+  default     = null
+}
+
+variable "load_balancer_profile" {
+  type        = bool
+  description = "(Optional) A load_balancer_profile block. This can only be specified when load_balancer_sku is set to standard."
+  default     = null
+  nullable    = true
+  validation {
+    condition     = var.load_balancer_sku == "Standard"
+    error_message = "Can only be specified when load_balancer_sku is set to standard"
+  }
 }
 
 variable "local_account_disabled" {
@@ -284,6 +308,26 @@ variable "maintenance_window" {
   })
   description = "(Optional) Maintenance configuration of the managed cluster."
   default     = null
+}
+
+variable "managed_outbound_ip_count" {
+  type        = bool
+  description = "(Optional) Count of desired managed outbound IPs for the cluster load balancer. Must be between 1 and 100 inclusive"
+  default     = null
+  nullable    = true
+
+  validation {
+    condition     = var.outbound_ip_address_ids == null && var.outbound_ip_prefix_ids == null
+    error_message = "The fields managed_outbound_ip_count, outbound_ip_address_ids and outbound_ip_prefix_ids are mutually exclusive"
+  }
+
+}
+
+variable "managed_outbound_ipv6_count" {
+  type        = bool
+  description = "(Optional) The desired number of IPv6 outbound IPs created and managed by Azure for the cluster load balancer. Must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack. Note: managed_outbound_ipv6_count requires dual-stack networking. To enable dual-stack networking the Preview Feature Microsoft.ContainerService/AKS-EnableDualStack needs to be enabled and the Resource Provider re-registered, see the documentation for more information. https://docs.microsoft.com/azure/aks/configure-kubenet-dual-stack?tabs=azure-cli%2Ckubectl#register-the-aks-enabledualstack-preview-feature"
+  default     = null
+  nullable    = true
 }
 
 variable "microsoft_defender_enabled" {
@@ -376,6 +420,36 @@ variable "os_disk_type" {
   type        = string
   description = "The type of disk which should be used for the Operating System. Possible values are `Ephemeral` and `Managed`. Defaults to `Managed`. Changing this forces a new resource to be created."
   default     = "Managed"
+  nullable    = false
+}
+
+variable "outbound_ip_address_ids" {
+  type        = list(any)
+  description = "(Optional) The ID of the Public IP Addresses which should be used for outbound communication for the cluster load balancer."
+  default     = null
+  nullable    = true
+
+  validation {
+    condition     = var.managed_outbound_ip_count == null && var.outbound_ip_prefix_ids == null
+    error_message = "The fields managed_outbound_ip_count, outbound_ip_address_ids and outbound_ip_prefix_ids are mutually exclusive"
+  }
+}
+
+variable "outbound_ip_prefix_ids" {
+  type        = list(any)
+  description = "(Optional) The ID of the outbound Public IP Address Prefixes which should be used for the cluster load balancer."
+  default     = null
+  nullable    = true
+  validation {
+    condition     = var.managed_outbound_ip_count == null && var.managed_outbound_ip_count == null
+    error_message = "The fields managed_outbound_ip_count, outbound_ip_address_ids and outbound_ip_prefix_ids are mutually exclusive"
+  }
+}
+
+variable "outbound_ports_allocated" {
+  type        = number
+  description = "(Optional) Number of desired SNAT port for each VM in the clusters load balancer. Must be between 0 and 64000 inclusive. Defaults to 0"
+  default     = 0
   nullable    = false
 }
 

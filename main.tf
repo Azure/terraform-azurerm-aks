@@ -24,6 +24,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   dns_prefix                          = var.prefix
   http_application_routing_enabled    = var.http_application_routing_enabled
   kubernetes_version                  = var.kubernetes_version
+  load_balancer_sku                   = var.load_balancer_sku
   local_account_disabled              = var.local_account_disabled
   node_resource_group                 = var.node_resource_group
   oidc_issuer_enabled                 = var.oidc_issuer_enabled
@@ -152,6 +153,20 @@ resource "azurerm_kubernetes_cluster" "main" {
       }
     }
   }
+
+  dynamic "load_balancer_profile" {
+    for_each = var.load_balancer_profile != null && var.load_balancer_sku == "Standard" ? ["load_balancer_profile"] : []
+
+    content {
+      idle_timeout_in_minutes     = var.idle_timeout_in_minutes
+      managed_outbound_ip_count   = var.managed_outbound_ip_count
+      managed_outbound_ipv6_count = var.managed_outbound_ipv6_count
+      outbound_ip_address_ids     = var.outbound_ip_address_ids
+      outbound_ip_prefix_ids      = var.outbound_ip_prefix_ids
+      outbound_ports_allocated    = var.outbound_ports_allocated
+    }
+  }
+
   dynamic "maintenance_window" {
     for_each = var.maintenance_window != null ? ["maintenance_window"] : []
 
