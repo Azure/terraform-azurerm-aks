@@ -233,7 +233,12 @@ variable "load_balancer_profile" {
 variable "load_balancer_sku" {
   type        = string
   description = "(Optional) Specifies the SKU of the Load Balancer used for this Kubernetes Cluster. Possible values are basic and standard. Defaults to standard."
-  default     = null
+  default     = "standard"
+
+  validation {
+    condition     = var.load_balancer_sku == "basic" || var.load_balancer_sku == "standard"
+    error_message = "Possible values are basic and standard"
+  }
 }
 
 variable "local_account_disabled" {

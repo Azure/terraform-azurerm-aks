@@ -152,8 +152,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       }
     }
   }
-
-
   dynamic "maintenance_window" {
     for_each = var.maintenance_window != null ? ["maintenance_window"] : []
 
@@ -194,7 +192,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     service_cidr       = var.net_profile_service_cidr
 
     dynamic "load_balancer_profile" {
-      for_each = var.load_balancer_profile != null && var.load_balancer_sku == "Standard" ? ["load_balancer_profile"] : []
+      for_each = var.load_balancer_profile != null && var.load_balancer_sku == "standard" ? ["load_balancer_profile"] : []
 
       content {
         idle_timeout_in_minutes     = var.idle_timeout_in_minutes
