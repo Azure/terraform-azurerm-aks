@@ -192,15 +192,15 @@ resource "azurerm_kubernetes_cluster" "main" {
     service_cidr       = var.net_profile_service_cidr
 
     dynamic "load_balancer_profile" {
-      for_each = var.load_balancer_profile != null && var.load_balancer_sku == "standard" ? ["load_balancer_profile"] : []
+      for_each = var.enable_load_balancer_profile == true && var.load_balancer_sku == "standard" ? ["load_balancer_profile"] : []
 
       content {
-        idle_timeout_in_minutes     = var.idle_timeout_in_minutes
-        managed_outbound_ip_count   = var.managed_outbound_ip_count
-        managed_outbound_ipv6_count = var.managed_outbound_ipv6_count
-        outbound_ip_address_ids     = var.outbound_ip_address_ids
-        outbound_ip_prefix_ids      = var.outbound_ip_prefix_ids
-        outbound_ports_allocated    = var.outbound_ports_allocated
+        idle_timeout_in_minutes     = var.load_balancer_profile_idle_timeout_in_minutes
+        managed_outbound_ip_count   = var.load_balancer_profile_managed_outbound_ip_count
+        managed_outbound_ipv6_count = var.load_balancer_profile_managed_outbound_ipv6_count
+        outbound_ip_address_ids     = var.load_balancer_profile_outbound_ip_address_ids
+        outbound_ip_prefix_ids      = var.load_balancer_profile_outbound_ip_prefix_ids
+        outbound_ports_allocated    = var.load_balancer_profile_outbound_ports_allocated
       }
     }
   }
