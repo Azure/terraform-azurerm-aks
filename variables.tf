@@ -143,12 +143,6 @@ variable "enable_host_encryption" {
   default     = false
 }
 
-variable "enable_load_balancer_profile" {
-  type        = bool
-  description = "(Optional) Enable a load_balancer_profile block. This can only be used when load_balancer_sku is set to `standard`."
-  default     = false
-}
-
 variable "enable_node_public_ip" {
   type        = bool
   description = "(Optional) Should nodes in this Node Pool have a Public IP Address? Defaults to false."
@@ -222,45 +216,47 @@ variable "kubernetes_version" {
   default     = null
 }
 
+variable "load_balancer_profile_enabled" {
+  type        = bool
+  description = "(Optional) Enable a load_balancer_profile block. This can only be used when load_balancer_sku is set to `standard`."
+  default     = false
+  nullable    = false
+}
+
 variable "load_balancer_profile_idle_timeout_in_minutes" {
   type        = number
   description = "(Optional) Desired outbound flow idle timeout in minutes for the cluster load balancer. Must be between `4` and `120` inclusive."
-  default     = null
-  nullable    = true
+  default     = 30
 }
 
 variable "load_balancer_profile_managed_outbound_ip_count" {
   type        = number
   description = "(Optional) Count of desired managed outbound IPs for the cluster load balancer. Must be between `1` and `100` inclusive"
   default     = null
-  nullable    = true
 }
 
 variable "load_balancer_profile_managed_outbound_ipv6_count" {
   type        = number
-  description = "(Optional) The desired number of IPv6 outbound IPs created and managed by Azure for the cluster load balancer. Must be in the range of `1` to `100` (inclusive). The default value is `0` for single-stack and `1` for dual-stack. Note: managed_outbound_ipv6_count requires dual-stack networking. To enable dual-stack networking the Preview Feature Microsoft.ContainerService/AKS-EnableDualStack needs to be enabled and the Resource Provider re-registered, see the documentation for more information. https://docs.microsoft.com/azure/aks/configure-kubenet-dual-stack?tabs=azure-cli%!C(MISSING)kubectl#register-the-aks-enabledualstack-preview-feature"
+  description = "(Optional) The desired number of IPv6 outbound IPs created and managed by Azure for the cluster load balancer. Must be in the range of `1` to `100` (inclusive). The default value is `0` for single-stack and `1` for dual-stack. Note: managed_outbound_ipv6_count requires dual-stack networking. To enable dual-stack networking the Preview Feature Microsoft.ContainerService/AKS-EnableDualStack needs to be enabled and the Resource Provider re-registered, see the documentation for more information. https://docs.microsoft.com/azure/aks/configure-kubenet-dual-stack?tabs=azure-cli%!!(MISSING)C(MISSING)kubectl#register-the-aks-enabledualstack-preview-feature"
   default     = null
-  nullable    = true
 }
 
 variable "load_balancer_profile_outbound_ip_address_ids" {
   type        = set(string)
   description = "(Optional) The ID of the Public IP Addresses which should be used for outbound communication for the cluster load balancer."
   default     = null
-  nullable    = true
 }
 
 variable "load_balancer_profile_outbound_ip_prefix_ids" {
   type        = set(string)
   description = "(Optional) The ID of the outbound Public IP Address Prefixes which should be used for the cluster load balancer."
   default     = null
-  nullable    = true
 }
 
 variable "load_balancer_profile_outbound_ports_allocated" {
   type        = number
   description = "(Optional) Number of desired SNAT port for each VM in the clusters load balancer. Must be between `0` and `64000` inclusive. Defaults to `0`"
-  default     = null
+  default     = 0
 }
 
 variable "load_balancer_sku" {

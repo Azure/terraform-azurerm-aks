@@ -192,7 +192,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     service_cidr       = var.net_profile_service_cidr
 
     dynamic "load_balancer_profile" {
-      for_each = var.enable_load_balancer_profile == true && var.load_balancer_sku == "standard" ? ["load_balancer_profile"] : []
+      for_each = var.load_balancer_profile_enabled && var.load_balancer_sku == "standard" ? ["load_balancer_profile"] : []
 
       content {
         idle_timeout_in_minutes     = var.load_balancer_profile_idle_timeout_in_minutes
@@ -233,6 +233,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = !(var.microsoft_defender_enabled && !var.log_analytics_workspace_enabled)
       error_message = "Enabling Microsoft Defender requires that `log_analytics_workspace_enabled` be set to true."
+    }
+    precondition {
+      condition     = !(var.load_balancer_profile_enabled && var.load_balancer_sku != "standard")
+      error_message = "Enabling load_balancer_profile requires that `load_balancer_sku` be set to `standard`"
     }
   }
 }
