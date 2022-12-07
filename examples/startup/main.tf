@@ -36,6 +36,8 @@ module "aks" {
 
   prefix                                  = "prefix-${random_id.prefix.hex}"
   resource_group_name                     = local.resource_group.name
+  kubernetes_version                      = "1.25" # don't specify the patch version!
+  automatic_channel_upgrade               = "patch"
   agents_availability_zones               = ["1", "2"]
   agents_count                            = null
   agents_max_count                        = 2

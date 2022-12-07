@@ -93,6 +93,16 @@ variable "api_server_authorized_ip_ranges" {
   default     = null
 }
 
+variable "automatic_channel_upgrade" {
+  type        = string
+  default     = null
+  description = "(Optional) The upgrade channel for this Kubernetes Cluster. Possible values are `patch`, `rapid`, `node-image` and `stable`. By default automatic-upgrades are turned off. Note that you cannot use the `patch` upgrade channel and still specify the patch version using `kubernetes_version`. See [the documentation](https://learn.microsoft.com/en-us/azure/aks/auto-upgrade-cluster) for more information"
+  validation {
+    condition     = var.automatic_channel_upgrade == null ? true : contains(["patch", "stable", "rapid", "node-image"], var.automatic_channel_upgrade)
+    error_message = "`automatic_channel_upgrade`'s possible values are `patch`, `stable`, `rapid` or `node-image`."
+  }
+}
+
 variable "azure_policy_enabled" {
   type        = bool
   description = "Enable Azure Policy Addon."

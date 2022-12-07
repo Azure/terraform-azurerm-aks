@@ -19,6 +19,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   name                                = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
   resource_group_name                 = data.azurerm_resource_group.main.name
   api_server_authorized_ip_ranges     = var.api_server_authorized_ip_ranges
+  automatic_channel_upgrade           = var.automatic_channel_upgrade
   azure_policy_enabled                = var.azure_policy_enabled
   disk_encryption_set_id              = var.disk_encryption_set_id
   dns_prefix                          = var.prefix
@@ -237,6 +238,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = !(var.load_balancer_profile_enabled && var.load_balancer_sku != "standard")
       error_message = "Enabling load_balancer_profile requires that `load_balancer_sku` be set to `standard`"
+    }
+    precondition {
+      condition     = local.automatic_channel_upgrade_check
+      error_message = "Either disable automatic upgrades, only specify up to the minor version when using `automatic_channel_upgrade=patch` or don't specify `kubernetes_version` at all when using `automatic_channel_upgrade=stable|rapid|node-image`."
     }
   }
 }
