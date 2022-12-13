@@ -220,6 +220,17 @@ resource "azurerm_kubernetes_cluster" "main" {
       client_secret = var.client_secret
     }
   }
+  dynamic "storage_profile" {
+    for_each = var.storage_profile_enabled ? ["storage_profile"] : []
+
+    content {
+      blob_driver_enabled         = var.storage_profile_blob_driver_enabled
+      disk_driver_enabled         = var.storage_profile_disk_driver_enabled
+      disk_driver_version         = var.storage_profile_disk_driver_version
+      file_driver_enabled         = var.storage_profile_file_driver_enabled
+      snapshot_controller_enabled = var.storage_profile_snapshot_controller_enabled
+    }
+  }
 
   lifecycle {
     precondition {
