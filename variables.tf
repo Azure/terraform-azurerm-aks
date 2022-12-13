@@ -216,6 +216,60 @@ variable "kubernetes_version" {
   default     = null
 }
 
+variable "load_balancer_profile_enabled" {
+  type        = bool
+  description = "(Optional) Enable a load_balancer_profile block. This can only be used when load_balancer_sku is set to `standard`."
+  default     = false
+  nullable    = false
+}
+
+variable "load_balancer_profile_idle_timeout_in_minutes" {
+  type        = number
+  description = "(Optional) Desired outbound flow idle timeout in minutes for the cluster load balancer. Must be between `4` and `120` inclusive."
+  default     = 30
+}
+
+variable "load_balancer_profile_managed_outbound_ip_count" {
+  type        = number
+  description = "(Optional) Count of desired managed outbound IPs for the cluster load balancer. Must be between `1` and `100` inclusive"
+  default     = null
+}
+
+variable "load_balancer_profile_managed_outbound_ipv6_count" {
+  type        = number
+  description = "(Optional) The desired number of IPv6 outbound IPs created and managed by Azure for the cluster load balancer. Must be in the range of `1` to `100` (inclusive). The default value is `0` for single-stack and `1` for dual-stack. Note: managed_outbound_ipv6_count requires dual-stack networking. To enable dual-stack networking the Preview Feature Microsoft.ContainerService/AKS-EnableDualStack needs to be enabled and the Resource Provider re-registered, see the documentation for more information. https://learn.microsoft.com/en-us/azure/aks/configure-kubenet-dual-stack?tabs=azure-cli%2Ckubectl#register-the-aks-enabledualstack-preview-feature"
+  default     = null
+}
+
+variable "load_balancer_profile_outbound_ip_address_ids" {
+  type        = set(string)
+  description = "(Optional) The ID of the Public IP Addresses which should be used for outbound communication for the cluster load balancer."
+  default     = null
+}
+
+variable "load_balancer_profile_outbound_ip_prefix_ids" {
+  type        = set(string)
+  description = "(Optional) The ID of the outbound Public IP Address Prefixes which should be used for the cluster load balancer."
+  default     = null
+}
+
+variable "load_balancer_profile_outbound_ports_allocated" {
+  type        = number
+  description = "(Optional) Number of desired SNAT port for each VM in the clusters load balancer. Must be between `0` and `64000` inclusive. Defaults to `0`"
+  default     = 0
+}
+
+variable "load_balancer_sku" {
+  type        = string
+  description = "(Optional) Specifies the SKU of the Load Balancer used for this Kubernetes Cluster. Possible values are `basic` and `standard`. Defaults to `standard`. Changing this forces a new kubernetes cluster to be created."
+  default     = "standard"
+
+  validation {
+    condition     = contains(["basic", "standard"], var.load_balancer_sku)
+    error_message = "Possible values are `basic` and `standard`"
+  }
+}
+
 variable "local_account_disabled" {
   type        = bool
   description = "(Optional) - If `true` local accounts will be disabled. Defaults to `false`. See [the documentation](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts) for more information."
@@ -232,7 +286,6 @@ variable "log_analytics_solution_id" {
   type        = string
   description = "(Optional) Existing azurerm_log_analytics_solution ID. Providing ID disables creation of azurerm_log_analytics_solution."
   default     = null
-  nullable    = true
 }
 
 variable "log_analytics_workspace" {
@@ -242,7 +295,6 @@ variable "log_analytics_workspace" {
   })
   description = "(Optional) Existing azurerm_log_analytics_workspace to attach azurerm_log_analytics_solution. Providing the config disables creation of azurerm_log_analytics_workspace."
   default     = null
-  nullable    = true
 }
 
 variable "log_analytics_workspace_enabled" {
@@ -256,7 +308,6 @@ variable "log_analytics_workspace_resource_group_name" {
   type        = string
   description = "(Optional) Resource group name to create azurerm_log_analytics_solution."
   default     = null
-  nullable    = true
 }
 
 variable "log_analytics_workspace_sku" {
@@ -475,7 +526,7 @@ variable "secret_rotation_interval" {
 
 variable "sku_tier" {
   type        = string
-  description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are Free and Paid"
+  description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are `Free` and `Paid`"
   default     = "Free"
 }
 

@@ -185,10 +185,24 @@ resource "azurerm_kubernetes_cluster" "main" {
     network_plugin     = var.network_plugin
     dns_service_ip     = var.net_profile_dns_service_ip
     docker_bridge_cidr = var.net_profile_docker_bridge_cidr
+    load_balancer_sku  = var.load_balancer_sku
     network_policy     = var.network_policy
     outbound_type      = var.net_profile_outbound_type
     pod_cidr           = var.net_profile_pod_cidr
     service_cidr       = var.net_profile_service_cidr
+
+    dynamic "load_balancer_profile" {
+      for_each = var.load_balancer_profile_enabled && var.load_balancer_sku == "standard" ? ["load_balancer_profile"] : []
+
+      content {
+        idle_timeout_in_minutes     = var.load_balancer_profile_idle_timeout_in_minutes
+        managed_outbound_ip_count   = var.load_balancer_profile_managed_outbound_ip_count
+        managed_outbound_ipv6_count = var.load_balancer_profile_managed_outbound_ipv6_count
+        outbound_ip_address_ids     = var.load_balancer_profile_outbound_ip_address_ids
+        outbound_ip_prefix_ids      = var.load_balancer_profile_outbound_ip_prefix_ids
+        outbound_ports_allocated    = var.load_balancer_profile_outbound_ports_allocated
+      }
+    }
   }
   dynamic "oms_agent" {
     for_each = var.log_analytics_workspace_enabled ? ["oms_agent"] : []
@@ -219,6 +233,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = !(var.microsoft_defender_enabled && !var.log_analytics_workspace_enabled)
       error_message = "Enabling Microsoft Defender requires that `log_analytics_workspace_enabled` be set to true."
+    }
+    precondition {
+      condition     = !(var.load_balancer_profile_enabled && var.load_balancer_sku != "standard")
+      error_message = "Enabling load_balancer_profile requires that `load_balancer_sku` be set to `standard`"
     }
   }
 }
