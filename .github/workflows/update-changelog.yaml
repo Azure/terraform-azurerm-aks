@@ -19,17 +19,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ env.default_branch }}
-      - uses: 8BitJonny/gh-get-current-pr@2.1.0
-        id: PR
-      - uses: little-core-labs/get-git-tag@v3.0.1
-        id: current-tag
-      - uses: actions-ecosystem/action-get-latest-tag@v1
-        id: get-latest-tag
-        with:
-          semver_only: true
-          initial_version: 0.0.0
       - name: update-changelog
-        if: steps.PR.outputs.number != '' || steps.current-tag.outputs.tag != ''
         run: |
           MAJOR_VERSION=$(ls | grep CHANGELOG |  cut -d'-' -f 2 | cut -f 1 -d '.' |  grep v | sort -V -r | head -n 1)
           if [ -z "$MAJOR_VERSION" ]; then
@@ -38,7 +28,14 @@ jobs:
             MAJOR_VERSION=${MAJOR_VERSION#"v"}
             MAJOR_VERSION=$((MAJOR_VERSION+1))
           fi
-          docker run --rm -v $(pwd):/src -w /src githubchangeloggenerator/github-changelog-generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }} --no-issues --no-compare-link --include-tags-regex "$MAJOR_VERSION\..*\..*"
+          
+          previous_tag=$(docker run -e MAJOR_VERSION=$MAJOR_VERSION --rm mcr.microsoft.com/azterraform:latest previousTag ${{ github.repository_owner }} ${{ github.event.repository.name }} $MAJOR_VERSION.0.0)
+          if [ -z $previous_tag ]; then
+            docker run --rm -v $(pwd):/src -w /src githubchangeloggenerator/github-changelog-generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }} --no-issues --no-compare-link
+          else
+            docker run --rm -v $(pwd):/src -w /src githubchangeloggenerator/github-changelog-generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }} --no-issues --no-compare-link --since-tag=$previous_tag
+          fi
+          sudo chmod -R ugo+rwX .
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
