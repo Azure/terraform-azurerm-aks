@@ -50,6 +50,8 @@ github.com/Azure/go-autorest/logger v0.2.0/go.mod h1:T9E3cAhj2VqvPOtCYAvby9aBXkZ
 github.com/Azure/go-autorest/tracing v0.6.0/go.mod h1:+vhtPC754Xsa23ID7GlGsrdKBpUA79WCAKPPZVC2DeU=
 github.com/Azure/terraform-module-test-helper v0.3.0 h1:HXQOPCD9FAIE6AYnjYPAELn/Q32mHLPhHUL1Zp1kDZ4=
 github.com/Azure/terraform-module-test-helper v0.3.0/go.mod h1:uinpqrru95JyiCAhKoouZsQaUt7dssEoc3kLfrm2LpI=
+github.com/Azure/terraform-module-test-helper v0.4.0 h1:+PRR5uvTT7yI5hOkO3RIn/nwJiAwl4qAHZsHPRITPlQ=
+github.com/Azure/terraform-module-test-helper v0.4.0/go.mod h1:3syNYxvrMb7+8XsimCcLecX7RZN94PuXSzp6RhnjHt4=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/NYTimes/gziphandler v0.0.0-20170623195520-56545f4a5d46/go.mod h1:3wb06e3pkSAbeQ52E9H9iFoQsEEwGN64994WTCIhntQ=
@@ -225,6 +227,8 @@ github.com/gruntwork-io/go-commons v0.8.0 h1:k/yypwrPqSeYHevLlEDmvmgQzcyTwrlZGRa
 github.com/gruntwork-io/go-commons v0.8.0/go.mod h1:gtp0yTtIBExIZp7vyIV9I0XQkVwiQZze678hvDXof78=
 github.com/gruntwork-io/terratest v0.40.19 h1:slnTF0Amrc9yRVUV/X/fHlVWKNF0H8fwa2OLyeV2IOA=
 github.com/gruntwork-io/terratest v0.40.19/go.mod h1:JGeIGgLbxbG9/Oqm06z6YXVr76CfomdmLkV564qov+8=
+github.com/gruntwork-io/terratest v0.41.6 h1:BlZOu8GUzLEA2aODnyszCXSoF/jgo2AuVhk41vsqUQI=
+github.com/gruntwork-io/terratest v0.41.6/go.mod h1:qH1xkPTTGx30XkMHw8jAVIbzqheSjIa5IyiTwSV2vKI=
 github.com/hashicorp/errwrap v1.0.0 h1:hLrqtEDnRye3+sgx6z4qVLNuviH3MR5aQ0ykNJa/UYA=
 github.com/hashicorp/errwrap v1.0.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
 github.com/hashicorp/go-cleanhttp v0.5.0/go.mod h1:JpRdi6/HCYpAwUzNwuwqhbovhLtngrth3wmdIIUrZ80=
