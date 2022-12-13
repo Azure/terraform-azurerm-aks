@@ -16,6 +16,7 @@
 **Merged pull requests:**
 
 - Upgrade `terraform-module-test-helper` lib so we can get rid of override file to execute version upgrade test [\#279](https://github.com/Azure/terraform-azurerm-aks/pull/279) ([lonegunmanb](https://github.com/lonegunmanb))
+- Added support for load\_balancer\_profile [\#277](https://github.com/Azure/terraform-azurerm-aks/pull/277) ([mazilu88](https://github.com/mazilu88))
 - Add auto changelog update to this repo. [\#275](https://github.com/Azure/terraform-azurerm-aks/pull/275) ([lonegunmanb](https://github.com/lonegunmanb))
 - Bump test helper version  [\#273](https://github.com/Azure/terraform-azurerm-aks/pull/273) ([lonegunmanb](https://github.com/lonegunmanb))
 - Ignore `scripts` soft link [\#272](https://github.com/Azure/terraform-azurerm-aks/pull/272) ([lonegunmanb](https://github.com/lonegunmanb))
