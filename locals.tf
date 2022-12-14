@@ -6,7 +6,7 @@ locals {
   automatic_channel_upgrade_check = var.automatic_channel_upgrade == null ? true : (
     contains(["patch"], var.automatic_channel_upgrade) &&
     can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.kubernetes_version))
-    ) == true ? true : (
+    ) ? true : (
     contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) &&
     var.kubernetes_version == null
   )
