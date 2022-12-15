@@ -1,15 +1,13 @@
 locals {
   # automatic upgrades are either:
-  # - null 
-  # - patch, but then the kubernetes_version musnt't specify a patch number
-  # - rapid/stable/node-image, but then the kubernetes_version must be null
-  automatic_channel_upgrade_check = var.automatic_channel_upgrade == null ? true : (
-    contains(["patch"], var.automatic_channel_upgrade) &&
-    can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.kubernetes_version))
-    ) ? true : (
-    contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) &&
-    var.kubernetes_version == null
-  )
+  # - null
+  # - patch, but then the kubernetes_version must not specify a patch number and orchestrator_version must be null
+  # - rapid/stable/node-image, but then the kubernetes_version and the orchestrator_version must be null
+  automatic_channel_upgrade_check = var.automatic_channel_upgrade == null ? true : var.orchestrator_version == null && (
+    (contains(["patch"], var.automatic_channel_upgrade) && can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.kubernetes_version)))
+    || (contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) && var.kubernetes_version == null
+  ))
+
   # Abstract the decision whether to create an Analytics Workspace or not.
   create_analytics_solution  = var.log_analytics_workspace_enabled && var.log_analytics_solution_id == null
   create_analytics_workspace = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null

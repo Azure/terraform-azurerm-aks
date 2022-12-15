@@ -150,6 +150,55 @@ func TestAutomaticUpgrades(t *testing.T) {
 	}
 }
 
+func TestInvalidVarsForAutomaticUpgrades(t *testing.T) {
+	testCases := map[string]struct {
+		name string
+		vars map[string]interface{}
+	}{
+		"automatic_patches_with_patch_number_specified": {
+			vars: map[string]interface{}{
+				"prefix":                    "foo",
+				"resource_group_name":       "bar",
+				"automatic_channel_upgrade": "patch",
+				"kubernetes_version":        "1.25.3",
+				"orchestrator_version":      "1.25.3",
+			},
+		},
+		"automatic_upgrades_to_newest_version_with_fixed_versions": {
+			vars: map[string]interface{}{
+				"prefix":                    "foo",
+				"resource_group_name":       "bar",
+				"automatic_channel_upgrade": "rapid",
+				"kubernetes_version":        "1.25.3",
+				"orchestrator_version":      "1.24",
+			},
+		},
+		"automatic_upgrades_to_stable_version_with_orchestrator": {
+			vars: map[string]interface{}{
+				"prefix":                    "foo",
+				"resource_group_name":       "bar",
+				"automatic_channel_upgrade": "stable",
+				"orchestrator_version":      "1.24",
+			},
+		},
+	}
+
+	for name, tt := range testCases {
+		t.Run(name, func(t *testing.T) {
+			test_helper.RunE2ETest(t, "../../", "unit-test-fixture",
+				terraform.Options{
+					Upgrade: false,
+					Vars:    tt.vars,
+				},
+				func(t *testing.T, output test_helper.TerraformOutput) {
+					upgrades, ok := output["automatic_channel_upgrade_check"].(bool)
+					assert.True(t, ok)
+					assert.False(t, upgrades)
+				})
+		})
+	}
+}
+
 func dummyRequiredVariables() map[string]interface{} {
 	return map[string]interface{}{
 		"prefix":              "foo",
