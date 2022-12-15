@@ -19,6 +19,7 @@ jobs:
           run_id: ${{ github.event.workflow_run.id }}
           workflow: pr-check.yaml
           name: change
+          if_no_artifact_found: ignore
       - name: Check change existence
         id: check_change
         uses: andstor/file-existence-action@v1

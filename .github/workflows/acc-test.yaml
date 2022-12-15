@@ -11,8 +11,16 @@ on:
       - '**/go.mod'
 
 jobs:
+  runner-select:
+    runs-on: ubuntu-latest
+    outputs:
+      runner: ${{ steps.runner.outputs.runner }}
+    steps:
+      - id: runner
+        run: echo "runner=[self-hosted, 1ES.Pool=${{ github.event.repository.name }}]" >> $GITHUB_OUTPUT
   acc-tests:
-    runs-on: [self-hosted, 1ES.Pool=terraform-azurerm-aks]
+    needs: [runner-select]
+    runs-on: ${{ needs.runner-select.outputs.runner }}
     environment:
       name: acctests
     steps:
