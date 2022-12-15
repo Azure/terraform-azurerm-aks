@@ -105,6 +105,51 @@ func TestLogAnalyticsWorkspaceEnabledSolutionProvidedShouldNotCreateSolution(t *
 	})
 }
 
+func TestAutomaticUpgrades(t *testing.T) {
+	testCases := map[string]struct {
+		name string
+		vars map[string]interface{}
+	}{
+		"automatic_patches_no_patch_number_specified": {
+			vars: map[string]interface{}{
+				"prefix":                    "foo",
+				"resource_group_name":       "bar",
+				"automatic_channel_upgrade": "patch",
+				"kubernetes_version":        "1.25",
+			},
+		},
+		"automatic_upgrades_to_newest_version": {
+			vars: map[string]interface{}{
+				"prefix":                    "foo",
+				"resource_group_name":       "bar",
+				"automatic_channel_upgrade": "rapid",
+			},
+		},
+		"automatic_upgrades_to_stable_version": {
+			vars: map[string]interface{}{
+				"prefix":                    "foo",
+				"resource_group_name":       "bar",
+				"automatic_channel_upgrade": "stable",
+			},
+		},
+	}
+
+	for name, tt := range testCases {
+		t.Run(name, func(t *testing.T) {
+			test_helper.RunE2ETest(t, "../../", "unit-test-fixture",
+				terraform.Options{
+					Upgrade: false,
+					Vars:    tt.vars,
+				},
+				func(t *testing.T, output test_helper.TerraformOutput) {
+					upgrades, ok := output["automatic_channel_upgrade_check"].(bool)
+					assert.True(t, ok)
+					assert.True(t, upgrades)
+				})
+		})
+	}
+}
+
 func dummyRequiredVariables() map[string]interface{} {
 	return map[string]interface{}{
 		"prefix":              "foo",
