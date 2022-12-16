@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v3
       - name: pr-check
         run: |
-         docker run --rm -v $(pwd):/src -w /src -e SKIP_CHECKOV mcr.microsoft.com/azterraform:latest make pr-check
+          docker run --rm -v $(pwd):/src -w /src -e SKIP_CHECKOV mcr.microsoft.com/azterraform:latest make pr-check
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
