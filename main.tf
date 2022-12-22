@@ -56,6 +56,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       os_disk_size_gb              = var.os_disk_size_gb
       os_disk_type                 = var.os_disk_type
       pod_subnet_id                = var.pod_subnet_id
+      scale_down_mode              = var.scale_down_mode
       tags                         = merge(var.tags, var.agents_tags)
       type                         = var.agents_type
       ultra_ssd_enabled            = var.ultra_ssd_enabled
@@ -81,6 +82,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       os_disk_size_gb              = var.os_disk_size_gb
       os_disk_type                 = var.os_disk_type
       pod_subnet_id                = var.pod_subnet_id
+      scale_down_mode              = var.scale_down_mode
       tags                         = merge(var.tags, var.agents_tags)
       type                         = var.agents_type
       ultra_ssd_enabled            = var.ultra_ssd_enabled
