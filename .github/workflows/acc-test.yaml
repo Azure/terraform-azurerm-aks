@@ -11,29 +11,18 @@ on:
       - '**/go.mod'
 
 jobs:
-  runner-select:
-    runs-on: ubuntu-latest
-    outputs:
-      runner: ${{ steps.runner.outputs.runner }}
-    steps:
-      - id: runner
-        run: echo "runner=[self-hosted, 1ES.Pool=${{ github.event.repository.name }}]" >> $GITHUB_OUTPUT
   acc-tests:
-    needs: [runner-select]
-    runs-on: ${{ needs.runner-select.outputs.runner }}
+    runs-on: [self-hosted, 1ES.Pool=<YOUR_REPO_NAME>]
     environment:
       name: acctests
     steps:
       - uses: actions/checkout@v3
+      - name: init
+        run: |
+          docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make generate
       - name: e2e test
         run: |
-          az login --identity --username $MSI_ID > /dev/null
-          export ARM_SUBSCRIPTION_ID=$(az login --identity --username $MSI_ID | jq -r '.[0] | .id')
-          export ARM_TENANT_ID=$(az login --identity --username $MSI_ID | jq -r '.[0] | .tenantId')
-          docker run --rm -v $(pwd):/src -w /src --network=host -e MSI_ID -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_USE_MSI=true mcr.microsoft.com/azterraform:latest make e2e-test
+          sh scripts/ci-e2e.sh
       - name: version-upgrade test
         run: |
-          az login --identity --username $MSI_ID > /dev/null
-          export ARM_SUBSCRIPTION_ID=$(az login --identity --username $MSI_ID | jq -r '.[0] | .id')
-          export ARM_TENANT_ID=$(az login --identity --username $MSI_ID | jq -r '.[0] | .tenantId')
-          docker run --rm -v $(pwd):/src -w /src --network=host -e MSI_ID -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_USE_MSI=true mcr.microsoft.com/azterraform:latest make version-upgrade-test
+          sh scripts/ci-version-upgrade.sh
