@@ -12,42 +12,4 @@ on:
 
 jobs:
   prepr-check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: pr-check
-        run: |
-          docker run --rm -v $(pwd):/src -w /src -e SKIP_CHECKOV mcr.microsoft.com/azterraform:latest make pr-check
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: go
-      - name: build-test
-        run: |
-          make build-test
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
-      - name: Breaking Change Brief
-        run: |
-          c=$(docker run --rm -t -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest breaking_detect /src ${{ github.repository_owner }} ${{ github.event.repository.name }} ${{ github.base_ref }})
-          if [ ! -z "$c" ]; then
-            msg=$(printf "Potential Breaking Changes in ${{ github.event.pull_request.head.sha }}:\n${c}")
-            jq -n --arg msg "$msg" '{pr: ${{ github.event.pull_request.number }}, body: $msg}' > change
-          fi
-      - name: Check change existence
-        id: check_change
-        uses: andstor/file-existence-action@v1
-        with:
-          files: "change"
-      - name: 'Upload breaking change warning'
-        if: steps.check_change.outputs.files_exists == 'true'
-        uses: actions/upload-artifact@v2
-        with:
-          retention-days: 1
-          name: change
-          path: change
+    uses: Azure/tfmod-scaffold/.github/workflows/pr-check.yaml@main
