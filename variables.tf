@@ -540,6 +540,43 @@ variable "sku_tier" {
   default     = "Free"
 }
 
+variable "storage_profile_blob_driver_enabled" {
+  type        = bool
+  description = "(Optional) Is the Blob CSI driver enabled? Defaults to `false`"
+  default     = false
+}
+
+variable "storage_profile_disk_driver_enabled" {
+  type        = bool
+  description = "(Optional) Is the Disk CSI driver enabled? Defaults to `true`"
+  default     = true
+}
+
+variable "storage_profile_disk_driver_version" {
+  type        = string
+  description = "(Optional) Disk CSI Driver version to be used. Possible values are `v1` and `v2`. Defaults to `v1`."
+  default     = "v1"
+}
+
+variable "storage_profile_enabled" {
+  description = "Enable storage profile"
+  type        = bool
+  default     = false
+  nullable    = false
+}
+
+variable "storage_profile_file_driver_enabled" {
+  type        = bool
+  description = "(Optional) Is the File CSI driver enabled? Defaults to `true`"
+  default     = true
+}
+
+variable "storage_profile_snapshot_controller_enabled" {
+  type        = bool
+  description = "(Optional) Is the Snapshot Controller enabled? Defaults to `true`"
+  default     = true
+}
+
 variable "tags" {
   type        = map(string)
   description = "Any tags that should be present on the AKS cluster resources"
