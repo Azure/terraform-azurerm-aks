@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- feat\(storage\_profile\): add support for CSI arguments [\#282](https://github.com/Azure/terraform-azurerm-aks/pull/282) ([aescrob](https://github.com/aescrob))
+
 ## [6.3.0](https://github.com/Azure/terraform-azurerm-aks/tree/6.3.0) (2022-12-20)
 
 **Merged pull requests:**
