@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Bump github.com/gruntwork-io/terratest from 0.41.6 to 0.41.7 in /test [\#286](https://github.com/Azure/terraform-azurerm-aks/pull/286) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Add support for `scale_down_mode` [\#285](https://github.com/Azure/terraform-azurerm-aks/pull/285) ([lonegunmanb](https://github.com/lonegunmanb))
 
 ## [6.4.0](https://github.com/Azure/terraform-azurerm-aks/tree/6.4.0) (2022-12-26)
