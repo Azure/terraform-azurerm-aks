@@ -98,7 +98,9 @@ variable "automatic_channel_upgrade" {
   default     = null
   description = "(Optional) The upgrade channel for this Kubernetes Cluster. Possible values are `patch`, `rapid`, `node-image` and `stable`. By default automatic-upgrades are turned off. Note that you cannot use the `patch` upgrade channel and still specify the patch version using `kubernetes_version`. See [the documentation](https://learn.microsoft.com/en-us/azure/aks/auto-upgrade-cluster) for more information"
   validation {
-    condition     = var.automatic_channel_upgrade == null ? true : contains(["patch", "stable", "rapid", "node-image"], var.automatic_channel_upgrade)
+    condition = var.automatic_channel_upgrade == null ? true : contains([
+      "patch", "stable", "rapid", "node-image"
+    ], var.automatic_channel_upgrade)
     error_message = "`automatic_channel_upgrade`'s possible values are `patch`, `stable`, `rapid` or `node-image`."
   }
 }
@@ -518,6 +520,12 @@ variable "role_based_access_control_enabled" {
   description = "Enable Role Based Access Control."
   default     = false
   nullable    = false
+}
+
+variable "scale_down_mode" {
+  type        = string
+  description = "(Optional) Specifies the autoscaling behaviour of the Kubernetes Cluster. If not specified, it defaults to `Delete`. Possible values include `Delete` and `Deallocate`. Changing this forces a new resource to be created."
+  default     = "Delete"
 }
 
 variable "secret_rotation_enabled" {
