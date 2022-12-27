@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Add support for `scale_down_mode` [\#285](https://github.com/Azure/terraform-azurerm-aks/pull/285) ([lonegunmanb](https://github.com/lonegunmanb))
+
 ## [6.4.0](https://github.com/Azure/terraform-azurerm-aks/tree/6.4.0) (2022-12-26)
 
 **Merged pull requests:**
