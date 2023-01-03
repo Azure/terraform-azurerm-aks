@@ -254,7 +254,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
     precondition {
       condition     = local.automatic_channel_upgrade_check
-      error_message = "Either disable automatic upgrades, only specify up to the minor version when using `automatic_channel_upgrade=patch` or don't specify `kubernetes_version` at all when using `automatic_channel_upgrade=stable|rapid|node-image`."
+      error_message = "Either disable automatic upgrades, or only specify up to the minor version when using `automatic_channel_upgrade=patch` or don't specify `kubernetes_version` at all when using `automatic_channel_upgrade=stable|rapid|node-image`. With automatic upgrades `orchestrator_version` must be set to `null`."
     }
   }
 }
