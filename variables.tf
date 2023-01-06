@@ -335,6 +335,24 @@ variable "key_vault_secrets_provider_enabled" {
   nullable    = false
 }
 
+variable "kms_enabled" {
+  type        = bool
+  description = "(Optional) Enable Azure KeyVault Key Management Service."
+  default     = false
+}
+
+variable "kms_key_vault_key_id" {
+  type        = string
+  description = "(Optional) Identifier of Azure Key Vault key. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier."
+  default     = null
+}
+
+variable "kms_key_vault_network_access" {
+  type        = string
+  description = "(Optional) Network Access of Azure Key Vault. Possible values are: `Private` and `Public`. If not set, defaults to type `Public`."
+  default     = null
+}
+
 variable "kubernetes_version" {
   type        = string
   description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
