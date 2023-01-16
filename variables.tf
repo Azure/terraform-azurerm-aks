@@ -166,7 +166,6 @@ variable "auto_scaler_profile_scale_down_delay_after_add" {
 variable "auto_scaler_profile_scale_down_delay_after_delete" {
   description = "How long after node deletion that scale down evaluation resumes. Defaults to the value used for `scan_interval`."
   type        = string
-  default     = null
 }
 
 variable "auto_scaler_profile_scale_down_delay_after_failure" {
