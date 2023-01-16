@@ -585,6 +585,13 @@ variable "public_ssh_key" {
   default     = ""
 }
 
+variable "rbac_aad" {
+  type        = bool
+  description = "(Optional) Is Azure Active Directory ingration enabled?"
+  default     = true
+  nullable    = false
+}
+
 variable "rbac_aad_admin_group_object_ids" {
   type        = list(string)
   description = "Object ID of groups with admin access."

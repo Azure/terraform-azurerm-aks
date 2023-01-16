@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Azure AD RBAC enable/disable with variable rbac\_aad [\#269](https://github.com/Azure/terraform-azurerm-aks/pull/269) ([zioproto](https://github.com/zioproto))
+
 ## [6.5.0](https://github.com/Azure/terraform-azurerm-aks/tree/6.5.0) (2023-01-03)
 
 **Merged pull requests:**

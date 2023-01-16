@@ -121,7 +121,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "azure_active_directory_role_based_access_control" {
-    for_each = var.role_based_access_control_enabled && var.rbac_aad_managed ? ["rbac"] : []
+    for_each = var.role_based_access_control_enabled && var.rbac_aad && var.rbac_aad_managed ? ["rbac"] : []
 
     content {
       admin_group_object_ids = var.rbac_aad_admin_group_object_ids
@@ -131,7 +131,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "azure_active_directory_role_based_access_control" {
-    for_each = var.role_based_access_control_enabled && !var.rbac_aad_managed ? ["rbac"] : []
+    for_each = var.role_based_access_control_enabled && var.rbac_aad && !var.rbac_aad_managed ? ["rbac"] : []
 
     content {
       client_app_id     = var.rbac_aad_client_app_id
@@ -278,6 +278,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = local.automatic_channel_upgrade_check
       error_message = "Either disable automatic upgrades, or only specify up to the minor version when using `automatic_channel_upgrade=patch` or don't specify `kubernetes_version` at all when using `automatic_channel_upgrade=stable|rapid|node-image`. With automatic upgrades `orchestrator_version` must be set to `null`."
+    }
+    precondition {
+      condition     = var.role_based_access_control_enabled || !var.rbac_aad
+      error_message = "Enabling Azure Active Directory integration requires that `role_based_access_control_enabled` be set to true."
     }
   }
 }
