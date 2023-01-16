@@ -105,6 +105,109 @@ variable "automatic_channel_upgrade" {
   }
 }
 
+variable "auto_scaler_profile_balance_similar_node_groups" {
+  description = "Enable or Disable the balance similar node groups. Defaults to false."
+  type        = bool
+  default     = false
+}
+
+variable "auto_scaler_profile_empty_bulk_delete_max" {
+  description = "The maximum number of empty nodes that can be deleted at the same time. Defaults to 10."
+  type        = number
+  default     = 10
+}
+
+variable "auto_scaler_profile_expander" {
+  description = "The expander for the node group. Possible values are `random`, `most-pods`, `least-waste`, `price`, `priority`. Defaults to `random`."
+  type        = string
+  default     = "random"
+}
+
+variable "auto_scaler_profile_max_graceful_termination_sec" {
+  description = "The maximum time in seconds for which a node can be gracefully terminated. Defaults to 600."
+  type        = number
+  default     = 600
+}
+
+variable "auto_scaler_profile_max_node_provisioning_time" {
+  description = "The maximum time in seconds for which cluster autoscaler waits for node to be provisioned. Defaults to 15m."
+  type        = string
+  default     = "15m"
+}
+
+variable "auto_scaler_profile_max_unready_nodes" {
+  description = "The maximum number of unready nodes that CA tolerates. Defaults to 3."
+  type        = number
+  default     = 3
+}
+
+variable "auto_scaler_profile_max_unready_percentage" {
+  description = "The maximum percentage of unready nodes in a node group. Defaults to 45."
+  type        = number
+  default     = 45
+}
+
+variable "auto_scaler_profile_new_pod_scale_up_delay" {
+  description = "The delay after pod starts, before it's added to calculation of pending pods. It should be used together with skip_nodes_with_local_storage. Defaults to 0s."
+  type        = string
+  default     = "0s"
+}
+
+variable "auto_scaler_profile_scale_down_delay_after_add" {
+  description = "The delay after node addition, before another node can be removed. Defaults to 10m."
+  type        = string
+  default     = "10m"
+}
+
+variable "auto_scaler_profile_scale_down_delay_after_delete" {
+  description = "The delay after node deletion, before another node can be removed. Defaults to 10s."
+  type        = string
+  default     = "10s"
+}
+
+variable "auto_scaler_profile_scale_down_delay_after_failure" {
+  description = "The delay after node failure, before another node can be removed. Defaults to 3m."
+  type        = string
+  default     = "3m"
+}
+
+variable "auto_scaler_profile_scale_down_unneeded" {
+  description = "The time after which a node should be deleted after it has been unneeded for this long. Defaults to 10m."
+  type        = string
+  default     = "10m"
+}
+
+variable "auto_scaler_profile_scale_down_unready" {
+  description = "The time after which a node should be deleted after it has been unready for this long. Defaults to 20m."
+  type        = string
+  default     = "20m"
+
+}
+
+variable "auto_scaler_profile_scale_down_utilization_threshold" {
+  description = "The threshold in %!u(MISSING)nder which a node is considered for scale down. Defaults to 0.5."
+  type        = number
+  default     = 0.5
+}
+
+variable "auto_scaler_profile_scan_interval" {
+  description = "The interval between scans. Defaults to 10s."
+  type        = string
+  default     = "10s"
+}
+
+variable "auto_scaler_profile_skip_nodes_with_local_storage" {
+  description = "Do not check nodes that have local storage, pods using it will not be moved. Defaults to true."
+  type        = bool
+  default     = true
+}
+
+variable "auto_scaler_profile_skip_nodes_with_system_pods" {
+  description = "Do not check nodes that have system pods (node=kube-proxy, node=kube-dns, etc). Defaults to true."
+  type        = bool
+  default     = true
+}
+
 variable "azure_policy_enabled" {
   type        = bool
   description = "Enable Azure Policy Addon."
@@ -607,107 +710,4 @@ variable "workload_identity_enabled" {
   description = "Enable or Disable Workload Identity. Defaults to false."
   type        = bool
   default     = false
-}
-
-variable "auto_scaler_profile_balance_similar_node_groups" {
-  description = "Enable or Disable the balance similar node groups. Defaults to false."
-  type        = bool
-  default     = false
-}
-
-variable "auto_scaler_profile_expander" {
-  description = "The expander for the node group. Possible values are `random`, `most-pods`, `least-waste`, `price`, `priority`. Defaults to `random`."
-  type        = string
-  default     = "random"
-}
-
-variable "auto_scaler_profile_max_graceful_termination_sec" {
-  description = "The maximum time in seconds for which a node can be gracefully terminated. Defaults to 600."
-  type        = number
-  default     = 600
-}
-
-variable "auto_scaler_profile_max_node_provisioning_time" {
-  description = "The maximum time in seconds for which cluster autoscaler waits for node to be provisioned. Defaults to 15m."
-  type        = string
-  default     = "15m"
-}
-
-variable "auto_scaler_profile_max_unready_nodes" {
-  description = "The maximum number of unready nodes that CA tolerates. Defaults to 3."
-  type        = number
-  default     = 3
-}
-
-variable "auto_scaler_profile_max_unready_percentage" {
-  description = "The maximum percentage of unready nodes in a node group. Defaults to 45."
-  type        = number
-  default     = 45
-}
-
-variable "auto_scaler_profile_new_pod_scale_up_delay" {
-  description = "The delay after pod starts, before it's added to calculation of pending pods. It should be used together with skip_nodes_with_local_storage. Defaults to 0s."
-  type        = string
-  default     = "0s"
-}
-
-variable "auto_scaler_profile_scale_down_delay_after_add" {
-  description = "The delay after node addition, before another node can be removed. Defaults to 10m."
-  type        = string
-  default     = "10m"
-}
-
-variable "auto_scaler_profile_scale_down_delay_after_delete" {
-  description = "The delay after node deletion, before another node can be removed. Defaults to 10s."
-  type        = string
-  default     = "10s"
-}
-
-variable "auto_scaler_profile_scale_down_delay_after_failure" {
-  description = "The delay after node failure, before another node can be removed. Defaults to 3m."
-  type        = string
-  default     = "3m"
-}
-
-variable "auto_scaler_profile_scan_interval" {
-  description = "The interval between scans. Defaults to 10s."
-  type        = string
-  default     = "10s"
-}
-
-variable "auto_scaler_profile_scale_down_unneeded" {
-  description = "The time after which a node should be deleted after it has been unneeded for this long. Defaults to 10m."
-  type        = string
-  default     = "10m"
-}
-
-variable "auto_scaler_profile_scale_down_unready" {
-  description = "The time after which a node should be deleted after it has been unready for this long. Defaults to 20m."
-  type        = string
-  default     = "20m"
-
-}
-
-variable "auto_scaler_profile_scale_down_utilization_threshold" {
-  description = "The threshold in % under which a node is considered for scale down. Defaults to 0.5."
-  type        = number
-  default     = 0.5
-}
-
-variable "auto_scaler_profile_empty_bulk_delete_max" {
-  description = "The maximum number of empty nodes that can be deleted at the same time. Defaults to 10."
-  type        = number
-  default     = 10
-}
-
-variable "auto_scaler_profile_skip_nodes_with_local_storage" {
-  description = "Do not check nodes that have local storage, pods using it will not be moved. Defaults to true."
-  type        = bool
-  default     = true
-}
-
-variable "auto_scaler_profile_skip_nodes_with_system_pods" {
-  description = "Do not check nodes that have system pods (node=kube-proxy, node=kube-dns, etc). Defaults to true."
-  type        = bool
-  default     = true
 }
