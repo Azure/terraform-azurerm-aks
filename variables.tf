@@ -121,6 +121,10 @@ variable "auto_scaler_profile_expander" {
   description = "The expander for the node group. Possible values are `random`, `most-pods`, `least-waste`, `price`, `priority`. Defaults to `random`."
   type        = string
   default     = "random"
+  validation {
+    condition     = contains(["least-waste", "most-pods", "priority", "random"], var.auto_scaler_profile_expander)
+    error_message = "Must be either \"least-waste\", \"most-pods\", \"priority\" or \"random\"."
+  }
 }
 
 variable "auto_scaler_profile_max_graceful_termination_sec" {
@@ -148,9 +152,9 @@ variable "auto_scaler_profile_max_unready_percentage" {
 }
 
 variable "auto_scaler_profile_new_pod_scale_up_delay" {
-  description = "The delay after pod starts, before it's added to calculation of pending pods. It should be used together with skip_nodes_with_local_storage. Defaults to 0s."
+  description = "The delay after pod starts, before it's added to calculation of pending pods. It should be used together with skip_nodes_with_local_storage. Defaults to 10s."
   type        = string
-  default     = "0s"
+  default     = "10s"
 }
 
 variable "auto_scaler_profile_scale_down_delay_after_add" {
