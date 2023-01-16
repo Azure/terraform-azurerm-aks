@@ -259,6 +259,12 @@ variable "disk_encryption_set_id" {
   default     = null
 }
 
+variable "enable_auto_scaler_profile" {
+  type        = bool
+  description = "Enable configuring the auto scaler profile"
+  default     = false
+}
+
 variable "enable_auto_scaling" {
   type        = bool
   description = "Enable node pool autoscaling"
