@@ -185,7 +185,6 @@ variable "auto_scaler_profile_scale_down_unready" {
   description = "How long an unready node should be unneeded before it is eligible for scale down. Defaults to `20m`."
   type        = string
   default     = "20m"
-
 }
 
 variable "auto_scaler_profile_scale_down_utilization_threshold" {
