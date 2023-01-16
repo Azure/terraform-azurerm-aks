@@ -110,7 +110,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       max_unready_percentage           = var.auto_scaler_profile_max_unready_percentage
       new_pod_scale_up_delay           = var.auto_scaler_profile_new_pod_scale_up_delay
       scale_down_delay_after_add       = var.auto_scaler_profile_scale_down_delay_after_add
-      scale_down_delay_after_delete    = var.auto_scaler_profile_scale_down_delay_after_delete
+      scale_down_delay_after_delete    = local.auto_scaler_profile_scale_down_delay_after_delete
       scale_down_delay_after_failure   = var.auto_scaler_profile_scale_down_delay_after_failure
       scale_down_unneeded              = var.auto_scaler_profile_scale_down_unneeded
       scale_down_unready               = var.auto_scaler_profile_scale_down_unready

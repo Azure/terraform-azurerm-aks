@@ -13,3 +13,11 @@ output "log_analytics_workspace" {
 output "automatic_channel_upgrade_check" {
   value = local.automatic_channel_upgrade_check
 }
+
+output "auto_scaler_profile_scale_down_delay_after_delete" {
+  value = local.auto_scaler_profile_scale_down_delay_after_delete
+}
+
+output "auto_scaler_profile_scan_interval" {
+  value = var.auto_scaler_profile_scan_interval
+}
