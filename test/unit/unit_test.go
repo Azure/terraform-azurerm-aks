@@ -197,6 +197,7 @@ func TestInvalidVarsForAutomaticUpgrades(t *testing.T) {
 				})
 		})
 	}
+}
 
 func TestScaleDownDelayAfterDeleteNotSetShouldUseScanInterval(t *testing.T) {
 	vars := dummyRequiredVariables()
