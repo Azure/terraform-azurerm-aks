@@ -98,7 +98,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "auto_scaler_profile" {
-    for_each = var.enable_auto_scaler_profile == true ? ["default_auto_scaler_profile"] : []
+    for_each = var.auto_scaler_profile_enabled ? ["default_auto_scaler_profile"] : []
 
     content {
       balance_similar_node_groups      = var.auto_scaler_profile_balance_similar_node_groups

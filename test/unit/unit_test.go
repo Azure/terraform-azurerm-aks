@@ -200,10 +200,9 @@ func TestInvalidVarsForAutomaticUpgrades(t *testing.T) {
 }
 
 func TestScaleDownDelayAfterDeleteNotSetShouldUseScanInterval(t *testing.T) {
-	vars := dummyRequiredVariables()
 	test_helper.RunE2ETest(t, "../../", "unit-test-fixture", terraform.Options{
 		Upgrade: false,
-		Vars:    vars,
+		Vars:    dummyRequiredVariables(),
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
 		scaleDownDelayAfterDelete, ok := output["auto_scaler_profile_scale_down_delay_after_delete"].(string)
 		assert.True(t, ok)

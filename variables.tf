@@ -105,6 +105,13 @@ variable "auto_scaler_profile_empty_bulk_delete_max" {
   default     = 10
 }
 
+variable "auto_scaler_profile_enabled" {
+  type        = bool
+  description = "Enable configuring the auto scaler profile"
+  default     = false
+  nullable    = false
+}
+
 variable "auto_scaler_profile_expander" {
   description = "Expander to use. Possible values are `least-waste`, `priority`, `most-pods` and `random`. Defaults to `random`."
   type        = string
@@ -247,12 +254,6 @@ variable "disk_encryption_set_id" {
   type        = string
   description = "(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes. More information [can be found in the documentation](https://docs.microsoft.com/azure/aks/azure-disk-customer-managed-keys). Changing this forces a new resource to be created."
   default     = null
-}
-
-variable "enable_auto_scaler_profile" {
-  type        = bool
-  description = "Enable configuring the auto scaler profile"
-  default     = false
 }
 
 variable "enable_auto_scaling" {
