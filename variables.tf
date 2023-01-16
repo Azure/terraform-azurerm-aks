@@ -166,6 +166,7 @@ variable "auto_scaler_profile_scale_down_delay_after_add" {
 variable "auto_scaler_profile_scale_down_delay_after_delete" {
   description = "How long after node deletion that scale down evaluation resumes. Defaults to the value used for `scan_interval`."
   type        = string
+  default     = null
 }
 
 variable "auto_scaler_profile_scale_down_delay_after_failure" {
@@ -209,6 +210,16 @@ variable "auto_scaler_profile_skip_nodes_with_system_pods" {
   description = "If `true` cluster autoscaler will never delete nodes with pods from kube-system (except for DaemonSet or mirror pods). Defaults to `true`."
   type        = bool
   default     = true
+}
+
+variable "automatic_channel_upgrade" {
+  type        = string
+  default     = null
+  description = "(Optional) The upgrade channel for this Kubernetes Cluster. Possible values are `patch`, `rapid`, `node-image` and `stable`. By default automatic-upgrades are turned off. Note that you cannot use the `patch` upgrade channel and still specify the patch version using `kubernetes_version`. See [the documentation](https://learn.microsoft.com/en-us/azure/aks/auto-upgrade-cluster) for more information"
+  validation {
+    condition     = var.automatic_channel_upgrade == null ? true : contains(["patch", "stable", "rapid", "node-image"], var.automatic_channel_upgrade)
+    error_message = "`automatic_channel_upgrade`'s possible values are `patch`, `stable`, `rapid` or `node-image`."
+  }
 }
 
 variable "azure_policy_enabled" {
