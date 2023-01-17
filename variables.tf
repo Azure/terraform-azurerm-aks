@@ -93,6 +93,119 @@ variable "api_server_authorized_ip_ranges" {
   default     = null
 }
 
+variable "auto_scaler_profile_balance_similar_node_groups" {
+  description = "Detect similar node groups and balance the number of nodes between them. Defaults to `false`."
+  type        = bool
+  default     = false
+}
+
+variable "auto_scaler_profile_empty_bulk_delete_max" {
+  description = "Maximum number of empty nodes that can be deleted at the same time. Defaults to `10`."
+  type        = number
+  default     = 10
+}
+
+variable "auto_scaler_profile_enabled" {
+  type        = bool
+  description = "Enable configuring the auto scaler profile"
+  default     = false
+  nullable    = false
+}
+
+variable "auto_scaler_profile_expander" {
+  description = "Expander to use. Possible values are `least-waste`, `priority`, `most-pods` and `random`. Defaults to `random`."
+  type        = string
+  default     = "random"
+  validation {
+    condition     = contains(["least-waste", "most-pods", "priority", "random"], var.auto_scaler_profile_expander)
+    error_message = "Must be either `least-waste`, `most-pods`, `priority` or `random`."
+  }
+}
+
+variable "auto_scaler_profile_max_graceful_termination_sec" {
+  description = "Maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. Defaults to `600`."
+  type        = string
+  default     = "600"
+}
+
+variable "auto_scaler_profile_max_node_provisioning_time" {
+  description = "Maximum time the autoscaler waits for a node to be provisioned. Defaults to `15m`."
+  type        = string
+  default     = "15m"
+}
+
+variable "auto_scaler_profile_max_unready_nodes" {
+  description = "Maximum Number of allowed unready nodes. Defaults to `3`."
+  type        = number
+  default     = 3
+}
+
+variable "auto_scaler_profile_max_unready_percentage" {
+  description = "Maximum percentage of unready nodes the cluster autoscaler will stop if the percentage is exceeded. Defaults to `45`."
+  type        = number
+  default     = 45
+}
+
+variable "auto_scaler_profile_new_pod_scale_up_delay" {
+  description = "For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. Defaults to `10s`."
+  type        = string
+  default     = "10s"
+}
+
+variable "auto_scaler_profile_scale_down_delay_after_add" {
+  description = "How long after the scale up of AKS nodes the scale down evaluation resumes. Defaults to `10m`."
+  type        = string
+  default     = "10m"
+}
+
+variable "auto_scaler_profile_scale_down_delay_after_delete" {
+  description = "How long after node deletion that scale down evaluation resumes. Defaults to the value used for `scan_interval`."
+  type        = string
+  default     = null
+}
+
+variable "auto_scaler_profile_scale_down_delay_after_failure" {
+  description = "How long after scale down failure that scale down evaluation resumes. Defaults to `3m`."
+  type        = string
+  default     = "3m"
+}
+
+variable "auto_scaler_profile_scale_down_unneeded" {
+  description = "How long a node should be unneeded before it is eligible for scale down. Defaults to `10m`."
+  type        = string
+  default     = "10m"
+}
+
+variable "auto_scaler_profile_scale_down_unready" {
+  description = "How long an unready node should be unneeded before it is eligible for scale down. Defaults to `20m`."
+  type        = string
+  default     = "20m"
+}
+
+variable "auto_scaler_profile_scale_down_utilization_threshold" {
+  description = "Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. Defaults to `0.5`."
+  type        = string
+  default     = "0.5"
+}
+
+variable "auto_scaler_profile_scan_interval" {
+  description = "How often the AKS Cluster should be re-evaluated for scale up/down. Defaults to `10s`."
+  type        = string
+  default     = "10s"
+}
+
+variable "auto_scaler_profile_skip_nodes_with_local_storage" {
+  description = "If `true` cluster autoscaler will never delete nodes with pods with local storage, for example, EmptyDir or HostPath. Defaults to `true`."
+  type        = bool
+  default     = true
+}
+
+variable "auto_scaler_profile_skip_nodes_with_system_pods" {
+  description = "If `true` cluster autoscaler will never delete nodes with pods from kube-system (except for DaemonSet or mirror pods). Defaults to `true`."
+  type        = bool
+  default     = true
+}
+
 variable "automatic_channel_upgrade" {
   type        = string
   default     = null
