@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- feat: allow for configuring auto\_scaler\_profile [\#278](https://github.com/Azure/terraform-azurerm-aks/pull/278) ([DavidSpek](https://github.com/DavidSpek))
 - Azure AD RBAC enable/disable with variable rbac\_aad [\#269](https://github.com/Azure/terraform-azurerm-aks/pull/269) ([zioproto](https://github.com/zioproto))
 
 ## [6.5.0](https://github.com/Azure/terraform-azurerm-aks/tree/6.5.0) (2023-01-03)
