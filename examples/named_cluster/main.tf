@@ -77,4 +77,8 @@ module "aks_cluster_name" {
   rbac_aad                          = true
   rbac_aad_managed                  = true
   role_based_access_control_enabled = true
+
+  # KMS etcd encryption
+  kms_enabled          = true
+  kms_key_vault_key_id = azurerm_key_vault_key.kms.id
 }
