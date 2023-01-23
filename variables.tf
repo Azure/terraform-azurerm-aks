@@ -339,6 +339,7 @@ variable "kms_enabled" {
   type        = bool
   description = "(Optional) Enable Azure KeyVault Key Management Service."
   default     = false
+  nullable    = false
 }
 
 variable "kms_key_vault_key_id" {
