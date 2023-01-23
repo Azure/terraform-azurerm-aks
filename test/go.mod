@@ -3,7 +3,7 @@ module github.com/Azure/terraform-azurerm-aks
 go 1.19
 
 require (
-	github.com/Azure/terraform-module-test-helper v0.6.0
+	github.com/Azure/terraform-module-test-helper v0.7.1
 	github.com/gruntwork-io/terratest v0.41.9
 	github.com/stretchr/testify v1.8.1
 )
