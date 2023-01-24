@@ -7,10 +7,11 @@ resource "azurerm_key_vault_key" "kms" {
     "verify",
     "wrapKey",
   ]
-  key_type     = "RSA"
-  key_vault_id = azurerm_key_vault.des_vault.id
-  name         = "etcd-encryption"
-  key_size     = 2048
+  key_type        = "RSA"
+  key_vault_id    = azurerm_key_vault.des_vault.id
+  name            = "etcd-encryption"
+  expiration_date = timeadd("${formatdate("YYYY-MM-DD", timestamp())}T00:00:00Z", "168h")
+  key_size        = 2048
 
   depends_on = [
     azurerm_key_vault_access_policy.current_user
