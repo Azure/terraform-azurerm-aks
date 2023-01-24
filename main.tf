@@ -292,7 +292,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "Enabling Azure Active Directory integration requires that `role_based_access_control_enabled` be set to true."
     }
     precondition {
-      condition     = var.kms_enabled && var.identity_type != "UserAssigned"
+      condition     = !(var.kms_enabled && var.identity_type != "UserAssigned")
       error_message = "KMS etcd encryption doesn't work with system-assigned managed identity."
     }
   }
