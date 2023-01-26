@@ -4,6 +4,8 @@
 
 **Merged pull requests:**
 
+- Bump github.com/Azure/terraform-module-test-helper from 0.6.0 to 0.7.1 in /test [\#293](https://github.com/Azure/terraform-azurerm-aks/pull/293) ([dependabot[bot]](https://github.com/apps/dependabot))
+- identity type is either SystemAssigned or UserAssigned [\#292](https://github.com/Azure/terraform-azurerm-aks/pull/292) ([zioproto](https://github.com/zioproto))
 - Bump github.com/gruntwork-io/terratest from 0.41.7 to 0.41.9 in /test [\#290](https://github.com/Azure/terraform-azurerm-aks/pull/290) ([dependabot[bot]](https://github.com/apps/dependabot))
 - feat: allow for configuring auto\_scaler\_profile [\#278](https://github.com/Azure/terraform-azurerm-aks/pull/278) ([DavidSpek](https://github.com/DavidSpek))
 - Azure AD RBAC enable/disable with variable rbac\_aad [\#269](https://github.com/Azure/terraform-azurerm-aks/pull/269) ([zioproto](https://github.com/zioproto))
