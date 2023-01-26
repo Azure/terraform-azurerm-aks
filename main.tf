@@ -265,7 +265,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       # Why don't use var.identity_ids != null && length(var.identity_ids)>0 ? Because bool expression in Terraform is not short circuit so even var.identity_ids is null Terraform will still invoke length function with null and cause error. https://github.com/hashicorp/terraform/issues/24128
       condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type == "SystemAssigned") || (var.identity_ids == null ? false : length(var.identity_ids) > 0)
-      error_message = "If use identity and `UserAssigned` or `SystemAssigned, UserAssigned` is set, an `identity_ids` must be set as well."
+      error_message = "If use identity and `UserAssigned` is set, an `identity_ids` must be set as well."
     }
     precondition {
       condition     = !(var.microsoft_defender_enabled && !var.log_analytics_workspace_enabled)
