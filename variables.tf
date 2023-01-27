@@ -350,8 +350,12 @@ variable "kms_key_vault_key_id" {
 
 variable "kms_key_vault_network_access" {
   type        = string
-  description = "(Optional) Network Access of Azure Key Vault. Possible values are: `Private` and `Public`. If not set, defaults to type `Public`."
-  default     = null
+  description = "(Optional) Network Access of Azure Key Vault. Possible values are: `Private` and `Public`."
+  default     = "Public"
+  validation {
+    condition     = contains(["Private", "Public"], var.kms_key_vault_network_access)
+    error_message = "Possible values are `Private` and `Public`"
+  }
 }
 
 variable "kubernetes_version" {
