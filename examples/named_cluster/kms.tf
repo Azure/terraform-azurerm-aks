@@ -20,7 +20,7 @@ resource "azurerm_key_vault_key" "kms" {
 
 resource "azurerm_key_vault_access_policy" "kms" {
   key_vault_id = azurerm_key_vault.des_vault.id
-  object_id    = azurerm_user_assigned_identity.test.id
+  object_id    = azurerm_user_assigned_identity.test.principal_id
   tenant_id    = azurerm_user_assigned_identity.test.tenant_id
   key_permissions = [
     "Decrypt",
