@@ -16,6 +16,10 @@ resource "azurerm_key_vault_key" "kms" {
   depends_on = [
     azurerm_key_vault_access_policy.current_user
   ]
+
+  lifecycle {
+    ignore_changes = [expiration_date]
+  }
 }
 
 resource "azurerm_key_vault_access_policy" "kms" {
@@ -26,4 +30,10 @@ resource "azurerm_key_vault_access_policy" "kms" {
     "Decrypt",
     "Encrypt",
   ]
+}
+
+resource "azurerm_role_assignment" "kms" {
+  principal_id         = azurerm_user_assigned_identity.test.principal_id
+  scope                = azurerm_key_vault.des_vault.id
+  role_definition_name = "Key Vault Contributor"
 }
