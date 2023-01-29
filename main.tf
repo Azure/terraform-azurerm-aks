@@ -159,6 +159,14 @@ resource "azurerm_kubernetes_cluster" "main" {
       subnet_id    = var.ingress_application_gateway_subnet_id
     }
   }
+  dynamic "key_management_service" {
+    for_each = var.kms_enabled ? ["key_management_service"] : []
+
+    content {
+      key_vault_key_id         = var.kms_key_vault_key_id
+      key_vault_network_access = var.kms_key_vault_network_access
+    }
+  }
   dynamic "key_vault_secrets_provider" {
     for_each = var.key_vault_secrets_provider_enabled ? ["key_vault_secrets_provider"] : []
 
@@ -282,6 +290,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = var.role_based_access_control_enabled || !var.rbac_aad
       error_message = "Enabling Azure Active Directory integration requires that `role_based_access_control_enabled` be set to true."
+    }
+    precondition {
+      condition     = !(var.kms_enabled && var.identity_type != "UserAssigned")
+      error_message = "KMS etcd encryption doesn't work with system-assigned managed identity."
     }
   }
 }
