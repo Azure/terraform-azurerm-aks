@@ -93,6 +93,13 @@ variable "api_server_authorized_ip_ranges" {
   default     = null
 }
 
+variable "attached_acr_id_map" {
+  type        = map(string)
+  description = "Azure Container Registry ids that need an authentication mechanism with Azure Kubernetes Service (AKS). Map key must be static string as acr's name, the value is acr's resource id. Changing this forces some new resources to be created."
+  default     = {}
+  nullable    = false
+}
+
 variable "auto_scaler_profile_balance_similar_node_groups" {
   description = "Detect similar node groups and balance the number of nodes between them. Defaults to `false`."
   type        = bool

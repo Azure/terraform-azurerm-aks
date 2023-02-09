@@ -88,3 +88,9 @@ func TestExamplesNamedCluster(t *testing.T) {
 		assert.Regexp(t, regexp.MustCompile("/subscriptions/.+/resourceGroups/.+/providers/Microsoft.ManagedIdentity/userAssignedIdentities/.+"), identityIdsArray[0])
 	})
 }
+
+func TestExamplesWithACR(t *testing.T) {
+	test_helper.RunE2ETest(t, "../../", "examples/with_acr", terraform.Options{
+		Upgrade: true,
+	}, nil)
+}

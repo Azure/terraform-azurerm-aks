@@ -74,3 +74,17 @@ func TestExampleUpgrade_named_cluster(t *testing.T) {
 		Vars:    vars,
 	}, currentMajorVersion)
 }
+
+func TestExampleUpgrade_withACR(t *testing.T) {
+	currentRoot, err := test_helper.GetCurrentModuleRootPath()
+	if err != nil {
+		t.FailNow()
+	}
+	currentMajorVersion, err := test_helper.GetCurrentMajorVersionFromEnv()
+	if err != nil {
+		t.FailNow()
+	}
+	test_helper.ModuleUpgradeTest(t, "Azure", "terraform-azurerm-aks", "examples/with_acr", currentRoot, terraform.Options{
+		Upgrade: true,
+	}, currentMajorVersion)
+}
