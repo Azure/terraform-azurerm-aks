@@ -43,7 +43,11 @@ resource "azurerm_container_registry" "example" {
   name                = "aksacrtest${random_string.acr_suffix.result}"
   resource_group_name = local.resource_group.name
   sku                 = "Premium"
-  admin_enabled       = true
+
+  retention_policy {
+    days    = 7
+    enabled = true
+  }
 }
 
 module "aks" {
@@ -53,13 +57,13 @@ module "aks" {
   resource_group_name       = local.resource_group.name
   kubernetes_version        = "1.24" # don't specify the patch version!
   automatic_channel_upgrade = "patch"
-  attached_acr_id_map = {
+  attached_acr_id_map       = {
     example = azurerm_container_registry.example.id
   }
-  rbac_aad        = false
   network_plugin  = "azure"
   network_policy  = "azure"
   os_disk_size_gb = 60
   sku_tier        = "Paid"
+  rbac_aad        = false
   vnet_subnet_id  = azurerm_subnet.test.id
 }
