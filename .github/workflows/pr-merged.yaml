@@ -1,0 +1,10 @@
+name: Pr Merged
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  pr-merged:
+    uses: Azure/tfmod-scaffold/.github/workflows/pr-merged.yaml@main

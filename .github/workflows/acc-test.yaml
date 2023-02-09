@@ -23,6 +23,13 @@ jobs:
       - name: e2e test
         run: |
           sh scripts/ci-e2e.sh
+      - name: upload test version snapshots
+        uses: actions/upload-artifact@v3
+        with:
+          name: TestRecord-${{ github.event.number }}
+          retention-days: 60
+          path: |
+            examples/**/TestRecord.md.tmp
       - name: version-upgrade test
         run: |
           sh scripts/ci-version-upgrade.sh

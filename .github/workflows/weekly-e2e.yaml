@@ -1,0 +1,32 @@
+name: Weekly E2E Test Check
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  full-e2e-check:
+    runs-on: [self-hosted, 1ES.Pool=terraform-azurerm-aks]
+    environment:
+      name: crontests
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: e2e test
+        continue-on-error: true
+        run: |
+          sh scripts/ci-e2e.sh
+      - name: Update
+        run: |
+          sh scripts/ci-update-test-record.sh
+      - name: Fix Permission
+        run: |
+          cd .git
+          sudo chmod -R a+rwX .
+          sudo find . -type d -exec chmod g+s '{}' +
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: 'Update TestVersionSnapshot'
+          branch: ${{ env.default_branch }}
