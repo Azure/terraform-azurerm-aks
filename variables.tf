@@ -746,6 +746,18 @@ variable "vnet_subnet_id" {
   default     = null
 }
 
+variable "web_app_routing" {
+  type = object({
+    dns_zone_id = string
+  })
+  description = <<-EOT
+  object({
+    dns_zone_id = "(Required) Specifies the ID of the DNS Zone in which DNS entries are created for applications deployed to the cluster when Web App Routing is enabled."
+  })
+EOT
+  default     = null
+}
+
 variable "workload_identity_enabled" {
   description = "Enable or Disable Workload Identity. Defaults to false."
   type        = bool

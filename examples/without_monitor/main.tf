@@ -31,6 +31,11 @@ resource "azurerm_subnet" "test" {
   enforce_private_link_endpoint_network_policies = true
 }
 
+resource "azurerm_dns_zone" "aks_web_app_routing" {
+  name                = "fakeaks.com"
+  resource_group_name = local.resource_group.name
+}
+
 module "aks_without_monitor" {
   source = "../.."
 
@@ -46,4 +51,7 @@ module "aks_without_monitor" {
   rbac_aad                          = true
   rbac_aad_managed                  = true
   role_based_access_control_enabled = true
+  web_app_routing = {
+    dns_zone_id = azurerm_dns_zone.aks_web_app_routing.id
+  }
 }

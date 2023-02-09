@@ -264,6 +264,13 @@ resource "azurerm_kubernetes_cluster" "main" {
       snapshot_controller_enabled = var.storage_profile_snapshot_controller_enabled
     }
   }
+  dynamic "web_app_routing" {
+    for_each = var.web_app_routing == null ? [] : ["web_app_routing"]
+
+    content {
+      dns_zone_id = var.web_app_routing.dns_zone_id
+    }
+  }
 
   lifecycle {
     precondition {
