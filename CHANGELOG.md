@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Add support for acr attachment [\#298](https://github.com/Azure/terraform-azurerm-aks/pull/298) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support for `web_app_routing` [\#297](https://github.com/Azure/terraform-azurerm-aks/pull/297) ([lonegunmanb](https://github.com/lonegunmanb))
 - Bump github.com/Azure/terraform-module-test-helper from 0.7.1 to 0.8.1 in /test [\#295](https://github.com/Azure/terraform-azurerm-aks/pull/295) ([dependabot[bot]](https://github.com/apps/dependabot))
 
