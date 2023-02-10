@@ -336,3 +336,12 @@ resource "azurerm_log_analytics_solution" "main" {
     publisher = "Microsoft"
   }
 }
+
+resource "azurerm_role_assignment" "acr" {
+  for_each = var.attached_acr_id_map
+
+  principal_id                     = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
+  scope                            = each.value
+  role_definition_name             = "AcrPull"
+  skip_service_principal_aad_check = true
+}
