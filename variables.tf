@@ -81,6 +81,12 @@ variable "agents_tags" {
   default     = {}
 }
 
+variable "agents_taints" {
+  type        = list(string)
+  description = "(Optional) A list of the taints added to new nodes during node pool create and scale. Changing this forces a new resource to be created."
+  default     = null
+}
+
 variable "agents_type" {
   type        = string
   description = "(Optional) The type of Node Pool which should be created. Possible values are AvailabilitySet and VirtualMachineScaleSets. Defaults to VirtualMachineScaleSets."
