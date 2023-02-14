@@ -116,6 +116,7 @@ func TestAutomaticUpgrades(t *testing.T) {
 				"resource_group_name":       "bar",
 				"automatic_channel_upgrade": "patch",
 				"kubernetes_version":        "1.25",
+				"orchestrator_version":      "1.25",
 			},
 		},
 		"automatic_upgrades_to_newest_version": {

@@ -3,12 +3,12 @@ locals {
   auto_scaler_profile_scale_down_delay_after_delete = var.auto_scaler_profile_scale_down_delay_after_delete == null ? var.auto_scaler_profile_scan_interval : var.auto_scaler_profile_scale_down_delay_after_delete
   # automatic upgrades are either:
   # - null
-  # - patch, but then the kubernetes_version must not specify a patch number and orchestrator_version must be null
+  # - patch, but then neither the kubernetes_version nor orchestrator_version must specify a patch number, where orchestrator_version may be also null
   # - rapid/stable/node-image, but then the kubernetes_version and the orchestrator_version must be null
-  automatic_channel_upgrade_check = var.automatic_channel_upgrade == null ? true : var.orchestrator_version == null && (
-    (contains(["patch"], var.automatic_channel_upgrade) && can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.kubernetes_version)))
-    || (contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) && var.kubernetes_version == null
-  ))
+  automatic_channel_upgrade_check = var.automatic_channel_upgrade == null ? true : (
+    (contains(["patch"], var.automatic_channel_upgrade) && can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.kubernetes_version)) && (can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.orchestrator_version)) || var.orchestrator_version == null)) ||
+    (contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) && var.kubernetes_version == null && var.orchestrator_version == null)
+  )
 
   # Abstract the decision whether to create an Analytics Workspace or not.
   create_analytics_solution  = var.log_analytics_workspace_enabled && var.log_analytics_solution_id == null
