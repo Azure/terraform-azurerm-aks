@@ -4,6 +4,10 @@
 
 **Merged pull requests:**
 
+- Bump github.com/hashicorp/go-getter from 1.6.1 to 1.7.0 in /test [\#304](https://github.com/Azure/terraform-azurerm-aks/pull/304) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump github.com/hashicorp/go-getter/v2 from 2.1.1 to 2.2.0 in /test [\#303](https://github.com/Azure/terraform-azurerm-aks/pull/303) ([dependabot[bot]](https://github.com/apps/dependabot))
+- fix: allow orchestrator\_version if auto-upgrade is 'patch' to allow default\_node\_pool upgrade [\#302](https://github.com/Azure/terraform-azurerm-aks/pull/302) ([aescrob](https://github.com/aescrob))
+- Add support for default node pool's `node_taints` [\#300](https://github.com/Azure/terraform-azurerm-aks/pull/300) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support for acr attachment [\#298](https://github.com/Azure/terraform-azurerm-aks/pull/298) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support for `web_app_routing` [\#297](https://github.com/Azure/terraform-azurerm-aks/pull/297) ([lonegunmanb](https://github.com/lonegunmanb))
 - Bump github.com/Azure/terraform-module-test-helper from 0.7.1 to 0.8.1 in /test [\#295](https://github.com/Azure/terraform-azurerm-aks/pull/295) ([dependabot[bot]](https://github.com/apps/dependabot))
