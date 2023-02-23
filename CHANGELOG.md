@@ -4,6 +4,8 @@
 
 **Merged pull requests:**
 
+- Bump github.com/gruntwork-io/terratest from 0.41.10 to 0.41.11 in /test [\#307](https://github.com/Azure/terraform-azurerm-aks/pull/307) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump golang.org/x/net from 0.1.0 to 0.7.0 in /test [\#305](https://github.com/Azure/terraform-azurerm-aks/pull/305) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump github.com/hashicorp/go-getter from 1.6.1 to 1.7.0 in /test [\#304](https://github.com/Azure/terraform-azurerm-aks/pull/304) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump github.com/hashicorp/go-getter/v2 from 2.1.1 to 2.2.0 in /test [\#303](https://github.com/Azure/terraform-azurerm-aks/pull/303) ([dependabot[bot]](https://github.com/apps/dependabot))
 - fix: allow orchestrator\_version if auto-upgrade is 'patch' to allow default\_node\_pool upgrade [\#302](https://github.com/Azure/terraform-azurerm-aks/pull/302) ([aescrob](https://github.com/aescrob))
