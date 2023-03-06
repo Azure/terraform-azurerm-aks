@@ -22,9 +22,6 @@ jobs:
       - name: Update
         run: |
           sh scripts/ci-update-test-record.sh
-      - name: Fix Permission
-        run: |
-          chown -R $USER ./
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
