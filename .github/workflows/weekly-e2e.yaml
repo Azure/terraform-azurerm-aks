@@ -24,6 +24,7 @@ jobs:
           sh scripts/ci-update-test-record.sh
       - name: Fix Permission
         run: |
+          git config --global --add safe.directory '*'
           cd .git
           sudo chmod -R a+rwX .
           sudo find . -type d -exec chmod g+s '{}' +
