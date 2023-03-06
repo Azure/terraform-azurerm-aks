@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Fix \#316 `current client lacks permissions to read Key Rotation Policy` issue [\#317](https://github.com/Azure/terraform-azurerm-aks/pull/317) ([lonegunmanb](https://github.com/lonegunmanb))
+
 ## [6.7.0](https://github.com/Azure/terraform-azurerm-aks/tree/6.7.0) (2023-02-27)
 
 **Merged pull requests:**
