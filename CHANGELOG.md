@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Support for `public_network_access_enabled` [\#314](https://github.com/Azure/terraform-azurerm-aks/pull/314) ([lonegunmanb](https://github.com/lonegunmanb))
+
 ## [6.7.1](https://github.com/Azure/terraform-azurerm-aks/tree/6.7.1) (2023-03-06)
 
 **Merged pull requests:**
