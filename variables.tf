@@ -694,6 +694,13 @@ variable "private_dns_zone_id" {
   default     = null
 }
 
+variable "public_network_access_enabled" {
+  type        = bool
+  description = "(Optional) Whether public network access is allowed for this Kubernetes Cluster. Defaults to `true`. Changing this forces a new resource to be created."
+  default     = true
+  nullable    = false
+}
+
 variable "public_ssh_key" {
   type        = string
   description = "A custom ssh key to control access to the AKS cluster. Changing this forces a new resource to be created."
