@@ -70,11 +70,11 @@ resource "azurerm_kubernetes_cluster" "main" {
 
         content {
           allowed_unsafe_sysctls    = kubelet_config.value.allowed_unsafe_sysctls
+          container_log_max_line    = kubelet_config.value.container_log_max_line
+          container_log_max_size_mb = kubelet_config.value.container_log_max_size_mb
           cpu_cfs_quota_enabled     = kubelet_config.value.cpu_cfs_quota_enabled
           cpu_cfs_quota_period      = kubelet_config.value.cpu_cfs_quota_period
           cpu_manager_policy        = kubelet_config.value.cpu_manager_policy
-          container_log_max_line    = kubelet_config.value.container_log_max_line
-          container_log_max_size_mb = kubelet_config.value.container_log_max_size_mb
           image_gc_high_threshold   = kubelet_config.value.image_gc_high_threshold
           image_gc_low_threshold    = kubelet_config.value.image_gc_low_threshold
           pod_max_pid               = kubelet_config.value.pod_max_pid
@@ -159,11 +159,11 @@ resource "azurerm_kubernetes_cluster" "main" {
 
         content {
           allowed_unsafe_sysctls    = kubelet_config.value.allowed_unsafe_sysctls
+          container_log_max_line    = kubelet_config.value.container_log_max_line
+          container_log_max_size_mb = kubelet_config.value.container_log_max_size_mb
           cpu_cfs_quota_enabled     = kubelet_config.value.cpu_cfs_quota_enabled
           cpu_cfs_quota_period      = kubelet_config.value.cpu_cfs_quota_period
           cpu_manager_policy        = kubelet_config.value.cpu_manager_policy
-          container_log_max_line    = kubelet_config.value.container_log_max_line
-          container_log_max_size_mb = kubelet_config.value.container_log_max_size_mb
           image_gc_high_threshold   = kubelet_config.value.image_gc_high_threshold
           image_gc_low_threshold    = kubelet_config.value.image_gc_low_threshold
           pod_max_pid               = kubelet_config.value.pod_max_pid

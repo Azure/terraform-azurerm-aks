@@ -91,7 +91,7 @@ variable "agents_pool_kubelet_configs" {
   }))
 EOT
   default     = []
-  nullable = false
+  nullable    = false
 }
 
 variable "agents_pool_linux_os_configs" {
