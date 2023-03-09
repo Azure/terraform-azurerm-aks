@@ -509,6 +509,13 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
       outbound_nat_enabled = each.value.windows_profile.outbound_nat_enabled
     }
   }
+
+  lifecycle {
+    precondition {
+      condition     = var.agents_type == "VirtualMachineScaleSets"
+      error_message = "Multiple Node Pools are only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets."
+    }
+  }
 }
 
 resource "azurerm_log_analytics_workspace" "main" {
