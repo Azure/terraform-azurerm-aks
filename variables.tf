@@ -62,6 +62,38 @@ variable "agents_min_count" {
   default     = null
 }
 
+
+variable "agents_pool_kubelet_configs" {
+  type = list(object({
+    cpu_manager_policy        = optional(string)
+    cpu_cfs_quota_enabled     = optional(bool, true)
+    cpu_cfs_quota_period      = optional(string)
+    image_gc_high_threshold   = optional(number)
+    image_gc_low_threshold    = optional(number)
+    topology_manager_policy   = optional(string)
+    allowed_unsafe_sysctls    = optional(set(string))
+    container_log_max_size_mb = optional(number)
+    container_log_max_line    = optional(number)
+    pod_max_pid               = optional(number)
+  }))
+  description = <<-EOT
+    list(object({
+      cpu_manager_policy        = (Optional) Specifies the CPU Manager policy to use. Possible values are `none` and `static`, Changing this forces a new resource to be created.
+      cpu_cfs_quota_enabled     = (Optional) Is CPU CFS quota enforcement for containers enabled? Changing this forces a new resource to be created.
+      cpu_cfs_quota_period      = (Optional) Specifies the CPU CFS quota period value. Changing this forces a new resource to be created.
+      image_gc_high_threshold   = (Optional) Specifies the percent of disk usage above which image garbage collection is always run. Must be between `0` and `100`. Changing this forces a new resource to be created.
+      image_gc_low_threshold    = (Optional) Specifies the percent of disk usage lower than which image garbage collection is never run. Must be between `0` and `100`. Changing this forces a new resource to be created.
+      topology_manager_policy   = (Optional) Specifies the Topology Manager policy to use. Possible values are `none`, `best-effort`, `restricted` or `single-numa-node`. Changing this forces a new resource to be created.
+      allowed_unsafe_sysctls    = (Optional) Specifies the allow list of unsafe sysctls command or patterns (ending in `*`). Changing this forces a new resource to be created.
+      container_log_max_size_mb = (Optional) Specifies the maximum size (e.g. 10MB) of container log file before it is rotated. Changing this forces a new resource to be created.
+      container_log_max_line    = (Optional) Specifies the maximum number of container log files that can be present for a container. must be at least 2. Changing this forces a new resource to be created.
+      pod_max_pid               = (Optional) Specifies the maximum number of processes per pod. Changing this forces a new resource to be created.
+  }))
+EOT
+  default     = []
+  nullable    = false
+}
+
 variable "agents_pool_linux_os_configs" {
   type = list(object({
     sysctl_configs = optional(list(object({
