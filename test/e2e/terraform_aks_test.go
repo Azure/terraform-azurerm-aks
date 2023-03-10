@@ -89,8 +89,17 @@ func TestExamplesNamedCluster(t *testing.T) {
 	})
 }
 
-func TestExamplesWithACR(t *testing.T) {
-	test_helper.RunE2ETest(t, "../../", "examples/with_acr", terraform.Options{
-		Upgrade: true,
-	}, nil)
+func TestExamplesWithoutAssertion(t *testing.T) {
+	examples := []string{
+		"examples/with_acr",
+		"examples/multiple_node_pools",
+	}
+	for _, e := range examples {
+		example := e
+		t.Run(example, func(t *testing.T) {
+			test_helper.RunE2ETest(t, "../../", example, terraform.Options{
+				Upgrade: true,
+			}, nil)
+		})
+	}
 }
