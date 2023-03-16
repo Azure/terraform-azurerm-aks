@@ -374,6 +374,13 @@ variable "cluster_name" {
   default     = null
 }
 
+variable "create_role_assignment_network_contributor" {
+  type        = bool
+  description = "Create a role assignment for the AKS Service Principal to be a Network Contributor on the subnets used for the AKS Cluster"
+  nullable    = false
+  default     = false
+}
+
 variable "disk_encryption_set_id" {
   type        = string
   description = "(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes. More information [can be found in the documentation](https://docs.microsoft.com/azure/aks/azure-disk-customer-managed-keys). Changing this forces a new resource to be created."
