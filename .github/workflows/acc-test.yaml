@@ -31,5 +31,7 @@ jobs:
           path: |
             examples/**/TestRecord.md.tmp
       - name: version-upgrade test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           sh scripts/ci-version-upgrade.sh

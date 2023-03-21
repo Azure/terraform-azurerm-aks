@@ -1,0 +1,15 @@
+name: Post Push
+on:
+  push:
+    branches:
+      - main
+      - master
+    tags:
+      - '*'
+
+permissions: write-all
+
+jobs:
+  post-push:
+    if: github.actor != 'github-actions[bot]'
+    uses: Azure/tfmod-scaffold/.github/workflows/post-push.yaml@main
