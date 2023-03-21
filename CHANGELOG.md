@@ -4,6 +4,9 @@
 
 **Merged pull requests:**
 
+- Fix example multiple\_node\_pools [\#328](https://github.com/Azure/terraform-azurerm-aks/pull/328) ([lonegunmanb](https://github.com/lonegunmanb))
+- Add support for extra node pools [\#323](https://github.com/Azure/terraform-azurerm-aks/pull/323) ([lonegunmanb](https://github.com/lonegunmanb))
+- Add support for `default_node_pool.kubelet_config` [\#322](https://github.com/Azure/terraform-azurerm-aks/pull/322) ([lonegunmanb](https://github.com/lonegunmanb))
 - Support for `public_network_access_enabled` [\#314](https://github.com/Azure/terraform-azurerm-aks/pull/314) ([lonegunmanb](https://github.com/lonegunmanb))
 
 ## [6.7.1](https://github.com/Azure/terraform-azurerm-aks/tree/6.7.1) (2023-03-06)
