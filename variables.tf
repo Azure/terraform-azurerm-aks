@@ -182,7 +182,7 @@ variable "agents_pool_name" {
 
 variable "agents_size" {
   type        = string
-  description = "The default virtual machine size for the Kubernetes agents"
+  description = "The default virtual machine size for the Kubernetes agents. Changing this without specifying `var.temporary_name_for_rotation` forces a new resource to be created."
   default     = "Standard_D2s_v3"
 }
 
@@ -1066,6 +1066,12 @@ variable "tags" {
   type        = map(string)
   description = "Any tags that should be present on the AKS cluster resources"
   default     = {}
+}
+
+variable "temporary_name_for_rotation" {
+  type        = string
+  description = "(Optional) Specifies the name of the temporary node pool used to cycle the default node pool for VM resizing. the `var.agents_size` is no longer ForceNew and can be resized by specifying `temporary_name_for_rotation`"
+  default     = null
 }
 
 variable "ultra_ssd_enabled" {

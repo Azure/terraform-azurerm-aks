@@ -60,6 +60,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       pod_subnet_id                = var.pod_subnet_id
       scale_down_mode              = var.scale_down_mode
       tags                         = merge(var.tags, var.agents_tags)
+      temporary_name_for_rotation  = var.temporary_name_for_rotation
       type                         = var.agents_type
       ultra_ssd_enabled            = var.ultra_ssd_enabled
       vnet_subnet_id               = var.vnet_subnet_id
@@ -149,6 +150,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       pod_subnet_id                = var.pod_subnet_id
       scale_down_mode              = var.scale_down_mode
       tags                         = merge(var.tags, var.agents_tags)
+      temporary_name_for_rotation  = var.temporary_name_for_rotation
       type                         = var.agents_type
       ultra_ssd_enabled            = var.ultra_ssd_enabled
       vnet_subnet_id               = var.vnet_subnet_id
