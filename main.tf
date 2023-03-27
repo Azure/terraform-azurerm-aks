@@ -367,6 +367,8 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   lifecycle {
+    ignore_changes = [kubernetes_version]
+
     precondition {
       condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type != "")
       error_message = "Either `client_id` and `client_secret` or `identity_type` must be set."
@@ -396,6 +398,27 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = !(var.kms_enabled && var.identity_type != "UserAssigned")
       error_message = "KMS etcd encryption doesn't work with system-assigned managed identity."
     }
+  }
+}
+
+resource "null_resource" "kubernetes_version_keeper" {
+  triggers = {
+    version = var.kubernetes_version
+  }
+}
+
+resource "azapi_update_resource" "aks_cluster_post_create" {
+  type = "Microsoft.ContainerService/managedClusters@2023-01-02-preview"
+  body = jsonencode({
+    properties = {
+      kubernetesVersion = var.kubernetes_version
+    }
+  })
+  resource_id = azurerm_kubernetes_cluster.main.id
+
+  lifecycle {
+    ignore_changes       = all
+    replace_triggered_by = [null_resource.kubernetes_version_keeper.id]
   }
 }
 
@@ -521,6 +544,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
       outbound_nat_enabled = each.value.windows_profile.outbound_nat_enabled
     }
   }
+
+  depends_on = [azapi_update_resource.aks_cluster_post_create]
 
   lifecycle {
     precondition {
