@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Upgrade required Terraform version [\#338](https://github.com/Azure/terraform-azurerm-aks/pull/338) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support `temporary_name_for_rotation` [\#334](https://github.com/Azure/terraform-azurerm-aks/pull/334) ([lonegunmanb](https://github.com/lonegunmanb))
 - Fix example multiple\_node\_pools [\#328](https://github.com/Azure/terraform-azurerm-aks/pull/328) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add Network Contributor role assignments scoped to AKS nodepools subnets [\#327](https://github.com/Azure/terraform-azurerm-aks/pull/327) ([zioproto](https://github.com/zioproto))
