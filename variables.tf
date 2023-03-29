@@ -905,6 +905,12 @@ variable "os_disk_type" {
   nullable    = false
 }
 
+variable "os_sku" {
+  type        = string
+  description = "(Optional) Specifies the OS SKU used by the agent pool. Possible values include: `Ubuntu`, `CBLMariner`, `Mariner`, `Windows2019`, `Windows2022`. If not specified, the default is `Ubuntu` if OSType=Linux or `Windows2019` if OSType=Windows. And the default Windows OSSKU will be changed to `Windows2022` after Windows2019 is deprecated. Changing this forces a new resource to be created."
+  default     = null
+}
+
 variable "pod_subnet_id" {
   type        = string
   description = "(Optional) The ID of the Subnet where the pods in the default Node Pool should exist. Changing this forces a new resource to be created."
