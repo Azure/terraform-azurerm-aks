@@ -301,6 +301,14 @@ resource "azurerm_kubernetes_cluster" "main" {
       log_analytics_workspace_id = local.log_analytics_workspace.id
     }
   }
+  dynamic "monitor_metrics" {
+    for_each = var.monitor_metrics != null ? ["monitor_metrics"] : []
+
+    content {
+      annotations_allowed = var.monitor_metrics.annotations_allowed
+      labels_allowed      = var.monitor_metrics.labels_allowed
+    }
+  }
   network_profile {
     network_plugin     = var.network_plugin
     dns_service_ip     = var.net_profile_dns_service_ip

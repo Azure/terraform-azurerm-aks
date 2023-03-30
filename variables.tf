@@ -623,6 +623,21 @@ variable "microsoft_defender_enabled" {
   nullable    = false
 }
 
+variable "monitor_metrics" {
+  type = object({
+    annotations_allowed = optional(string)
+    labels_allowed      = optional(string)
+  })
+  description = <<-EOT
+  (Optional) Specifies a Prometheus add-on profile for the Kubernetes Cluster
+  object({
+    annotations_allowed = "(Optional) Specifies a comma-separated list of Kubernetes annotation keys that will be used in the resource's labels metric."
+    labels_allowed      = "(Optional) Specifies a Comma-separated list of additional Kubernetes label keys that will be used in the resource's labels metric."
+  })
+EOT
+  default     = null
+}
+
 variable "net_profile_dns_service_ip" {
   type        = string
   description = "(Optional) IP address within the Kubernetes service address range that will be used by cluster service discovery (kube-dns). Changing this forces a new resource to be created."
