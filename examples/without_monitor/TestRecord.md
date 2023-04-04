@@ -1,3 +1,22 @@
+## 31 Mar 23 12:47 UTC
+
+Success: true
+
+### Versions
+
+Terraform v1.4.1
+on linux_amd64
++ provider registry.terraform.io/anschoewe/curl v1.0.2
++ provider registry.terraform.io/hashicorp/azurerm v3.50.0
++ provider registry.terraform.io/hashicorp/random v3.3.2
++ provider registry.terraform.io/hashicorp/tls v4.0.4
+
+### Error
+
+
+
+---
+
 ## 02 Apr 23 01:00 UTC
 
 Success: true

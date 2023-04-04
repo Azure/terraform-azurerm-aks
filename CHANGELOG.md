@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Add support for `monitor_metrics` [\#341](https://github.com/Azure/terraform-azurerm-aks/pull/341) ([zioproto](https://github.com/zioproto))
 - Support setting os\_sku for default\_node\_pool [\#339](https://github.com/Azure/terraform-azurerm-aks/pull/339) ([mjeco](https://github.com/mjeco))
 - Upgrade required Terraform version [\#338](https://github.com/Azure/terraform-azurerm-aks/pull/338) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support `temporary_name_for_rotation` [\#334](https://github.com/Azure/terraform-azurerm-aks/pull/334) ([lonegunmanb](https://github.com/lonegunmanb))
