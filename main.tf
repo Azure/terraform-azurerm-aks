@@ -24,7 +24,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   dns_prefix                          = var.prefix
   http_application_routing_enabled    = var.http_application_routing_enabled
   image_cleaner_enabled               = var.image_cleaner_enabled
-  image_cleaner_interval_hours        = var.image_cleaner_interval_hours
+  image_cleaner_interval_hours        = var.image_cleaner_enabled && var.image_cleaner_interval_hours != null ? var.image_cleaner_interval_hours : null
   kubernetes_version                  = var.kubernetes_version
   local_account_disabled              = var.local_account_disabled
   node_resource_group                 = var.node_resource_group
