@@ -182,6 +182,11 @@ output "location" {
   value       = azurerm_kubernetes_cluster.main.location
 }
 
+output "network_profile" {
+  description = "The `azurerm_kubernetes_cluster`'s `network_profile` block"
+  value       = azurerm_kubernetes_cluster.main.network_profile
+}
+
 output "node_resource_group" {
   description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
   value       = azurerm_kubernetes_cluster.main.node_resource_group
