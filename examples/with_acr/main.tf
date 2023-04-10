@@ -63,7 +63,7 @@ module "aks" {
   network_plugin  = "azure"
   network_policy  = "azure"
   os_disk_size_gb = 60
-  sku_tier        = "Paid"
+  sku_tier        = "Standard"
   rbac_aad        = false
   vnet_subnet_id  = azurerm_subnet.test.id
 }

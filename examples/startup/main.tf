@@ -92,7 +92,7 @@ module "aks" {
   rbac_aad                          = true
   rbac_aad_managed                  = true
   role_based_access_control_enabled = true
-  sku_tier                          = "Paid"
+  sku_tier                          = "Standard"
   vnet_subnet_id                    = azurerm_subnet.test.id
 
   agents_labels = {
