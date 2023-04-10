@@ -571,7 +571,6 @@ variable "log_analytics_solution" {
     condition     = var.log_analytics_solution == null ? true : var.log_analytics_solution.id != null && var.log_analytics_solution.id != ""
     error_message = "`var.log_analytics_solution` must be `null` or an object with a valid `id`."
   }
-  nullable = true
 }
 
 variable "log_analytics_workspace" {
