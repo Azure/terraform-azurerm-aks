@@ -644,12 +644,6 @@ variable "net_profile_dns_service_ip" {
   default     = null
 }
 
-variable "net_profile_docker_bridge_cidr" {
-  type        = string
-  description = "(Optional) IP address (in CIDR notation) used as the Docker bridge IP address on nodes. Changing this forces a new resource to be created."
-  default     = null
-}
-
 variable "net_profile_outbound_type" {
   type        = string
   description = "(Optional) The outbound (egress) routing method which should be used for this Kubernetes Cluster. Possible values are loadBalancer and userDefinedRouting. Defaults to loadBalancer."
