@@ -1042,8 +1042,12 @@ variable "secret_rotation_interval" {
 
 variable "sku_tier" {
   type        = string
-  description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are `Free` and `Paid`"
+  description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are `Free` and `Standard`"
   default     = "Free"
+  validation {
+    condition     = contains(["Free", "Standard"], var.sku_tier)
+    error_message = "The SKU Tier must be either `Free` or `Standard`. `Paid` is no longer supported since AzureRM provider v3.51.0."
+  }
 }
 
 variable "storage_profile_blob_driver_enabled" {
