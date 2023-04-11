@@ -6,6 +6,7 @@
 
 - \[Breaking\] Add validation block to enforce users to change `sku_tier` from `Paid` to `Standard`. [\#346](https://github.com/Azure/terraform-azurerm-aks/pull/346) ([lonegunmanb](https://github.com/lonegunmanb))
 - Output Kubernetes Cluster Network Profile [\#333](https://github.com/Azure/terraform-azurerm-aks/pull/333) ([joshua-giumelli-deltatre](https://github.com/joshua-giumelli-deltatre))
+- \[Breaking\] Remove unused net\_profile\_docker\_bridge\_cidr [\#222](https://github.com/Azure/terraform-azurerm-aks/pull/222) ([zioproto](https://github.com/zioproto))
 
 
 
