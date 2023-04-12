@@ -561,10 +561,16 @@ variable "location" {
   default     = null
 }
 
-variable "log_analytics_solution_id" {
-  type        = string
-  description = "(Optional) Existing azurerm_log_analytics_solution ID. Providing ID disables creation of azurerm_log_analytics_solution."
+variable "log_analytics_solution" {
+  type = object({
+    id = string
+  })
+  description = "(Optional) Object which contains existing azurerm_log_analytics_solution ID. Providing ID disables creation of azurerm_log_analytics_solution."
   default     = null
+  validation {
+    condition     = var.log_analytics_solution == null ? true : var.log_analytics_solution.id != null && var.log_analytics_solution.id != ""
+    error_message = "`var.log_analytics_solution` must be `null` or an object with a valid `id`."
+  }
 }
 
 variable "log_analytics_workspace" {
