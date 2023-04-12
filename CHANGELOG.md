@@ -5,6 +5,7 @@
 **Merged pull requests:**
 
 - \[Breaking\] Add validation block to enforce users to change `sku_tier` from `Paid` to `Standard`. [\#346](https://github.com/Azure/terraform-azurerm-aks/pull/346) ([lonegunmanb](https://github.com/lonegunmanb))
+- \[Breaking\] - Ignore changes on `kubernetes_version` from outside of Terraform [\#336](https://github.com/Azure/terraform-azurerm-aks/pull/336) ([lonegunmanb](https://github.com/lonegunmanb))
 - Output Kubernetes Cluster Network Profile [\#333](https://github.com/Azure/terraform-azurerm-aks/pull/333) ([joshua-giumelli-deltatre](https://github.com/joshua-giumelli-deltatre))
 - \[Breaking\] - Fix \#315 by amending missing `linux_os_config` block [\#320](https://github.com/Azure/terraform-azurerm-aks/pull/320) ([lonegunmanb](https://github.com/lonegunmanb))
 - \[Breaking\]  Wrap `log_analytics_solution_id` to an object to fix \#263. [\#265](https://github.com/Azure/terraform-azurerm-aks/pull/265) ([lonegunmanb](https://github.com/lonegunmanb))
