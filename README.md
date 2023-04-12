@@ -242,6 +242,7 @@ No modules.
 | [null_resource.kubernetes_version_keeper](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource)                               | resource    |
 | [null_resource.pool_name_keeper](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource)                                        | resource    |
 | [tls_private_key.ssh](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key)                                                 | resource    |
+| [azurerm_log_analytics_workspace.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/log_analytics_workspace)             | data source |
 | [azurerm_resource_group.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group)                               | data source |
 
 ## Inputs

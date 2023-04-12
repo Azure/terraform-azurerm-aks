@@ -373,7 +373,9 @@ resource "azurerm_kubernetes_cluster" "main" {
     service_cidr      = var.net_profile_service_cidr
 
     dynamic "load_balancer_profile" {
-      for_each = var.load_balancer_profile_enabled && var.load_balancer_sku == "standard" ? ["load_balancer_profile"] : []
+      for_each = var.load_balancer_profile_enabled && var.load_balancer_sku == "standard" ? [
+        "load_balancer_profile"
+      ] : []
 
       content {
         idle_timeout_in_minutes     = var.load_balancer_profile_idle_timeout_in_minutes
@@ -662,10 +664,17 @@ locals {
   azurerm_log_analytics_workspace_name = try(azurerm_log_analytics_workspace.main[0].name, null)
 }
 
+data "azurerm_log_analytics_workspace" "main" {
+  count = local.log_analytics_workspace != null ? 1 : 0
+
+  name                = local.log_analytics_workspace.name
+  resource_group_name = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
+}
+
 resource "azurerm_log_analytics_solution" "main" {
   count = local.create_analytics_solution ? 1 : 0
 
-  location              = coalesce(var.location, data.azurerm_resource_group.main.location)
+  location              = data.azurerm_log_analytics_workspace.main[0].location
   resource_group_name   = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
   solution_name         = "ContainerInsights"
   workspace_name        = local.log_analytics_workspace.name
