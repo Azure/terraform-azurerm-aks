@@ -965,7 +965,7 @@ variable "public_ssh_key" {
 
 variable "rbac_aad" {
   type        = bool
-  description = "(Optional) Is Azure Active Directory ingration enabled?"
+  description = "(Optional) Is Azure Active Directory integration enabled?"
   default     = true
   nullable    = false
 }
