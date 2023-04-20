@@ -364,13 +364,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   network_profile {
-    network_plugin    = var.network_plugin
-    dns_service_ip    = var.net_profile_dns_service_ip
-    load_balancer_sku = var.load_balancer_sku
-    network_policy    = var.network_policy
-    outbound_type     = var.net_profile_outbound_type
-    pod_cidr          = var.net_profile_pod_cidr
-    service_cidr      = var.net_profile_service_cidr
+    network_plugin      = var.network_plugin
+    dns_service_ip      = var.net_profile_dns_service_ip
+    load_balancer_sku   = var.load_balancer_sku
+    network_plugin_mode = var.network_plugin_mode
+    network_policy      = var.network_policy
+    outbound_type       = var.net_profile_outbound_type
+    pod_cidr            = var.net_profile_pod_cidr
+    service_cidr        = var.net_profile_service_cidr
 
     dynamic "load_balancer_profile" {
       for_each = var.load_balancer_profile_enabled && var.load_balancer_sku == "standard" ? ["load_balancer_profile"] : []
@@ -454,6 +455,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = !var.workload_identity_enabled || var.oidc_issuer_enabled
       error_message = "`oidc_issuer_enabled` must be set to `true` to enable Azure AD Workload Identity"
+    }
+    precondition {
+      condition     = var.network_plugin_mode != "Overlay" || var.network_plugin == "azure"
+      error_message = "When network_plugin_mode is set to Overlay, the network_plugin field can only be set to azure."
     }
   }
 }
@@ -629,6 +634,15 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
     precondition {
       condition     = can(regex("[a-z0-9]{1,8}", each.value.name))
       error_message = "A Node Pools name must consist of alphanumeric characters and have a maximum lenght of 8 characters (4 random chars added)"
+    }
+    precondition {
+      condition     = var.network_plugin_mode != "Overlay" || each.value.os_type != "Windows"
+      error_message = "Windows Server 2019 node pools are not supported for Overlay and Windows support is still in preview"
+    }
+
+    precondition {
+      condition     = var.network_plugin_mode != "Overlay" || !can(regex("^Standard_DC[0-9]+s?_v2$", each.value.vm_size))
+      error_message = "With with Azure CNI Overlay you can't use DCsv2-series virtual machines in node pools. "
     }
   }
 }
