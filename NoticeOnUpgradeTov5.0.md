@@ -65,7 +65,7 @@ The `system_assigned_identity` was:
 
 ```hcl
 output "system_assigned_identity" {
-value = azurerm_kubernetes_cluster.main.identity
+  value = azurerm_kubernetes_cluster.main.identity
 }
 ```
 
@@ -73,8 +73,8 @@ Now it has been renamed to `cluster_identity`, and the block has been changed to
 
 ```hcl
 output "cluster_identity" {
-description = "The `azurerm_kubernetes_cluster`'s `identity` block."
-value       = try(azurerm_kubernetes_cluster.main.identity[0], null)
+  description = "The `azurerm_kubernetes_cluster`'s `identity` block."
+  value       = try(azurerm_kubernetes_cluster.main.identity[0], null)
 }
 ```
 
