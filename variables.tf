@@ -1,6 +1,7 @@
 variable "prefix" {
   type        = string
-  description = "(Required) The prefix for the resources created in the specified Azure Resource Group"
+  description = "(Optional) The prefix for the resources created in the specified Azure Resource Group"
+  default     = "null"
 }
 
 variable "resource_group_name" {

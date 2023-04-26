@@ -608,6 +608,13 @@ resource "azurerm_log_analytics_workspace" "main" {
   retention_in_days   = var.log_retention_in_days
   sku                 = var.log_analytics_workspace_sku
   tags                = var.tags
+
+  lifecycle {
+    precondition {
+      condition     = var.cluster_log_analytics_workspace_name == null && var.prefix == null
+      error_message = "Either `cluster_log_analytics_workspace_name` or `prefix` must be set - Used in the name of the log analytics workspace."
+    }
+  }
 }
 
 locals {
