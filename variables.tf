@@ -1,3 +1,8 @@
+variable "resource_group_name" {
+  type        = string
+  description = "The resource group name to be imported"
+}
+
 variable "aci_connector_linux_enabled" {
   description = "Enable Virtual Node pool"
   type        = bool
@@ -1007,11 +1012,6 @@ variable "rbac_aad_tenant_id" {
   type        = string
   description = "(Optional) The Tenant ID used for Azure Active Directory Application. If this isn't specified the Tenant ID of the current Subscription is used."
   default     = null
-}
-
-variable "resource_group_name" {
-  type        = string
-  description = "The resource group name to be imported"
 }
 
 variable "role_based_access_control_enabled" {
