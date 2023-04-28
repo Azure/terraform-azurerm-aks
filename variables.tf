@@ -1,14 +1,3 @@
-variable "prefix" {
-  type        = string
-  description = "(Optional) The prefix for the resources created in the specified Azure Resource Group"
-  default     = "null"
-}
-
-variable "resource_group_name" {
-  type        = string
-  description = "The resource group name to be imported"
-}
-
 variable "aci_connector_linux_enabled" {
   description = "Enable Virtual Node pool"
   type        = bool
@@ -933,6 +922,12 @@ variable "pod_subnet_id" {
   default     = null
 }
 
+variable "prefix" {
+  type        = string
+  description = "(Optional) The prefix for the resources created in the specified Azure Resource Group"
+  default     = "null"
+}
+
 variable "private_cluster_enabled" {
   type        = bool
   description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
@@ -1012,6 +1007,11 @@ variable "rbac_aad_tenant_id" {
   type        = string
   description = "(Optional) The Tenant ID used for Azure Active Directory Application. If this isn't specified the Tenant ID of the current Subscription is used."
   default     = null
+}
+
+variable "resource_group_name" {
+  type        = string
+  description = "The resource group name to be imported"
 }
 
 variable "role_based_access_control_enabled" {
