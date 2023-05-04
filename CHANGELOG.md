@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- feat!: add create\_before\_destroy=true to node pools [\#357](https://github.com/Azure/terraform-azurerm-aks/pull/357) ([the-technat](https://github.com/the-technat))
 - Move breaking change details into separate docs. add notice on v7.0.0 [\#355](https://github.com/Azure/terraform-azurerm-aks/pull/355) ([lonegunmanb](https://github.com/lonegunmanb))
 - Trivial: fix typo ingration -\> integration [\#351](https://github.com/Azure/terraform-azurerm-aks/pull/351) ([zioproto](https://github.com/zioproto))
 - \[Breaking\] Add validation block to enforce users to change `sku_tier` from `Paid` to `Standard`. [\#346](https://github.com/Azure/terraform-azurerm-aks/pull/346) ([lonegunmanb](https://github.com/lonegunmanb))
