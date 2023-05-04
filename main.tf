@@ -470,7 +470,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
   for_each = var.node_pools
 
   kubernetes_cluster_id         = azurerm_kubernetes_cluster.main.id
-  name                          = each.value.name
+  name                          = "${each.value.name}${substr(md5(jsonencode(each.value)), 0, 4)}"
   vm_size                       = each.value.vm_size
   capacity_reservation_group_id = each.value.capacity_reservation_group_id
   custom_ca_trust_enabled       = each.value.custom_ca_trust_enabled
@@ -592,10 +592,31 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
   depends_on = [azapi_update_resource.aks_cluster_post_create]
 
   lifecycle {
+    create_before_destroy = true
+    ignore_changes = [
+      name
+    ]
+    replace_triggered_by = [
+      null_resource.pool_name_keeper[each.key],
+    ]
+
     precondition {
       condition     = var.agents_type == "VirtualMachineScaleSets"
       error_message = "Multiple Node Pools are only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets."
     }
+
+    precondition {
+      condition     = can(regex("[a-z0-9]{1,8}", each.value.name))
+      error_message = "A Node Pools name must consist of alphanumeric characters and have a maximum lenght of 8 characters (4 random chars added)"
+    }
+  }
+}
+
+resource "null_resource" "pool_name_keeper" {
+  for_each = var.node_pools
+
+  triggers = {
+    pool_name = each.value.name
   }
 }
 
