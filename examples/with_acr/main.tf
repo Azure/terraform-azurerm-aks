@@ -57,7 +57,7 @@ module "aks" {
   resource_group_name       = local.resource_group.name
   kubernetes_version        = "1.24" # don't specify the patch version!
   automatic_channel_upgrade = "patch"
-  attached_acr_id_map       = {
+  attached_acr_id_map = {
     example = azurerm_container_registry.example.id
   }
   public_network_access_enabled = true
