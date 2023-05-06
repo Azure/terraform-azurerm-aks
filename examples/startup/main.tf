@@ -34,27 +34,30 @@ resource "azurerm_subnet" "test" {
 module "aks" {
   source = "../.."
 
-  prefix                    = "prefix-${random_id.prefix.hex}"
-  resource_group_name       = local.resource_group.name
-  kubernetes_version        = "1.24" # don't specify the patch version!
-  automatic_channel_upgrade = "patch"
-  agents_availability_zones = ["1", "2"]
-  agents_count              = null
-  agents_max_count          = 2
-  agents_max_pods           = 100
-  agents_min_count          = 1
-  agents_pool_name          = "testnodepool"
+  prefix                       = "prefix-${random_id.prefix.hex}"
+  resource_group_name          = local.resource_group.name
+  kubernetes_version           = "1.24" # don't specify the patch version!
+  automatic_channel_upgrade    = "patch"
+  agents_availability_zones    = ["1", "2"]
+  agents_count                 = null
+  agents_max_count             = 2
+  agents_max_pods              = 100
+  agents_min_count             = 1
+  agents_pool_name             = "testnodepool"
   agents_pool_linux_os_configs = [
     {
       transparent_huge_page_enabled = "always"
-      sysctl_configs = [{
-        fs_aio_max_nr               = 65536
-        fs_file_max                 = 100000
-        fs_inotify_max_user_watches = 1000000
-      }]
+      sysctl_configs                = [
+        {
+          fs_aio_max_nr               = 65536
+          fs_file_max                 = 100000
+          fs_inotify_max_user_watches = 1000000
+        }
+      ]
     }
   ]
   agents_type                             = "VirtualMachineScaleSets"
+  api_server_authorized_ip_ranges         = ["0.0.0.0/32"]
   azure_policy_enabled                    = true
   client_id                               = var.client_id
   client_secret                           = var.client_secret
@@ -67,7 +70,7 @@ module "aks" {
   ingress_application_gateway_subnet_cidr = "10.52.1.0/24"
   local_account_disabled                  = true
   log_analytics_workspace_enabled         = true
-  maintenance_window = {
+  maintenance_window                      = {
     allowed = [
       {
         day   = "Sunday",

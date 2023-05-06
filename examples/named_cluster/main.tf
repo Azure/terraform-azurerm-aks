@@ -69,13 +69,14 @@ module "aks_cluster_name" {
   cluster_log_analytics_workspace_name = "test-cluster"
   cluster_name                         = "test-cluster"
   disk_encryption_set_id               = azurerm_disk_encryption_set.des.id
+  public_network_access_enabled        = false
   identity_ids                         = [azurerm_user_assigned_identity.test.id]
   identity_type                        = "UserAssigned"
-  log_analytics_solution = {
+  log_analytics_solution               = {
     id = azurerm_log_analytics_solution.main.id
   }
   log_analytics_workspace_enabled = true
-  log_analytics_workspace = {
+  log_analytics_workspace         = {
     id   = azurerm_log_analytics_workspace.main.id
     name = azurerm_log_analytics_workspace.main.name
   }
