@@ -47,11 +47,13 @@ module "aks" {
   agents_pool_linux_os_configs = [
     {
       transparent_huge_page_enabled = "always"
-      sysctl_configs = [{
-        fs_aio_max_nr               = 65536
-        fs_file_max                 = 100000
-        fs_inotify_max_user_watches = 1000000
-      }]
+      sysctl_configs = [
+        {
+          fs_aio_max_nr               = 65536
+          fs_file_max                 = 100000
+          fs_inotify_max_user_watches = 1000000
+        }
+      ]
     }
   ]
   agents_type                             = "VirtualMachineScaleSets"
@@ -87,7 +89,7 @@ module "aks" {
   network_policy                    = "azure"
   os_disk_size_gb                   = 60
   private_cluster_enabled           = true
-  public_network_access_enabled     = true
+  public_network_access_enabled     = false
   rbac_aad                          = true
   rbac_aad_managed                  = true
   role_based_access_control_enabled = true
