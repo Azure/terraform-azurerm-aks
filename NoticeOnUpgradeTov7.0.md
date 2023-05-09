@@ -30,3 +30,9 @@ In v6.0, `default_node_pool.linux_os_config` block won't be added to `azurerm_ku
 ## Remove unused net_profile_docker_bridge_cidr
 
 `var.net_profile_docker_bridge_cidr` has been [deprecated](https://github.com/hashicorp/terraform-provider-azurerm/issues/18119) and is not used in the module anymore and has been removed.
+
+## Add `create_before_destroy=true` to node pools #357
+
+Now `azurerm_kubernetes_cluster_node_pool.node_pool` resource has `create_before_destroy=true` to avoid downtime when upgrading node pools. Users must be aware that there would be a "random" suffix added into pool's name, this suffix's length is `4`, so your previous node pool's name `nodepool1` would be `nodepool1xxxx`. This suffix is calculated from node pool's config, the same configuration would lead to the same suffix. You might need to shorten your node pool's name because of this new added suffix.
+
+To enable this feature, we've also added new `null_resource.pool_name_keeper` to track node pool's name in case you've changed the name.
