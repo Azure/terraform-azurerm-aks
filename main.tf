@@ -608,7 +608,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
       condition     = var.agents_type == "VirtualMachineScaleSets"
       error_message = "Multiple Node Pools are only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets."
     }
-
     precondition {
       condition     = can(regex("[a-z0-9]{1,8}", each.value.name))
       error_message = "A Node Pools name must consist of alphanumeric characters and have a maximum lenght of 8 characters (4 random chars added)"
