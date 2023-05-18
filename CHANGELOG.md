@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Upgrade notice for v7.0 [\#367](https://github.com/Azure/terraform-azurerm-aks/pull/367) ([lonegunmanb](https://github.com/lonegunmanb))
 - Check `api_server_authorized_ip_ranges` when `public_network_access_enabled` is `true` [\#361](https://github.com/Azure/terraform-azurerm-aks/pull/361) ([lonegunmanb](https://github.com/lonegunmanb))
 - feat!: add create\_before\_destroy=true to node pools [\#357](https://github.com/Azure/terraform-azurerm-aks/pull/357) ([the-technat](https://github.com/the-technat))
 - Move breaking change details into separate docs. add notice on v7.0.0 [\#355](https://github.com/Azure/terraform-azurerm-aks/pull/355) ([lonegunmanb](https://github.com/lonegunmanb))
