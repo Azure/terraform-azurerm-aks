@@ -35,8 +35,15 @@ resource "azurerm_kubernetes_cluster" "main" {
   public_network_access_enabled       = var.public_network_access_enabled
   role_based_access_control_enabled   = var.role_based_access_control_enabled
   sku_tier                            = var.sku_tier
-  tags                                = var.tags
-  workload_identity_enabled           = var.workload_identity_enabled
+  tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
+    avm_git_commit           = "bb858b143c94abf2d08c88de77a0054ff5f85db5"
+    avm_git_file             = "main.tf"
+    avm_git_last_modified_at = "2023-03-06 06:02:33"
+    avm_git_org              = "Azure"
+    avm_git_repo             = "terraform-azurerm-aks"
+    avm_yor_trace            = "fc82cc46-3b3b-4f4c-adea-d60fe76fdedd"
+  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+  workload_identity_enabled = var.workload_identity_enabled
 
   dynamic "default_node_pool" {
     for_each = var.enable_auto_scaling == true ? [] : ["default_node_pool_manually_scaled"]
@@ -504,11 +511,18 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
   proximity_placement_group_id  = each.value.proximity_placement_group_id
   scale_down_mode               = each.value.scale_down_mode
   spot_max_price                = each.value.spot_max_price
-  tags                          = each.value.tags
-  ultra_ssd_enabled             = each.value.ultra_ssd_enabled
-  vnet_subnet_id                = each.value.vnet_subnet_id
-  workload_runtime              = each.value.workload_runtime
-  zones                         = each.value.zones
+  tags = merge(each.value.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
+    avm_git_commit           = "bc0c9fab9ee53296a64c7a682d2ed7e0726c6547"
+    avm_git_file             = "main.tf"
+    avm_git_last_modified_at = "2023-05-04 05:02:32"
+    avm_git_org              = "Azure"
+    avm_git_repo             = "terraform-azurerm-aks"
+    avm_yor_trace            = "7a20aff2-303d-4e7c-9b6a-8884d8131aa8"
+  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+  ultra_ssd_enabled = each.value.ultra_ssd_enabled
+  vnet_subnet_id    = each.value.vnet_subnet_id
+  workload_runtime  = each.value.workload_runtime
+  zones             = each.value.zones
 
   dynamic "kubelet_config" {
     for_each = each.value.kubelet_config == null ? [] : ["kubelet_config"]
@@ -631,7 +645,14 @@ resource "azurerm_log_analytics_workspace" "main" {
   resource_group_name = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
   retention_in_days   = var.log_retention_in_days
   sku                 = var.log_analytics_workspace_sku
-  tags                = var.tags
+  tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
+    avm_git_commit           = "19e15ed0d702f96ddd9f9d66d4de41f627251fcd"
+    avm_git_file             = "main.tf"
+    avm_git_last_modified_at = "2022-09-30 12:14:28"
+    avm_git_org              = "Azure"
+    avm_git_repo             = "terraform-azurerm-aks"
+    avm_yor_trace            = "ee3328af-a9e7-4839-9ecd-227d58660c93"
+  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
 }
 
 locals {
@@ -647,7 +668,14 @@ resource "azurerm_log_analytics_solution" "main" {
   solution_name         = "ContainerInsights"
   workspace_name        = local.log_analytics_workspace.name
   workspace_resource_id = local.log_analytics_workspace.id
-  tags                  = var.tags
+  tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
+    avm_git_commit           = "e3016f23f676fcd2c1b07dd49a22f975d1616ab6"
+    avm_git_file             = "main.tf"
+    avm_git_last_modified_at = "2022-09-30 12:36:26"
+    avm_git_org              = "Azure"
+    avm_git_repo             = "terraform-azurerm-aks"
+    avm_yor_trace            = "0d3ff2f3-b87c-4e3a-83b6-bbc8f304c06e"
+  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
 
   plan {
     product   = "OMSGallery/ContainerInsights"
