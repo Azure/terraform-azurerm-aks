@@ -38,6 +38,60 @@ provider "kubernetes" {
 
 There're some examples in the examples folder. You can execute `terraform apply` command in `examples`'s sub folder to try the module. These examples are tested against every PR with the [E2E Test](#Pre-Commit--Pr-Check--Test).
 
+## Enable or disable tracing tags
+
+We're using [BridgeCrew Yor](https://github.com/bridgecrewio/yor) and [yorbox](https://github.com/lonegunmanb/yorbox) to help manage tags consistently across infrastructure as code (IaC) frameworks. In this module you might see tags like:
+
+```hcl
+resource "azurerm_resource_group" "rg" {
+  location = "eastus"
+  name     = random_pet.name
+  tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
+    avm_git_commit           = "3077cc6d0b70e29b6e106b3ab98cee6740c916f6"
+    avm_git_file             = "main.tf"
+    avm_git_last_modified_at = "2023-05-05 08:57:54"
+    avm_git_org              = "lonegunmanb"
+    avm_git_repo             = "terraform-yor-tag-test-module"
+    avm_yor_trace            = "a0425718-c57d-401c-a7d5-f3d88b2551a4"
+  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+}
+```
+
+To enable tracing tags, set the variable to true:
+
+```hcl
+module "example" {
+  source               = "{module_source}"
+  ...
+  tracing_tags_enabled = true
+}
+```
+
+The `tracing_tags_enabled` is default to `false`.
+
+To customize the prefix for your tracing tags, set the `tracing_tags_prefix` variable value in your Terraform configuration:
+
+```hcl
+module "example" {
+  source              = "{module_source}"
+  ...
+  tracing_tags_prefix = "custom_prefix_"
+}
+```
+
+The actual applied tags would be:
+
+```text
+{
+  custom_prefix_git_commit           = "3077cc6d0b70e29b6e106b3ab98cee6740c916f6"
+  custom_prefix_git_file             = "main.tf"
+  custom_prefix_git_last_modified_at = "2023-05-05 08:57:54"
+  custom_prefix_git_org              = "lonegunmanb"
+  custom_prefix_git_repo             = "terraform-yor-tag-test-module"
+  custom_prefix_yor_trace            = "a0425718-c57d-401c-a7d5-f3d88b2551a4"
+}
+```
+
 ## Pre-Commit & Pr-Check & Test
 
 ### Configurations
