@@ -449,10 +449,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = !(var.kms_enabled && var.identity_type != "UserAssigned")
       error_message = "KMS etcd encryption doesn't work with system-assigned managed identity."
     }
-    precondition {
-      condition     = !var.public_network_access_enabled || try(contains(var.api_server_authorized_ip_ranges, "0.0.0.0/32"), false)
-      error_message = "When `public_network_access_enabled` is set to true, `0.0.0.0/32` must be added to `authorized_ip_ranges` in the `api_server_access_profile block` (https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#public_network_access_enabled)."
-    }
   }
 }
 
@@ -698,7 +694,6 @@ resource "azurerm_role_assignment" "acr" {
 # https://learn.microsoft.com/en-us/azure/aks/configure-kubenet#prerequisites
 # https://learn.microsoft.com/en-us/azure/aks/configure-azure-cni#prerequisites
 # https://github.com/Azure/terraform-azurerm-aks/issues/178
-
 resource "azurerm_role_assignment" "network_contributor" {
   for_each = var.create_role_assignment_network_contributor ? local.subnet_ids : []
 
