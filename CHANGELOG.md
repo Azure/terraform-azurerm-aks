@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- assign network contributor role to control plane identity [\#369](https://github.com/Azure/terraform-azurerm-aks/pull/369) ([zioproto](https://github.com/zioproto))
 - Add tracing tag toggle variables [\#362](https://github.com/Azure/terraform-azurerm-aks/pull/362) ([lonegunmanb](https://github.com/lonegunmanb))
 
 ## [7.0.0](https://github.com/Azure/terraform-azurerm-aks/tree/7.0.0) (2023-05-18)
