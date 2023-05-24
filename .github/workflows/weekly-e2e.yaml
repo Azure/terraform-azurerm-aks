@@ -11,7 +11,7 @@ jobs:
       name: crontests
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - name: init
         run: |
           docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make generate
@@ -23,7 +23,7 @@ jobs:
         run: |
           sh scripts/ci-update-test-record.sh
       - name: Commit & Push changes
-        uses: actions-js/push@master
+        uses: actions-js/push@156f2b10c3aa000c44dbe75ea7018f32ae999772 # master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           message: 'Update TestVersionSnapshot'
