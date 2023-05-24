@@ -5,6 +5,7 @@
 **Merged pull requests:**
 
 - Remove constraint on `authorized_ip_ranges` when `public_network_access_enabled` is `true` [\#375](https://github.com/Azure/terraform-azurerm-aks/pull/375) ([lonegunmanb](https://github.com/lonegunmanb))
+- Filter null value out from `local.subnet_ids` [\#374](https://github.com/Azure/terraform-azurerm-aks/pull/374) ([lonegunmanb](https://github.com/lonegunmanb))
 - assign network contributor role to control plane identity [\#369](https://github.com/Azure/terraform-azurerm-aks/pull/369) ([zioproto](https://github.com/zioproto))
 - Add tracing tag toggle variables [\#362](https://github.com/Azure/terraform-azurerm-aks/pull/362) ([lonegunmanb](https://github.com/lonegunmanb))
 
