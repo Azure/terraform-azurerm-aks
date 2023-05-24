@@ -28,11 +28,12 @@ locals {
       name = var.log_analytics_workspace.name
     }
   ) : null # Finally, the Log Analytics Workspace should be disabled.
-  subnet_ids = toset(flatten(concat([
+  potential_subnet_ids = flatten(concat([
     for pool in var.node_pools : [
       pool.vnet_subnet_id,
       pool.pod_subnet_id
     ]
-  ], [var.vnet_subnet_id])))
+  ], [var.vnet_subnet_id]))
+  subnet_ids = toset([for id in local.potential_subnet_ids : id if id != null])
 }
 
