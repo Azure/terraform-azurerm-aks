@@ -41,8 +41,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     avm_git_last_modified_at = "2023-03-06 06:02:33"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "d7efb716-7945-4179-96f4-421064955521"
-  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+    avm_yor_trace            = "7e769f45-34d9-4a8c-98d9-2ffc35fab112"
+    } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), {
+    avm_yor_name = "main"
+  })
   workload_identity_enabled = var.workload_identity_enabled
 
   dynamic "default_node_pool" {
@@ -513,8 +515,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
     avm_git_last_modified_at = "2023-05-04 05:02:32"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "86b8cecf-6348-4b3e-afa3-695efd8d2121"
-  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+    avm_yor_trace            = "bf37a2e4-4478-4f5a-8f43-b48ee0fcd9cc"
+    } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), {
+    avm_yor_name = "node_pool"
+  })
   ultra_ssd_enabled = each.value.ultra_ssd_enabled
   vnet_subnet_id    = each.value.vnet_subnet_id
   workload_runtime  = each.value.workload_runtime
@@ -647,8 +651,10 @@ resource "azurerm_log_analytics_workspace" "main" {
     avm_git_last_modified_at = "2022-09-30 12:14:28"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "6d6cfec6-ef33-4ba6-9e49-45ed748be356"
-  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+    avm_yor_trace            = "3b1a84e5-0682-430a-b01e-fb67fdebc836"
+    } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), {
+    avm_yor_name = "main"
+  })
 }
 
 locals {
@@ -670,8 +676,10 @@ resource "azurerm_log_analytics_solution" "main" {
     avm_git_last_modified_at = "2022-09-30 12:36:26"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "63825cc7-7f75-45e2-8747-8e1ae3239ba8"
-  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+    avm_yor_trace            = "249f6ae7-955d-4057-8a9d-b78c2683ca67"
+    } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), {
+    avm_yor_name = "main"
+  })
 
   plan {
     product   = "OMSGallery/ContainerInsights"
