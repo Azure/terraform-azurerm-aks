@@ -47,7 +47,7 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 resource "azurerm_log_analytics_solution" "main" {
-  location              = local.resource_group.location
+  location              = coalesce(var.log_analytics_workspace_location, local.resource_group.location)
   resource_group_name   = local.resource_group.name
   solution_name         = "ContainerInsights"
   workspace_name        = azurerm_log_analytics_workspace.main.name
