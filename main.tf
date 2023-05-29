@@ -667,15 +667,16 @@ locals {
 data "azurerm_log_analytics_workspace" "main" {
   count = local.log_analytics_workspace != null ? 1 : 0
 
-  name                = local.log_analytics_workspace.name
-  resource_group_name = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
+  name = local.log_analytics_workspace.name
+  // `azurerm_log_analytics_workspace`'s id format: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.OperationalInsights/workspaces/workspace1
+  resource_group_name = split("/", local.log_analytics_workspace.id)[4]
 }
 
 resource "azurerm_log_analytics_solution" "main" {
   count = local.create_analytics_solution ? 1 : 0
 
   location              = data.azurerm_log_analytics_workspace.main[0].location
-  resource_group_name   = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
+  resource_group_name   = data.azurerm_log_analytics_workspace.main[0].resource_group_name
   solution_name         = "ContainerInsights"
   workspace_name        = local.log_analytics_workspace.name
   workspace_resource_id = local.log_analytics_workspace.id
