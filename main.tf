@@ -668,7 +668,7 @@ data "azurerm_log_analytics_workspace" "main" {
   count = local.log_analytics_workspace != null ? 1 : 0
 
   name = local.log_analytics_workspace.name
-  // `azurerm_log_analytics_workspace`'s id format: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.OperationalInsights/workspaces/workspace1
+  # `azurerm_log_analytics_workspace`'s id format: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.OperationalInsights/workspaces/workspace1
   resource_group_name = split("/", local.log_analytics_workspace.id)[4]
 }
 
