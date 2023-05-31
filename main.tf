@@ -451,6 +451,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = !(var.kms_enabled && var.identity_type != "UserAssigned")
       error_message = "KMS etcd encryption doesn't work with system-assigned managed identity."
     }
+    precondition {
+      condition     = !var.workload_identity_enabled || var.oidc_issuer_enabled
+      error_message = "`oidc_issuer_enabled` must be set to `true` to enable Azure AD Workload Identity"
+    }
   }
 }
 
