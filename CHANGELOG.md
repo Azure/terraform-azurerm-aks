@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- `oidc_issuer_enabled` must be set to `true` to enable Azure AD Worklo… [\#377](https://github.com/Azure/terraform-azurerm-aks/pull/377) ([zioproto](https://github.com/zioproto))
 - Remove constraint on `authorized_ip_ranges` when `public_network_access_enabled` is `true` [\#375](https://github.com/Azure/terraform-azurerm-aks/pull/375) ([lonegunmanb](https://github.com/lonegunmanb))
 - Filter null value out from `local.subnet_ids` [\#374](https://github.com/Azure/terraform-azurerm-aks/pull/374) ([lonegunmanb](https://github.com/lonegunmanb))
 - assign network contributor role to control plane identity [\#369](https://github.com/Azure/terraform-azurerm-aks/pull/369) ([zioproto](https://github.com/zioproto))
