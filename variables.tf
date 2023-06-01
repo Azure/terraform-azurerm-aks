@@ -680,8 +680,8 @@ variable "network_plugin" {
 
 variable "network_plugin_mode" {
   type        = string
-  description = "(Optional) Specifies the network plugin mode used for building the Kubernetes network. Possible value is `Overlay`. Changing this forces a new resource to be created."
   default     = null
+  description = "(Optional) Specifies the network plugin mode used for building the Kubernetes network. Possible value is `Overlay`. Changing this forces a new resource to be created."
 }
 
 variable "network_policy" {

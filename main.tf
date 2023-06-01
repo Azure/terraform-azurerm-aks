@@ -41,7 +41,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     avm_git_last_modified_at = "2023-03-06 06:02:33"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "9872c253-a0b8-41ae-b7a2-d06994a736b3"
+    avm_yor_trace            = "9e049f59-a143-4214-b7b7-fb213164d029"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -524,7 +524,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
     avm_git_last_modified_at = "2023-05-04 05:02:32"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "fa467c60-2738-4290-9df4-ef7aeff28b1d"
+    avm_yor_trace            = "01850328-5a3d-45d9-9dab-d2d1cbed41a8"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "node_pool"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -639,7 +639,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
       condition     = var.network_plugin_mode != "Overlay" || each.value.os_type != "Windows"
       error_message = "Windows Server 2019 node pools are not supported for Overlay and Windows support is still in preview"
     }
-
     precondition {
       condition     = var.network_plugin_mode != "Overlay" || !can(regex("^Standard_DC[0-9]+s?_v2$", each.value.vm_size))
       error_message = "With with Azure CNI Overlay you can't use DCsv2-series virtual machines in node pools. "
@@ -669,7 +668,7 @@ resource "azurerm_log_analytics_workspace" "main" {
     avm_git_last_modified_at = "2022-09-30 12:14:28"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "d0116336-1f87-493a-8c21-e4b4835f1292"
+    avm_yor_trace            = "183525ba-ccbc-49b5-b597-5d96df8874ea"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -694,7 +693,7 @@ resource "azurerm_log_analytics_solution" "main" {
     avm_git_last_modified_at = "2022-09-30 12:36:26"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "24bce1ac-104b-4b5f-8b0d-a48627d417b5"
+    avm_yor_trace            = "d9a6e0ce-ad95-465a-bb95-eff1baeac325"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
