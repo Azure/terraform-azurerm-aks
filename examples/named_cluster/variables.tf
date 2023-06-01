@@ -13,6 +13,10 @@ variable "location" {
   default = "eastus"
 }
 
+variable "log_analytics_workspace_location" {
+  default = null
+}
+
 variable "managed_identity_principal_id" {
   type    = string
   default = null

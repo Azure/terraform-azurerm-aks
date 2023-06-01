@@ -103,3 +103,18 @@ func TestExamplesWithoutAssertion(t *testing.T) {
 		})
 	}
 }
+
+func TestExamples_differentLocationForLogAnalyticsSolution(t *testing.T) {
+	var vars map[string]any
+	managedIdentityId := os.Getenv("MSI_ID")
+	if managedIdentityId != "" {
+		vars = map[string]any{
+			"managed_identity_principal_id": managedIdentityId,
+		}
+	}
+	vars["log_analytics_workspace_location"] = "eastus2"
+	test_helper.RunE2ETest(t, "../../", "examples/named_cluster", terraform.Options{
+		Upgrade: true,
+		Vars:    vars,
+	}, nil)
+}

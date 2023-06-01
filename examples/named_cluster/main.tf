@@ -39,7 +39,7 @@ resource "azurerm_user_assigned_identity" "test" {
 
 # Just for demo purpose, not necessary to named cluster.
 resource "azurerm_log_analytics_workspace" "main" {
-  location            = local.resource_group.location
+  location            = coalesce(var.log_analytics_workspace_location, local.resource_group.location)
   name                = "prefix-workspace"
   resource_group_name = local.resource_group.name
   retention_in_days   = 30
@@ -47,7 +47,7 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 resource "azurerm_log_analytics_solution" "main" {
-  location              = local.resource_group.location
+  location              = coalesce(var.log_analytics_workspace_location, local.resource_group.location)
   resource_group_name   = local.resource_group.name
   solution_name         = "ContainerInsights"
   workspace_name        = azurerm_log_analytics_workspace.main.name
