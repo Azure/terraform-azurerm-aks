@@ -18,7 +18,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   location                            = coalesce(var.location, data.azurerm_resource_group.main.location)
   name                                = coalesce(var.cluster_name, trim("${var.prefix}-aks", "-"))
   resource_group_name                 = data.azurerm_resource_group.main.name
-  api_server_authorized_ip_ranges     = var.api_server_authorized_ip_ranges
   automatic_channel_upgrade           = var.automatic_channel_upgrade
   azure_policy_enabled                = var.azure_policy_enabled
   disk_encryption_set_id              = var.disk_encryption_set_id
@@ -237,6 +236,14 @@ resource "azurerm_kubernetes_cluster" "main" {
       subnet_name = var.aci_connector_linux_subnet_name
     }
   }
+  dynamic "api_server_access_profile" {
+    for_each = var.api_server_authorized_ip_ranges != null || var.api_server_subnet_id != null ? ["api_server_access_profile"] : []
+
+    content {
+      authorized_ip_ranges = var.api_server_authorized_ip_ranges
+      subnet_id            = var.api_server_subnet_id
+    }
+  }
   dynamic "auto_scaler_profile" {
     for_each = var.auto_scaler_profile_enabled ? ["default_auto_scaler_profile"] : []
 
@@ -374,9 +381,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     service_cidr        = var.net_profile_service_cidr
 
     dynamic "load_balancer_profile" {
-      for_each = var.load_balancer_profile_enabled && var.load_balancer_sku == "standard" ? [
-        "load_balancer_profile"
-      ] : []
+      for_each = var.load_balancer_profile_enabled && var.load_balancer_sku == "standard" ? ["load_balancer_profile"] : []
 
       content {
         idle_timeout_in_minutes     = var.load_balancer_profile_idle_timeout_in_minutes
