@@ -16,7 +16,7 @@ resource "tls_private_key" "ssh" {
 
 resource "azurerm_kubernetes_cluster" "main" {
   location                            = coalesce(var.location, data.azurerm_resource_group.main.location)
-  name                                = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
+  name                                = coalesce(var.cluster_name, "${var.prefix}-aks")
   resource_group_name                 = data.azurerm_resource_group.main.name
   api_server_authorized_ip_ranges     = var.api_server_authorized_ip_ranges
   automatic_channel_upgrade           = var.automatic_channel_upgrade
@@ -462,6 +462,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = var.network_plugin_mode != "Overlay" || var.network_plugin == "azure"
       error_message = "When network_plugin_mode is set to Overlay, the network_plugin field can only be set to azure."
     }
+    precondition {
+      condition     = can(coalesce(var.cluster_name, var.prefix))
+      error_message = "You must set one of `var.cluster_name` and `var.prefix` to create `azurerm_kubernetes_cluster.main`."
+    }
   }
 }
 
@@ -660,7 +664,7 @@ resource "azurerm_log_analytics_workspace" "main" {
   count = local.create_analytics_workspace ? 1 : 0
 
   location            = coalesce(var.location, data.azurerm_resource_group.main.location)
-  name                = var.cluster_log_analytics_workspace_name == null ? "${var.prefix}-workspace" : var.cluster_log_analytics_workspace_name
+  name                = coalesce(var.cluster_log_analytics_workspace_name, "${var.prefix}-workspace")
   resource_group_name = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
   retention_in_days   = var.log_retention_in_days
   sku                 = var.log_analytics_workspace_sku
@@ -674,6 +678,13 @@ resource "azurerm_log_analytics_workspace" "main" {
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+
+  lifecycle {
+    precondition {
+      condition     = can(coalesce(var.cluster_log_analytics_workspace_name, var.prefix))
+      error_message = "You must set one of `var.cluster_log_analytics_workspace_name` and `var.prefix` to create `azurerm_log_analytics_workspace.main`."
+    }
+  }
 }
 
 locals {

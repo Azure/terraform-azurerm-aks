@@ -1,8 +1,3 @@
-variable "prefix" {
-  type        = string
-  description = "(Required) The prefix for the resources created in the specified Azure Resource Group"
-}
-
 variable "resource_group_name" {
   type        = string
   description = "The resource group name to be imported"
@@ -939,6 +934,12 @@ variable "pod_subnet_id" {
   type        = string
   default     = null
   description = "(Optional) The ID of the Subnet where the pods in the default Node Pool should exist. Changing this forces a new resource to be created."
+}
+
+variable "prefix" {
+  type        = string
+  default     = null
+  description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set."
 }
 
 variable "private_cluster_enabled" {
