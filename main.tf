@@ -16,7 +16,7 @@ resource "tls_private_key" "ssh" {
 
 resource "azurerm_kubernetes_cluster" "main" {
   location                            = coalesce(var.location, data.azurerm_resource_group.main.location)
-  name                                = coalesce(var.cluster_name, "${var.prefix}-aks")
+  name                                = coalesce(var.cluster_name, trim("${var.prefix}-aks", "-"))
   resource_group_name                 = data.azurerm_resource_group.main.name
   api_server_authorized_ip_ranges     = var.api_server_authorized_ip_ranges
   automatic_channel_upgrade           = var.automatic_channel_upgrade
@@ -664,7 +664,7 @@ resource "azurerm_log_analytics_workspace" "main" {
   count = local.create_analytics_workspace ? 1 : 0
 
   location            = coalesce(var.location, data.azurerm_resource_group.main.location)
-  name                = coalesce(var.cluster_log_analytics_workspace_name, "${var.prefix}-workspace")
+  name                = coalesce(var.cluster_log_analytics_workspace_name, trim("${var.prefix}-workspace", "-"))
   resource_group_name = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
   retention_in_days   = var.log_retention_in_days
   sku                 = var.log_analytics_workspace_sku
