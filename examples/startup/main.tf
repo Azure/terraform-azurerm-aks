@@ -2,6 +2,10 @@ resource "random_id" "prefix" {
   byte_length = 8
 }
 
+resource "random_id" "name" {
+  byte_length = 8
+}
+
 resource "azurerm_resource_group" "main" {
   count = var.create_resource_group ? 1 : 0
 
@@ -34,7 +38,7 @@ resource "azurerm_subnet" "test" {
 module "aks" {
   source = "../.."
 
-  prefix                    = "prefix-${random_id.prefix.hex}"
+  prefix                    = random_id.name.hex
   resource_group_name       = local.resource_group.name
   kubernetes_version        = "1.24" # don't specify the patch version!
   automatic_channel_upgrade = "patch"
@@ -69,6 +73,7 @@ module "aks" {
   ingress_application_gateway_subnet_cidr = "10.52.1.0/24"
   local_account_disabled                  = true
   log_analytics_workspace_enabled         = true
+  cluster_log_analytics_workspace_name    = random_id.name.hex
   maintenance_window = {
     allowed = [
       {
