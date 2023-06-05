@@ -33,9 +33,9 @@ resource "azurerm_subnet" "test" {
 
 resource "random_string" "acr_suffix" {
   length  = 8
-  upper   = false
   numeric = true
   special = false
+  upper   = false
 }
 
 resource "azurerm_container_registry" "example" {
