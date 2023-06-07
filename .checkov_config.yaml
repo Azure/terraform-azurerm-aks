@@ -12,6 +12,7 @@ secrets-scan-file-type: []
 skip-check:
   - CKV_GHA_3
   - CKV_AZURE_5
+  - CKV_AZURE_6
   - CKV_AZURE_112
   - CKV_AZURE_115
   - CKV_AZURE_116

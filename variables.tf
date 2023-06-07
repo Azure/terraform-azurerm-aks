@@ -204,6 +204,12 @@ variable "api_server_authorized_ip_ranges" {
   description = "(Optional) The IP ranges to allow for incoming traffic to the server nodes."
 }
 
+variable "api_server_subnet_id" {
+  type        = string
+  default     = null
+  description = "(Optional) The ID of the Subnet where the API server endpoint is delegated to."
+}
+
 variable "attached_acr_id_map" {
   type        = map(string)
   default     = {}
