@@ -57,6 +57,12 @@ variable "agents_min_count" {
   description = "Minimum number of nodes in a pool"
 }
 
+variable "max_surge" {
+  type        = number
+  default     = null
+  description = "The maximum number or percentage of nodes which will be added to the Default Node Pool size during an upgrade."
+}
+
 variable "agents_pool_kubelet_configs" {
   type = list(object({
     cpu_manager_policy        = optional(string)

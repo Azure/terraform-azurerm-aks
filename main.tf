@@ -75,6 +75,14 @@ resource "azurerm_kubernetes_cluster" "main" {
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
 
+      dynamic "upgrade_settings" {
+        for_each = var.max_surge == null ? [] : ["upgrade_settings"]
+
+        content {
+          max_surge = var.max_surge
+        }
+      }
+
       dynamic "kubelet_config" {
         for_each = var.agents_pool_kubelet_configs
 
@@ -165,6 +173,14 @@ resource "azurerm_kubernetes_cluster" "main" {
       ultra_ssd_enabled            = var.ultra_ssd_enabled
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
+
+      dynamic "upgrade_settings" {
+        for_each = var.max_surge == null ? [] : ["upgrade_settings"]
+
+        content {
+          max_surge = var.max_surge
+        }
+      }
 
       dynamic "kubelet_config" {
         for_each = var.agents_pool_kubelet_configs
