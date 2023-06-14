@@ -57,8 +57,8 @@ variable "agents_min_count" {
   description = "Minimum number of nodes in a pool"
 }
 
-variable "max_surge" {
-  type        = number
+variable "agents_pool_max_surge" {
+  type        = string
   default     = null
   description = "The maximum number or percentage of nodes which will be added to the Default Node Pool size during an upgrade."
 }
