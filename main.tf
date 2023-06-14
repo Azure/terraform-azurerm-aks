@@ -175,10 +175,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       zones                        = var.agents_availability_zones
 
       dynamic "upgrade_settings" {
-        for_each = var.max_surge == null ? [] : ["upgrade_settings"]
+        for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
 
         content {
-          max_surge = var.max_surge
+          max_surge = var.agents_pool_max_surge
         }
       }
 
