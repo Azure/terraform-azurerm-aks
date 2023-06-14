@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Support for Proximity placement group for default node pool [\#392](https://github.com/Azure/terraform-azurerm-aks/pull/392) ([lonegunmanb](https://github.com/lonegunmanb))
 - Bump github.com/Azure/terraform-module-test-helper from 0.13.0 to 0.14.0 in /test [\#386](https://github.com/Azure/terraform-azurerm-aks/pull/386) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [7.1.0](https://github.com/Azure/terraform-azurerm-aks/tree/7.1.0) (2023-06-07)
