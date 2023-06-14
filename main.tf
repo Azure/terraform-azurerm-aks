@@ -67,6 +67,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       os_disk_type                 = var.os_disk_type
       os_sku                       = var.os_sku
       pod_subnet_id                = var.pod_subnet_id
+      proximity_placement_group_id = var.agents_proximity_placement_group_id
       scale_down_mode              = var.scale_down_mode
       tags                         = merge(var.tags, var.agents_tags)
       temporary_name_for_rotation  = var.temporary_name_for_rotation
@@ -158,6 +159,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       os_disk_type                 = var.os_disk_type
       os_sku                       = var.os_sku
       pod_subnet_id                = var.pod_subnet_id
+      proximity_placement_group_id = var.agents_proximity_placement_group_id
       scale_down_mode              = var.scale_down_mode
       tags                         = merge(var.tags, var.agents_tags)
       temporary_name_for_rotation  = var.temporary_name_for_rotation
