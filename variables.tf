@@ -784,7 +784,7 @@ variable "node_pools" {
     ultra_ssd_enabled            = optional(bool)
     vnet_subnet_id               = optional(string)
     upgrade_settings = optional(object({
-      max_surge = number
+      max_surge = string
     }))
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)
@@ -881,7 +881,7 @@ variable "node_pools" {
     ultra_ssd_enabled            = (Optional) Used to specify whether the UltraSSD is enabled in the Node Pool. Defaults to `false`. See [the documentation](https://docs.microsoft.com/azure/aks/use-ultra-disks) for more information. Changing this forces a new resource to be created.
     vnet_subnet_id               = (Optional) The ID of the Subnet where this Node Pool should exist. Changing this forces a new resource to be created. A route table must be configured on this Subnet.
     upgrade_settings = optional(object({
-      max_surge = number
+      max_surge = string
     }))
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)
