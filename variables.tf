@@ -174,6 +174,12 @@ variable "agents_pool_name" {
   nullable    = false
 }
 
+variable "agents_proximity_placement_group_id" {
+  type        = string
+  default     = null
+  description = "(Optional) The ID of the Proximity Placement Group of the default Azure AKS agentpool (nodepool). Changing this forces a new resource to be created."
+}
+
 variable "agents_size" {
   type        = string
   default     = "Standard_D2s_v3"
