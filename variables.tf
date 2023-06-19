@@ -57,12 +57,6 @@ variable "agents_min_count" {
   description = "Minimum number of nodes in a pool"
 }
 
-variable "agents_pool_max_surge" {
-  type        = string
-  default     = null
-  description = "The maximum number or percentage of nodes which will be added to the Default Node Pool size during an upgrade."
-}
-
 variable "agents_pool_kubelet_configs" {
   type = list(object({
     cpu_manager_policy        = optional(string)
@@ -171,6 +165,12 @@ variable "agents_pool_linux_os_configs" {
   }))
 EOT
   nullable    = false
+}
+
+variable "agents_pool_max_surge" {
+  type        = string
+  default     = null
+  description = "The maximum number or percentage of nodes which will be added to the Default Node Pool size during an upgrade."
 }
 
 variable "agents_pool_name" {

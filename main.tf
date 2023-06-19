@@ -40,7 +40,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     avm_git_last_modified_at = "2023-06-05 02:21:33"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "8e971592-a12b-48e0-954f-4ff9677850d4"
+    avm_yor_trace            = "b9c98c60-ce25-458a-9766-7e31e9c7bbcb"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -76,14 +76,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
 
-      dynamic "upgrade_settings" {
-        for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
-
-        content {
-          max_surge = var.agents_pool_max_surge
-        }
-      }
-
       dynamic "kubelet_config" {
         for_each = var.agents_pool_kubelet_configs
 
@@ -143,6 +135,13 @@ resource "azurerm_kubernetes_cluster" "main" {
               vm_vfs_cache_pressure              = sysctl_config.value.vm_vfs_cache_pressure
             }
           }
+        }
+      }
+      dynamic "upgrade_settings" {
+        for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
+
+        content {
+          max_surge = var.agents_pool_max_surge
         }
       }
     }
@@ -176,14 +175,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
 
-      dynamic "upgrade_settings" {
-        for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
-
-        content {
-          max_surge = var.agents_pool_max_surge
-        }
-      }
-
       dynamic "kubelet_config" {
         for_each = var.agents_pool_kubelet_configs
 
@@ -243,6 +234,13 @@ resource "azurerm_kubernetes_cluster" "main" {
               vm_vfs_cache_pressure              = sysctl_config.value.vm_vfs_cache_pressure
             }
           }
+        }
+      }
+      dynamic "upgrade_settings" {
+        for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
+
+        content {
+          max_surge = var.agents_pool_max_surge
         }
       }
     }
@@ -553,7 +551,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
     avm_git_last_modified_at = "2023-05-04 05:02:32"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "c0965099-cdfc-4a50-940f-7d82c4238b49"
+    avm_yor_trace            = "c72e0668-c097-463b-89fa-dfe324628880"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "node_pool"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -697,7 +695,7 @@ resource "azurerm_log_analytics_workspace" "main" {
     avm_git_last_modified_at = "2023-06-05 02:21:33"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "a9100928-1439-4031-8792-c0efe29a795e"
+    avm_yor_trace            = "c40504c5-7ee6-4c62-88c0-ba0c5342cdf1"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -737,7 +735,7 @@ resource "azurerm_log_analytics_solution" "main" {
     avm_git_last_modified_at = "2023-06-01 03:13:59"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "3b0268ef-f749-459e-a893-436c503b4fa7"
+    avm_yor_trace            = "54f6b30c-4a62-4ae1-8c6d-3eb453530c5e"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
