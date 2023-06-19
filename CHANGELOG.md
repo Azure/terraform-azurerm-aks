@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Fix incorrect e2e test code so it could pass on our local machine [\#395](https://github.com/Azure/terraform-azurerm-aks/pull/395) ([lonegunmanb](https://github.com/lonegunmanb))
 - Support for Proximity placement group for default node pool [\#392](https://github.com/Azure/terraform-azurerm-aks/pull/392) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add upgrade\_settings block for default nodepool [\#391](https://github.com/Azure/terraform-azurerm-aks/pull/391) ([CiucurDaniel](https://github.com/CiucurDaniel))
 - Bump github.com/Azure/terraform-module-test-helper from 0.13.0 to 0.14.0 in /test [\#386](https://github.com/Azure/terraform-azurerm-aks/pull/386) ([dependabot[bot]](https://github.com/apps/dependabot))
