@@ -38,7 +38,7 @@ func assertOutputNotEmpty(t *testing.T, output test_helper.TerraformOutput, name
 }
 
 func TestExamplesWithoutMonitor(t *testing.T) {
-	var vars map[string]interface{}
+	vars := make(map[string]interface{}, 0)
 	managedIdentityId := os.Getenv("MSI_ID")
 	if managedIdentityId != "" {
 		vars = map[string]interface{}{
@@ -63,7 +63,7 @@ func TestExamplesWithoutMonitor(t *testing.T) {
 }
 
 func TestExamplesNamedCluster(t *testing.T) {
-	var vars map[string]interface{}
+	vars := make(map[string]interface{})
 	managedIdentityId := os.Getenv("MSI_ID")
 	if managedIdentityId != "" {
 		vars = map[string]interface{}{
@@ -105,7 +105,7 @@ func TestExamplesWithoutAssertion(t *testing.T) {
 }
 
 func TestExamples_differentLocationForLogAnalyticsSolution(t *testing.T) {
-	var vars map[string]any
+	vars := make(map[string]any, 0)
 	managedIdentityId := os.Getenv("MSI_ID")
 	if managedIdentityId != "" {
 		vars = map[string]any{
