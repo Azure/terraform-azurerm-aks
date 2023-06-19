@@ -57,6 +57,12 @@ variable "agents_min_count" {
   description = "Minimum number of nodes in a pool"
 }
 
+variable "agents_pool_max_surge" {
+  type        = string
+  default     = null
+  description = "The maximum number or percentage of nodes which will be added to the Default Node Pool size during an upgrade."
+}
+
 variable "agents_pool_kubelet_configs" {
   type = list(object({
     cpu_manager_policy        = optional(string)
@@ -784,7 +790,7 @@ variable "node_pools" {
     ultra_ssd_enabled            = optional(bool)
     vnet_subnet_id               = optional(string)
     upgrade_settings = optional(object({
-      max_surge = number
+      max_surge = string
     }))
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)
@@ -881,7 +887,7 @@ variable "node_pools" {
     ultra_ssd_enabled            = (Optional) Used to specify whether the UltraSSD is enabled in the Node Pool. Defaults to `false`. See [the documentation](https://docs.microsoft.com/azure/aks/use-ultra-disks) for more information. Changing this forces a new resource to be created.
     vnet_subnet_id               = (Optional) The ID of the Subnet where this Node Pool should exist. Changing this forces a new resource to be created. A route table must be configured on this Subnet.
     upgrade_settings = optional(object({
-      max_surge = number
+      max_surge = string
     }))
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)
