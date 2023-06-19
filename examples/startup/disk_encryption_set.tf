@@ -7,13 +7,6 @@ resource "random_string" "key_vault_prefix" {
   numeric = false
 }
 
-data "curl" "public_ip" {
-  count = var.key_vault_firewall_bypass_ip_cidr == null ? 1 : 0
-
-  http_method = "GET"
-  uri         = "https://api.ipify.org?format=json"
-}
-
 module "public_ip" {
   source  = "lonegunmanb/public-ip/lonegunmanb"
   version = "0.1.0"
