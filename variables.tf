@@ -703,6 +703,12 @@ variable "network_policy" {
   description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
 }
 
+variable "ebpf_data_plane" {
+  type        = string
+  default     = null
+  description = "(Optional) Specifies the eBPF data plane used for building the Kubernetes network."
+}
+
 variable "node_pools" {
   type = map(object({
     name                          = string
