@@ -706,7 +706,7 @@ variable "network_policy" {
 variable "ebpf_data_plane" {
   type        = string
   default     = null
-  description = "(Optional) Specifies the eBPF data plane used for building the Kubernetes network."
+  description = "(Optional) Specifies the eBPF data plane used for building the Kubernetes network. Possible value is `cilium`. Changing this forces a new resource to be created."
 }
 
 variable "node_pools" {
