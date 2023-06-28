@@ -192,6 +192,11 @@ output "node_resource_group" {
   value       = azurerm_kubernetes_cluster.main.node_resource_group
 }
 
+output "node_pool" {
+  description = "The non-default node pool(s) that are created and associated with the Cluster."
+  value       = try(azurerm_kubernetes_cluster_node_pool.node_pool, null)
+}
+
 output "oidc_issuer_url" {
   description = "The OIDC issuer URL that is associated with the cluster."
   value       = azurerm_kubernetes_cluster.main.oidc_issuer_url
