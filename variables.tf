@@ -1285,6 +1285,18 @@ variable "web_app_routing" {
 EOT
 }
 
+variable "workload_autoscaler_profile_keda_enabled" {
+  type        = bool
+  default     = false
+  description = "(Optional) Specifies whether KEDA Autoscaler can be used for workloads. Defaults to false."
+}
+
+variable "workload_autoscaler_profile_vpa_enabled" {
+  type        = bool
+  default     = true
+  description = "(Optional) Specifies whether Vertical Pod Autoscaler should be enabled. Defaults to false."
+}
+
 variable "workload_identity_enabled" {
   type        = bool
   default     = false
