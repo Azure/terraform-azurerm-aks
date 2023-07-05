@@ -1293,7 +1293,7 @@ variable "workload_autoscaler_profile_keda_enabled" {
 
 variable "workload_autoscaler_profile_vpa_enabled" {
   type        = bool
-  default     = true
+  default     = false
   description = "(Optional) Specifies whether Vertical Pod Autoscaler should be enabled. Defaults to false."
 }
 
