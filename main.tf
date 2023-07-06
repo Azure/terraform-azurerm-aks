@@ -489,7 +489,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "When ebpf_data_plane is set to cilium, the network_plugin field can only be set to azure."
     }
     precondition {
-      condition     = (var.ebpf_data_plane != "cilium") || (var.network_plugin_mode == "Overlay" && var.pod_subnet_id == null || var.pod_subnet_id != null && var.network_plugin_mode == null)
+      condition     = var.ebpf_data_plane != "cilium" || var.network_plugin_mode == "Overlay" || var.pod_subnet_id != null
       error_message = "When ebpf_data_plane is set to cilium, one of either network_plugin_mode = `Overlay` or pod_subnet_id must be specified."
     }
     precondition {
