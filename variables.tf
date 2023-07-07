@@ -401,6 +401,12 @@ variable "disk_encryption_set_id" {
   description = "(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes. More information [can be found in the documentation](https://docs.microsoft.com/azure/aks/azure-disk-customer-managed-keys). Changing this forces a new resource to be created."
 }
 
+variable "ebpf_data_plane" {
+  type        = string
+  default     = null
+  description = "(Optional) Specifies the eBPF data plane used for building the Kubernetes network. Possible value is `cilium`. Changing this forces a new resource to be created."
+}
+
 variable "enable_auto_scaling" {
   type        = bool
   default     = false
@@ -701,12 +707,6 @@ variable "network_policy" {
   type        = string
   default     = null
   description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
-}
-
-variable "ebpf_data_plane" {
-  type        = string
-  default     = null
-  description = "(Optional) Specifies the eBPF data plane used for building the Kubernetes network. Possible value is `cilium`. Changing this forces a new resource to be created."
 }
 
 variable "node_pools" {
