@@ -391,6 +391,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     dns_service_ip      = var.net_profile_dns_service_ip
     load_balancer_sku   = var.load_balancer_sku
     network_plugin_mode = var.network_plugin_mode
+    ebpf_data_plane     = var.ebpf_data_plane
     network_policy      = var.network_policy
     outbound_type       = var.net_profile_outbound_type
     pod_cidr            = var.net_profile_pod_cidr
@@ -482,6 +483,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = var.network_plugin_mode != "Overlay" || var.network_plugin == "azure"
       error_message = "When network_plugin_mode is set to Overlay, the network_plugin field can only be set to azure."
+    }
+    precondition {
+      condition     = var.ebpf_data_plane != "cilium" || var.network_plugin == "azure"
+      error_message = "When ebpf_data_plane is set to cilium, the network_plugin field can only be set to azure."
+    }
+    precondition {
+      condition     = var.ebpf_data_plane != "cilium" || var.network_plugin_mode == "Overlay" || var.pod_subnet_id != null
+      error_message = "When ebpf_data_plane is set to cilium, one of either network_plugin_mode = `Overlay` or pod_subnet_id must be specified."
     }
     precondition {
       condition     = can(coalesce(var.cluster_name, var.prefix))
