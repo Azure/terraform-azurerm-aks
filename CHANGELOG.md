@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Bump google.golang.org/grpc from 1.51.0 to 1.53.0 in /test [\#406](https://github.com/Azure/terraform-azurerm-aks/pull/406) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Support for Azure CNI Cilium [\#398](https://github.com/Azure/terraform-azurerm-aks/pull/398) ([JitseHijlkema](https://github.com/JitseHijlkema))
 - Use `lonegunmanb/public-ip/lonegunmanb` module to retrieve public ip [\#396](https://github.com/Azure/terraform-azurerm-aks/pull/396) ([lonegunmanb](https://github.com/lonegunmanb))
 - Fix incorrect e2e test code so it could pass on our local machine [\#395](https://github.com/Azure/terraform-azurerm-aks/pull/395) ([lonegunmanb](https://github.com/lonegunmanb))
