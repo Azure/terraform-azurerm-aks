@@ -391,7 +391,7 @@ variable "cluster_name" {
 variable "create_role_assignment_network_contributor" {
   type        = bool
   default     = false
-  description = "Create a role assignment for the AKS Service Principal to be a Network Contributor on the subnets used for the AKS Cluster"
+  description = "(Deprecated) Create a role assignment for the AKS Service Principal to be a Network Contributor on the subnets used for the AKS Cluster"
   nullable    = false
 }
 
@@ -688,6 +688,13 @@ variable "net_profile_service_cidr" {
   type        = string
   default     = null
   description = "(Optional) The Network Range used by the Kubernetes service. Changing this forces a new resource to be created."
+}
+
+variable "network_contributor_role_assigned_subnet_ids" {
+  type        = map(string)
+  default     = {}
+  description = "Create role assignments for the AKS Service Principal to be a Network Contributor on the subnets used for the AKS Cluster, key should be static string, value should be subnet's id"
+  nullable    = false
 }
 
 variable "network_plugin" {
