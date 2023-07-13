@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Fix \#405 incorrect role assignment resource [\#410](https://github.com/Azure/terraform-azurerm-aks/pull/410) ([lonegunmanb](https://github.com/lonegunmanb))
+
 ## [7.2.0](https://github.com/Azure/terraform-azurerm-aks/tree/7.2.0) (2023-07-10)
 
 **Merged pull requests:**
