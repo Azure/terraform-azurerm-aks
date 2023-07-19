@@ -20,12 +20,17 @@ locals {
     var.log_analytics_workspace == null ? {
       # `log_analytics_workspace_enabled` is `true` but `log_analytics_workspace` was not supplied.
       # Create an `azurerm_log_analytics_workspace` resource and use that.
-      id   = local.azurerm_log_analytics_workspace_id
-      name = local.azurerm_log_analytics_workspace_name
+      id                  = local.azurerm_log_analytics_workspace_id
+      name                = local.azurerm_log_analytics_workspace_name
+      location            = local.azurerm_log_analytics_workspace_location
+      resource_group_name = local.azurerm_log_analytics_workspace_resource_group_name
       } : {
       # `log_analytics_workspace` is supplied. Let's use that.
-      id   = var.log_analytics_workspace.id
-      name = var.log_analytics_workspace.name
+      id       = var.log_analytics_workspace.id
+      name     = var.log_analytics_workspace.name
+      location = var.log_analytics_workspace.location
+      # `azurerm_log_analytics_workspace`'s id format: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.OperationalInsights/workspaces/workspace1
+      resource_group_name = split("/", var.log_analytics_workspace.id)[4]
     }
   ) : null # Finally, the Log Analytics Workspace should be disabled.
   potential_subnet_ids = flatten(concat([

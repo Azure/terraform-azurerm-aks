@@ -597,8 +597,10 @@ variable "log_analytics_solution" {
 
 variable "log_analytics_workspace" {
   type = object({
-    id   = string
-    name = string
+    id                  = string
+    name                = string
+    location            = optional(string)
+    resource_group_name = optional(string)
   })
   default     = null
   description = "(Optional) Existing azurerm_log_analytics_workspace to attach azurerm_log_analytics_solution. Providing the config disables creation of azurerm_log_analytics_workspace."

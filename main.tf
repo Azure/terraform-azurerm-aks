@@ -718,23 +718,24 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 locals {
-  azurerm_log_analytics_workspace_id   = try(azurerm_log_analytics_workspace.main[0].id, null)
-  azurerm_log_analytics_workspace_name = try(azurerm_log_analytics_workspace.main[0].name, null)
+  azurerm_log_analytics_workspace_id                  = try(azurerm_log_analytics_workspace.main[0].id, null)
+  azurerm_log_analytics_workspace_name                = try(azurerm_log_analytics_workspace.main[0].name, null)
+  azurerm_log_analytics_workspace_location            = try(azurerm_log_analytics_workspace.main[0].location, null)
+  azurerm_log_analytics_workspace_resource_group_name = try(azurerm_log_analytics_workspace.main[0].resource_group_name, null)
 }
 
 data "azurerm_log_analytics_workspace" "main" {
-  count = local.log_analytics_workspace != null ? 1 : 0
+  count = var.log_analytics_workspace_enabled && var.log_analytics_workspace != null && var.log_analytics_workspace.location == null ? 1 : 0
 
-  name = local.log_analytics_workspace.name
-  # `azurerm_log_analytics_workspace`'s id format: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.OperationalInsights/workspaces/workspace1
-  resource_group_name = split("/", local.log_analytics_workspace.id)[4]
+  name                = var.log_analytics_workspace.name
+  resource_group_name = local.log_analytics_workspace.resource_group_name
 }
 
 resource "azurerm_log_analytics_solution" "main" {
   count = local.create_analytics_solution ? 1 : 0
 
-  location              = data.azurerm_log_analytics_workspace.main[0].location
-  resource_group_name   = data.azurerm_log_analytics_workspace.main[0].resource_group_name
+  location              = coalesce(local.log_analytics_workspace.location, data.azurerm_log_analytics_workspace.main[0].location)
+  resource_group_name   = local.log_analytics_workspace.resource_group_name
   solution_name         = "ContainerInsights"
   workspace_name        = local.log_analytics_workspace.name
   workspace_resource_id = local.log_analytics_workspace.id
