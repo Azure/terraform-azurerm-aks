@@ -734,7 +734,7 @@ data "azurerm_log_analytics_workspace" "main" {
 resource "azurerm_log_analytics_solution" "main" {
   count = local.create_analytics_solution ? 1 : 0
 
-  location              = coalesce(local.log_analytics_workspace.location, data.azurerm_log_analytics_workspace.main[0].location)
+  location              = coalesce(local.log_analytics_workspace.location, try(data.azurerm_log_analytics_workspace.main[0].location, null))
   resource_group_name   = local.log_analytics_workspace.resource_group_name
   solution_name         = "ContainerInsights"
   workspace_name        = local.log_analytics_workspace.name
