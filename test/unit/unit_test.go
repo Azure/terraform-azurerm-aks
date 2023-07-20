@@ -32,8 +32,8 @@ func TestLogAnalyticsWorkspaceEnabledButWorkspaceIdProvidedShouldNotCreateWorksp
 		id   string
 		name string
 	}{
-		id:   "dummyId",
-		name: "dummyName",
+		id:   "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.OperationalInsights/workspaces/workspace1",
+		name: "workspace1",
 	}
 	vars["log_analytics_workspace_enabled"] = true
 	vars["log_analytics_workspace"] = map[string]interface{}{
