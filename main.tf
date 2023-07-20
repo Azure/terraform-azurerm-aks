@@ -293,7 +293,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       tenant_id              = var.rbac_aad_tenant_id
     }
   }
-  dynamic "azure_active_directory_role_based_access_control" {
+  /*dynamic "azure_active_directory_role_based_access_control" {
     for_each = var.role_based_access_control_enabled && var.rbac_aad && !var.rbac_aad_managed ? ["rbac"] : []
 
     content {
@@ -303,7 +303,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       server_app_secret = var.rbac_aad_server_app_secret
       tenant_id         = var.rbac_aad_tenant_id
     }
-  }
+  }*/
   dynamic "identity" {
     for_each = var.client_id == "" || var.client_secret == "" ? ["identity"] : []
 
