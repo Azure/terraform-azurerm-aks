@@ -725,7 +725,7 @@ locals {
 }
 
 data "azurerm_log_analytics_workspace" "main" {
-  count = var.log_analytics_workspace_enabled && (var.log_analytics_workspace != null ? var.log_analytics_workspace.location == null : false) ? 1 : 0
+  count = local.query_datasource_for_log_analytics_workspace_location ? 1 : 0
 
   name                = var.log_analytics_workspace.name
   resource_group_name = local.log_analytics_workspace.resource_group_name

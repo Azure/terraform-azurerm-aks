@@ -39,6 +39,7 @@ locals {
       pool.pod_subnet_id
     ]
   ], [var.vnet_subnet_id]))
-  subnet_ids = toset([for id in local.potential_subnet_ids : id if id != null])
+  subnet_ids                                            = toset([for id in local.potential_subnet_ids : id if id != null])
+  query_datasource_for_log_analytics_workspace_location = var.log_analytics_workspace_enabled && (var.log_analytics_workspace != null ? var.log_analytics_workspace.location == null : false)
 }
 

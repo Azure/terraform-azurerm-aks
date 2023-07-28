@@ -1,6 +1,7 @@
 package unit
 
 import (
+	"os"
 	"testing"
 
 	test_helper "github.com/Azure/terraform-module-test-helper"
@@ -11,7 +12,7 @@ import (
 func TestDisableLogAnalyticsWorkspaceShouldNotCreateWorkspaceNorSolution(t *testing.T) {
 	vars := dummyRequiredVariables()
 	vars["log_analytics_workspace_enabled"] = false
-	test_helper.RunE2ETest(t, "../../", "unit-test-fixture", terraform.Options{
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
 		Upgrade: false,
 		Vars:    vars,
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
@@ -40,7 +41,7 @@ func TestLogAnalyticsWorkspaceEnabledButWorkspaceIdProvidedShouldNotCreateWorksp
 		"id":   dummyWorkspace.id,
 		"name": dummyWorkspace.name,
 	}
-	test_helper.RunE2ETest(t, "../../", "unit-test-fixture", terraform.Options{
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
 		Upgrade: false,
 		Vars:    vars,
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
@@ -64,7 +65,7 @@ func TestLogAnalyticsWorkspaceEnabledNoWorkspaceProvidedShouldCreateWorkspace(t 
 		name: "azurerm_log_analytics_workspace_name",
 	}
 	vars["log_analytics_workspace_enabled"] = true
-	test_helper.RunE2ETest(t, "../../", "unit-test-fixture", terraform.Options{
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
 		Upgrade: false,
 		Vars:    vars,
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
@@ -81,7 +82,7 @@ func TestLogAnalyticsWorkspaceEnabledNoWorkspaceProvidedShouldCreateWorkspace(t 
 func TestLogAnalyticsWorkspaceEnabledNoSolutionProvidedShouldCreateSolution(t *testing.T) {
 	vars := dummyRequiredVariables()
 	vars["log_analytics_workspace_enabled"] = true
-	test_helper.RunE2ETest(t, "../../", "unit-test-fixture", terraform.Options{
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
 		Upgrade: false,
 		Vars:    vars,
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
@@ -97,7 +98,7 @@ func TestLogAnalyticsWorkspaceEnabledSolutionProvidedShouldNotCreateSolution(t *
 	vars["log_analytics_solution"] = map[string]interface{}{
 		"id": "dummySolutionId",
 	}
-	test_helper.RunE2ETest(t, "../../", "unit-test-fixture", terraform.Options{
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
 		Upgrade: false,
 		Vars:    vars,
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
@@ -136,10 +137,11 @@ func TestAutomaticUpgrades(t *testing.T) {
 			},
 		},
 	}
+	t.Parallel()
 
 	for name, tt := range testCases {
 		t.Run(name, func(t *testing.T) {
-			test_helper.RunE2ETest(t, "../../", "unit-test-fixture",
+			test_helper.RunUnitTest(t, "../../", "unit-test-fixture",
 				terraform.Options{
 					Upgrade: false,
 					Vars:    tt.vars,
@@ -185,10 +187,11 @@ func TestInvalidVarsForAutomaticUpgrades(t *testing.T) {
 			},
 		},
 	}
+	t.Parallel()
 
 	for name, tt := range testCases {
 		t.Run(name, func(t *testing.T) {
-			test_helper.RunE2ETest(t, "../../", "unit-test-fixture",
+			test_helper.RunUnitTest(t, "../../", "unit-test-fixture",
 				terraform.Options{
 					Upgrade: false,
 					Vars:    tt.vars,
@@ -203,7 +206,7 @@ func TestInvalidVarsForAutomaticUpgrades(t *testing.T) {
 }
 
 func TestScaleDownDelayAfterDeleteNotSetShouldUseScanInterval(t *testing.T) {
-	test_helper.RunE2ETest(t, "../../", "unit-test-fixture", terraform.Options{
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
 		Upgrade: false,
 		Vars:    dummyRequiredVariables(),
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
@@ -218,13 +221,78 @@ func TestScaleDownDelayAfterDeleteNotSetShouldUseScanInterval(t *testing.T) {
 func TestScaleDownDelayAfterDeleteSetShouldUseVar(t *testing.T) {
 	vars := dummyRequiredVariables()
 	vars["auto_scaler_profile_scale_down_delay_after_delete"] = "15s"
-	test_helper.RunE2ETest(t, "../../", "unit-test-fixture", terraform.Options{
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
 		Upgrade: false,
 		Vars:    vars,
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
 		scaleDownDelayAfterDelete, ok := output["auto_scaler_profile_scale_down_delay_after_delete"].(string)
 		assert.True(t, ok)
 		assert.Equal(t, "15s", scaleDownDelayAfterDelete)
+	})
+}
+
+func Test_DisabledLogAnalyticsWorkspaceShouldNotQueryDSForWorkspaceLocation(t *testing.T) {
+	vars := dummyRequiredVariables()
+	vars["log_analytics_workspace_enabled"] = false
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
+		Upgrade: false,
+		Vars:    vars,
+	}, func(t *testing.T, output test_helper.TerraformOutput) {
+		r := output["query_datasource_for_log_analytics_workspace_location"].(bool)
+		assert.False(t, r)
+	})
+}
+
+func Test_NullLogAnalyticsWorkspaceVariableShouldNotQueryDSForWorkspaceLocation(t *testing.T) {
+	vars := dummyRequiredVariables()
+	vars["log_analytics_workspace_enabled"] = true
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
+		Upgrade: false,
+		Vars:    vars,
+	}, func(t *testing.T, output test_helper.TerraformOutput) {
+		r := output["query_datasource_for_log_analytics_workspace_location"].(bool)
+		assert.False(t, r)
+	})
+}
+
+func Test_LogAnalyticsWorkspaceWithLocationShouldNotQueryDSForWorkspaceLocation(t *testing.T) {
+	vars := dummyRequiredVariables()
+	vars["log_analytics_workspace_enabled"] = true
+	vars["log_analytics_workspace"] = map[string]any{
+		"id":       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.OperationalInsights/workspaces/workspace1",
+		"name":     "dummyName",
+		"location": "dummyLocation",
+	}
+	varFile := test_helper.VarsToFile(t, vars)
+	defer func() {
+		_ = os.Remove(varFile)
+	}()
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
+		Upgrade:  false,
+		VarFiles: []string{varFile},
+	}, func(t *testing.T, output test_helper.TerraformOutput) {
+		r := output["query_datasource_for_log_analytics_workspace_location"].(bool)
+		assert.False(t, r)
+	})
+}
+
+func Test_LogAnalyticsWorkspaceWithoutLocationShouldQueryDSForWorkspaceLocation(t *testing.T) {
+	vars := dummyRequiredVariables()
+	vars["log_analytics_workspace_enabled"] = true
+	vars["log_analytics_workspace"] = map[string]any{
+		"id":   "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.OperationalInsights/workspaces/workspace1",
+		"name": "dummyName",
+	}
+	varFile := test_helper.VarsToFile(t, vars)
+	defer func() {
+		_ = os.Remove(varFile)
+	}()
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
+		Upgrade:  false,
+		VarFiles: []string{varFile},
+	}, func(t *testing.T, output test_helper.TerraformOutput) {
+		r := output["query_datasource_for_log_analytics_workspace_location"].(bool)
+		assert.True(t, r)
 	})
 }
 
