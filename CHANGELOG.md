@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Add `location` and `resource_group_name` for `var.log_analytics_workspace` [\#412](https://github.com/Azure/terraform-azurerm-aks/pull/412) ([lonegunmanb](https://github.com/lonegunmanb))
 - Fix \#405 incorrect role assignment resource [\#410](https://github.com/Azure/terraform-azurerm-aks/pull/410) ([lonegunmanb](https://github.com/lonegunmanb))
 
 ## [7.2.0](https://github.com/Azure/terraform-azurerm-aks/tree/7.2.0) (2023-07-10)
