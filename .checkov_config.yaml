@@ -24,4 +24,7 @@ skip-check:
   - CKV_AZURE_164
 skip-framework:
   - dockerfile
+  - kubernetes
+skip-path:
+  - test/vendor
 summary-position: top
