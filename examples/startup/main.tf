@@ -40,7 +40,7 @@ module "aks" {
 
   prefix                    = random_id.name.hex
   resource_group_name       = local.resource_group.name
-  kubernetes_version        = "1.24" # don't specify the patch version!
+  kubernetes_version        = "1.26" # don't specify the patch version!
   automatic_channel_upgrade = "patch"
   agents_availability_zones = ["1", "2"]
   agents_count              = null
@@ -107,4 +107,7 @@ module "aks" {
   agents_tags = {
     "Agent" : "agentTag"
   }
+  depends_on = [
+    azurerm_subnet.test,
+  ]
 }
