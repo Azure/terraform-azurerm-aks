@@ -388,6 +388,14 @@ variable "cluster_name" {
   description = "(Optional) The name for the AKS resources created in the specified Azure Resource Group. This variable overwrites the 'prefix' var (The 'prefix' var will still be applied to the dns_prefix if it is set)"
 }
 
+variable "confidential_computing" {
+  type = object({
+    sgx_quote_helper_enabled = bool
+  })
+  default     = null
+  description = "(Optional) Enable Confidential Computing."
+}
+
 variable "create_role_assignment_network_contributor" {
   type        = bool
   default     = false

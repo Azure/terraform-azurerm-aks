@@ -60,10 +60,13 @@ module "aks" {
       ]
     }
   ]
-  agents_type                             = "VirtualMachineScaleSets"
-  azure_policy_enabled                    = true
-  client_id                               = var.client_id
-  client_secret                           = var.client_secret
+  agents_type          = "VirtualMachineScaleSets"
+  azure_policy_enabled = true
+  client_id            = var.client_id
+  client_secret        = var.client_secret
+  confidential_computing = {
+    sgx_quote_helper_enabled = true
+  }
   disk_encryption_set_id                  = azurerm_disk_encryption_set.des.id
   enable_auto_scaling                     = true
   enable_host_encryption                  = true
