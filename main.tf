@@ -47,7 +47,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   workload_identity_enabled = var.workload_identity_enabled
 
   dynamic "confidential_computing" {
-    for_each = var.confidential_computing == null ? [] : var.confidential_computing
+    for_each = var.confidential_computing == null ? [] : [var.confidential_computing]
 
     content {
       sgx_quote_helper_enabled = confidential_computing.value.sgx_quote_helper_enabled

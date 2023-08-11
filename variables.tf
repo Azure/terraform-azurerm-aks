@@ -389,9 +389,9 @@ variable "cluster_name" {
 }
 
 variable "confidential_computing" {
-  type = list(object({
+  type = object({
     sgx_quote_helper_enabled = bool
-  }))
+  })
   default     = null
   description = "(Optional) Enable Confidential Computing."
 }
