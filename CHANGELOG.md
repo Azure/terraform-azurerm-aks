@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Add confidential computing in aks module [\#423](https://github.com/Azure/terraform-azurerm-aks/pull/423) ([jiaweitao001](https://github.com/jiaweitao001))
+
 ## [7.3.1](https://github.com/Azure/terraform-azurerm-aks/tree/7.3.1) (2023-08-10)
 
 **Merged pull requests:**
