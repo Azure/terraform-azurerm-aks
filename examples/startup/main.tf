@@ -67,16 +67,19 @@ module "aks" {
   confidential_computing = {
     sgx_quote_helper_enabled = true
   }
-  disk_encryption_set_id                  = azurerm_disk_encryption_set.des.id
-  enable_auto_scaling                     = true
-  enable_host_encryption                  = true
-  http_application_routing_enabled        = true
-  ingress_application_gateway_enabled     = true
-  ingress_application_gateway_name        = "${random_id.prefix.hex}-agw"
-  ingress_application_gateway_subnet_cidr = "10.52.1.0/24"
-  local_account_disabled                  = true
-  log_analytics_workspace_enabled         = true
-  cluster_log_analytics_workspace_name    = random_id.name.hex
+  disk_encryption_set_id           = azurerm_disk_encryption_set.des.id
+  enable_auto_scaling              = true
+  enable_host_encryption           = true
+  http_application_routing_enabled = true
+  application_gateway_for_ingress = {
+    new_gw = {
+      name        = "${random_id.prefix.hex}-agw"
+      subnet_cidr = "10.52.1.0/24"
+    }
+  }
+  local_account_disabled               = true
+  log_analytics_workspace_enabled      = true
+  cluster_log_analytics_workspace_name = random_id.name.hex
   maintenance_window = {
     allowed = [
       {

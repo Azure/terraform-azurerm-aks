@@ -362,6 +362,19 @@ variable "azure_policy_enabled" {
   description = "Enable Azure Policy Addon."
 }
 
+variable "brown_field_application_gateway_for_ingress" {
+  type = object({
+    id        = string
+    subnet_id = string
+  })
+  default     = null
+  description = <<-EOT
+    [Definition of `brown_field`](https://learn.microsoft.com/en-us/azure/application-gateway/tutorial-ingress-controller-add-on-existing)
+    * `id` - (Required) The ID of the Application Gateway that be used as cluster ingress.
+    * `subnet_id` - (Required) The ID of the Subnet which the Application Gateway is connected to. Must be set when `create_role_assignments` is `true`.
+  EOT
+}
+
 variable "client_id" {
   type        = string
   default     = ""
@@ -403,6 +416,13 @@ variable "create_role_assignment_network_contributor" {
   nullable    = false
 }
 
+variable "create_role_assignments_for_application_gateway" {
+  type        = bool
+  default     = true
+  description = "(Optional) Whether to create the corresponding role assignments for application gateway or not. Defaults to `true`."
+  nullable    = false
+}
+
 variable "default_node_pool_fips_enabled" {
   type        = bool
   default     = null
@@ -439,6 +459,21 @@ variable "enable_node_public_ip" {
   description = "(Optional) Should nodes in this Node Pool have a Public IP Address? Defaults to false."
 }
 
+variable "green_field_application_gateway_for_ingress" {
+  type = object({
+    name        = optional(string)
+    subnet_cidr = optional(string)
+    subnet_id   = optional(string)
+  })
+  default     = null
+  description = <<-EOT
+  [Definition of `green_field`](https://learn.microsoft.com/en-us/azure/application-gateway/tutorial-ingress-controller-add-on-new)
+  * `name` - (Optional) The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster.
+  * `subnet_cidr` - (Optional) The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster.
+  * `subnet_id` - (Optional) The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster.
+EOT
+}
+
 variable "http_application_routing_enabled" {
   type        = bool
   default     = false
@@ -472,37 +507,6 @@ variable "image_cleaner_interval_hours" {
   type        = number
   default     = 48
   description = "(Optional) Specifies the interval in hours when images should be cleaned up. Defaults to `48`."
-}
-
-variable "ingress_application_gateway_enabled" {
-  type        = bool
-  default     = false
-  description = "Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster?"
-  nullable    = false
-}
-
-variable "ingress_application_gateway_id" {
-  type        = string
-  default     = null
-  description = "The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster."
-}
-
-variable "ingress_application_gateway_name" {
-  type        = string
-  default     = null
-  description = "The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
-}
-
-variable "ingress_application_gateway_subnet_cidr" {
-  type        = string
-  default     = null
-  description = "The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
-}
-
-variable "ingress_application_gateway_subnet_id" {
-  type        = string
-  default     = null
-  description = "The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
 }
 
 variable "key_vault_secrets_provider_enabled" {
@@ -676,7 +680,8 @@ variable "maintenance_window" {
     allowed = optional(list(object({
       day   = string
       hours = set(number)
-    })), []),
+      })), [
+    ]),
     not_allowed = optional(list(object({
       end   = string
       start = string

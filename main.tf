@@ -330,13 +330,13 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "ingress_application_gateway" {
-    for_each = var.ingress_application_gateway_enabled ? ["ingress_application_gateway"] : []
+    for_each = local.ingress_application_gateway_enabled ? ["ingress_application_gateway"] : []
 
     content {
-      gateway_id   = var.ingress_application_gateway_id
-      gateway_name = var.ingress_application_gateway_name
-      subnet_cidr  = var.ingress_application_gateway_subnet_cidr
-      subnet_id    = var.ingress_application_gateway_subnet_id
+      gateway_id   = try(var.brown_field_application_gateway_for_ingress.id, null)
+      gateway_name = try(var.green_field_application_gateway_for_ingress.name, null)
+      subnet_cidr  = try(var.green_field_application_gateway_for_ingress.subnet_cidr, null)
+      subnet_id    = try(var.green_field_application_gateway_for_ingress.subnet_id, null)
     }
   }
   dynamic "key_management_service" {
@@ -570,6 +570,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition = (var.kubelet_identity == null) || (
       (var.client_id == "" || var.client_secret == "") && var.identity_type == "UserAssigned" && try(length(var.identity_ids), 0) > 0)
       error_message = "When `kubelet_identity` is enabled - The `type` field in the `identity` block must be set to `UserAssigned` and `identity_ids` must be set."
+    }
+    precondition {
+      condition     = var.brown_field_application_gateway_for_ingress == null || var.green_field_application_gateway_for_ingress == null
+      error_message = "Either one of `var.existing_application_gateway_for_ingress` or `var.new_application_gateway_for_ingress` must be `null`."
     }
   }
 }
@@ -883,4 +887,78 @@ resource "azurerm_role_assignment" "network_contributor_on_subnet" {
       error_message = "Cannot set both of `var.create_role_assignment_network_contributor` and `var.network_contributor_role_assigned_subnet_ids`."
     }
   }
+}
+
+data "azurerm_client_config" "this" {}
+
+data "azurerm_virtual_network" "application_gateway_vnet" {
+  count = var.create_role_assignments_for_application_gateway && local.use_brown_field_gw_for_ingress ? 1 : 0
+
+  name                = local.existing_application_gateway_subnet_vnet_name
+  resource_group_name = local.existing_application_gateway_subnet_resource_group_name
+}
+
+resource "azurerm_role_assignment" "application_gateway_existing_vnet_network_contributor" {
+  count = var.create_role_assignments_for_application_gateway && local.use_brown_field_gw_for_ingress ? 1 : 0
+
+  principal_id         = azurerm_kubernetes_cluster.main.ingress_application_gateway[0].ingress_application_gateway_identity[0].object_id
+  scope                = data.azurerm_virtual_network.application_gateway_vnet[0].id
+  role_definition_name = "Network Contributor"
+
+  lifecycle {
+    precondition {
+      condition     = data.azurerm_client_config.this.subscription_id == local.existing_application_gateway_subnet_subscription_id_for_ingress
+      error_message = "Application Gateway's subnet must be in the same subscription, or `var.application_gateway_for_ingress.create_role_assignments` must be set to `false`."
+    }
+  }
+}
+
+resource "azurerm_role_assignment" "application_gateway_new_vnet_network_contributor" {
+  count = var.create_role_assignments_for_application_gateway && !local.use_brown_field_gw_for_ingress ? 1 : 0
+
+  principal_id         = azurerm_kubernetes_cluster.main.ingress_application_gateway[0].ingress_application_gateway_identity[0].object_id
+  scope                = join("/", slice(local.default_nodepool_subnet_segments, 0, length(local.default_nodepool_subnet_segments) - 2))
+  role_definition_name = "Network Contributor"
+
+  lifecycle {
+    precondition {
+      condition     = var.green_field_application_gateway_for_ingress == null || !(var.create_role_assignments_for_application_gateway && var.vnet_subnet_id == null)
+      error_message = "When `var.vnet_subnet_id` is `null`, you must set `var.create_role_assignments_for_application_gateway` to `false`, set `var.new_application_gateway_for_ingress` to `null`."
+    }
+  }
+}
+
+resource "azurerm_role_assignment" "existing_application_gateway_contributor" {
+  count = var.create_role_assignments_for_application_gateway && local.use_brown_field_gw_for_ingress ? 1 : 0
+
+  principal_id         = azurerm_kubernetes_cluster.main.ingress_application_gateway[0].ingress_application_gateway_identity[0].object_id
+  scope                = var.brown_field_application_gateway_for_ingress.id
+  role_definition_name = "Contributor"
+
+  lifecycle {
+    precondition {
+      condition     = var.brown_field_application_gateway_for_ingress == null ? true : data.azurerm_client_config.this.subscription_id == local.existing_application_gateway_subscription_id_for_ingress
+      error_message = "Application Gateway must be in the same subscription, or `var.create_role_assignments_for_application_gateway` must be set to `false`."
+    }
+  }
+}
+
+data "azurerm_resource_group" "ingress_gw" {
+  count = var.create_role_assignments_for_application_gateway && local.use_brown_field_gw_for_ingress ? 1 : 0
+
+  name = local.existing_application_gateway_resource_group_for_ingress
+}
+
+data "azurerm_resource_group" "aks_rg" {
+  count = var.create_role_assignments_for_application_gateway ? 1 : 0
+
+  name = var.resource_group_name
+}
+
+resource "azurerm_role_assignment" "application_gateway_resource_group_reader" {
+  count = var.create_role_assignments_for_application_gateway ? 1 : 0
+
+  principal_id         = azurerm_kubernetes_cluster.main.ingress_application_gateway[0].ingress_application_gateway_identity[0].object_id
+  scope                = local.use_brown_field_gw_for_ingress ? data.azurerm_resource_group.ingress_gw[0].id : data.azurerm_resource_group.aks_rg[0].id
+  role_definition_name = "Reader"
 }
