@@ -7,6 +7,7 @@ toolchain go1.21.2
 require (
 	github.com/Azure/terraform-module-test-helper v0.17.0
 	github.com/gruntwork-io/terratest v0.46.1
+	github.com/hashicorp/go-retryablehttp v0.7.5
 	github.com/stretchr/testify v1.8.4
 )
 
