@@ -44,3 +44,9 @@ As the [document](https://registry.terraform.io/providers/hashicorp/azurerm/late
 >When `public_network_access_enabled` is set to true, `0.0.0.0/32` must be added to `authorized_ip_ranges` in the `api_server_access_profile block`.
 
 We'll add `api_server_access_profile` nested block after AzureRM provider's v4.0, but starting from v7.0 we'll enforce such pre-condition check.
+
+## Add `depends_on` to `azurerm_kubernetes_cluster_node_pool` resources #418
+
+If you have `azurerm_kubernetes_cluster_node_pool` resources not managed with this module (`var.nodepools`) you
+must have an explicit `depends_on` on those resources to avoid conflicting nodepools operations.
+See issue #418 for more details.
