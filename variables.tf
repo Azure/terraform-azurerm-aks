@@ -57,6 +57,25 @@ variable "agents_min_count" {
   description = "Minimum number of nodes in a pool"
 }
 
+variable "http_proxy_config" {
+  type = object({
+    http_proxy  = optional(string)
+    https_proxy = optional(string)
+    no_proxy    = optional(list(string))
+    trusted_ca  = optional(string)
+  })
+  default     = {}
+  description = <<-EOT
+    optional(object({
+      http_proxy  = (Optional) The proxy address to be used when communicating over HTTP. Changing this forces a new resource to be created.
+      https_proxy = (Optional) The proxy address to be used when communicating over HTTPS. Changing this forces a new resource to be created.
+      no_proxy    = (Optional) The list of domains that will not use the proxy for communication. Note: If you specify the `default_node_pool.0.vnet_subnet_id`, be sure to include the Subnet CIDR in the `no_proxy` list. Note: You may wish to use Terraform's `ignore_changes` functionality to ignore the changes to this field.
+      trusted_ca  = (Optional) The base64 encoded alternative CA certificate content in PEM format.
+  }))
+EOT
+  nullable    = false
+}
+
 variable "agents_pool_kubelet_configs" {
   type = list(object({
     cpu_manager_policy        = optional(string)
