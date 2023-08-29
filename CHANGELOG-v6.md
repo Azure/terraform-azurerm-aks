@@ -4,6 +4,12 @@
 
 **Merged pull requests:**
 
+- Add support for `http_proxy_config` [\#434](https://github.com/Azure/terraform-azurerm-aks/pull/434) ([isantospardo](https://github.com/isantospardo))
+
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
 - Output Kubernetes Cluster Network Profile [\#333](https://github.com/Azure/terraform-azurerm-aks/pull/333) ([joshua-giumelli-deltatre](https://github.com/joshua-giumelli-deltatre))
 
 ## [6.8.0](https://github.com/Azure/terraform-azurerm-aks/tree/6.8.0) (2023-04-04)

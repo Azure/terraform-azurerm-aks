@@ -46,6 +46,16 @@ resource "azurerm_kubernetes_cluster" "main" {
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
   workload_identity_enabled = var.workload_identity_enabled
 
+  dynamic "http_proxy_config" {
+    for_each = var.http_proxy_config == true ? [] : ["http_proxy_config"]
+    content {
+      http_proxy  = var.http_proxy_config.http_proxy
+      https_proxy = var.http_proxy_config.https_proxy
+      no_proxy    = coalesce(var.http_proxy_config.no_proxy, [])
+      trusted_ca  = var.http_proxy_config.trusted_ca
+    }
+  }
+
   dynamic "default_node_pool" {
     for_each = var.enable_auto_scaling == true ? [] : ["default_node_pool_manually_scaled"]
 
