@@ -47,7 +47,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   workload_identity_enabled = var.workload_identity_enabled
 
   dynamic "http_proxy_config" {
-    for_each = var.http_proxy_config == true ? [] : ["http_proxy_config"]
+    for_each = var.http_proxy_config == null ? [] : ["http_proxy_config"]
     content {
       http_proxy  = var.http_proxy_config.http_proxy
       https_proxy = var.http_proxy_config.https_proxy
@@ -462,7 +462,12 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   lifecycle {
-    ignore_changes = [kubernetes_version]
+    ignore_changes = [
+      kubernetes_version,
+      http_proxy_config[0].no_proxy
+    ]
+
+    replace_triggered_by = [null_resource.aks_cluster_recreate]
 
     precondition {
       condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type != "")
@@ -513,6 +518,12 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = can(coalesce(var.cluster_name, var.prefix))
       error_message = "You must set one of `var.cluster_name` and `var.prefix` to create `azurerm_kubernetes_cluster.main`."
     }
+  }
+}
+
+resource "null_resource" "aks_cluster_recreate" {
+  triggers = {
+    http_proxy_no_proxy = try(join(",", var.http_proxy_config.no_proxy), "")
   }
 }
 

@@ -64,7 +64,7 @@ variable "http_proxy_config" {
     no_proxy    = optional(list(string))
     trusted_ca  = optional(string)
   })
-  default     = {}
+  default     = null
   description = <<-EOT
     optional(object({
       http_proxy  = (Optional) The proxy address to be used when communicating over HTTP. Changing this forces a new resource to be created.
@@ -73,7 +73,6 @@ variable "http_proxy_config" {
       trusted_ca  = (Optional) The base64 encoded alternative CA certificate content in PEM format.
   }))
 EOT
-  nullable    = false
 }
 
 variable "agents_pool_kubelet_configs" {
