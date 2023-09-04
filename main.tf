@@ -523,6 +523,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     ignore_changes = [
       kubernetes_version,
       public_network_access_enabled,
+      http_proxy_config[0].no_proxy
     ]
 
     precondition {
@@ -591,6 +592,12 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = var.brown_field_application_gateway_for_ingress == null || var.green_field_application_gateway_for_ingress == null
       error_message = "Either one of `var.brown_field_application_gateway_for_ingress` or `var.green_field_application_gateway_for_ingress` must be `null`."
     }
+  }
+}
+
+resource "null_resource" "aks_cluster_recreate" {
+  triggers = {
+    http_proxy_no_proxy = try(join(",", var.http_proxy_config.no_proxy), "")
   }
 }
 
