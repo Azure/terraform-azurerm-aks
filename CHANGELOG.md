@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Improve information to upgrade to 7.0 [\#432](https://github.com/Azure/terraform-azurerm-aks/pull/432) ([zioproto](https://github.com/zioproto))
 - Add confidential computing in aks module [\#423](https://github.com/Azure/terraform-azurerm-aks/pull/423) ([jiaweitao001](https://github.com/jiaweitao001))
 
 ## [7.3.1](https://github.com/Azure/terraform-azurerm-aks/tree/7.3.1) (2023-08-10)
