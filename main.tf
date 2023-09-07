@@ -54,7 +54,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     content {
       http_proxy  = var.http_proxy_config.http_proxy
       https_proxy = var.http_proxy_config.https_proxy
-      no_proxy    = coalesce(var.http_proxy_config.no_proxy, [])
+      no_proxy    = var.http_proxy_config.no_proxy
       trusted_ca  = var.http_proxy_config.trusted_ca
     }
   }
