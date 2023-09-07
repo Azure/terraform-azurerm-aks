@@ -52,6 +52,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     content {
       name                         = var.agents_pool_name
       vm_size                      = var.agents_size
+      custom_ca_trust_enabled      = var.custom_ca_trust_enabled
       enable_auto_scaling          = var.enable_auto_scaling
       enable_host_encryption       = var.enable_host_encryption
       enable_node_public_ip        = var.enable_node_public_ip
@@ -152,6 +153,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     content {
       name                         = var.agents_pool_name
       vm_size                      = var.agents_size
+      custom_ca_trust_enabled      = var.custom_ca_trust_enabled
       enable_auto_scaling          = var.enable_auto_scaling
       enable_host_encryption       = var.enable_host_encryption
       enable_node_public_ip        = var.enable_node_public_ip
