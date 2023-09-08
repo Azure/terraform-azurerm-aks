@@ -240,6 +240,7 @@ No modules.
 | [azurerm_role_assignment.acr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment)                                 | resource    |
 | [azurerm_role_assignment.network_contributor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment)                 | resource    |
 | [azurerm_role_assignment.network_contributor_on_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment)       | resource    |
+| [null_resource.aks_cluster_recreate](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource)                                    | resource    |
 | [null_resource.kubernetes_version_keeper](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource)                               | resource    |
 | [null_resource.pool_name_keeper](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource)                                        | resource    |
 | [tls_private_key.ssh](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key)                                                 | resource    |
