@@ -1,4 +1,0 @@
-formatter: "markdown table" # this is required
-
-sections:
-  hide: ["inputs"]
