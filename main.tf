@@ -599,7 +599,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
   vnet_subnet_id    = each.value.vnet_subnet_id
   workload_runtime  = each.value.workload_runtime
   zones             = each.value.zones
-  snapshot_id       = var.snapshot_id
+  snapshot_id       = each.value.snapshot_id
 
   dynamic "kubelet_config" {
     for_each = each.value.kubelet_config == null ? [] : ["kubelet_config"]
