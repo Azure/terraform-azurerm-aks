@@ -75,6 +75,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       ultra_ssd_enabled            = var.ultra_ssd_enabled
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
+      snapshot_id                  = var.snapshot_id
 
       dynamic "kubelet_config" {
         for_each = var.agents_pool_kubelet_configs
@@ -174,6 +175,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       ultra_ssd_enabled            = var.ultra_ssd_enabled
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
+      snapshot_id                  = var.snapshot_id
 
       dynamic "kubelet_config" {
         for_each = var.agents_pool_kubelet_configs
@@ -597,6 +599,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
   vnet_subnet_id    = each.value.vnet_subnet_id
   workload_runtime  = each.value.workload_runtime
   zones             = each.value.zones
+  snapshot_id       = var.snapshot_id
 
   dynamic "kubelet_config" {
     for_each = each.value.kubelet_config == null ? [] : ["kubelet_config"]

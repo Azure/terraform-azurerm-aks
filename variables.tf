@@ -1138,6 +1138,12 @@ variable "sku_tier" {
   }
 }
 
+variable "snapshot_id" {
+  type        = string
+  default     = null
+  description = "(Optional) The ID of the Snapshot which should be used to create this default Node Pool. `temporary_name_for_rotation` must be specified when changing this property."
+}
+
 variable "storage_profile_blob_driver_enabled" {
   type        = bool
   default     = false
