@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Add support for `maintenance_window_node_os` block [\#440](https://github.com/Azure/terraform-azurerm-aks/pull/440) ([lonegunmanb](https://github.com/lonegunmanb))
+
 ## [7.3.2](https://github.com/Azure/terraform-azurerm-aks/tree/7.3.2) (2023-09-07)
 
 **Merged pull requests:**

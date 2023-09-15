@@ -40,7 +40,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     avm_git_last_modified_at = "2023-06-05 02:21:33"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "d124a324-7ce2-41bc-a2ae-1181dd9076b5"
+    avm_yor_trace            = "269b8ebb-abdb-4e25-b3f4-357de1e51e03"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -381,11 +381,11 @@ resource "azurerm_kubernetes_cluster" "main" {
   dynamic "maintenance_window_node_os" {
     for_each = var.maintenance_window_node_os == null ? [] : [var.maintenance_window_node_os]
     content {
-      day_of_month = maintenance_window_node_os.value.day_of_month
-      day_of_week  = maintenance_window_node_os.value.day_of_week
       duration     = maintenance_window_node_os.value.duration
       frequency    = maintenance_window_node_os.value.frequency
       interval     = maintenance_window_node_os.value.interval
+      day_of_month = maintenance_window_node_os.value.day_of_month
+      day_of_week  = maintenance_window_node_os.value.day_of_week
       start_date   = maintenance_window_node_os.value.start_date
       start_time   = maintenance_window_node_os.value.start_time
       utc_offset   = maintenance_window_node_os.value.utc_offset
@@ -589,7 +589,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
     avm_git_last_modified_at = "2023-05-04 05:02:32"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "8fd279dd-7460-4db9-b487-79f025e768b2"
+    avm_yor_trace            = "01453d43-8327-44f8-967a-dfd6efe8c487"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "node_pool"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -733,7 +733,7 @@ resource "azurerm_log_analytics_workspace" "main" {
     avm_git_last_modified_at = "2023-06-05 02:21:33"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "56c69e51-313a-4087-92f7-bf3702fe8ac3"
+    avm_yor_trace            = "4b492af3-b71e-4512-a3ab-7182dbaabec0"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -774,7 +774,7 @@ resource "azurerm_log_analytics_solution" "main" {
     avm_git_last_modified_at = "2023-07-20 06:04:07"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "409550d0-8745-4db3-aec9-9f7eb569e074"
+    avm_yor_trace            = "20ff9d35-9e4e-4bba-bd62-7db758aa2133"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
