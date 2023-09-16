@@ -40,7 +40,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     avm_git_last_modified_at = "2023-06-05 02:21:33"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "269b8ebb-abdb-4e25-b3f4-357de1e51e03"
+    avm_yor_trace            = "0b4561b9-f937-4d1e-895a-547728bec034"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -69,13 +69,13 @@ resource "azurerm_kubernetes_cluster" "main" {
       pod_subnet_id                = var.pod_subnet_id
       proximity_placement_group_id = var.agents_proximity_placement_group_id
       scale_down_mode              = var.scale_down_mode
+      snapshot_id                  = var.snapshot_id
       tags                         = merge(var.tags, var.agents_tags)
       temporary_name_for_rotation  = var.temporary_name_for_rotation
       type                         = var.agents_type
       ultra_ssd_enabled            = var.ultra_ssd_enabled
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
-      snapshot_id                  = var.snapshot_id
 
       dynamic "kubelet_config" {
         for_each = var.agents_pool_kubelet_configs
@@ -169,13 +169,13 @@ resource "azurerm_kubernetes_cluster" "main" {
       pod_subnet_id                = var.pod_subnet_id
       proximity_placement_group_id = var.agents_proximity_placement_group_id
       scale_down_mode              = var.scale_down_mode
+      snapshot_id                  = var.snapshot_id
       tags                         = merge(var.tags, var.agents_tags)
       temporary_name_for_rotation  = var.temporary_name_for_rotation
       type                         = var.agents_type
       ultra_ssd_enabled            = var.ultra_ssd_enabled
       vnet_subnet_id               = var.vnet_subnet_id
       zones                        = var.agents_availability_zones
-      snapshot_id                  = var.snapshot_id
 
       dynamic "kubelet_config" {
         for_each = var.agents_pool_kubelet_configs
@@ -584,14 +584,15 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
   priority                      = each.value.priority
   proximity_placement_group_id  = each.value.proximity_placement_group_id
   scale_down_mode               = each.value.scale_down_mode
+  snapshot_id                   = each.value.snapshot_id
   spot_max_price                = each.value.spot_max_price
   tags = merge(each.value.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_git_commit           = "bc0c9fab9ee53296a64c7a682d2ed7e0726c6547"
+    avm_git_commit           = "6ae57191f8ee9bf23320875afcf038f6163b3496"
     avm_git_file             = "main.tf"
-    avm_git_last_modified_at = "2023-05-04 05:02:32"
+    avm_git_last_modified_at = "2023-09-16 02:03:35"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "01453d43-8327-44f8-967a-dfd6efe8c487"
+    avm_yor_trace            = "a791e48a-efa5-43e7-94aa-7f79a517d0a6"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "node_pool"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -599,7 +600,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
   vnet_subnet_id    = each.value.vnet_subnet_id
   workload_runtime  = each.value.workload_runtime
   zones             = each.value.zones
-  snapshot_id       = each.value.snapshot_id
 
   dynamic "kubelet_config" {
     for_each = each.value.kubelet_config == null ? [] : ["kubelet_config"]
@@ -736,7 +736,7 @@ resource "azurerm_log_analytics_workspace" "main" {
     avm_git_last_modified_at = "2023-06-05 02:21:33"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "4b492af3-b71e-4512-a3ab-7182dbaabec0"
+    avm_yor_trace            = "7a97ae0b-8ca7-41f0-a431-a64d14950994"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -777,7 +777,7 @@ resource "azurerm_log_analytics_solution" "main" {
     avm_git_last_modified_at = "2023-07-20 06:04:07"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "20ff9d35-9e4e-4bba-bd62-7db758aa2133"
+    avm_yor_trace            = "10840c7c-16c3-4a42-8547-e5ec0851c01f"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
