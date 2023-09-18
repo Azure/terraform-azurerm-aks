@@ -5,6 +5,7 @@
 **Merged pull requests:**
 
 - Support for creating nodepools from snapshots [\#442](https://github.com/Azure/terraform-azurerm-aks/pull/442) ([zioproto](https://github.com/zioproto))
+- Add multiple terraform-docs configs to generate a seperated markdown document for input variables [\#441](https://github.com/Azure/terraform-azurerm-aks/pull/441) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support for `maintenance_window_node_os` block [\#440](https://github.com/Azure/terraform-azurerm-aks/pull/440) ([lonegunmanb](https://github.com/lonegunmanb))
 
 ## [7.3.2](https://github.com/Azure/terraform-azurerm-aks/tree/7.3.2) (2023-09-07)
