@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+## [7.4.0](https://github.com/Azure/terraform-azurerm-aks/tree/7.4.0) (2023-09-18)
 
 **Merged pull requests:**
 
