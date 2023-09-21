@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Restore readme file by stop formatting markdown table [\#445](https://github.com/Azure/terraform-azurerm-aks/pull/445) ([lonegunmanb](https://github.com/lonegunmanb))
+
 ## [7.4.0](https://github.com/Azure/terraform-azurerm-aks/tree/7.4.0) (2023-09-18)
 
 **Merged pull requests:**
