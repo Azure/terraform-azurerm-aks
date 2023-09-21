@@ -1,7 +1,0 @@
-formatter: "markdown table" # this is required
-
-sections:
-  hide: ["inputs"]
-output:
-  file: "README.md"
-  mode: inject

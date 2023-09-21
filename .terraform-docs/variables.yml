@@ -1,7 +1,0 @@
-formatter: "markdown table" # this is required
-
-sections:
-  show: ["inputs"]
-output:
-  file: "variables.md"
-  mode: inject
