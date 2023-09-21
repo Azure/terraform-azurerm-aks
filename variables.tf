@@ -689,6 +689,13 @@ variable "maintenance_window_node_os" {
 EOT
 }
 
+variable "msi_auth_for_monitoring_enabled" {
+  type        = bool
+  default     = false
+  description = "(Optional) Is managed identity authentication for monitoring enabled? Defaults to `false`"
+  nullable    = false
+}
+
 variable "microsoft_defender_enabled" {
   type        = bool
   default     = false
