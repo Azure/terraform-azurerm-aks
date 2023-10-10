@@ -33,6 +33,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   private_dns_zone_id                 = var.private_dns_zone_id
   public_network_access_enabled       = var.public_network_access_enabled
   role_based_access_control_enabled   = var.role_based_access_control_enabled
+  run_command_enabled                 = var.run_command_enabled
   sku_tier                            = var.sku_tier
   tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_git_commit           = "0ae8a663f1dc1dc474b14c10d9c94c77a3d1e234"

@@ -1109,6 +1109,12 @@ variable "role_based_access_control_enabled" {
   nullable    = false
 }
 
+variable "run_command_enabled" {
+  type        = bool
+  default     = true
+  description = "(Optional) Whether to enable run command for the cluster or not."
+}
+
 variable "scale_down_mode" {
   type        = string
   default     = "Delete"
