@@ -691,7 +691,6 @@ EOT
 
 variable "msi_auth_for_monitoring_enabled" {
   type        = bool
-  default     = null
   description = "(Optional) Is managed identity authentication for monitoring enabled? Defaults to `false`"
 }
 
