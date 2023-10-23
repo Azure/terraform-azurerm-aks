@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- add msi\_auth\_for\_monitoring\_enabled [\#446](https://github.com/Azure/terraform-azurerm-aks/pull/446) ([admincasper](https://github.com/admincasper))
 - Restore readme file by stop formatting markdown table [\#445](https://github.com/Azure/terraform-azurerm-aks/pull/445) ([lonegunmanb](https://github.com/lonegunmanb))
 
 ## [7.4.0](https://github.com/Azure/terraform-azurerm-aks/tree/7.4.0) (2023-09-18)
