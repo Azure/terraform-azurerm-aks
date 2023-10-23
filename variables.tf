@@ -349,3 +349,9 @@ variable "agents_only_critical_addons" {
   type    = bool
   default = false
 }
+
+variable "workload_identity_enabled" {
+  type        = bool
+  default     = false
+  description = "Enables the workload identity for the cluster https://learn.microsoft.com/en-us/azure/aks/workload-identity-deploy-cluster "
+}

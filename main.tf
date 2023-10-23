@@ -18,6 +18,8 @@ resource "azurerm_kubernetes_cluster" "main" {
   private_cluster_enabled             = var.private_cluster_enabled
   private_dns_zone_id                 = var.private_dns_zone_id
   private_cluster_public_fqdn_enabled = var.private_cluster_public_fqdn_enabled
+  workload_identity_enabled           = var.workload_identity_enabled
+  oidc_issuer_enabled                 = var.workload_identity_enabled
 
   linux_profile {
     admin_username = var.admin_username
