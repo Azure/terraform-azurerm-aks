@@ -140,6 +140,11 @@ output "http_application_routing_zone_name" {
   value       = azurerm_kubernetes_cluster.main.http_application_routing_zone_name != null ? azurerm_kubernetes_cluster.main.http_application_routing_zone_name : ""
 }
 
+output "identity" {
+  description = "The `azurerm_kubernetes_cluster`'s `identity` block."
+  value       = azurerm_kubernetes_cluster.main.identity
+}
+
 output "ingress_application_gateway" {
   description = "The `azurerm_kubernetes_cluster`'s `ingress_application_gateway` block."
   value       = try(azurerm_kubernetes_cluster.main.ingress_application_gateway[0], null)
