@@ -163,7 +163,7 @@ On Windows Powershell:
 docker run --rm -v ${pwd}:/src -w /src -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
 ```
 
-To follow [**Ensure AKS uses disk encryption set**](https://docs.bridgecrew.io/docs/ensure-that-aks-uses-disk-encryption-set) policy we've used `azurerm_key_vault` in example codes, and to follow [**Key vault does not allow firewall rules settings**](https://docs.bridgecrew.io/docs/ensure-that-key-vault-allows-firewall-rules-settings) we've limited the ip cidr on it's `network_acls`. On default we'll use the ip return by `https://api.ipify.org?format=json` api as your public ip, but in case you need use other cidr, you can assign on by passing an environment variable:
+To follow [**Ensure AKS uses disk encryption set**](https://docs.bridgecrew.io/docs/ensure-that-aks-uses-disk-encryption-set) policy we've used `azurerm_key_vault` in example codes, and to follow [**Key vault does not allow firewall rules settings**](https://docs.bridgecrew.io/docs/ensure-that-key-vault-allows-firewall-rules-settings) we've limited the ip cidr on it's `network_acls`. By default we'll use the ip returned by `https://api.ipify.org?format=json` api as your public ip, but in case you need to use another cidr, you can set an environment variable like below:
 
 ```text
 docker run --rm -v $(pwd):/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_cidr="<your_cidr>" -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
