@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- fix: correct wording of the doc [\#461](https://github.com/Azure/terraform-azurerm-aks/pull/461) ([meysam81](https://github.com/meysam81))
 - add run\_command\_enabled [\#452](https://github.com/Azure/terraform-azurerm-aks/pull/452) ([zioproto](https://github.com/zioproto))
 - add msi\_auth\_for\_monitoring\_enabled [\#446](https://github.com/Azure/terraform-azurerm-aks/pull/446) ([admincasper](https://github.com/admincasper))
 - Restore readme file by stop formatting markdown table [\#445](https://github.com/Azure/terraform-azurerm-aks/pull/445) ([lonegunmanb](https://github.com/lonegunmanb))
