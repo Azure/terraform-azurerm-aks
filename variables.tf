@@ -403,6 +403,12 @@ variable "create_role_assignment_network_contributor" {
   nullable    = false
 }
 
+variable "default_node_pool_fips_enabled" {
+  type        = bool
+  default     = null
+  description = " (Optional) Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created."
+}
+
 variable "disk_encryption_set_id" {
   type        = string
   default     = null
