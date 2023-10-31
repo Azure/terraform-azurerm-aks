@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Add `fips_enabled` support for `default_node_pool` block [\#464](https://github.com/Azure/terraform-azurerm-aks/pull/464) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add default empty list for `allowed` and `not_allowed` in `var.maintenance_window` [\#463](https://github.com/Azure/terraform-azurerm-aks/pull/463) ([lonegunmanb](https://github.com/lonegunmanb))
 - fix: correct wording of the doc [\#461](https://github.com/Azure/terraform-azurerm-aks/pull/461) ([meysam81](https://github.com/meysam81))
 - add run\_command\_enabled [\#452](https://github.com/Azure/terraform-azurerm-aks/pull/452) ([zioproto](https://github.com/zioproto))
