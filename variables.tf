@@ -470,8 +470,8 @@ variable "image_cleaner_enabled" {
 
 variable "image_cleaner_interval_hours" {
   type        = number
-  description = "(Optional) Specifies the interval in hours when images should be cleaned up."
-  default     = null
+  description = "(Optional) Specifies the interval in hours when images should be cleaned up. Defaults to `48`."
+  default     = 48
 }
 
 variable "ingress_application_gateway_enabled" {
