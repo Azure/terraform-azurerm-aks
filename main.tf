@@ -454,6 +454,14 @@ resource "azurerm_kubernetes_cluster" "main" {
       msi_auth_for_monitoring_enabled = var.msi_auth_for_monitoring_enabled
     }
   }
+  dynamic "service_mesh_profile" {
+    for_each = var.service_mesh_profile == null ? [] : ["service_mesh_profile"]
+    content {
+      mode                             = var.service_mesh_profile.mode
+      external_ingress_gateway_enabled = var.service_mesh_profile.external_ingress_gateway_enabled
+      internal_ingress_gateway_enabled = var.service_mesh_profile.internal_ingress_gateway_enabled
+    }
+  }
   dynamic "service_principal" {
     for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
 
