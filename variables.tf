@@ -464,14 +464,14 @@ variable "identity_type" {
 
 variable "image_cleaner_enabled" {
   type        = bool
-  description = "(Optional) Specifies whether Image Cleaner is enabled."
   default     = false
+  description = "(Optional) Specifies whether Image Cleaner is enabled."
 }
 
 variable "image_cleaner_interval_hours" {
   type        = number
-  description = "(Optional) Specifies the interval in hours when images should be cleaned up. Defaults to `48`."
   default     = 48
+  description = "(Optional) Specifies the interval in hours when images should be cleaned up. Defaults to `48`."
 }
 
 variable "ingress_application_gateway_enabled" {
