@@ -1159,6 +1159,20 @@ variable "secret_rotation_interval" {
   nullable    = false
 }
 
+variable "service_mesh_profile" {
+  type = object({
+    mode                             = string
+    internal_ingress_gateway_enabled = optional(bool, true)
+    external_ingress_gateway_enabled = optional(bool, true)
+  })
+  default     = null
+  description = <<-EOT
+    `mode` - (Required) The mode of the service mesh. Possible value is `Istio`.
+    `internal_ingress_gateway_enabled` - (Optional) Is Istio Internal Ingress Gateway enabled? Defaults to `true`.
+    `external_ingress_gateway_enabled` - (Optional) Is Istio External Ingress Gateway enabled? Defaults to `true`.
+  EOT
+}
+
 variable "sku_tier" {
   type        = string
   default     = "Free"
