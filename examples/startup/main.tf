@@ -102,6 +102,7 @@ module "aks" {
   net_profile_service_cidr          = "10.0.0.0/16"
   network_plugin                    = "azure"
   network_policy                    = "azure"
+  node_os_channel_upgrade           = "NodeImage"
   os_disk_size_gb                   = 60
   private_cluster_enabled           = true
   public_network_access_enabled     = false
