@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- use lowercase everywhere for network plugin mode overlay [\#472](https://github.com/Azure/terraform-azurerm-aks/pull/472) ([zioproto](https://github.com/zioproto))
 - Add support for `service_mesh_profile` block [\#468](https://github.com/Azure/terraform-azurerm-aks/pull/468) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support for Image Cleaner [\#466](https://github.com/Azure/terraform-azurerm-aks/pull/466) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add `fips_enabled` support for `default_node_pool` block [\#464](https://github.com/Azure/terraform-azurerm-aks/pull/464) ([lonegunmanb](https://github.com/lonegunmanb))
