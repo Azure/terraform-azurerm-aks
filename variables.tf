@@ -785,6 +785,12 @@ variable "network_policy" {
   description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
 }
 
+variable "node_os_channel_upgrade" {
+  type        = string
+  default     = null
+  description = " (Optional) The upgrade channel for this Kubernetes Cluster Nodes' OS Image. Possible values are `Unmanaged`, `SecurityPatch`, `NodeImage` and `None`."
+}
+
 variable "node_pools" {
   type = map(object({
     name                          = string
