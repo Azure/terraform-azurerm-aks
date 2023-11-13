@@ -550,6 +550,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = can(coalesce(var.cluster_name, var.prefix))
       error_message = "You must set one of `var.cluster_name` and `var.prefix` to create `azurerm_kubernetes_cluster.main`."
     }
+    precondition {
+      condition = var.automatic_channel_upgrade != "node-image" || var.node_os_channel_upgrade == "NodeImage"
+      error_message = "`node_os_channel_upgrade` must be set to `NodeImage` if `automatic_channel_upgrade` has been set to `node-image`."
+    }
   }
 }
 
