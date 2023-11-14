@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Add support for `node_os_channel_upgrade` [\#474](https://github.com/Azure/terraform-azurerm-aks/pull/474) ([lonegunmanb](https://github.com/lonegunmanb))
 - use lowercase everywhere for network plugin mode overlay [\#472](https://github.com/Azure/terraform-azurerm-aks/pull/472) ([zioproto](https://github.com/zioproto))
 - Bump github.com/Azure/terraform-module-test-helper from 0.15.1-0.20230728050712-96e8615f5515 to 0.17.0 in /test [\#469](https://github.com/Azure/terraform-azurerm-aks/pull/469) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Add support for `service_mesh_profile` block [\#468](https://github.com/Azure/terraform-azurerm-aks/pull/468) ([lonegunmanb](https://github.com/lonegunmanb))
