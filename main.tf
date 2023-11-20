@@ -493,13 +493,8 @@ resource "azurerm_kubernetes_cluster" "main" {
       dns_zone_id = var.web_app_routing.dns_zone_id
     }
   }
-  dynamic "workload_autoscaler_profile" {
-    for_each = var.workload_autoscaler_profile_keda_enabled || var.workload_autoscaler_profile_vpa_enabled ? ["workload_autoscaler_profile"] : []
-
-    content {
-      keda_enabled                    = var.workload_autoscaler_profile_keda_enabled
-      vertical_pod_autoscaler_enabled = var.workload_autoscaler_profile_vpa_enabled
-    }
+  workload_autoscaler_profile {
+    keda_enabled = var.workload_autoscaler_profile_keda_enabled
   }
 
   lifecycle {
