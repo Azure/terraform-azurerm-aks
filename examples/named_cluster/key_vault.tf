@@ -40,6 +40,7 @@ resource "azurerm_key_vault_access_policy" "current_user" {
   tenant_id    = data.azurerm_client_config.current.tenant_id
   key_permissions = [
     "Get",
+    "Read",
     "Create",
     "Delete",
     "GetRotationPolicy",
