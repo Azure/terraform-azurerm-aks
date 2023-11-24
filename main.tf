@@ -355,6 +355,14 @@ resource "azurerm_kubernetes_cluster" "main" {
       secret_rotation_interval = var.secret_rotation_interval
     }
   }
+  dynamic "kubelet_identity" {
+    for_each = var.kubelet_identity == null ? [] : [var.kubelet_identity]
+    content {
+      client_id                 = kubelet_identity.value.client_id
+      object_id                 = kubelet_identity.value.object_id
+      user_assigned_identity_id = kubelet_identity.value.user_assigned_identity_id
+    }
+  }
   dynamic "linux_profile" {
     for_each = var.admin_username == null ? [] : ["linux_profile"]
 
@@ -557,6 +565,11 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = var.automatic_channel_upgrade != "node-image" || var.node_os_channel_upgrade == "NodeImage"
       error_message = "`node_os_channel_upgrade` must be set to `NodeImage` if `automatic_channel_upgrade` has been set to `node-image`."
+    }
+    precondition {
+      condition = (var.kubelet_identity == null) || (
+      (var.client_id == "" || var.client_secret == "") && var.identity_type == "UserAssigned" && try(length(var.identity_ids), 0) > 0)
+      error_message = "When `kubelet_identity` is enabled - The `type` field in the `identity` block must be set to `UserAssigned` and `identity_ids` must be set."
     }
   }
 }
