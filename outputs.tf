@@ -223,3 +223,8 @@ output "username" {
   sensitive   = true
   value       = azurerm_kubernetes_cluster.main.kube_config[0].username
 }
+
+output "web_app_routing_identity" {
+  description = "The `azurerm_kubernetes_cluster`'s `web_app_routing_identity` block."
+  value       = try(azurerm_kubernetes_cluster.main.web_app_routing[0].web_app_routing_identity, null)
+}
