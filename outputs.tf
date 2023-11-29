@@ -225,6 +225,6 @@ output "username" {
 }
 
 output "web_app_routing_identity" {
-  description = "The `azurerm_kubernetes_cluster`'s `web_app_routing_identity` block."
-  value       = try(azurerm_kubernetes_cluster.main.web_app_routing[0].web_app_routing_identity, null)
+  description = "The `azurerm_kubernetes_cluster`'s `web_app_routing_identity` block, it's type is a list of object."
+  value       = try(azurerm_kubernetes_cluster.main.web_app_routing[0].web_app_routing_identity, [])
 }
