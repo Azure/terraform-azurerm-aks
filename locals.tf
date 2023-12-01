@@ -6,8 +6,8 @@ locals {
   # - patch, but then neither the kubernetes_version nor orchestrator_version must specify a patch number, where orchestrator_version may be also null
   # - rapid/stable/node-image, but then the kubernetes_version and the orchestrator_version must be null
   automatic_channel_upgrade_check = var.automatic_channel_upgrade == null ? true : (
-  (contains(["patch"], var.automatic_channel_upgrade) && can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.kubernetes_version)) && (can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.orchestrator_version)) || var.orchestrator_version == null)) ||
-  (contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) && var.kubernetes_version == null && var.orchestrator_version == null)
+    (contains(["patch"], var.automatic_channel_upgrade) && can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.kubernetes_version)) && (can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.orchestrator_version)) || var.orchestrator_version == null)) ||
+    (contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) && var.kubernetes_version == null && var.orchestrator_version == null)
   )
   # Abstract the decision whether to create an Analytics Workspace or not.
   create_analytics_solution        = var.log_analytics_workspace_enabled && var.log_analytics_solution == null
@@ -28,22 +28,22 @@ locals {
   # This guarantees that local.log_analytics_workspace will contain a valid `id` and `name` IFF log_analytics_workspace_enabled
   # is set to `true`.
   log_analytics_workspace = var.log_analytics_workspace_enabled ? (
-  # The Log Analytics Workspace should be enabled:
-  var.log_analytics_workspace == null ? {
-    # `log_analytics_workspace_enabled` is `true` but `log_analytics_workspace` was not supplied.
-    # Create an `azurerm_log_analytics_workspace` resource and use that.
-    id                  = local.azurerm_log_analytics_workspace_id
-    name                = local.azurerm_log_analytics_workspace_name
-    location            = local.azurerm_log_analytics_workspace_location
-    resource_group_name = local.azurerm_log_analytics_workspace_resource_group_name
-  } : {
-    # `log_analytics_workspace` is supplied. Let's use that.
-    id       = var.log_analytics_workspace.id
-    name     = var.log_analytics_workspace.name
-    location = var.log_analytics_workspace.location
-    # `azurerm_log_analytics_workspace`'s id format: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.OperationalInsights/workspaces/workspace1
-    resource_group_name = split("/", var.log_analytics_workspace.id)[4]
-  }
+    # The Log Analytics Workspace should be enabled:
+    var.log_analytics_workspace == null ? {
+      # `log_analytics_workspace_enabled` is `true` but `log_analytics_workspace` was not supplied.
+      # Create an `azurerm_log_analytics_workspace` resource and use that.
+      id                  = local.azurerm_log_analytics_workspace_id
+      name                = local.azurerm_log_analytics_workspace_name
+      location            = local.azurerm_log_analytics_workspace_location
+      resource_group_name = local.azurerm_log_analytics_workspace_resource_group_name
+      } : {
+      # `log_analytics_workspace` is supplied. Let's use that.
+      id       = var.log_analytics_workspace.id
+      name     = var.log_analytics_workspace.name
+      location = var.log_analytics_workspace.location
+      # `azurerm_log_analytics_workspace`'s id format: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.OperationalInsights/workspaces/workspace1
+      resource_group_name = split("/", var.log_analytics_workspace.id)[4]
+    }
   ) : null # Finally, the Log Analytics Workspace should be disabled.
   potential_subnet_ids = flatten(concat([
     for pool in var.node_pools : [
@@ -54,4 +54,5 @@ locals {
   query_datasource_for_log_analytics_workspace_location = var.log_analytics_workspace_enabled && (var.log_analytics_workspace != null ? var.log_analytics_workspace.location == null : false)
   subnet_ids                                            = toset([for id in local.potential_subnet_ids : id if id != null])
   use_brown_field_gw_for_ingress                        = var.brown_field_application_gateway_for_ingress != null
+  use_green_field_gw_for_ingress                        = var.green_field_application_gateway_for_ingress != null
 }
