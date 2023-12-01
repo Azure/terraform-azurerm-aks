@@ -28,20 +28,12 @@ provider "azurerm" {
   }
 }
 
-resource "local_sensitive_file" "k8s_config" {
-  filename = "${path.module}/k8sconfig"
-  content  = module.aks.kube_config_raw
-
-  depends_on = [module.aks]
-}
-
 # DO NOT DO THIS IN PRODUCTION ENVIRONMENT
 provider "kubernetes" {
-  config_path = local_sensitive_file.k8s_config.filename
-  #  host                   = module.aks.admin_host
-  #  client_certificate     = base64decode(module.aks.admin_client_certificate)
-  #  client_key             = base64decode(module.aks.admin_client_key)
-  #  cluster_ca_certificate = base64decode(module.aks.admin_cluster_ca_certificate)
+  host                   = module.aks.admin_host
+  client_certificate     = base64decode(module.aks.admin_client_certificate)
+  client_key             = base64decode(module.aks.admin_client_key)
+  cluster_ca_certificate = base64decode(module.aks.admin_cluster_ca_certificate)
 }
 
 provider "random" {}
