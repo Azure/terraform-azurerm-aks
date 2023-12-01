@@ -71,11 +71,9 @@ module "aks" {
   enable_auto_scaling              = true
   enable_host_encryption           = true
   http_application_routing_enabled = true
-  application_gateway_for_ingress = {
-    new_gw = {
-      name        = "${random_id.prefix.hex}-agw"
-      subnet_cidr = "10.52.1.0/24"
-    }
+  green_field_application_gateway_for_ingress = {
+    name        = "${random_id.prefix.hex}-agw"
+    subnet_cidr = "10.52.1.0/24"
   }
   local_account_disabled               = true
   log_analytics_workspace_enabled      = true
