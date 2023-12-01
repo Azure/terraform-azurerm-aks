@@ -913,8 +913,8 @@ resource "azurerm_role_assignment" "application_gateway_existing_vnet_network_co
   }
 }
 
-resource "azurerm_role_assignment" "application_gateway_new_vnet_network_contributor" {
-  count = var.create_role_assignments_for_application_gateway && !local.use_brown_field_gw_for_ingress ? 1 : 0
+resource "azurerm_role_assignment" "application_gateway_byo_vnet_network_contributor" {
+  count = var.create_role_assignments_for_application_gateway && local.use_green_field_gw_for_ingress ? 1 : 0
 
   principal_id         = azurerm_kubernetes_cluster.main.ingress_application_gateway[0].ingress_application_gateway_identity[0].object_id
   scope                = join("/", slice(local.default_nodepool_subnet_segments, 0, length(local.default_nodepool_subnet_segments) - 2))
@@ -923,7 +923,7 @@ resource "azurerm_role_assignment" "application_gateway_new_vnet_network_contrib
   lifecycle {
     precondition {
       condition     = var.green_field_application_gateway_for_ingress == null || !(var.create_role_assignments_for_application_gateway && var.vnet_subnet_id == null)
-      error_message = "When `var.vnet_subnet_id` is `null`, you must set `var.create_role_assignments_for_application_gateway` to `false`, set `var.new_application_gateway_for_ingress` to `null`."
+      error_message = "When `var.vnet_subnet_id` is `null`, you must set `var.create_role_assignments_for_application_gateway` to `false`, set `var.green_field_application_gateway_for_ingress` to `null`."
     }
   }
 }
