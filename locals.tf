@@ -23,7 +23,7 @@ locals {
   existing_application_gateway_subnet_subscription_id_for_ingress = try(local.existing_application_gateway_subnet_segments[2], null)
   existing_application_gateway_subnet_vnet_name                   = try(local.existing_application_gateway_subnet_segments[8], null)
   existing_application_gateway_subscription_id_for_ingress        = try(local.existing_application_gateway_segments_for_ingress[2], null)
-  ingress_application_gateway_enabled                             = var.brown_field_application_gateway_for_ingress != null || var.green_field_application_gateway_for_ingress != null
+  ingress_application_gateway_enabled                             = local.use_brown_field_gw_for_ingress || local.use_green_field_gw_for_ingress
   # Abstract the decision whether to use an Analytics Workspace supplied via vars, provision one ourselves or leave it null.
   # This guarantees that local.log_analytics_workspace will contain a valid `id` and `name` IFF log_analytics_workspace_enabled
   # is set to `true`.

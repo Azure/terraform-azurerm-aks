@@ -956,7 +956,7 @@ data "azurerm_resource_group" "aks_rg" {
 }
 
 resource "azurerm_role_assignment" "application_gateway_resource_group_reader" {
-  count = var.create_role_assignments_for_application_gateway ? 1 : 0
+  count = var.create_role_assignments_for_application_gateway && local.ingress_application_gateway_enabled ? 1 : 0
 
   principal_id         = azurerm_kubernetes_cluster.main.ingress_application_gateway[0].ingress_application_gateway_identity[0].object_id
   scope                = local.use_brown_field_gw_for_ingress ? data.azurerm_resource_group.ingress_gw[0].id : data.azurerm_resource_group.aks_rg[0].id
