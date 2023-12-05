@@ -472,6 +472,10 @@ variable "green_field_application_gateway_for_ingress" {
   * `subnet_cidr` - (Optional) The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster.
   * `subnet_id` - (Optional) The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster.
 EOT
+  validation {
+    condition     = var.green_field_application_gateway_for_ingress == null ? true : (can(coalesce(var.green_field_application_gateway_for_ingress.subnet_id, var.green_field_application_gateway_for_ingress.subnet_cidr)))
+    error_message = "One of `subnet_cidr` and `subnet_id` must be specified."
+  }
 }
 
 variable "http_application_routing_enabled" {
