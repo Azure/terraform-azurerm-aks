@@ -573,7 +573,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
     precondition {
       condition     = var.brown_field_application_gateway_for_ingress == null || var.green_field_application_gateway_for_ingress == null
-      error_message = "Either one of `var.existing_application_gateway_for_ingress` or `var.new_application_gateway_for_ingress` must be `null`."
+      error_message = "Either one of `var.brown_field_application_gateway_for_ingress` or `var.green_field_application_gateway_for_ingress` must be `null`."
     }
   }
 }
