@@ -571,6 +571,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       (var.client_id == "" || var.client_secret == "") && var.identity_type == "UserAssigned" && try(length(var.identity_ids), 0) > 0)
       error_message = "When `kubelet_identity` is enabled - The `type` field in the `identity` block must be set to `UserAssigned` and `identity_ids` must be set."
     }
+    precondition {
+      condition     = !var.enable_auto_scaling || var.agents_type == "VirtualMachineScaleSets"
+      error_message = "Autoscaling on default node pools is only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets type nodes."
+    }
   }
 }
 
@@ -740,10 +744,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
     ]
 
     precondition {
-      condition     = var.agents_type == "VirtualMachineScaleSets"
-      error_message = "Multiple Node Pools are only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets."
-    }
-    precondition {
       condition     = can(regex("[a-z0-9]{1,8}", each.value.name))
       error_message = "A Node Pools name must consist of alphanumeric characters and have a maximum lenght of 8 characters (4 random chars added)"
     }
@@ -754,6 +754,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
     precondition {
       condition     = var.network_plugin_mode != "overlay" || !can(regex("^Standard_DC[0-9]+s?_v2$", each.value.vm_size))
       error_message = "With with Azure CNI Overlay you can't use DCsv2-series virtual machines in node pools. "
+    }
+    precondition {
+      condition     = var.agents_type == "VirtualMachineScaleSets"
+      error_message = "Multiple Node Pools are only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets."
     }
   }
 }
