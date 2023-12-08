@@ -572,7 +572,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "When `kubelet_identity` is enabled - The `type` field in the `identity` block must be set to `UserAssigned` and `identity_ids` must be set."
     }
     precondition {
-      condition     = !var.enable_auto_scaling || var.agents_type == "VirtualMachineScaleSets"
+      condition     = var.enable_auto_scaling != true || var.agents_type == "VirtualMachineScaleSets"
       error_message = "Autoscaling on default node pools is only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets type nodes."
     }
     precondition {
