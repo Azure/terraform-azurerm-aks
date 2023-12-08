@@ -1,6 +1,7 @@
 package upgrade
 
 import (
+	"fmt"
 	"os"
 	"testing"
 
@@ -93,6 +94,50 @@ func TestExampleUpgrade(t *testing.T) {
 			}
 			test_helper.ModuleUpgradeTest(t, "Azure", "terraform-azurerm-aks", example, currentRoot, terraform.Options{
 				Upgrade: true,
+			}, currentMajorVersion)
+		})
+	}
+}
+
+func TestExampleUpgrade_applicationGw(t *testing.T) {
+	useExistingAppGw := []struct {
+		useBrownFieldAppGw        bool
+		bringYourOwnVnet          bool
+		createRoleBindingForAppGw bool
+	}{
+		{
+			bringYourOwnVnet:          true,
+			useBrownFieldAppGw:        true,
+			createRoleBindingForAppGw: true,
+		},
+		{
+			bringYourOwnVnet:          true,
+			useBrownFieldAppGw:        false,
+			createRoleBindingForAppGw: true,
+		},
+		{
+			bringYourOwnVnet:          false,
+			useBrownFieldAppGw:        false,
+			createRoleBindingForAppGw: false,
+		},
+	}
+	for _, u := range useExistingAppGw {
+		t.Run(fmt.Sprintf("useExistingAppGw %t %t %t", u.bringYourOwnVnet, u.useBrownFieldAppGw, u.createRoleBindingForAppGw), func(t *testing.T) {
+			currentRoot, err := test_helper.GetCurrentModuleRootPath()
+			if err != nil {
+				t.FailNow()
+			}
+			currentMajorVersion, err := test_helper.GetCurrentMajorVersionFromEnv()
+			if err != nil {
+				t.FailNow()
+			}
+			test_helper.ModuleUpgradeTest(t, "Azure", "terraform-azurerm-aks", "examples/application_gateway_ingress", currentRoot, terraform.Options{
+				Upgrade: true,
+				Vars: map[string]interface{}{
+					"bring_your_own_vnet":                             u.bringYourOwnVnet,
+					"use_brown_field_application_gateway":             u.useBrownFieldAppGw,
+					"create_role_assignments_for_application_gateway": u.createRoleBindingForAppGw,
+				},
 			}, currentMajorVersion)
 		})
 	}

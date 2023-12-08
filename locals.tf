@@ -10,8 +10,20 @@ locals {
     (contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) && var.kubernetes_version == null && var.orchestrator_version == null)
   )
   # Abstract the decision whether to create an Analytics Workspace or not.
-  create_analytics_solution  = var.log_analytics_workspace_enabled && var.log_analytics_solution == null
-  create_analytics_workspace = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null
+  create_analytics_solution        = var.log_analytics_workspace_enabled && var.log_analytics_solution == null
+  create_analytics_workspace       = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null
+  default_nodepool_subnet_segments = try(split("/", var.vnet_subnet_id), [])
+  # Application Gateway ID: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.Network/applicationGateways/myGateway1
+  existing_application_gateway_for_ingress_id             = try(var.brown_field_application_gateway_for_ingress.id, null)
+  existing_application_gateway_resource_group_for_ingress = var.brown_field_application_gateway_for_ingress == null ? null : local.existing_application_gateway_segments_for_ingress[4]
+  existing_application_gateway_segments_for_ingress       = var.brown_field_application_gateway_for_ingress == null ? null : split("/", local.existing_application_gateway_for_ingress_id)
+  existing_application_gateway_subnet_resource_group_name = try(local.existing_application_gateway_subnet_segments[4], null)
+  # Subnet ID: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.Network/virtualNetworks/myvnet1/subnets/mysubnet1
+  existing_application_gateway_subnet_segments                    = try(split("/", var.brown_field_application_gateway_for_ingress.subnet_id), [])
+  existing_application_gateway_subnet_subscription_id_for_ingress = try(local.existing_application_gateway_subnet_segments[2], null)
+  existing_application_gateway_subnet_vnet_name                   = try(local.existing_application_gateway_subnet_segments[8], null)
+  existing_application_gateway_subscription_id_for_ingress        = try(local.existing_application_gateway_segments_for_ingress[2], null)
+  ingress_application_gateway_enabled                             = local.use_brown_field_gw_for_ingress || local.use_green_field_gw_for_ingress
   # Abstract the decision whether to use an Analytics Workspace supplied via vars, provision one ourselves or leave it null.
   # This guarantees that local.log_analytics_workspace will contain a valid `id` and `name` IFF log_analytics_workspace_enabled
   # is set to `true`.
@@ -41,5 +53,6 @@ locals {
   ], [var.vnet_subnet_id]))
   query_datasource_for_log_analytics_workspace_location = var.log_analytics_workspace_enabled && (var.log_analytics_workspace != null ? var.log_analytics_workspace.location == null : false)
   subnet_ids                                            = toset([for id in local.potential_subnet_ids : id if id != null])
+  use_brown_field_gw_for_ingress                        = var.brown_field_application_gateway_for_ingress != null
+  use_green_field_gw_for_ingress                        = var.green_field_application_gateway_for_ingress != null
 }
-

@@ -7,6 +7,7 @@
 - Add web\_app\_routing\_identity block to outputs [\#481](https://github.com/Azure/terraform-azurerm-aks/pull/481) ([bonddim](https://github.com/bonddim))
 - Add support for `kubelet_identity` nested block [\#479](https://github.com/Azure/terraform-azurerm-aks/pull/479) ([lonegunmanb](https://github.com/lonegunmanb))
 - Prepare for v8.0 [\#462](https://github.com/Azure/terraform-azurerm-aks/pull/462) ([lonegunmanb](https://github.com/lonegunmanb))
+- Add role assignments for ingress application gateway and corresponding example [\#426](https://github.com/Azure/terraform-azurerm-aks/pull/426) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support for workload\_autoscaler\_profile settings [\#404](https://github.com/Azure/terraform-azurerm-aks/pull/404) ([bonddim](https://github.com/bonddim))
 
 
