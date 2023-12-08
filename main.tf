@@ -511,7 +511,10 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   lifecycle {
-    ignore_changes = [kubernetes_version]
+    ignore_changes = [
+      kubernetes_version,
+      public_network_access_enabled,
+    ]
 
     precondition {
       condition     = (var.client_id != "" && var.client_secret != "") || (var.identity_type != "")
