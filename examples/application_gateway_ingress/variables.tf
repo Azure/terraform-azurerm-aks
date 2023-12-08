@@ -1,3 +1,8 @@
+variable "bring_your_own_vnet" {
+  type    = bool
+  default = true
+}
+
 variable "create_resource_group" {
   type     = bool
   default  = true
@@ -21,9 +26,4 @@ variable "resource_group_name" {
 variable "use_brown_field_application_gateway" {
   type    = bool
   default = false
-}
-
-variable "bring_your_own_vnet" {
-  type    = bool
-  default = true
 }
