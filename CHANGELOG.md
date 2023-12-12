@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Ignore deprecated attribute `public_network_access_enabled` [\#485](https://github.com/Azure/terraform-azurerm-aks/pull/485) ([ishuar](https://github.com/ishuar))
 - Add web\_app\_routing\_identity block to outputs [\#481](https://github.com/Azure/terraform-azurerm-aks/pull/481) ([bonddim](https://github.com/bonddim))
 - Add support for `kubelet_identity` nested block [\#479](https://github.com/Azure/terraform-azurerm-aks/pull/479) ([lonegunmanb](https://github.com/lonegunmanb))
 - Prepare for v8.0 [\#462](https://github.com/Azure/terraform-azurerm-aks/pull/462) ([lonegunmanb](https://github.com/lonegunmanb))
