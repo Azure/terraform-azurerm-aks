@@ -60,7 +60,6 @@ module "aks" {
   attached_acr_id_map = {
     example = azurerm_container_registry.example.id
   }
-  public_network_access_enabled = false
   network_plugin                = "azure"
   network_policy                = "azure"
   os_disk_size_gb               = 60

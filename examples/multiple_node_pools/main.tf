@@ -48,7 +48,6 @@ module "aks" {
   prefix                        = "prefix-${random_id.prefix.hex}"
   resource_group_name           = local.resource_group.name
   os_disk_size_gb               = 60
-  public_network_access_enabled = false
   sku_tier                      = "Standard"
   rbac_aad                      = false
   vnet_subnet_id                = azurerm_subnet.test.id
