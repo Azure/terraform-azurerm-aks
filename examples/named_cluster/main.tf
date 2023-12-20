@@ -69,7 +69,6 @@ module "aks_cluster_name" {
   cluster_log_analytics_workspace_name = "test-cluster"
   cluster_name                         = "test-cluster"
   disk_encryption_set_id               = azurerm_disk_encryption_set.des.id
-  public_network_access_enabled        = false
   identity_ids                         = [azurerm_user_assigned_identity.test.id]
   identity_type                        = "UserAssigned"
   log_analytics_solution = {

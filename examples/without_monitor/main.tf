@@ -39,12 +39,11 @@ resource "azurerm_dns_zone" "aks_web_app_routing" {
 module "aks_without_monitor" {
   source = "../.."
 
-  prefix                        = "prefix2-${random_id.prefix.hex}"
-  resource_group_name           = local.resource_group.name
-  admin_username                = null
-  azure_policy_enabled          = true
-  disk_encryption_set_id        = azurerm_disk_encryption_set.des.id
-  public_network_access_enabled = false
+  prefix                 = "prefix2-${random_id.prefix.hex}"
+  resource_group_name    = local.resource_group.name
+  admin_username         = null
+  azure_policy_enabled   = true
+  disk_encryption_set_id = azurerm_disk_encryption_set.des.id
   #checkov:skip=CKV_AZURE_4:The logging is turn off for demo purpose. DO NOT DO THIS IN PRODUCTION ENVIRONMENT!
   log_analytics_workspace_enabled   = false
   net_profile_pod_cidr              = "10.1.0.0/16"

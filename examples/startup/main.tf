@@ -106,7 +106,6 @@ module "aks" {
   node_os_channel_upgrade           = "NodeImage"
   os_disk_size_gb                   = 60
   private_cluster_enabled           = true
-  public_network_access_enabled     = false
   rbac_aad                          = true
   rbac_aad_managed                  = true
   role_based_access_control_enabled = true
