@@ -50,7 +50,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   workload_identity_enabled = var.workload_identity_enabled
 
   dynamic "http_proxy_config" {
-    for_each = var.http_proxy_config == true ? [] : ["http_proxy_config"]
+    for_each = var.http_proxy_config == null ? [] : ["http_proxy_config"]
     content {
       http_proxy  = var.http_proxy_config.http_proxy
       https_proxy = var.http_proxy_config.https_proxy
