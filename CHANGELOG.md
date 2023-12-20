@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Remove `public_network_access_enabled` entirely [\#488](https://github.com/Azure/terraform-azurerm-aks/pull/488) ([lonegunmanb](https://github.com/lonegunmanb))
 - Ignore deprecated attribute `public_network_access_enabled` [\#485](https://github.com/Azure/terraform-azurerm-aks/pull/485) ([ishuar](https://github.com/ishuar))
 - feat: enable precondition on `default_node_pool` for autoscaling with node pool type [\#484](https://github.com/Azure/terraform-azurerm-aks/pull/484) ([ishuar](https://github.com/ishuar))
 - Add web\_app\_routing\_identity block to outputs [\#481](https://github.com/Azure/terraform-azurerm-aks/pull/481) ([bonddim](https://github.com/bonddim))
