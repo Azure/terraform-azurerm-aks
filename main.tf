@@ -49,16 +49,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
   workload_identity_enabled = var.workload_identity_enabled
 
-  dynamic "http_proxy_config" {
-    for_each = var.http_proxy_config == null ? [] : ["http_proxy_config"]
-    content {
-      http_proxy  = var.http_proxy_config.http_proxy
-      https_proxy = var.http_proxy_config.https_proxy
-      no_proxy    = var.http_proxy_config.no_proxy
-      trusted_ca  = var.http_proxy_config.trusted_ca
-    }
-  }
-
   dynamic "default_node_pool" {
     for_each = var.enable_auto_scaling == true ? [] : ["default_node_pool_manually_scaled"]
 
@@ -330,6 +320,15 @@ resource "azurerm_kubernetes_cluster" "main" {
       sgx_quote_helper_enabled = confidential_computing.value.sgx_quote_helper_enabled
     }
   }
+  dynamic "http_proxy_config" {
+    for_each = var.http_proxy_config == null ? [] : ["http_proxy_config"]
+    content {
+      http_proxy  = coalesce(var.http_proxy_config.http_proxy, var.http_proxy_config.https_proxy)
+      https_proxy = coalesce(var.http_proxy_config.https_proxy, var.http_proxy_config.http_proxy)
+      no_proxy    = var.http_proxy_config.no_proxy
+      trusted_ca  = var.http_proxy_config.trusted_ca
+    }
+  }
   dynamic "identity" {
     for_each = var.client_id == "" || var.client_secret == "" ? ["identity"] : []
 
@@ -595,12 +594,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 }
 
-resource "null_resource" "aks_cluster_recreate" {
-  triggers = {
-    http_proxy_no_proxy = try(join(",", var.http_proxy_config.no_proxy), "")
-  }
-}
-
 resource "null_resource" "kubernetes_version_keeper" {
   triggers = {
     version = var.kubernetes_version
@@ -619,6 +612,35 @@ resource "azapi_update_resource" "aks_cluster_post_create" {
   lifecycle {
     ignore_changes       = all
     replace_triggered_by = [null_resource.kubernetes_version_keeper.id]
+  }
+}
+
+resource "null_resource" "http_proxy_config_no_proxy_keeper" {
+  count = can(var.http_proxy_config.no_proxy[0]) ? 1 : 0
+
+  triggers = {
+    http_proxy_no_proxy = try(join(",", try(sort(var.http_proxy_config.no_proxy), [])), "")
+  }
+}
+
+resource "azapi_update_resource" "aks_cluster_http_proxy_config_no_proxy" {
+  count = can(var.http_proxy_config.no_proxy[0]) ? 1 : 0
+
+  type = "Microsoft.ContainerService/managedClusters@2023-01-02-preview"
+  body = jsonencode({
+    properties = {
+      httpProxyConfig = {
+        noProxy = var.http_proxy_config.no_proxy
+      }
+    }
+  })
+  resource_id = azurerm_kubernetes_cluster.main.id
+
+  depends_on = [azapi_update_resource.aks_cluster_post_create]
+
+  lifecycle {
+    ignore_changes       = all
+    replace_triggered_by = [null_resource.http_proxy_config_no_proxy_keeper[0].id]
   }
 }
 
