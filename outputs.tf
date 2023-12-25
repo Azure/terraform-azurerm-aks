@@ -130,11 +130,6 @@ output "host" {
   value       = azurerm_kubernetes_cluster.main.kube_config[0].host
 }
 
-output "http_application_routing_enabled" {
-  description = "The `azurerm_kubernetes_cluster`'s `http_application_routing_enabled` argument. (Optional) Should HTTP Application Routing be enabled?"
-  value       = azurerm_kubernetes_cluster.main.http_application_routing_enabled
-}
-
 output "http_application_routing_zone_name" {
   description = "The `azurerm_kubernetes_cluster`'s `http_application_routing_zone_name` argument. The Zone Name of the HTTP Application Routing."
   value       = azurerm_kubernetes_cluster.main.http_application_routing_zone_name != null ? azurerm_kubernetes_cluster.main.http_application_routing_zone_name : ""

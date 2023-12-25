@@ -479,12 +479,6 @@ EOT
   }
 }
 
-variable "http_application_routing_enabled" {
-  type        = bool
-  default     = false
-  description = "Enable HTTP Application Routing Addon (forces recreation)."
-}
-
 variable "http_proxy_config" {
   type = object({
     http_proxy  = optional(string)
