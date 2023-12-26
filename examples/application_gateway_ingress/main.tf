@@ -160,11 +160,10 @@ module "aks" {
       ]
     }
   ]
-  agents_type                      = "VirtualMachineScaleSets"
-  azure_policy_enabled             = true
-  enable_auto_scaling              = true
-  enable_host_encryption           = true
-  http_application_routing_enabled = true
+  agents_type            = "VirtualMachineScaleSets"
+  azure_policy_enabled   = true
+  enable_auto_scaling    = true
+  enable_host_encryption = true
   green_field_application_gateway_for_ingress = var.use_brown_field_application_gateway ? null : {
     name        = "ingress"
     subnet_cidr = local.appgw_cidr
