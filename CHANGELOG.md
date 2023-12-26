@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Remove `var.http_application_routing_enabled` [\#493](https://github.com/Azure/terraform-azurerm-aks/pull/493) ([lonegunmanb](https://github.com/lonegunmanb))
 - feat\(`http_proxy_config`\): Add `http_proxy_config` [\#492](https://github.com/Azure/terraform-azurerm-aks/pull/492) ([lonegunmanb](https://github.com/lonegunmanb))
 - Remove `public_network_access_enabled` entirely [\#488](https://github.com/Azure/terraform-azurerm-aks/pull/488) ([lonegunmanb](https://github.com/lonegunmanb))
 - Ignore deprecated attribute `public_network_access_enabled` [\#485](https://github.com/Azure/terraform-azurerm-aks/pull/485) ([ishuar](https://github.com/ishuar))
