@@ -40,7 +40,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
     avm_yor_trace            = "545fe65e-308d-4ac4-978a-e216e9d95d0e"
-  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
+    } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "node_pool"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
   ultra_ssd_enabled = each.value.ultra_ssd_enabled
