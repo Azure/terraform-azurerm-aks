@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Refactor code, split monolith tf config into multiple files [\#494](https://github.com/Azure/terraform-azurerm-aks/pull/494) ([lonegunmanb](https://github.com/lonegunmanb))
 - Remove `var.http_application_routing_enabled` [\#493](https://github.com/Azure/terraform-azurerm-aks/pull/493) ([lonegunmanb](https://github.com/lonegunmanb))
 - feat\(`http_proxy_config`\): Add `http_proxy_config` [\#492](https://github.com/Azure/terraform-azurerm-aks/pull/492) ([lonegunmanb](https://github.com/lonegunmanb))
 - Remove `public_network_access_enabled` entirely [\#488](https://github.com/Azure/terraform-azurerm-aks/pull/488) ([lonegunmanb](https://github.com/lonegunmanb))
