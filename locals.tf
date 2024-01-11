@@ -46,8 +46,8 @@ locals {
       resource_group_name = split("/", var.log_analytics_workspace.id)[4]
     }
   ) : null # Finally, the Log Analytics Workspace should be disabled.
-  node_pools_create_after_destroy  = [for p in var.node_pools : p if p.create_before_destroy != true]
-  node_pools_create_before_destroy = [for p in var.node_pools : p if p.create_before_destroy == true]
+  node_pools_create_after_destroy  = { for k, p in var.node_pools : k => p if p.create_before_destroy != true }
+  node_pools_create_before_destroy = { for k, p in var.node_pools : k => p if p.create_before_destroy == true }
   potential_subnet_ids = flatten(concat([
     for pool in var.node_pools : [
       pool.vnet_subnet_id,
