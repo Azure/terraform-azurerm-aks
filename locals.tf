@@ -9,6 +9,7 @@ locals {
     (contains(["patch"], var.automatic_channel_upgrade) && can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.kubernetes_version)) && (can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.orchestrator_version)) || var.orchestrator_version == null)) ||
     (contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) && var.kubernetes_version == null && var.orchestrator_version == null)
   )
+  cluster_name = coalesce(var.cluster_name, trim("${var.prefix}-aks", "-"))
   # Abstract the decision whether to create an Analytics Workspace or not.
   create_analytics_solution        = var.log_analytics_workspace_enabled && var.log_analytics_solution == null
   create_analytics_workspace       = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null
@@ -45,6 +46,8 @@ locals {
       resource_group_name = split("/", var.log_analytics_workspace.id)[4]
     }
   ) : null # Finally, the Log Analytics Workspace should be disabled.
+  node_pools_create_after_destroy  = [for p in var.node_pools : p if p.create_before_destroy != true]
+  node_pools_create_before_destroy = [for p in var.node_pools : p if p.create_before_destroy == true]
   potential_subnet_ids = flatten(concat([
     for pool in var.node_pools : [
       pool.vnet_subnet_id,
