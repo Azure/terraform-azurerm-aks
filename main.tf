@@ -16,7 +16,7 @@ resource "tls_private_key" "ssh" {
 
 resource "azurerm_kubernetes_cluster" "main" {
   location                            = coalesce(var.location, data.azurerm_resource_group.main.location)
-  name                                = coalesce(var.cluster_name, trim("${var.prefix}-aks", "-"))
+  name                                = "${local.cluster_name}${var.cluster_name_random_suffix ? substr(md5(uuid()), 0, 4) : ""}"
   resource_group_name                 = data.azurerm_resource_group.main.name
   automatic_channel_upgrade           = var.automatic_channel_upgrade
   azure_policy_enabled                = var.azure_policy_enabled
@@ -524,6 +524,11 @@ resource "azurerm_kubernetes_cluster" "main" {
       http_proxy_config[0].no_proxy,
       kubernetes_version,
       public_network_access_enabled,
+      # we might have a random suffix in cluster's name so we have to ignore it here, but we've traced user supplied cluster name by `null_resource.kubernetes_cluster_name_keeper` so when the name is changed we'll recreate this resource.
+      name,
+    ]
+    replace_triggered_by = [
+      null_resource.kubernetes_cluster_name_keeper.id
     ]
 
     precondition {
@@ -592,6 +597,12 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = var.brown_field_application_gateway_for_ingress == null || var.green_field_application_gateway_for_ingress == null
       error_message = "Either one of `var.brown_field_application_gateway_for_ingress` or `var.green_field_application_gateway_for_ingress` must be `null`."
     }
+  }
+}
+
+resource "null_resource" "kubernetes_cluster_name_keeper" {
+  triggers = {
+    name = local.cluster_name
   }
 }
 

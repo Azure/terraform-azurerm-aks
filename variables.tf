@@ -401,6 +401,13 @@ variable "cluster_name" {
   description = "(Optional) The name for the AKS resources created in the specified Azure Resource Group. This variable overwrites the 'prefix' var (The 'prefix' var will still be applied to the dns_prefix if it is set)"
 }
 
+variable "cluster_name_random_suffix" {
+  type        = bool
+  default     = false
+  description = "Whether to add a random suffix on Aks cluster's name or not. `azurerm_kubernetes_cluster` resource defined in this module is `create_before_destroy = true` implicity now(described [here](https://github.com/Azure/terraform-azurerm-aks/issues/389)), without this random suffix we'll not be able to recreate this cluster directly due to the naming conflict."
+  nullable    = false
+}
+
 variable "confidential_computing" {
   type = object({
     sgx_quote_helper_enabled = bool
@@ -926,8 +933,9 @@ variable "node_pools" {
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)
     }))
-    workload_runtime = optional(string)
-    zones            = optional(set(string))
+    workload_runtime      = optional(string)
+    zones                 = optional(set(string))
+    create_before_destroy = optional(bool, true)
   }))
   default     = {}
   description = <<-EOT
@@ -1026,6 +1034,7 @@ variable "node_pools" {
     }))
     workload_runtime = (Optional) Used to specify the workload runtime. Allowed values are `OCIContainer` and `WasmWasi`. WebAssembly System Interface node pools are in Public Preview - more information and details on how to opt into the preview can be found in [this article](https://docs.microsoft.com/azure/aks/use-wasi-node-pools)
     zones            = (Optional) Specifies a list of Availability Zones in which this Kubernetes Cluster Node Pool should be located. Changing this forces a new Kubernetes Cluster Node Pool to be created.
+    create_before_destroy = (Optional) Create a new node pool before destroy the old one when Terraform must update an argument that cannot be updated in-place. Set this argument to `true` will add add a random suffix to pool's name to avoid conflict. Default to `true`.
   }))
   EOT
   nullable    = false
