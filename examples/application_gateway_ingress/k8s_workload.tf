@@ -96,7 +96,7 @@ resource "kubernetes_ingress_v1" "ing" {
 }
 
 resource "time_sleep" "wait_for_ingress" {
-  create_duration = "15m"
+  create_duration = "5m"
 
   depends_on = [kubernetes_ingress_v1.ing]
 }
