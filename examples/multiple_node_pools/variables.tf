@@ -12,3 +12,13 @@ variable "resource_group_name" {
   type    = string
   default = null
 }
+
+variable "kubernetes_version" {
+  type    = string
+  default = null
+}
+
+variable "orchestrator_version" {
+  type    = string
+  default = null
+}
