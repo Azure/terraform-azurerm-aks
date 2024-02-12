@@ -403,6 +403,28 @@ resource "azurerm_kubernetes_cluster" "main" {
       }
     }
   }
+  dynamic "maintenance_window_auto_upgrade" {
+    for_each = var.maintenance_window_auto_upgrade == null ? [] : [var.maintenance_window_auto_upgrade]
+    content {
+      duration     = maintenance_window_auto_upgrade.value.duration
+      frequency    = maintenance_window_auto_upgrade.value.frequency
+      interval     = maintenance_window_auto_upgrade.value.interval
+      day_of_month = maintenance_window_auto_upgrade.value.day_of_month
+      day_of_week  = maintenance_window_auto_upgrade.value.day_of_week
+      start_date   = maintenance_window_auto_upgrade.value.start_date
+      start_time   = maintenance_window_auto_upgrade.value.start_time
+      utc_offset   = maintenance_window_auto_upgrade.value.utc_offset
+      week_index   = maintenance_window_auto_upgrade.value.week_index
+
+      dynamic "not_allowed" {
+        for_each = maintenance_window_auto_upgrade.value.not_allowed == null ? [] : maintenance_window_auto_upgrade.value.not_allowed
+        content {
+          end   = not_allowed.value.end
+          start = not_allowed.value.start
+        }
+      }
+    }
+  }
   dynamic "maintenance_window_node_os" {
     for_each = var.maintenance_window_node_os == null ? [] : [var.maintenance_window_node_os]
     content {
