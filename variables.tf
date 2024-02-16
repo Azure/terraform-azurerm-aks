@@ -1217,11 +1217,11 @@ variable "service_mesh_profile" {
 variable "sku_tier" {
   type        = string
   default     = "Free"
-  description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are `Free` and `Standard`"
+  description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are `Free`, `Standard` and `Premium`"
 
   validation {
-    condition     = contains(["Free", "Standard"], var.sku_tier)
-    error_message = "The SKU Tier must be either `Free` or `Standard`. `Paid` is no longer supported since AzureRM provider v3.51.0."
+    condition     = contains(["Free", "Standard", "Premium"], var.sku_tier)
+    error_message = "The SKU Tier must be either `Free`, `Standard` or `Premium`. `Paid` is no longer supported since AzureRM provider v3.51.0."
   }
 }
 
