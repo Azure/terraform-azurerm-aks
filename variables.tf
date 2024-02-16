@@ -1268,6 +1268,17 @@ variable "storage_profile_snapshot_controller_enabled" {
   description = "(Optional) Is the Snapshot Controller enabled? Defaults to `true`"
 }
 
+variable "support_plan" {
+  type        = string
+  default     = "KubernetesOfficial"
+  description = "The support plan which should be used for this Kubernetes Cluster. Possible values are `KubernetesOfficial` and `AKSLongTermSupport`."
+
+  validation {
+    condition     = contains(["KubernetesOfficial", "AKSLongTermSupport"], var.support_plan)
+    error_message = "The support plan must be either `KubernetesOfficial` or `AKSLongTermSupport`."
+  }
+}
+
 variable "tags" {
   type        = map(string)
   default     = {}
