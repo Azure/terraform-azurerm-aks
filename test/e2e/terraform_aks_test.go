@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
 
@@ -156,6 +157,11 @@ func TestExamples_applicationGatewayIngress(t *testing.T) {
 					"bring_your_own_vnet":                             u.bringYourOwnVnet,
 					"use_brown_field_application_gateway":             u.useBrownFieldAppGw,
 					"create_role_assignments_for_application_gateway": u.createRoleBindingForAppGw,
+				},
+				MaxRetries:         20,
+				TimeBetweenRetries: time.Minute,
+				RetryableTerraformErrors: map[string]string{
+					".*is empty list of object.*": "the ingress hasn't been created, need more time",
 				},
 			}, func(t *testing.T, output test_helper.TerraformOutput) {
 				url, ok := output["ingress_endpoint"].(string)
