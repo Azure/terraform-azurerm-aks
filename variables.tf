@@ -742,7 +742,7 @@ variable "maintenance_window_auto_upgrade" {
  - `day_of_month` - (Optional) The day of the month for the maintenance run. Required in combination with RelativeMonthly frequency. Value between 0 and 31 (inclusive).
  - `day_of_week` - (Optional) The day of the week for the maintenance run. Options are `Monday`, `Tuesday`, `Wednesday`, `Thurday`, `Friday`, `Saturday` and `Sunday`. Required in combination with weekly frequency.
  - `duration` - (Required) The duration of the window for maintenance to run in hours.
- - `frequency` - (Required) Frequency of maintenance. Possible options are `Daily`, `Weekly`, `AbsoluteMonthly` and `RelativeMonthly`.
+ - `frequency` - (Required) Frequency of maintenance. Possible options are `Weekly`, `AbsoluteMonthly` and `RelativeMonthly`.
  - `interval` - (Required) The interval for maintenance runs. Depending on the frequency this interval is week or month based.
  - `start_date` - (Optional) The date on which the maintenance window begins to take effect.
  - `start_time` - (Optional) The time for maintenance to begin, based on the timezone determined by `utc_offset`. Format is `HH:mm`.
