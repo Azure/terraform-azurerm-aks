@@ -38,6 +38,7 @@ locals {
       vm_size        = "Standard_D2s_v3"
       node_count     = 1
       vnet_subnet_id = azurerm_subnet.test.id
+      create_before_destroy = i % 2 == 0
     }
   }
 }
