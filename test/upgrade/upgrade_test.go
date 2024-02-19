@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"testing"
+	"time"
 
 	test_helper "github.com/Azure/terraform-module-test-helper"
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -137,6 +138,11 @@ func TestExampleUpgrade_applicationGw(t *testing.T) {
 					"bring_your_own_vnet":                             u.bringYourOwnVnet,
 					"use_brown_field_application_gateway":             u.useBrownFieldAppGw,
 					"create_role_assignments_for_application_gateway": u.createRoleBindingForAppGw,
+				},
+				MaxRetries:         20,
+				TimeBetweenRetries: time.Minute,
+				RetryableTerraformErrors: map[string]string{
+					".*is empty list of object.*": "the ingress hasn't been created, need more time",
 				},
 			}, currentMajorVersion)
 		})
