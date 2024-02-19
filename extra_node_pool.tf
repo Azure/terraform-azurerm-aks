@@ -7,7 +7,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
   for_each = local.node_pools_create_before_destroy
 
   kubernetes_cluster_id         = azurerm_kubernetes_cluster.main.id
-  name                          = "${each.value.name}${substr(md5(jsonencode(each.value)), 0, 4)}"
+  name                          = "${each.value.name}${substr(md5(uuid()), 0, 4)}"
   vm_size                       = each.value.vm_size
   capacity_reservation_group_id = each.value.capacity_reservation_group_id
   custom_ca_trust_enabled       = each.value.custom_ca_trust_enabled
