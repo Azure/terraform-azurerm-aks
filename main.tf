@@ -38,12 +38,12 @@ resource "azurerm_kubernetes_cluster" "main" {
   sku_tier                            = var.sku_tier
   support_plan                        = var.support_plan
   tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_git_commit           = "678838cb66e8ae110c0e5057465b6341033e1aef"
+    avm_git_commit           = "a2b7e7dc8b41c0c8c0e5e2ab7902b46bc2d6919e"
     avm_git_file             = "main.tf"
-    avm_git_last_modified_at = "2023-11-13 03:03:50"
+    avm_git_last_modified_at = "2024-02-16 15:45:22"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "475bbb5c-5591-443b-a31f-f017d40b78e6"
+    avm_yor_trace            = "28cda76e-2e63-44c4-8b47-4a82c72f8546"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
