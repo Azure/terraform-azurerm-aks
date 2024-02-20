@@ -6,6 +6,7 @@
 
 - Add retry when the ingress is not ready [\#510](https://github.com/Azure/terraform-azurerm-aks/pull/510) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support for `support_plan` and `Premium` sku tier. [\#508](https://github.com/Azure/terraform-azurerm-aks/pull/508) ([ecklm](https://github.com/ecklm))
+- Add support for `maintenance_window_auto_upgrade` [\#505](https://github.com/Azure/terraform-azurerm-aks/pull/505) ([skolobov](https://github.com/skolobov))
 - Let the users decide whether adding a random suffix in cluster and pool's name or not. [\#496](https://github.com/Azure/terraform-azurerm-aks/pull/496) ([lonegunmanb](https://github.com/lonegunmanb))
 - Refactor code, split monolith tf config into multiple files [\#494](https://github.com/Azure/terraform-azurerm-aks/pull/494) ([lonegunmanb](https://github.com/lonegunmanb))
 - Remove `var.http_application_routing_enabled` [\#493](https://github.com/Azure/terraform-azurerm-aks/pull/493) ([lonegunmanb](https://github.com/lonegunmanb))
