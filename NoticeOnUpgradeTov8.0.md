@@ -22,7 +22,9 @@ According to the [document](https://learn.microsoft.com/en-us/azure/aks/http-app
 
 4. The `http_application_routing_enabled` attribute has been added to the `ignore_changes` lifecycle block of the `azurerm_kubernetes_cluster` resource in `main.tf`. This means changes to this attribute will not trigger the resource to be updated.
 
-These changes mean that users of this module will no longer be able to enable HTTP Application Routing through this module. If they need this feature, they will need to enable it separately.
+These changes mean that users of this module will no longer be able to enable HTTP Application Routing through this module.
+
+The new feature for the Ingress in AKS is [Managed NGINX ingress with the application routing add-on](https://learn.microsoft.com/en-us/azure/aks/app-routing?tabs=default%2Cdeploy-app-default), you can enable this with `var.web_app_routing`.
 
 Users who were using this feature, please read this [Migrate document](https://learn.microsoft.com/en-us/azure/aks/app-routing-migration).
 
