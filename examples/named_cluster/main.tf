@@ -66,7 +66,6 @@ module "aks_cluster_name" {
   resource_group_name                  = local.resource_group.name
   admin_username                       = null
   azure_policy_enabled                 = true
-  cluster_log_analytics_workspace_name = "test-cluster"
   cluster_name                         = "test-cluster"
   disk_encryption_set_id               = azurerm_disk_encryption_set.des.id
   identity_ids                         = [azurerm_user_assigned_identity.test.id]

@@ -389,12 +389,6 @@ variable "client_secret" {
   nullable    = false
 }
 
-variable "cluster_log_analytics_workspace_name" {
-  type        = string
-  default     = null
-  description = "(Optional) The name of the Analytics workspace"
-}
-
 variable "cluster_name" {
   type        = string
   default     = null
@@ -687,24 +681,6 @@ variable "log_analytics_workspace_enabled" {
   nullable    = false
 }
 
-variable "log_analytics_workspace_resource_group_name" {
-  type        = string
-  default     = null
-  description = "(Optional) Resource group name to create azurerm_log_analytics_solution."
-}
-
-variable "log_analytics_workspace_sku" {
-  type        = string
-  default     = "PerGB2018"
-  description = "The SKU (pricing level) of the Log Analytics workspace. For new subscriptions the SKU should be set to PerGB2018"
-}
-
-variable "log_retention_in_days" {
-  type        = number
-  default     = 30
-  description = "The retention period for the logs in days"
-}
-
 variable "maintenance_window" {
   type = object({
     allowed = optional(list(object({
@@ -867,6 +843,53 @@ variable "network_policy" {
   type        = string
   default     = null
   description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
+}
+
+variable "new_log_analytics_workspace" {
+  type = object({
+    allow_resource_only_permissions         = optional(bool)
+    cmk_for_query_forced                    = optional(bool)
+    daily_quota_gb                          = optional(number)
+    data_collection_rule_id                 = optional(string)
+    immediate_data_purge_on_30_days_enabled = optional(bool)
+    internet_ingestion_enabled              = optional(bool)
+    internet_query_enabled                  = optional(bool)
+    local_authentication_disabled           = optional(bool)
+    location                                = optional(string)
+    name                                    = optional(string)
+    reservation_capacity_in_gb_per_day      = optional(number)
+    resource_group_name                     = optional(string)
+    retention_in_days                       = optional(number)
+    sku                                     = optional(string)
+    tags                                    = optional(map(string))
+    identity = optional(object({
+      identity_ids = optional(set(string))
+      type         = string
+    }))
+  })
+  default     = null
+  description = <<-DESCRIPTION
+ - `allow_resource_only_permissions` - (Optional) Specifies if the log Analytics Workspace allow users accessing to data associated with resources they have permission to view, without permission to workspace. Defaults to `true`.
+ - `cmk_for_query_forced` - (Optional) Is Customer Managed Storage mandatory for query management?
+ - `daily_quota_gb` - (Optional) The workspace daily quota for ingestion in GB. Defaults to -1 (unlimited) if omitted.
+ - `data_collection_rule_id` - (Optional) The ID of the Data Collection Rule to use for this workspace.
+ - `immediate_data_purge_on_30_days_enabled` - (Optional) Whether to remove the data in the Log Analytics Workspace immediately after 30 days.
+ - `internet_ingestion_enabled` - (Optional) Should the Log Analytics Workspace support ingestion over the Public Internet? Defaults to `true`.
+ - `internet_query_enabled` - (Optional) Should the Log Analytics Workspace support querying over the Public Internet? Defaults to `true`.
+ - `local_authentication_disabled` - (Optional) Specifies if the log Analytics workspace should enforce authentication using Azure AD. Defaults to `false`.
+ - `location` - (Optional) Specifies the supported Azure location where the resource exists. Will use `var.location` if omitted. Changing this forces a new resource to be created.
+ - `name` - (Optional) Specifies the name of the Log Analytics Workspace. Workspace name should include 4-63 letters, digits or '-'. The '-' shouldn't be the first or the last symbol. Will use `trim("$${var.prefix}-workspace", "-"))` as name if omitted. Changing this forces a new resource to be created.
+ - `reservation_capacity_in_gb_per_day` - (Optional) The capacity reservation level in GB for this workspace. Possible values are `100`, `200`, `300`, `400`, `500`, `1000`, `2000` and `5000`.
+ - `resource_group_name` - (Optional) The name of the resource group in which the Log Analytics workspace is created. Will use `var.resource_group_name` if omitted. Changing this forces a new resource to be created.
+ - `retention_in_days` - (Optional) The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730.
+ - `sku` - (Optional) Specifies the SKU of the Log Analytics Workspace. Possible values are `Free`, `PerNode`, `Premium`, `Standard`, `Standalone`, `Unlimited`, `CapacityReservation`, and `PerGB2018` (new SKU as of `2018-04-03`). Defaults to `PerGB2018`.
+ - `tags` - (Optional) A mapping of tags to assign to the resource.
+
+ ---
+ `identity` block supports the following:
+ - `identity_ids` - (Optional) Specifies a list of user managed identity ids to be assigned. Required if `type` is `UserAssigned`.
+ - `type` - (Required) Specifies the identity type of the Log Analytics Workspace. Possible values are `SystemAssigned` (where Azure will generate a Service Principal for you) and `UserAssigned` where you can specify the Service Principal IDs in the `identity_ids` field.
+DESCRIPTION
 }
 
 variable "node_os_channel_upgrade" {
