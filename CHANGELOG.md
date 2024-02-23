@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Remove precondition on extra node pool which prevent using windows pool with overlay [\#512](https://github.com/Azure/terraform-azurerm-aks/pull/512) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add retry when the ingress is not ready [\#510](https://github.com/Azure/terraform-azurerm-aks/pull/510) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support for `support_plan` and `Premium` sku tier. [\#508](https://github.com/Azure/terraform-azurerm-aks/pull/508) ([ecklm](https://github.com/ecklm))
 - Add support for `maintenance_window_auto_upgrade` [\#505](https://github.com/Azure/terraform-azurerm-aks/pull/505) ([skolobov](https://github.com/skolobov))
