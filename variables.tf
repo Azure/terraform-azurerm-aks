@@ -436,12 +436,6 @@ variable "default_node_pool_fips_enabled" {
   description = " (Optional) Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created."
 }
 
-variable "default_node_pool_gpu_instance" {
-  type        = string
-  default     = null
-  description = "(Optional) Specifies the GPU MIG instance profile for supported GPU VM SKU for cluster's default node pool. The allowed values are `MIG1g`, `MIG2g`, `MIG3g`, `MIG4g` and `MIG7g`. Changing this forces a new resource to be created."
-}
-
 variable "disk_encryption_set_id" {
   type        = string
   default     = null
