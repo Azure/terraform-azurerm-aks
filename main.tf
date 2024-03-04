@@ -59,6 +59,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       enable_host_encryption       = var.enable_host_encryption
       enable_node_public_ip        = var.enable_node_public_ip
       fips_enabled                 = var.default_node_pool_fips_enabled
+      gpu_instance                 = var.default_node_pool_gpu_instance
       max_count                    = null
       max_pods                     = var.agents_max_pods
       min_count                    = null
@@ -161,6 +162,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       enable_host_encryption       = var.enable_host_encryption
       enable_node_public_ip        = var.enable_node_public_ip
       fips_enabled                 = var.default_node_pool_fips_enabled
+      gpu_instance                 = var.default_node_pool_gpu_instance
       max_count                    = var.agents_max_count
       max_pods                     = var.agents_max_pods
       min_count                    = var.agents_min_count

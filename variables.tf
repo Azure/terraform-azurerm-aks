@@ -436,6 +436,12 @@ variable "default_node_pool_fips_enabled" {
   description = " (Optional) Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created."
 }
 
+variable "default_node_pool_gpu_instance" {
+  type        = string
+  default     = null
+  description = "(Optional) Specifies the GPU MIG instance profile for supported GPU VM SKU for cluster's default node pool. The allowed values are `MIG1g`, `MIG2g`, `MIG3g`, `MIG4g` and `MIG7g`. Changing this forces a new resource to be created."
+}
+
 variable "disk_encryption_set_id" {
   type        = string
   default     = null
@@ -888,6 +894,7 @@ variable "node_pools" {
     enable_host_encryption        = optional(bool)
     enable_node_public_ip         = optional(bool)
     eviction_policy               = optional(string)
+    gpu_instance                  = optional(string)
     kubelet_config = optional(object({
       cpu_manager_policy        = optional(string)
       cpu_cfs_quota_enabled     = optional(bool)
@@ -987,6 +994,7 @@ variable "node_pools" {
     enable_host_encryption        = (Optional) Should the nodes in this Node Pool have host encryption enabled? Changing this forces a new resource to be created.
     enable_node_public_ip         = (Optional) Should each node have a Public IP Address? Changing this forces a new resource to be created.
     eviction_policy               = (Optional) The Eviction Policy which should be used for Virtual Machines within the Virtual Machine Scale Set powering this Node Pool. Possible values are `Deallocate` and `Delete`. Changing this forces a new resource to be created. An Eviction Policy can only be configured when `priority` is set to `Spot` and will default to `Delete` unless otherwise specified.
+    gpu_instance                  = (Optional) Specifies the GPU MIG instance profile for supported GPU VM SKU. The allowed values are `MIG1g`, `MIG2g`, `MIG3g`, `MIG4g` and `MIG7g`. Changing this forces a new resource to be created.
     kubelet_config = optional(object({
       cpu_manager_policy        = (Optional) Specifies the CPU Manager policy to use. Possible values are `none` and `static`, Changing this forces a new resource to be created.
       cpu_cfs_quota_enabled     = (Optional) Is CPU CFS quota enforcement for containers enabled? Changing this forces a new resource to be created.

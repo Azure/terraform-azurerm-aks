@@ -16,6 +16,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
   enable_node_public_ip         = each.value.enable_node_public_ip
   eviction_policy               = each.value.eviction_policy
   fips_enabled                  = each.value.fips_enabled
+  gpu_instance                  = each.value.gpu_instance
   host_group_id                 = each.value.host_group_id
   kubelet_disk_type             = each.value.kubelet_disk_type
   max_count                     = each.value.max_count
