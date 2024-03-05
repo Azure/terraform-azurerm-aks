@@ -51,10 +51,3 @@ The `brown_field_application_gateway_for_ingress`, `create_role_assignments_for_
 2. `green_field_application_gateway_for_ingress`: This variable is used when you want the module to create a new Application Gateway for the AKS cluster. It is an object that contains the name of the Application Gateway to be used or created in the Nodepool Resource Group (`name`), the subnet CIDR to be used to create an Application Gateway (`subnet_cidr`), and the ID of the subnet on which to create an Application Gateway (`subnet_id`). If this variable is set, the module will create a new Application Gateway with the provided configuration.
 
 3. `create_role_assignments_for_application_gateway`: This is a boolean variable that determines whether to create the corresponding role assignments for the application gateway or not. By default, it is set to `true`. Role assignments are necessary for the Application Gateway to function correctly with the AKS cluster. If set to `true`, the module will create the necessary role assignments on the Application Gateway.
-
-## Redesign variable for new created `azurerm_log_analytics_workspace`
-
-1. The `cluster_log_analytics_workspace_name` variable has been replaced with a new `new_log_analytics_workspace` variable. This new variable is an object that allows for more granular configuration of the Log Analytics Workspace.
-
-2. The `log_analytics_workspace_resource_group_name`, `log_analytics_workspace_sku`, and `log_retention_in_days` variables have been removed and their functionalities have been incorporated into the `new_log_analytics_workspace` variable.
-
