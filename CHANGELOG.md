@@ -5,6 +5,7 @@
 **Merged pull requests:**
 
 - Add support for nodepool's `gpu_instance` [\#519](https://github.com/Azure/terraform-azurerm-aks/pull/519) ([lonegunmanb](https://github.com/lonegunmanb))
+- Add upgrade notice document [\#513](https://github.com/Azure/terraform-azurerm-aks/pull/513) ([lonegunmanb](https://github.com/lonegunmanb))
 - Remove precondition on extra node pool which prevent using windows pool with overlay [\#512](https://github.com/Azure/terraform-azurerm-aks/pull/512) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add retry when the ingress is not ready [\#510](https://github.com/Azure/terraform-azurerm-aks/pull/510) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add support for `support_plan` and `Premium` sku tier. [\#508](https://github.com/Azure/terraform-azurerm-aks/pull/508) ([ecklm](https://github.com/ecklm))
