@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Bump github.com/Azure/terraform-module-test-helper from 0.18.0 to 0.19.0 in /test [\#521](https://github.com/Azure/terraform-azurerm-aks/pull/521) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [8.0.0](https://github.com/Azure/terraform-azurerm-aks/tree/8.0.0) (2024-03-05)
 
 **Merged pull requests:**
