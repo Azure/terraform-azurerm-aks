@@ -118,7 +118,18 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
     for_each = each.value.node_network_profile == null ? [] : ["node_network_profile"]
 
     content {
-      node_public_ip_tags = each.value.node_network_profile.node_public_ip_tags
+      application_security_group_ids = each.value.application_security_group_ids
+      node_public_ip_tags            = each.value.node_network_profile.node_public_ip_tags
+
+      dynamic "allowed_host_ports" {
+        for_each = each.value.allowed_host_ports
+
+        content {
+          port_start = allowed_host_ports.value.port_start
+          port_end   = allowed_host_ports.value.port_end
+          protocol   = allowed_host_ports.value.protocol
+        }
+      }
     }
   }
   dynamic "upgrade_settings" {
@@ -276,7 +287,18 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
     for_each = each.value.node_network_profile == null ? [] : ["node_network_profile"]
 
     content {
-      node_public_ip_tags = each.value.node_network_profile.node_public_ip_tags
+      application_security_group_ids = each.value.application_security_group_ids
+      node_public_ip_tags            = each.value.node_network_profile.node_public_ip_tags
+
+      dynamic "allowed_host_ports" {
+        for_each = each.value.allowed_host_ports
+
+        content {
+          port_start = allowed_host_ports.value.port_start
+          port_end   = allowed_host_ports.value.port_end
+          protocol   = allowed_host_ports.value.protocol
+        }
+      }
     }
   }
   dynamic "upgrade_settings" {

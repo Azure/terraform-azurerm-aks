@@ -945,7 +945,13 @@ variable "node_pools" {
     mode               = optional(string, "User")
     min_count          = optional(number)
     node_network_profile = optional(object({
-      node_public_ip_tags = optional(map(string))
+      application_security_group_ids = optional(list(string))
+      node_public_ip_tags            = optional(map(string))
+      allowed_host_ports = optional(list(object({
+        port_end   = optional(number)
+        port_start = optional(number)
+        protocol   = optional(string)
+      })), [])
     }))
     node_labels                  = optional(map(string))
     node_public_ip_prefix_id     = optional(string)
@@ -1045,7 +1051,13 @@ variable "node_pools" {
     mode               = (Optional) Should this Node Pool be used for System or User resources? Possible values are `System` and `User`. Defaults to `User`.
     min_count          = (Optional) The minimum number of nodes which should exist within this Node Pool. Valid values are between `0` and `1000` and must be less than or equal to `max_count`.
     node_network_profile = optional(object({
-      node_public_ip_tags = (Optional) Specifies a mapping of tags to the instance-level public IPs. Changing this forces a new resource to be created.
+      application_security_group_ids =  (Optional) A list of Application Security Group IDs which should be associated with this Node Pool.
+      node_public_ip_tags            =  (Optional) Specifies a mapping of tags to the instance-level public IPs. Changing this forces a new resource to be created.
+      allowed_host_ports = optional(list(object({
+        port_end   = (Optional) Specifies the end of the port range.
+        port_start = (Optional) Specifies the start of the port range.
+        protocol   = (Optional) Specifies the protocol of the port range. Possible values are `TCP` and `UDP`.
+      })))
     }))
     node_labels                  = (Optional) A map of Kubernetes labels which should be applied to nodes in this Node Pool.
     node_public_ip_prefix_id     = (Optional) Resource ID for the Public IP Addresses Prefix for the nodes in this Node Pool. `enable_node_public_ip` should be `true`. Changing this forces a new resource to be created.
@@ -1393,4 +1405,28 @@ variable "workload_identity_enabled" {
   type        = bool
   default     = false
   description = "Enable or Disable Workload Identity. Defaults to false."
+}
+
+variable "agents_pool_node_network_profile" {
+  type = object({
+    application_security_group_ids = optional(list(string))
+    node_public_ip_tags            = optional(map(string))
+    allowed_host_ports = optional(list(object({
+      port_end   = optional(number)
+      port_start = optional(number)
+      protocol   = optional(string)
+    })), [])
+  })
+  default     = null
+  description = <<-EOT
+   ---
+ `node_network_profile` block supports the following:
+ - `application_security_group_ids` - (Optional) A list of Application Security Group IDs which should be associated with this Node Pool.
+ - `node_public_ip_tags` - (Optional) Specifies a mapping of tags to the instance-level public IPs. Changing this forces a new resource to be created.
+ ---
+ `allowed_host_ports` block supports the following:
+ - `port_end` - (Optional) Specifies the end of the port range.
+ - `port_start` - (Optional) Specifies the start of the port range.
+ - `protocol` - (Optional) Specifies the protocol of the port range. Possible values are `TCP` and `UDP`.
+EOT
 }
