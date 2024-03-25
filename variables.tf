@@ -362,6 +362,19 @@ variable "azure_policy_enabled" {
   description = "Enable Azure Policy Addon."
 }
 
+variable "brown_field_application_gateway_for_ingress" {
+  type = object({
+    id        = string
+    subnet_id = string
+  })
+  default     = null
+  description = <<-EOT
+    [Definition of `brown_field`](https://learn.microsoft.com/en-us/azure/application-gateway/tutorial-ingress-controller-add-on-existing)
+    * `id` - (Required) The ID of the Application Gateway that be used as cluster ingress.
+    * `subnet_id` - (Required) The ID of the Subnet which the Application Gateway is connected to. Must be set when `create_role_assignments` is `true`.
+  EOT
+}
+
 variable "client_id" {
   type        = string
   default     = ""
@@ -388,17 +401,51 @@ variable "cluster_name" {
   description = "(Optional) The name for the AKS resources created in the specified Azure Resource Group. This variable overwrites the 'prefix' var (The 'prefix' var will still be applied to the dns_prefix if it is set)"
 }
 
+variable "cluster_name_random_suffix" {
+  type        = bool
+  default     = false
+  description = "Whether to add a random suffix on Aks cluster's name or not. `azurerm_kubernetes_cluster` resource defined in this module is `create_before_destroy = true` implicity now(described [here](https://github.com/Azure/terraform-azurerm-aks/issues/389)), without this random suffix we'll not be able to recreate this cluster directly due to the naming conflict."
+  nullable    = false
+}
+
+variable "confidential_computing" {
+  type = object({
+    sgx_quote_helper_enabled = bool
+  })
+  default     = null
+  description = "(Optional) Enable Confidential Computing."
+}
+
 variable "create_role_assignment_network_contributor" {
   type        = bool
   default     = false
-  description = "Create a role assignment for the AKS Service Principal to be a Network Contributor on the subnets used for the AKS Cluster"
+  description = "(Deprecated) Create a role assignment for the AKS Service Principal to be a Network Contributor on the subnets used for the AKS Cluster"
   nullable    = false
+}
+
+variable "create_role_assignments_for_application_gateway" {
+  type        = bool
+  default     = true
+  description = "(Optional) Whether to create the corresponding role assignments for application gateway or not. Defaults to `true`."
+  nullable    = false
+}
+
+variable "default_node_pool_fips_enabled" {
+  type        = bool
+  default     = null
+  description = " (Optional) Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created."
 }
 
 variable "disk_encryption_set_id" {
   type        = string
   default     = null
   description = "(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes. More information [can be found in the documentation](https://docs.microsoft.com/azure/aks/azure-disk-customer-managed-keys). Changing this forces a new resource to be created."
+}
+
+variable "ebpf_data_plane" {
+  type        = string
+  default     = null
+  description = "(Optional) Specifies the eBPF data plane used for building the Kubernetes network. Possible value is `cilium`. Changing this forces a new resource to be created."
 }
 
 variable "enable_auto_scaling" {
@@ -419,10 +466,48 @@ variable "enable_node_public_ip" {
   description = "(Optional) Should nodes in this Node Pool have a Public IP Address? Defaults to false."
 }
 
-variable "http_application_routing_enabled" {
-  type        = bool
-  default     = false
-  description = "Enable HTTP Application Routing Addon (forces recreation)."
+variable "green_field_application_gateway_for_ingress" {
+  type = object({
+    name        = optional(string)
+    subnet_cidr = optional(string)
+    subnet_id   = optional(string)
+  })
+  default     = null
+  description = <<-EOT
+  [Definition of `green_field`](https://learn.microsoft.com/en-us/azure/application-gateway/tutorial-ingress-controller-add-on-new)
+  * `name` - (Optional) The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster.
+  * `subnet_cidr` - (Optional) The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster.
+  * `subnet_id` - (Optional) The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster.
+EOT
+
+  validation {
+    condition     = var.green_field_application_gateway_for_ingress == null ? true : (can(coalesce(var.green_field_application_gateway_for_ingress.subnet_id, var.green_field_application_gateway_for_ingress.subnet_cidr)))
+    error_message = "One of `subnet_cidr` and `subnet_id` must be specified."
+  }
+}
+
+variable "http_proxy_config" {
+  type = object({
+    http_proxy  = optional(string)
+    https_proxy = optional(string)
+    no_proxy    = optional(list(string))
+    trusted_ca  = optional(string)
+  })
+  default     = null
+  description = <<-EOT
+    optional(object({
+      http_proxy  = (Optional) The proxy address to be used when communicating over HTTP.
+      https_proxy = (Optional) The proxy address to be used when communicating over HTTPS.
+      no_proxy    = (Optional) The list of domains that will not use the proxy for communication. Note: If you specify the `default_node_pool.0.vnet_subnet_id`, be sure to include the Subnet CIDR in the `no_proxy` list. Note: You may wish to use Terraform's `ignore_changes` functionality to ignore the changes to this field.
+      trusted_ca  = (Optional) The base64 encoded alternative CA certificate content in PEM format.
+  }))
+  Once you have set only one of `http_proxy` and `https_proxy`, this config would be used for both `http_proxy` and `https_proxy` to avoid a configuration drift.
+EOT
+
+  validation {
+    condition     = var.http_proxy_config == null ? true : can(coalesce(var.http_proxy_config.http_proxy, var.http_proxy_config.https_proxy))
+    error_message = "`http_proxy` and `https_proxy` cannot be both empty."
+  }
 }
 
 variable "identity_ids" {
@@ -442,35 +527,16 @@ variable "identity_type" {
   }
 }
 
-variable "ingress_application_gateway_enabled" {
+variable "image_cleaner_enabled" {
   type        = bool
   default     = false
-  description = "Whether to deploy the Application Gateway ingress controller to this Kubernetes Cluster?"
-  nullable    = false
+  description = "(Optional) Specifies whether Image Cleaner is enabled."
 }
 
-variable "ingress_application_gateway_id" {
-  type        = string
-  default     = null
-  description = "The ID of the Application Gateway to integrate with the ingress controller of this Kubernetes Cluster."
-}
-
-variable "ingress_application_gateway_name" {
-  type        = string
-  default     = null
-  description = "The name of the Application Gateway to be used or created in the Nodepool Resource Group, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
-}
-
-variable "ingress_application_gateway_subnet_cidr" {
-  type        = string
-  default     = null
-  description = "The subnet CIDR to be used to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
-}
-
-variable "ingress_application_gateway_subnet_id" {
-  type        = string
-  default     = null
-  description = "The ID of the subnet on which to create an Application Gateway, which in turn will be integrated with the ingress controller of this Kubernetes Cluster."
+variable "image_cleaner_interval_hours" {
+  type        = number
+  default     = 48
+  description = "(Optional) Specifies the interval in hours when images should be cleaned up. Defaults to `48`."
 }
 
 variable "key_vault_secrets_provider_enabled" {
@@ -502,6 +568,20 @@ variable "kms_key_vault_network_access" {
     condition     = contains(["Private", "Public"], var.kms_key_vault_network_access)
     error_message = "Possible values are `Private` and `Public`"
   }
+}
+
+variable "kubelet_identity" {
+  type = object({
+    client_id                 = optional(string)
+    object_id                 = optional(string)
+    user_assigned_identity_id = optional(string)
+  })
+  default     = null
+  description = <<-EOT
+ - `client_id` - (Optional) The Client ID of the user-defined Managed Identity to be assigned to the Kubelets. If not specified a Managed Identity is created automatically. Changing this forces a new resource to be created.
+ - `object_id` - (Optional) The Object ID of the user-defined Managed Identity assigned to the Kubelets.If not specified a Managed Identity is created automatically. Changing this forces a new resource to be created.
+ - `user_assigned_identity_id` - (Optional) The ID of the User Assigned Identity assigned to the Kubelets. If not specified a Managed Identity is created automatically. Changing this forces a new resource to be created.
+EOT
 }
 
 variable "kubernetes_version" {
@@ -591,8 +671,10 @@ variable "log_analytics_solution" {
 
 variable "log_analytics_workspace" {
   type = object({
-    id   = string
-    name = string
+    id                  = string
+    name                = string
+    location            = optional(string)
+    resource_group_name = optional(string)
   })
   default     = null
   description = "(Optional) Existing azurerm_log_analytics_workspace to attach azurerm_log_analytics_solution. Providing the config disables creation of azurerm_log_analytics_workspace."
@@ -625,17 +707,88 @@ variable "log_retention_in_days" {
 
 variable "maintenance_window" {
   type = object({
-    allowed = list(object({
+    allowed = optional(list(object({
       day   = string
       hours = set(number)
-    })),
-    not_allowed = list(object({
+      })), [
+    ]),
+    not_allowed = optional(list(object({
       end   = string
       start = string
-    })),
+    })), []),
   })
   default     = null
   description = "(Optional) Maintenance configuration of the managed cluster."
+}
+
+variable "maintenance_window_auto_upgrade" {
+  type = object({
+    day_of_month = optional(number)
+    day_of_week  = optional(string)
+    duration     = number
+    frequency    = string
+    interval     = number
+    start_date   = optional(string)
+    start_time   = optional(string)
+    utc_offset   = optional(string)
+    week_index   = optional(string)
+    not_allowed = optional(set(object({
+      end   = string
+      start = string
+    })))
+  })
+  default     = null
+  description = <<-EOT
+ - `day_of_month` - (Optional) The day of the month for the maintenance run. Required in combination with RelativeMonthly frequency. Value between 0 and 31 (inclusive).
+ - `day_of_week` - (Optional) The day of the week for the maintenance run. Options are `Monday`, `Tuesday`, `Wednesday`, `Thurday`, `Friday`, `Saturday` and `Sunday`. Required in combination with weekly frequency.
+ - `duration` - (Required) The duration of the window for maintenance to run in hours.
+ - `frequency` - (Required) Frequency of maintenance. Possible options are `Weekly`, `AbsoluteMonthly` and `RelativeMonthly`.
+ - `interval` - (Required) The interval for maintenance runs. Depending on the frequency this interval is week or month based.
+ - `start_date` - (Optional) The date on which the maintenance window begins to take effect.
+ - `start_time` - (Optional) The time for maintenance to begin, based on the timezone determined by `utc_offset`. Format is `HH:mm`.
+ - `utc_offset` - (Optional) Used to determine the timezone for cluster maintenance.
+ - `week_index` - (Optional) The week in the month used for the maintenance run. Options are `First`, `Second`, `Third`, `Fourth`, and `Last`.
+
+ ---
+ `not_allowed` block supports the following:
+ - `end` - (Required) The end of a time span, formatted as an RFC3339 string.
+ - `start` - (Required) The start of a time span, formatted as an RFC3339 string.
+EOT
+}
+
+variable "maintenance_window_node_os" {
+  type = object({
+    day_of_month = optional(number)
+    day_of_week  = optional(string)
+    duration     = number
+    frequency    = string
+    interval     = number
+    start_date   = optional(string)
+    start_time   = optional(string)
+    utc_offset   = optional(string)
+    week_index   = optional(string)
+    not_allowed = optional(set(object({
+      end   = string
+      start = string
+    })))
+  })
+  default     = null
+  description = <<-EOT
+ - `day_of_month` -
+ - `day_of_week` - (Optional) The day of the week for the maintenance run. Options are `Monday`, `Tuesday`, `Wednesday`, `Thurday`, `Friday`, `Saturday` and `Sunday`. Required in combination with weekly frequency.
+ - `duration` - (Required) The duration of the window for maintenance to run in hours.
+ - `frequency` - (Required) Frequency of maintenance. Possible options are `Daily`, `Weekly`, `AbsoluteMonthly` and `RelativeMonthly`.
+ - `interval` - (Required) The interval for maintenance runs. Depending on the frequency this interval is week or month based.
+ - `start_date` - (Optional) The date on which the maintenance window begins to take effect.
+ - `start_time` - (Optional) The time for maintenance to begin, based on the timezone determined by `utc_offset`. Format is `HH:mm`.
+ - `utc_offset` - (Optional) Used to determine the timezone for cluster maintenance.
+ - `week_index` - (Optional) The week in the month used for the maintenance run. Options are `First`, `Second`, `Third`, `Fourth`, and `Last`.
+
+ ---
+ `not_allowed` block supports the following:
+ - `end` - (Required) The end of a time span, formatted as an RFC3339 string.
+ - `start` - (Required) The start of a time span, formatted as an RFC3339 string.
+EOT
 }
 
 variable "microsoft_defender_enabled" {
@@ -658,6 +811,12 @@ variable "monitor_metrics" {
     labels_allowed      = "(Optional) Specifies a Comma-separated list of additional Kubernetes label keys that will be used in the resource's labels metric."
   })
 EOT
+}
+
+variable "msi_auth_for_monitoring_enabled" {
+  type        = bool
+  default     = null
+  description = "(Optional) Is managed identity authentication for monitoring enabled?"
 }
 
 variable "net_profile_dns_service_ip" {
@@ -684,6 +843,13 @@ variable "net_profile_service_cidr" {
   description = "(Optional) The Network Range used by the Kubernetes service. Changing this forces a new resource to be created."
 }
 
+variable "network_contributor_role_assigned_subnet_ids" {
+  type        = map(string)
+  default     = {}
+  description = "Create role assignments for the AKS Service Principal to be a Network Contributor on the subnets used for the AKS Cluster, key should be static string, value should be subnet's id"
+  nullable    = false
+}
+
 variable "network_plugin" {
   type        = string
   default     = "kubenet"
@@ -703,6 +869,12 @@ variable "network_policy" {
   description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
 }
 
+variable "node_os_channel_upgrade" {
+  type        = string
+  default     = null
+  description = " (Optional) The upgrade channel for this Kubernetes Cluster Nodes' OS Image. Possible values are `Unmanaged`, `SecurityPatch`, `NodeImage` and `None`."
+}
+
 variable "node_pools" {
   type = map(object({
     name                          = string
@@ -716,6 +888,7 @@ variable "node_pools" {
     enable_host_encryption        = optional(bool)
     enable_node_public_ip         = optional(bool)
     eviction_policy               = optional(string)
+    gpu_instance                  = optional(string)
     kubelet_config = optional(object({
       cpu_manager_policy        = optional(string)
       cpu_cfs_quota_enabled     = optional(bool)
@@ -787,6 +960,7 @@ variable "node_pools" {
     proximity_placement_group_id = optional(string)
     spot_max_price               = optional(number)
     scale_down_mode              = optional(string, "Delete")
+    snapshot_id                  = optional(string)
     ultra_ssd_enabled            = optional(bool)
     vnet_subnet_id               = optional(string)
     upgrade_settings = optional(object({
@@ -795,12 +969,13 @@ variable "node_pools" {
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)
     }))
-    workload_runtime = optional(string)
-    zones            = optional(set(string))
+    workload_runtime      = optional(string)
+    zones                 = optional(set(string))
+    create_before_destroy = optional(bool, true)
   }))
   default     = {}
   description = <<-EOT
-  A map of node pools that about to be created and attached on the Kubernetes cluster. The key of the map can be the name of the node pool, and the key must be static string. The value of the map is a `node_pool` block as defined below:
+  A map of node pools that need to be created and attached on the Kubernetes cluster. The key of the map can be the name of the node pool, and the key must be static string. The value of the map is a `node_pool` block as defined below:
   map(object({
     name                          = (Required) The name of the Node Pool which should be created within the Kubernetes Cluster. Changing this forces a new resource to be created. A Windows Node Pool cannot have a `name` longer than 6 characters. A random suffix of 4 characters is always added to the name to avoid clashes during recreates.
     node_count                    = (Optional) The initial number of nodes which should exist within this Node Pool. Valid values are between `0` and `1000` (inclusive) for user pools and between `1` and `1000` (inclusive) for system pools and must be a value in the range `min_count` - `max_count`.
@@ -813,6 +988,7 @@ variable "node_pools" {
     enable_host_encryption        = (Optional) Should the nodes in this Node Pool have host encryption enabled? Changing this forces a new resource to be created.
     enable_node_public_ip         = (Optional) Should each node have a Public IP Address? Changing this forces a new resource to be created.
     eviction_policy               = (Optional) The Eviction Policy which should be used for Virtual Machines within the Virtual Machine Scale Set powering this Node Pool. Possible values are `Deallocate` and `Delete`. Changing this forces a new resource to be created. An Eviction Policy can only be configured when `priority` is set to `Spot` and will default to `Delete` unless otherwise specified.
+    gpu_instance                  = (Optional) Specifies the GPU MIG instance profile for supported GPU VM SKU. The allowed values are `MIG1g`, `MIG2g`, `MIG3g`, `MIG4g` and `MIG7g`. Changing this forces a new resource to be created.
     kubelet_config = optional(object({
       cpu_manager_policy        = (Optional) Specifies the CPU Manager policy to use. Possible values are `none` and `static`, Changing this forces a new resource to be created.
       cpu_cfs_quota_enabled     = (Optional) Is CPU CFS quota enforcement for containers enabled? Changing this forces a new resource to be created.
@@ -884,6 +1060,7 @@ variable "node_pools" {
     proximity_placement_group_id = (Optional) The ID of the Proximity Placement Group where the Virtual Machine Scale Set that powers this Node Pool will be placed. Changing this forces a new resource to be created. When setting `priority` to Spot - you must configure an `eviction_policy`, `spot_max_price` and add the applicable `node_labels` and `node_taints` [as per the Azure Documentation](https://docs.microsoft.com/azure/aks/spot-node-pool).
     spot_max_price               = (Optional) The maximum price you're willing to pay in USD per Virtual Machine. Valid values are `-1` (the current on-demand price for a Virtual Machine) or a positive value with up to five decimal places. Changing this forces a new resource to be created. This field can only be configured when `priority` is set to `Spot`.
     scale_down_mode              = (Optional) Specifies how the node pool should deal with scaled-down nodes. Allowed values are `Delete` and `Deallocate`. Defaults to `Delete`.
+    snapshot_id                  = (Optional) The ID of the Snapshot which should be used to create this Node Pool. Changing this forces a new resource to be created.
     ultra_ssd_enabled            = (Optional) Used to specify whether the UltraSSD is enabled in the Node Pool. Defaults to `false`. See [the documentation](https://docs.microsoft.com/azure/aks/use-ultra-disks) for more information. Changing this forces a new resource to be created.
     vnet_subnet_id               = (Optional) The ID of the Subnet where this Node Pool should exist. Changing this forces a new resource to be created. A route table must be configured on this Subnet.
     upgrade_settings = optional(object({
@@ -894,6 +1071,7 @@ variable "node_pools" {
     }))
     workload_runtime = (Optional) Used to specify the workload runtime. Allowed values are `OCIContainer` and `WasmWasi`. WebAssembly System Interface node pools are in Public Preview - more information and details on how to opt into the preview can be found in [this article](https://docs.microsoft.com/azure/aks/use-wasi-node-pools)
     zones            = (Optional) Specifies a list of Availability Zones in which this Kubernetes Cluster Node Pool should be located. Changing this forces a new Kubernetes Cluster Node Pool to be created.
+    create_before_destroy = (Optional) Create a new node pool before destroy the old one when Terraform must update an argument that cannot be updated in-place. Set this argument to `true` will add add a random suffix to pool's name to avoid conflict. Default to `true`.
   }))
   EOT
   nullable    = false
@@ -979,13 +1157,6 @@ variable "private_dns_zone_id" {
   description = "(Optional) Either the ID of Private DNS Zone which should be delegated to this Cluster, `System` to have AKS manage this or `None`. In case of `None` you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning. Changing this forces a new resource to be created."
 }
 
-variable "public_network_access_enabled" {
-  type        = bool
-  default     = true
-  description = "(Optional) Whether public network access is allowed for this Kubernetes Cluster. Defaults to `true`. Changing this forces a new resource to be created."
-  nullable    = false
-}
-
 variable "public_ssh_key" {
   type        = string
   default     = ""
@@ -1049,6 +1220,12 @@ variable "role_based_access_control_enabled" {
   nullable    = false
 }
 
+variable "run_command_enabled" {
+  type        = bool
+  default     = true
+  description = "(Optional) Whether to enable run command for the cluster or not."
+}
+
 variable "scale_down_mode" {
   type        = string
   default     = "Delete"
@@ -1069,15 +1246,35 @@ variable "secret_rotation_interval" {
   nullable    = false
 }
 
+variable "service_mesh_profile" {
+  type = object({
+    mode                             = string
+    internal_ingress_gateway_enabled = optional(bool, true)
+    external_ingress_gateway_enabled = optional(bool, true)
+  })
+  default     = null
+  description = <<-EOT
+    `mode` - (Required) The mode of the service mesh. Possible value is `Istio`.
+    `internal_ingress_gateway_enabled` - (Optional) Is Istio Internal Ingress Gateway enabled? Defaults to `true`.
+    `external_ingress_gateway_enabled` - (Optional) Is Istio External Ingress Gateway enabled? Defaults to `true`.
+  EOT
+}
+
 variable "sku_tier" {
   type        = string
   default     = "Free"
-  description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are `Free` and `Standard`"
+  description = "The SKU Tier that should be used for this Kubernetes Cluster. Possible values are `Free`, `Standard` and `Premium`"
 
   validation {
-    condition     = contains(["Free", "Standard"], var.sku_tier)
-    error_message = "The SKU Tier must be either `Free` or `Standard`. `Paid` is no longer supported since AzureRM provider v3.51.0."
+    condition     = contains(["Free", "Standard", "Premium"], var.sku_tier)
+    error_message = "The SKU Tier must be either `Free`, `Standard` or `Premium`. `Paid` is no longer supported since AzureRM provider v3.51.0."
   }
+}
+
+variable "snapshot_id" {
+  type        = string
+  default     = null
+  description = "(Optional) The ID of the Snapshot which should be used to create this default Node Pool. `temporary_name_for_rotation` must be specified when changing this property."
 }
 
 variable "storage_profile_blob_driver_enabled" {
@@ -1115,6 +1312,17 @@ variable "storage_profile_snapshot_controller_enabled" {
   type        = bool
   default     = true
   description = "(Optional) Is the Snapshot Controller enabled? Defaults to `true`"
+}
+
+variable "support_plan" {
+  type        = string
+  default     = "KubernetesOfficial"
+  description = "The support plan which should be used for this Kubernetes Cluster. Possible values are `KubernetesOfficial` and `AKSLongTermSupport`."
+
+  validation {
+    condition     = contains(["KubernetesOfficial", "AKSLongTermSupport"], var.support_plan)
+    error_message = "The support plan must be either `KubernetesOfficial` or `AKSLongTermSupport`."
+  }
 }
 
 variable "tags" {
@@ -1166,6 +1374,18 @@ variable "web_app_routing" {
   object({
     dns_zone_id = "(Required) Specifies the ID of the DNS Zone in which DNS entries are created for applications deployed to the cluster when Web App Routing is enabled."
   })
+EOT
+}
+
+variable "workload_autoscaler_profile" {
+  type = object({
+    keda_enabled                    = optional(bool, false)
+    vertical_pod_autoscaler_enabled = optional(bool, false)
+  })
+  default     = null
+  description = <<-EOT
+    `keda_enabled` - (Optional) Specifies whether KEDA Autoscaler can be used for workloads.
+    `vertical_pod_autoscaler_enabled` - (Optional) Specifies whether Vertical Pod Autoscaler should be enabled.
 EOT
 }
 

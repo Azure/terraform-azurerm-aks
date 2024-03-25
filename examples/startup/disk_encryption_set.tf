@@ -2,9 +2,9 @@ data "azurerm_client_config" "current" {}
 
 resource "random_string" "key_vault_prefix" {
   length  = 6
+  numeric = false
   special = false
   upper   = false
-  numeric = false
 }
 
 module "public_ip" {

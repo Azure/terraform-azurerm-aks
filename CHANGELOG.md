@@ -4,42 +4,31 @@
 
 **Merged pull requests:**
 
-- Use `lonegunmanb/public-ip/lonegunmanb` module to retrieve public ip [\#396](https://github.com/Azure/terraform-azurerm-aks/pull/396) ([lonegunmanb](https://github.com/lonegunmanb))
-- Fix incorrect e2e test code so it could pass on our local machine [\#395](https://github.com/Azure/terraform-azurerm-aks/pull/395) ([lonegunmanb](https://github.com/lonegunmanb))
-- Support for Proximity placement group for default node pool [\#392](https://github.com/Azure/terraform-azurerm-aks/pull/392) ([lonegunmanb](https://github.com/lonegunmanb))
-- Add upgrade\_settings block for default nodepool [\#391](https://github.com/Azure/terraform-azurerm-aks/pull/391) ([CiucurDaniel](https://github.com/CiucurDaniel))
-- Bump github.com/Azure/terraform-module-test-helper from 0.13.0 to 0.14.0 in /test [\#386](https://github.com/Azure/terraform-azurerm-aks/pull/386) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump github.com/Azure/terraform-module-test-helper from 0.18.0 to 0.19.0 in /test [\#521](https://github.com/Azure/terraform-azurerm-aks/pull/521) ([dependabot[bot]](https://github.com/apps/dependabot))
 
-## [7.1.0](https://github.com/Azure/terraform-azurerm-aks/tree/7.1.0) (2023-06-07)
+## [8.0.0](https://github.com/Azure/terraform-azurerm-aks/tree/8.0.0) (2024-03-05)
 
 **Merged pull requests:**
 
-- Make `var.prefix` optional [\#382](https://github.com/Azure/terraform-azurerm-aks/pull/382) ([lonegunmanb](https://github.com/lonegunmanb))
-- Deprecate `api_server_authorized_ip_ranges` by using `api_server_access_profile` block [\#381](https://github.com/Azure/terraform-azurerm-aks/pull/381) ([lonegunmanb](https://github.com/lonegunmanb))
-- `oidc_issuer_enabled` must be set to `true` to enable Azure AD Worklo… [\#377](https://github.com/Azure/terraform-azurerm-aks/pull/377) ([zioproto](https://github.com/zioproto))
-- Remove constraint on `authorized_ip_ranges` when `public_network_access_enabled` is `true` [\#375](https://github.com/Azure/terraform-azurerm-aks/pull/375) ([lonegunmanb](https://github.com/lonegunmanb))
-- Filter null value out from `local.subnet_ids` [\#374](https://github.com/Azure/terraform-azurerm-aks/pull/374) ([lonegunmanb](https://github.com/lonegunmanb))
-- assign network contributor role to control plane identity [\#369](https://github.com/Azure/terraform-azurerm-aks/pull/369) ([zioproto](https://github.com/zioproto))
-- Add tracing tag toggle variables [\#362](https://github.com/Azure/terraform-azurerm-aks/pull/362) ([lonegunmanb](https://github.com/lonegunmanb))
-- Support for Azure CNI Overlay [\#354](https://github.com/Azure/terraform-azurerm-aks/pull/354) ([zioproto](https://github.com/zioproto))
-- User `location` returned from data source for log analytics solution. [\#349](https://github.com/Azure/terraform-azurerm-aks/pull/349) ([lonegunmanb](https://github.com/lonegunmanb))
-
-## [7.0.0](https://github.com/Azure/terraform-azurerm-aks/tree/7.0.0) (2023-05-18)
-
-**Merged pull requests:**
-
-- Upgrade notice for v7.0 [\#367](https://github.com/Azure/terraform-azurerm-aks/pull/367) ([lonegunmanb](https://github.com/lonegunmanb))
-- Check `api_server_authorized_ip_ranges` when `public_network_access_enabled` is `true` [\#361](https://github.com/Azure/terraform-azurerm-aks/pull/361) ([lonegunmanb](https://github.com/lonegunmanb))
-- feat!: add create\_before\_destroy=true to node pools [\#357](https://github.com/Azure/terraform-azurerm-aks/pull/357) ([the-technat](https://github.com/the-technat))
-- Move breaking change details into separate docs. add notice on v7.0.0 [\#355](https://github.com/Azure/terraform-azurerm-aks/pull/355) ([lonegunmanb](https://github.com/lonegunmanb))
-- Bump github.com/Azure/terraform-module-test-helper from 0.12.0 to 0.13.0 in /test [\#352](https://github.com/Azure/terraform-azurerm-aks/pull/352) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Trivial: fix typo ingration -\> integration [\#351](https://github.com/Azure/terraform-azurerm-aks/pull/351) ([zioproto](https://github.com/zioproto))
-- Output Kubernetes Cluster Network Profile [\#333](https://github.com/Azure/terraform-azurerm-aks/pull/333) ([joshua-giumelli-deltatre](https://github.com/joshua-giumelli-deltatre))
-- \[Breaking\] Add validation block to enforce users to change `sku_tier` from `Paid` to `Standard`. [\#346](https://github.com/Azure/terraform-azurerm-aks/pull/346) ([lonegunmanb](https://github.com/lonegunmanb))
-- \[Breaking\] - Ignore changes on `kubernetes_version` from outside of Terraform [\#336](https://github.com/Azure/terraform-azurerm-aks/pull/336) ([lonegunmanb](https://github.com/lonegunmanb))
-- \[Breaking\] - Fix \#315 by amending missing `linux_os_config` block [\#320](https://github.com/Azure/terraform-azurerm-aks/pull/320) ([lonegunmanb](https://github.com/lonegunmanb))
-- \[Breaking\]  Wrap `log_analytics_solution_id` to an object to fix \#263. [\#265](https://github.com/Azure/terraform-azurerm-aks/pull/265) ([lonegunmanb](https://github.com/lonegunmanb))
-- \[Breaking\] Remove unused net\_profile\_docker\_bridge\_cidr [\#222](https://github.com/Azure/terraform-azurerm-aks/pull/222) ([zioproto](https://github.com/zioproto))
+- Add support for nodepool's `gpu_instance` [\#519](https://github.com/Azure/terraform-azurerm-aks/pull/519) ([lonegunmanb](https://github.com/lonegunmanb))
+- Bump github.com/Azure/terraform-module-test-helper from 0.17.0 to 0.18.0 in /test [\#516](https://github.com/Azure/terraform-azurerm-aks/pull/516) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Add upgrade notice document [\#513](https://github.com/Azure/terraform-azurerm-aks/pull/513) ([lonegunmanb](https://github.com/lonegunmanb))
+- Add retry when the ingress is not ready [\#510](https://github.com/Azure/terraform-azurerm-aks/pull/510) ([lonegunmanb](https://github.com/lonegunmanb))
+- Add support for `support_plan` and `Premium` sku tier. [\#508](https://github.com/Azure/terraform-azurerm-aks/pull/508) ([ecklm](https://github.com/ecklm))
+- Refactor code, split monolith tf config into multiple files [\#494](https://github.com/Azure/terraform-azurerm-aks/pull/494) ([lonegunmanb](https://github.com/lonegunmanb))
+- Remove `var.http_application_routing_enabled` [\#493](https://github.com/Azure/terraform-azurerm-aks/pull/493) ([lonegunmanb](https://github.com/lonegunmanb))
+- feat\(`http_proxy_config`\): Add `http_proxy_config` [\#492](https://github.com/Azure/terraform-azurerm-aks/pull/492) ([lonegunmanb](https://github.com/lonegunmanb))
+- Remove `public_network_access_enabled` entirely [\#488](https://github.com/Azure/terraform-azurerm-aks/pull/488) ([lonegunmanb](https://github.com/lonegunmanb))
+- Ignore deprecated attribute `public_network_access_enabled` [\#485](https://github.com/Azure/terraform-azurerm-aks/pull/485) ([ishuar](https://github.com/ishuar))
+- feat: enable precondition on `default_node_pool` for autoscaling with node pool type [\#484](https://github.com/Azure/terraform-azurerm-aks/pull/484) ([ishuar](https://github.com/ishuar))
+- Add web\_app\_routing\_identity block to outputs [\#481](https://github.com/Azure/terraform-azurerm-aks/pull/481) ([bonddim](https://github.com/bonddim))
+- Add support for `kubelet_identity` nested block [\#479](https://github.com/Azure/terraform-azurerm-aks/pull/479) ([lonegunmanb](https://github.com/lonegunmanb))
+- Prepare for v8.0 [\#462](https://github.com/Azure/terraform-azurerm-aks/pull/462) ([lonegunmanb](https://github.com/lonegunmanb))
+- Remove precondition on extra node pool which prevent using windows pool with overlay [\#512](https://github.com/Azure/terraform-azurerm-aks/pull/512) ([lonegunmanb](https://github.com/lonegunmanb))
+- Add support for `maintenance_window_auto_upgrade` [\#505](https://github.com/Azure/terraform-azurerm-aks/pull/505) ([skolobov](https://github.com/skolobov))
+- Let the users decide whether adding a random suffix in cluster and pool's name or not. [\#496](https://github.com/Azure/terraform-azurerm-aks/pull/496) ([lonegunmanb](https://github.com/lonegunmanb))
+- Add role assignments for ingress application gateway and corresponding example [\#426](https://github.com/Azure/terraform-azurerm-aks/pull/426) ([lonegunmanb](https://github.com/lonegunmanb))
+- Add support for workload\_autoscaler\_profile settings [\#404](https://github.com/Azure/terraform-azurerm-aks/pull/404) ([bonddim](https://github.com/bonddim))
 
 
 

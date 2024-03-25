@@ -21,3 +21,7 @@ output "auto_scaler_profile_scale_down_delay_after_delete" {
 output "auto_scaler_profile_scan_interval" {
   value = var.auto_scaler_profile_scan_interval
 }
+
+output "query_datasource_for_log_analytics_workspace_location" {
+  value = local.query_datasource_for_log_analytics_workspace_location
+}

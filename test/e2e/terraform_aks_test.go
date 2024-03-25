@@ -1,9 +1,17 @@
 package e2e
 
 import (
+	"fmt"
+	"io"
 	"os"
 	"regexp"
+	"strings"
 	"testing"
+	"time"
+
+	"github.com/hashicorp/go-retryablehttp"
+
+	"github.com/stretchr/testify/require"
 
 	test_helper "github.com/Azure/terraform-module-test-helper"
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -117,4 +125,72 @@ func TestExamples_differentLocationForLogAnalyticsSolution(t *testing.T) {
 		Upgrade: true,
 		Vars:    vars,
 	}, nil)
+}
+
+func TestExamples_applicationGatewayIngress(t *testing.T) {
+	useExistingAppGw := []struct {
+		useBrownFieldAppGw        bool
+		bringYourOwnVnet          bool
+		createRoleBindingForAppGw bool
+	}{
+		{
+			bringYourOwnVnet:          true,
+			useBrownFieldAppGw:        true,
+			createRoleBindingForAppGw: true,
+		},
+		{
+			bringYourOwnVnet:          true,
+			useBrownFieldAppGw:        false,
+			createRoleBindingForAppGw: true,
+		},
+		{
+			bringYourOwnVnet:          false,
+			useBrownFieldAppGw:        false,
+			createRoleBindingForAppGw: false,
+		},
+	}
+	for _, u := range useExistingAppGw {
+		t.Run(fmt.Sprintf("useExistingAppGw %t %t %t", u.bringYourOwnVnet, u.useBrownFieldAppGw, u.createRoleBindingForAppGw), func(t *testing.T) {
+			test_helper.RunE2ETest(t, "../../", "examples/application_gateway_ingress", terraform.Options{
+				Upgrade: true,
+				Vars: map[string]interface{}{
+					"bring_your_own_vnet":                             u.bringYourOwnVnet,
+					"use_brown_field_application_gateway":             u.useBrownFieldAppGw,
+					"create_role_assignments_for_application_gateway": u.createRoleBindingForAppGw,
+				},
+				MaxRetries:         20,
+				TimeBetweenRetries: time.Minute,
+				RetryableTerraformErrors: map[string]string{
+					".*is empty list of object.*": "the ingress hasn't been created, need more time",
+				},
+			}, func(t *testing.T, output test_helper.TerraformOutput) {
+				url, ok := output["ingress_endpoint"].(string)
+				require.True(t, ok)
+				html, err := getHTML(url)
+				require.NoError(t, err)
+				if strings.Contains(html, "Welcome to .NET") {
+					return
+				}
+			})
+		})
+	}
+}
+
+func getHTML(url string) (string, error) {
+	client := retryablehttp.NewClient()
+	client.RetryMax = 10
+	resp, err := client.Get(url)
+	if err != nil {
+		return "", err
+	}
+	defer func() {
+		_ = resp.Body.Close()
+	}()
+
+	bytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bytes), nil
 }

@@ -40,7 +40,7 @@ module "aks" {
 
   prefix                    = random_id.name.hex
   resource_group_name       = local.resource_group.name
-  kubernetes_version        = "1.24" # don't specify the patch version!
+  kubernetes_version        = "1.26" # don't specify the patch version!
   automatic_channel_upgrade = "patch"
   agents_availability_zones = ["1", "2"]
   agents_count              = null
@@ -60,20 +60,23 @@ module "aks" {
       ]
     }
   ]
-  agents_type                             = "VirtualMachineScaleSets"
-  azure_policy_enabled                    = true
-  client_id                               = var.client_id
-  client_secret                           = var.client_secret
-  disk_encryption_set_id                  = azurerm_disk_encryption_set.des.id
-  enable_auto_scaling                     = true
-  enable_host_encryption                  = true
-  http_application_routing_enabled        = true
-  ingress_application_gateway_enabled     = true
-  ingress_application_gateway_name        = "${random_id.prefix.hex}-agw"
-  ingress_application_gateway_subnet_cidr = "10.52.1.0/24"
-  local_account_disabled                  = true
-  log_analytics_workspace_enabled         = true
-  cluster_log_analytics_workspace_name    = random_id.name.hex
+  agents_type          = "VirtualMachineScaleSets"
+  azure_policy_enabled = true
+  client_id            = var.client_id
+  client_secret        = var.client_secret
+  confidential_computing = {
+    sgx_quote_helper_enabled = true
+  }
+  disk_encryption_set_id = azurerm_disk_encryption_set.des.id
+  enable_auto_scaling    = true
+  enable_host_encryption = true
+  green_field_application_gateway_for_ingress = {
+    name        = "${random_id.prefix.hex}-agw"
+    subnet_cidr = "10.52.1.0/24"
+  }
+  local_account_disabled               = true
+  log_analytics_workspace_enabled      = true
+  cluster_log_analytics_workspace_name = random_id.name.hex
   maintenance_window = {
     allowed = [
       {
@@ -88,13 +91,20 @@ module "aks" {
       },
     ]
   }
+  maintenance_window_node_os = {
+    frequency  = "Daily"
+    interval   = 1
+    start_time = "07:00"
+    utc_offset = "+01:00"
+    duration   = 16
+  }
   net_profile_dns_service_ip        = "10.0.0.10"
   net_profile_service_cidr          = "10.0.0.0/16"
   network_plugin                    = "azure"
   network_policy                    = "azure"
+  node_os_channel_upgrade           = "NodeImage"
   os_disk_size_gb                   = 60
   private_cluster_enabled           = true
-  public_network_access_enabled     = false
   rbac_aad                          = true
   rbac_aad_managed                  = true
   role_based_access_control_enabled = true
@@ -107,4 +117,7 @@ module "aks" {
   agents_tags = {
     "Agent" : "agentTag"
   }
+  depends_on = [
+    azurerm_subnet.test,
+  ]
 }
