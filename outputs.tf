@@ -50,7 +50,7 @@ output "aks_id" {
 }
 
 output "aks_name" {
-  description = "The `aurerm_kubernetes-cluster`'s name."
+  description = "The `azurerm_kubernetes_cluster`'s name."
   value       = azurerm_kubernetes_cluster.main.name
 }
 
