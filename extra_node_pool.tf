@@ -46,7 +46,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
     avm_git_last_modified_at = "2024-03-04 03:19:50"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "ff0e2d82-71a0-49ca-bbba-0b77c2530dca"
+    avm_yor_trace            = "748607c3-0dc1-4ae0-aa4d-f2845f943284"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
   ultra_ssd_enabled = each.value.ultra_ssd_enabled
   vnet_subnet_id    = each.value.vnet_subnet_id
@@ -204,7 +204,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
     avm_git_last_modified_at = "2024-01-11 08:26:20"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "8d2ee439-9079-42ba-92ea-134db0cf097a"
+    avm_yor_trace            = "f5cea28c-876d-4275-a4ec-d8b00c0d4556"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
   ultra_ssd_enabled = each.value.ultra_ssd_enabled
   vnet_subnet_id    = each.value.vnet_subnet_id

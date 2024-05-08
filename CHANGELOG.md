@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- bump k8s version for example since 1.26 has been deprecated [\#540](https://github.com/Azure/terraform-azurerm-aks/pull/540) ([lonegunmanb](https://github.com/lonegunmanb))
 - Bump github.com/Azure/terraform-module-test-helper from 0.18.0 to 0.19.0 in /test [\#521](https://github.com/Azure/terraform-azurerm-aks/pull/521) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [8.0.0](https://github.com/Azure/terraform-azurerm-aks/tree/8.0.0) (2024-03-05)
