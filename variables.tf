@@ -843,6 +843,12 @@ variable "net_profile_service_cidr" {
   description = "(Optional) The Network Range used by the Kubernetes service. Changing this forces a new resource to be created."
 }
 
+variable "net_profile_ip_versions" {
+  type        = set(string)
+  default     = null
+  description = "(Optional) Specifies a list of IP versions the Kubernetes Cluster will use to assign IP addresses to its nodes and pods. Possible values are IPv4 and/or IPv6. IPv4 must always be specified. Changing this forces a new resource to be created."
+}
+
 variable "network_contributor_role_assigned_subnet_ids" {
   type        = map(string)
   default     = {}
