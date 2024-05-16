@@ -834,13 +834,25 @@ variable "net_profile_outbound_type" {
 variable "net_profile_pod_cidr" {
   type        = string
   default     = null
-  description = " (Optional) The CIDR to use for pod IP addresses. This field can only be set when network_plugin is set to kubenet. Changing this forces a new resource to be created."
+  description = "(Optional) The CIDR to use for pod IP addresses. This field can only be set when network_plugin is set to kubenet. Changing this forces a new resource to be created."
+}
+
+variable "net_profile_pod_cidrs" {
+  type        = set(string)
+  default     = null
+  description = "(Optional) A list of CIDRs to use for pod IP addresses. For single-stack networking a single IPv4 CIDR is expected. For dual-stack networking an IPv4 and IPv6 CIDR are expected. Changing this forces a new resource to be created."
 }
 
 variable "net_profile_service_cidr" {
   type        = string
   default     = null
   description = "(Optional) The Network Range used by the Kubernetes service. Changing this forces a new resource to be created."
+}
+
+variable "net_profile_service_cidrs" {
+  type        = set(string)
+  default     = null
+  description = "(Optional) A list of CIDRs to use for Kubernetes services. For single-stack networking a single IPv4 CIDR is expected. For dual-stack networking an IPv4 and IPv6 CIDR are expected. Changing this forces a new resource to be created."
 }
 
 variable "net_profile_ip_versions" {
