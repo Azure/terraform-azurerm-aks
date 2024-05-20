@@ -680,11 +680,77 @@ variable "log_analytics_workspace" {
   description = "(Optional) Existing azurerm_log_analytics_workspace to attach azurerm_log_analytics_solution. Providing the config disables creation of azurerm_log_analytics_workspace."
 }
 
+variable "log_analytics_workspace_allow_resource_only_permissions" {
+  type        = bool
+  default     = null
+  description = "(Optional) Specifies if the log Analytics Workspace allow users accessing to data associated with resources they have permission to view, without permission to workspace. Defaults to `true`."
+}
+
+variable "log_analytics_workspace_cmk_for_query_forced" {
+  type        = bool
+  default     = null
+  description = "(Optional) Is Customer Managed Storage mandatory for query management?"
+}
+
+variable "log_analytics_workspace_daily_quota_gb" {
+  type        = number
+  default     = null
+  description = "(Optional) The workspace daily quota for ingestion in GB. Defaults to -1 (unlimited) if omitted."
+}
+
+variable "log_analytics_workspace_data_collection_rule_id" {
+  type        = string
+  default     = null
+  description = "(Optional) The ID of the Data Collection Rule to use for this workspace."
+}
+
 variable "log_analytics_workspace_enabled" {
   type        = bool
   default     = true
   description = "Enable the integration of azurerm_log_analytics_workspace and azurerm_log_analytics_solution: https://docs.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-onboard"
   nullable    = false
+}
+
+variable "log_analytics_workspace_identity" {
+  type = object({
+    identity_ids = optional(set(string))
+    type         = string
+  })
+  default     = null
+  description = <<-EOT
+ - `identity_ids` - (Optional) Specifies a list of user managed identity ids to be assigned. Required if `type` is `UserAssigned`.
+ - `type` - (Required) Specifies the identity type of the Log Analytics Workspace. Possible values are `SystemAssigned` (where Azure will generate a Service Principal for you) and `UserAssigned` where you can specify the Service Principal IDs in the `identity_ids` field.
+EOT
+}
+
+variable "log_analytics_workspace_immediate_data_purge_on_30_days_enabled" {
+  type        = bool
+  default     = null
+  description = "(Optional) Whether to remove the data in the Log Analytics Workspace immediately after 30 days."
+}
+
+variable "log_analytics_workspace_internet_ingestion_enabled" {
+  type        = bool
+  default     = null
+  description = "(Optional) Should the Log Analytics Workspace support ingestion over the Public Internet? Defaults to `true`."
+}
+
+variable "log_analytics_workspace_internet_query_enabled" {
+  type        = bool
+  default     = null
+  description = "(Optional) Should the Log Analytics Workspace support querying over the Public Internet? Defaults to `true`."
+}
+
+variable "log_analytics_workspace_local_authentication_disabled" {
+  type        = bool
+  default     = null
+  description = "(Optional) Specifies if the log Analytics workspace should enforce authentication using Azure AD. Defaults to `false`."
+}
+
+variable "log_analytics_workspace_reservation_capacity_in_gb_per_day" {
+  type        = number
+  default     = null
+  description = "(Optional) The capacity reservation level in GB for this workspace. Possible values are `100`, `200`, `300`, `400`, `500`, `1000`, `2000` and `5000`."
 }
 
 variable "log_analytics_workspace_resource_group_name" {
