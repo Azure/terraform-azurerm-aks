@@ -635,7 +635,7 @@ resource "null_resource" "kubernetes_version_keeper" {
 }
 
 resource "azapi_update_resource" "aks_cluster_post_create" {
-  type = "Microsoft.ContainerService/managedClusters@2023-01-02-preview"
+  type = "Microsoft.ContainerService/managedClusters@2024-02-01"
   body = jsonencode({
     properties = {
       kubernetesVersion = var.kubernetes_version
@@ -660,7 +660,7 @@ resource "null_resource" "http_proxy_config_no_proxy_keeper" {
 resource "azapi_update_resource" "aks_cluster_http_proxy_config_no_proxy" {
   count = can(var.http_proxy_config.no_proxy[0]) ? 1 : 0
 
-  type = "Microsoft.ContainerService/managedClusters@2023-01-02-preview"
+  type = "Microsoft.ContainerService/managedClusters@2024-02-01-preview"
   body = jsonencode({
     properties = {
       httpProxyConfig = {
