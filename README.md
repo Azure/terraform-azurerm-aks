@@ -30,10 +30,10 @@ provider after deploying an AKS cluster.
 
 ```hcl
 provider "kubernetes" {
-host                   = module.aks.host
-client_certificate     = base64decode(module.aks.client_certificate)
-client_key             = base64decode(module.aks.client_key)
-cluster_ca_certificate = base64decode(module.aks.cluster_ca_certificate)
+  host                   = module.aks.host
+  client_certificate     = base64decode(module.aks.client_certificate)
+  client_key             = base64decode(module.aks.client_key)
+  cluster_ca_certificate = base64decode(module.aks.cluster_ca_certificate)
 }
 ```
 
@@ -45,16 +45,16 @@ We're using [BridgeCrew Yor](https://github.com/bridgecrewio/yor) and [yorbox](h
 
 ```hcl
 resource "azurerm_resource_group" "rg" {
-location = "eastus"
-name     = random_pet.name
-tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-avm_git_commit           = "3077cc6d0b70e29b6e106b3ab98cee6740c916f6"
-avm_git_file             = "main.tf"
-avm_git_last_modified_at = "2023-05-05 08:57:54"
-avm_git_org              = "lonegunmanb"
-avm_git_repo             = "terraform-yor-tag-test-module"
-avm_yor_trace            = "a0425718-c57d-401c-a7d5-f3d88b2551a4"
-} /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+  location = "eastus"
+  name     = random_pet.name
+  tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
+    avm_git_commit           = "3077cc6d0b70e29b6e106b3ab98cee6740c916f6"
+    avm_git_file             = "main.tf"
+    avm_git_last_modified_at = "2023-05-05 08:57:54"
+    avm_git_org              = "lonegunmanb"
+    avm_git_repo             = "terraform-yor-tag-test-module"
+    avm_yor_trace            = "a0425718-c57d-401c-a7d5-f3d88b2551a4"
+  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
 }
 ```
 
