@@ -62,9 +62,9 @@ To enable tracing tags, set the variable to true:
 
 ```hcl
 module "example" {
-  source               = "{module_source}"
-  ...
-  tracing_tags_enabled = true
+source               = "{module_source}"
+...
+tracing_tags_enabled = true
 }
 ```
 
@@ -74,9 +74,9 @@ To customize the prefix for your tracing tags, set the `tracing_tags_prefix` var
 
 ```hcl
 module "example" {
-  source              = "{module_source}"
-  ...
-  tracing_tags_prefix = "custom_prefix_"
+source              = "{module_source}"
+...
+tracing_tags_prefix = "custom_prefix_"
 }
 ```
 
@@ -84,12 +84,12 @@ The actual applied tags would be:
 
 ```text
 {
-  custom_prefix_git_commit           = "3077cc6d0b70e29b6e106b3ab98cee6740c916f6"
-  custom_prefix_git_file             = "main.tf"
-  custom_prefix_git_last_modified_at = "2023-05-05 08:57:54"
-  custom_prefix_git_org              = "lonegunmanb"
-  custom_prefix_git_repo             = "terraform-yor-tag-test-module"
-  custom_prefix_yor_trace            = "a0425718-c57d-401c-a7d5-f3d88b2551a4"
+custom_prefix_git_commit           = "3077cc6d0b70e29b6e106b3ab98cee6740c916f6"
+custom_prefix_git_file             = "main.tf"
+custom_prefix_git_last_modified_at = "2023-05-05 08:57:54"
+custom_prefix_git_org              = "lonegunmanb"
+custom_prefix_git_repo             = "terraform-yor-tag-test-module"
+custom_prefix_yor_trace            = "a0425718-c57d-401c-a7d5-f3d88b2551a4"
 }
 ```
 
@@ -103,109 +103,109 @@ We assumed that you have setup service principal's credentials in your environme
 
 ```shell
 export ARM_SUBSCRIPTION_ID="<azure_subscription_id>"
-export ARM_TENANT_ID="<azure_subscription_tenant_id>"
-export ARM_CLIENT_ID="<service_principal_appid>"
-export ARM_CLIENT_SECRET="<service_principal_password>"
-```
+  export ARM_TENANT_ID="<azure_subscription_tenant_id>"
+    export ARM_CLIENT_ID="<service_principal_appid>"
+      export ARM_CLIENT_SECRET="<service_principal_password>"
+        ```
 
-On Windows Powershell:
+        On Windows Powershell:
 
-```shell
-$env:ARM_SUBSCRIPTION_ID="<azure_subscription_id>"
-$env:ARM_TENANT_ID="<azure_subscription_tenant_id>"
-$env:ARM_CLIENT_ID="<service_principal_appid>"
-$env:ARM_CLIENT_SECRET="<service_principal_password>"
-```
+        ```shell
+        $env:ARM_SUBSCRIPTION_ID="<azure_subscription_id>"
+          $env:ARM_TENANT_ID="<azure_subscription_tenant_id>"
+            $env:ARM_CLIENT_ID="<service_principal_appid>"
+              $env:ARM_CLIENT_SECRET="<service_principal_password>"
+                ```
 
-We provide a docker image to run the pre-commit checks and tests for you: `mcr.microsoft.com/azterraform:latest`
+                We provide a docker image to run the pre-commit checks and tests for you: `mcr.microsoft.com/azterraform:latest`
 
-To run the pre-commit task, we can run the following command:
+                To run the pre-commit task, we can run the following command:
 
-```shell
-$ docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make pre-commit
-```
+                ```shell
+                $ docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make pre-commit
+                ```
 
-On Windows Powershell:
+                On Windows Powershell:
 
-```shell
-$ docker run --rm -v ${pwd}:/src -w /src mcr.microsoft.com/azterraform:latest make pre-commit
-```
+                ```shell
+                $ docker run --rm -v ${pwd}:/src -w /src mcr.microsoft.com/azterraform:latest make pre-commit
+                ```
 
-In pre-commit task, we will:
+                In pre-commit task, we will:
 
-1. Run `terraform fmt -recursive` command for your Terraform code.
-2. Run `terrafmt fmt -f` command for markdown files and go code files to ensure that the Terraform code embedded in these files are well formatted.
-3. Run `go mod tidy` and `go mod vendor` for test folder to ensure that all the dependencies have been synced.
-4. Run `gofmt` for all go code files.
-5. Run `gofumpt` for all go code files.
-6. Run `terraform-docs` on `README.md` file, then run `markdown-table-formatter` to format markdown tables in `README.md`.
+                1. Run `terraform fmt -recursive` command for your Terraform code.
+                2. Run `terrafmt fmt -f` command for markdown files and go code files to ensure that the Terraform code embedded in these files are well formatted.
+                3. Run `go mod tidy` and `go mod vendor` for test folder to ensure that all the dependencies have been synced.
+                4. Run `gofmt` for all go code files.
+                5. Run `gofumpt` for all go code files.
+                6. Run `terraform-docs` on `README.md` file, then run `markdown-table-formatter` to format markdown tables in `README.md`.
 
-Then we can run the pr-check task to check whether our code meets our pipeline's requirement(We strongly recommend you run the following command before you commit):
+                Then we can run the pr-check task to check whether our code meets our pipeline's requirement(We strongly recommend you run the following command before you commit):
 
-```shell
-$ docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make pr-check
-```
+                ```shell
+                $ docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make pr-check
+                ```
 
-On Windows Powershell:
+                On Windows Powershell:
 
-```shell
-$ docker run --rm -v ${pwd}:/src -w /src mcr.microsoft.com/azterraform:latest make pr-check
-```
+                ```shell
+                $ docker run --rm -v ${pwd}:/src -w /src mcr.microsoft.com/azterraform:latest make pr-check
+                ```
 
-To run the e2e-test, we can run the following command:
+                To run the e2e-test, we can run the following command:
 
-```text
-docker run --rm -v $(pwd):/src -w /src -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
-```
+                ```text
+                docker run --rm -v $(pwd):/src -w /src -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
+                ```
 
-On Windows Powershell:
+                On Windows Powershell:
 
-```text
-docker run --rm -v ${pwd}:/src -w /src -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
-```
+                ```text
+                docker run --rm -v ${pwd}:/src -w /src -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
+                ```
 
-To follow [**Ensure AKS uses disk encryption set**](https://docs.bridgecrew.io/docs/ensure-that-aks-uses-disk-encryption-set) policy we've used `azurerm_key_vault` in example codes, and to follow [**Key vault does not allow firewall rules settings**](https://docs.bridgecrew.io/docs/ensure-that-key-vault-allows-firewall-rules-settings) we've limited the ip cidr on it's `network_acls`. By default we'll use the ip returned by `https://api.ipify.org?format=json` api as your public ip, but in case you need to use another cidr, you can set an environment variable like below:
+                To follow [**Ensure AKS uses disk encryption set**](https://docs.bridgecrew.io/docs/ensure-that-aks-uses-disk-encryption-set) policy we've used `azurerm_key_vault` in example codes, and to follow [**Key vault does not allow firewall rules settings**](https://docs.bridgecrew.io/docs/ensure-that-key-vault-allows-firewall-rules-settings) we've limited the ip cidr on it's `network_acls`. By default we'll use the ip returned by `https://api.ipify.org?format=json` api as your public ip, but in case you need to use another cidr, you can set an environment variable like below:
 
-```text
-docker run --rm -v $(pwd):/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_cidr="<your_cidr>" -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
-```
+                ```text
+                docker run --rm -v $(pwd):/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_cidr="<your_cidr>" -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
+                  ```
 
-On Windows Powershell:
-```text
-docker run --rm -v ${pwd}:/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_cidr="<your_cidr>" -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
-```
+                  On Windows Powershell:
+                  ```text
+                  docker run --rm -v ${pwd}:/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_cidr="<your_cidr>" -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
+                    ```
 
-#### Prerequisites
+                    #### Prerequisites
 
-- [Docker](https://www.docker.com/community-edition#/download)
+                    - [Docker](https://www.docker.com/community-edition#/download)
 
-## Authors
+                    ## Authors
 
-Originally created by [Damien Caro](http://github.com/dcaro) and [Malte Lantin](http://github.com/n01d)
+                    Originally created by [Damien Caro](http://github.com/dcaro) and [Malte Lantin](http://github.com/n01d)
 
-## License
+                    ## License
 
-[MIT](LICENSE)
+                    [MIT](LICENSE)
 
-# Contributing
+                    # Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+                    This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+                    Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+                    the rights to use your contribution. For details, visit https://cla.microsoft.com.
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+                    When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+                    a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+                    provided by the bot. You will only need to do this once across all repos using our CLA.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+                    This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+                    For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+                    contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-## Module Spec
+                    ## Module Spec
 
-The following sections are generated by [terraform-docs](https://github.com/terraform-docs/terraform-docs) and [markdown-table-formatter](https://github.com/nvuillam/markdown-table-formatter), please **DO NOT MODIFY THEM MANUALLY!**
+                    The following sections are generated by [terraform-docs](https://github.com/terraform-docs/terraform-docs) and [markdown-table-formatter](https://github.com/nvuillam/markdown-table-formatter), please **DO NOT MODIFY THEM MANUALLY!**
 
-<!-- BEGIN_TF_DOCS -->
+                    <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -275,7 +275,7 @@ No modules.
 | <a name="input_agents_min_count"></a> [agents\_min\_count](#input\_agents\_min\_count) | Minimum number of nodes in a pool | `number` | `null` | no |
 | <a name="input_agents_pool_kubelet_configs"></a> [agents\_pool\_kubelet\_configs](#input\_agents\_pool\_kubelet\_configs) | list(object({<br>    cpu\_manager\_policy        = (Optional) Specifies the CPU Manager policy to use. Possible values are `none` and `static`, Changing this forces a new resource to be created.<br>    cpu\_cfs\_quota\_enabled     = (Optional) Is CPU CFS quota enforcement for containers enabled? Changing this forces a new resource to be created.<br>    cpu\_cfs\_quota\_period      = (Optional) Specifies the CPU CFS quota period value. Changing this forces a new resource to be created.<br>    image\_gc\_high\_threshold   = (Optional) Specifies the percent of disk usage above which image garbage collection is always run. Must be between `0` and `100`. Changing this forces a new resource to be created.<br>    image\_gc\_low\_threshold    = (Optional) Specifies the percent of disk usage lower than which image garbage collection is never run. Must be between `0` and `100`. Changing this forces a new resource to be created.<br>    topology\_manager\_policy   = (Optional) Specifies the Topology Manager policy to use. Possible values are `none`, `best-effort`, `restricted` or `single-numa-node`. Changing this forces a new resource to be created.<br>    allowed\_unsafe\_sysctls    = (Optional) Specifies the allow list of unsafe sysctls command or patterns (ending in `*`). Changing this forces a new resource to be created.<br>    container\_log\_max\_size\_mb = (Optional) Specifies the maximum size (e.g. 10MB) of container log file before it is rotated. Changing this forces a new resource to be created.<br>    container\_log\_max\_line    = (Optional) Specifies the maximum number of container log files that can be present for a container. must be at least 2. Changing this forces a new resource to be created.<br>    pod\_max\_pid               = (Optional) Specifies the maximum number of processes per pod. Changing this forces a new resource to be created.<br>})) | <pre>list(object({<br>    cpu_manager_policy        = optional(string)<br>    cpu_cfs_quota_enabled     = optional(bool, true)<br>    cpu_cfs_quota_period      = optional(string)<br>    image_gc_high_threshold   = optional(number)<br>    image_gc_low_threshold    = optional(number)<br>    topology_manager_policy   = optional(string)<br>    allowed_unsafe_sysctls    = optional(set(string))<br>    container_log_max_size_mb = optional(number)<br>    container_log_max_line    = optional(number)<br>    pod_max_pid               = optional(number)<br>  }))</pre> | `[]` | no |
 | <a name="input_agents_pool_linux_os_configs"></a> [agents\_pool\_linux\_os\_configs](#input\_agents\_pool\_linux\_os\_configs) | list(object({<br>  sysctl\_configs = optional(list(object({<br>    fs\_aio\_max\_nr                      = (Optional) The sysctl setting fs.aio-max-nr. Must be between `65536` and `6553500`. Changing this forces a new resource to be created.<br>    fs\_file\_max                        = (Optional) The sysctl setting fs.file-max. Must be between `8192` and `12000500`. Changing this forces a new resource to be created.<br>    fs\_inotify\_max\_user\_watches        = (Optional) The sysctl setting fs.inotify.max\_user\_watches. Must be between `781250` and `2097152`. Changing this forces a new resource to be created.<br>    fs\_nr\_open                         = (Optional) The sysctl setting fs.nr\_open. Must be between `8192` and `20000500`. Changing this forces a new resource to be created.<br>    kernel\_threads\_max                 = (Optional) The sysctl setting kernel.threads-max. Must be between `20` and `513785`. Changing this forces a new resource to be created.<br>    net\_core\_netdev\_max\_backlog        = (Optional) The sysctl setting net.core.netdev\_max\_backlog. Must be between `1000` and `3240000`. Changing this forces a new resource to be created.<br>    net\_core\_optmem\_max                = (Optional) The sysctl setting net.core.optmem\_max. Must be between `20480` and `4194304`. Changing this forces a new resource to be created.<br>    net\_core\_rmem\_default              = (Optional) The sysctl setting net.core.rmem\_default. Must be between `212992` and `134217728`. Changing this forces a new resource to be created.<br>    net\_core\_rmem\_max                  = (Optional) The sysctl setting net.core.rmem\_max. Must be between `212992` and `134217728`. Changing this forces a new resource to be created.<br>    net\_core\_somaxconn                 = (Optional) The sysctl setting net.core.somaxconn. Must be between `4096` and `3240000`. Changing this forces a new resource to be created.<br>    net\_core\_wmem\_default              = (Optional) The sysctl setting net.core.wmem\_default. Must be between `212992` and `134217728`. Changing this forces a new resource to be created.<br>    net\_core\_wmem\_max                  = (Optional) The sysctl setting net.core.wmem\_max. Must be between `212992` and `134217728`. Changing this forces a new resource to be created.<br>    net\_ipv4\_ip\_local\_port\_range\_min   = (Optional) The sysctl setting net.ipv4.ip\_local\_port\_range max value. Must be between `1024` and `60999`. Changing this forces a new resource to be created.<br>    net\_ipv4\_ip\_local\_port\_range\_max   = (Optional) The sysctl setting net.ipv4.ip\_local\_port\_range min value. Must be between `1024` and `60999`. Changing this forces a new resource to be created.<br>    net\_ipv4\_neigh\_default\_gc\_thresh1  = (Optional) The sysctl setting net.ipv4.neigh.default.gc\_thresh1. Must be between `128` and `80000`. Changing this forces a new resource to be created.<br>    net\_ipv4\_neigh\_default\_gc\_thresh2  = (Optional) The sysctl setting net.ipv4.neigh.default.gc\_thresh2. Must be between `512` and `90000`. Changing this forces a new resource to be created.<br>    net\_ipv4\_neigh\_default\_gc\_thresh3  = (Optional) The sysctl setting net.ipv4.neigh.default.gc\_thresh3. Must be between `1024` and `100000`. Changing this forces a new resource to be created.<br>    net\_ipv4\_tcp\_fin\_timeout           = (Optional) The sysctl setting net.ipv4.tcp\_fin\_timeout. Must be between `5` and `120`. Changing this forces a new resource to be created.<br>    net\_ipv4\_tcp\_keepalive\_intvl       = (Optional) The sysctl setting net.ipv4.tcp\_keepalive\_intvl. Must be between `10` and `75`. Changing this forces a new resource to be created.<br>    net\_ipv4\_tcp\_keepalive\_probes      = (Optional) The sysctl setting net.ipv4.tcp\_keepalive\_probes. Must be between `1` and `15`. Changing this forces a new resource to be created.<br>    net\_ipv4\_tcp\_keepalive\_time        = (Optional) The sysctl setting net.ipv4.tcp\_keepalive\_time. Must be between `30` and `432000`. Changing this forces a new resource to be created.<br>    net\_ipv4\_tcp\_max\_syn\_backlog       = (Optional) The sysctl setting net.ipv4.tcp\_max\_syn\_backlog. Must be between `128` and `3240000`. Changing this forces a new resource to be created.<br>    net\_ipv4\_tcp\_max\_tw\_buckets        = (Optional) The sysctl setting net.ipv4.tcp\_max\_tw\_buckets. Must be between `8000` and `1440000`. Changing this forces a new resource to be created.<br>    net\_ipv4\_tcp\_tw\_reuse              = (Optional) The sysctl setting net.ipv4.tcp\_tw\_reuse. Changing this forces a new resource to be created.<br>    net\_netfilter\_nf\_conntrack\_buckets = (Optional) The sysctl setting net.netfilter.nf\_conntrack\_buckets. Must be between `65536` and `147456`. Changing this forces a new resource to be created.<br>    net\_netfilter\_nf\_conntrack\_max     = (Optional) The sysctl setting net.netfilter.nf\_conntrack\_max. Must be between `131072` and `1048576`. Changing this forces a new resource to be created.<br>    vm\_max\_map\_count                   = (Optional) The sysctl setting vm.max\_map\_count. Must be between `65530` and `262144`. Changing this forces a new resource to be created.<br>    vm\_swappiness                      = (Optional) The sysctl setting vm.swappiness. Must be between `0` and `100`. Changing this forces a new resource to be created.<br>    vm\_vfs\_cache\_pressure              = (Optional) The sysctl setting vm.vfs\_cache\_pressure. Must be between `0` and `100`. Changing this forces a new resource to be created.<br>  })), [])<br>  transparent\_huge\_page\_enabled = (Optional) Specifies the Transparent Huge Page enabled configuration. Possible values are `always`, `madvise` and `never`. Changing this forces a new resource to be created.<br>  transparent\_huge\_page\_defrag  = (Optional) specifies the defrag configuration for Transparent Huge Page. Possible values are `always`, `defer`, `defer+madvise`, `madvise` and `never`. Changing this forces a new resource to be created.<br>  swap\_file\_size\_mb             = (Optional) Specifies the size of the swap file on each node in MB. Changing this forces a new resource to be created.<br>})) | <pre>list(object({<br>    sysctl_configs = optional(list(object({<br>      fs_aio_max_nr                      = optional(number)<br>      fs_file_max                        = optional(number)<br>      fs_inotify_max_user_watches        = optional(number)<br>      fs_nr_open                         = optional(number)<br>      kernel_threads_max                 = optional(number)<br>      net_core_netdev_max_backlog        = optional(number)<br>      net_core_optmem_max                = optional(number)<br>      net_core_rmem_default              = optional(number)<br>      net_core_rmem_max                  = optional(number)<br>      net_core_somaxconn                 = optional(number)<br>      net_core_wmem_default              = optional(number)<br>      net_core_wmem_max                  = optional(number)<br>      net_ipv4_ip_local_port_range_min   = optional(number)<br>      net_ipv4_ip_local_port_range_max   = optional(number)<br>      net_ipv4_neigh_default_gc_thresh1  = optional(number)<br>      net_ipv4_neigh_default_gc_thresh2  = optional(number)<br>      net_ipv4_neigh_default_gc_thresh3  = optional(number)<br>      net_ipv4_tcp_fin_timeout           = optional(number)<br>      net_ipv4_tcp_keepalive_intvl       = optional(number)<br>      net_ipv4_tcp_keepalive_probes      = optional(number)<br>      net_ipv4_tcp_keepalive_time        = optional(number)<br>      net_ipv4_tcp_max_syn_backlog       = optional(number)<br>      net_ipv4_tcp_max_tw_buckets        = optional(number)<br>      net_ipv4_tcp_tw_reuse              = optional(bool)<br>      net_netfilter_nf_conntrack_buckets = optional(number)<br>      net_netfilter_nf_conntrack_max     = optional(number)<br>      vm_max_map_count                   = optional(number)<br>      vm_swappiness                      = optional(number)<br>      vm_vfs_cache_pressure              = optional(number)<br>    })), [])<br>    transparent_huge_page_enabled = optional(string)<br>    transparent_huge_page_defrag  = optional(string)<br>    swap_file_size_mb             = optional(number)<br>  }))</pre> | `[]` | no |
-| <a name="input_agents_pool_max_surge"></a> [agents\_pool\_max\_surge](#input\_agents\_pool\_max\_surge) | The maximum number or percentage of nodes which will be added to the Default Node Pool size during an upgrade. | `string` | `null` | no |
+| <a name="input_agents_pool_max_surge"></a> [agents\_pool\_max\_surge](#input\_agents\_pool\_max\_surge) | The maximum number or percentage of nodes which will be added to the Default Node Pool size during an upgrade. | `string` | `"10%"` | no |
 | <a name="input_agents_pool_name"></a> [agents\_pool\_name](#input\_agents\_pool\_name) | The default Azure AKS agentpool (nodepool) name. | `string` | `"nodepool"` | no |
 | <a name="input_agents_proximity_placement_group_id"></a> [agents\_proximity\_placement\_group\_id](#input\_agents\_proximity\_placement\_group\_id) | (Optional) The ID of the Proximity Placement Group of the default Azure AKS agentpool (nodepool). Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_agents_size"></a> [agents\_size](#input\_agents\_size) | The default virtual machine size for the Kubernetes agents. Changing this without specifying `var.temporary_name_for_rotation` forces a new resource to be created. | `string` | `"Standard_D2s_v3"` | no |

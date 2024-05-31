@@ -169,7 +169,7 @@ EOT
 
 variable "agents_pool_max_surge" {
   type        = string
-  default     = null
+  default     = "10%"
   description = "The maximum number or percentage of nodes which will be added to the Default Node Pool size during an upgrade."
 }
 
