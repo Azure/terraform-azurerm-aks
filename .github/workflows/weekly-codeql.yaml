@@ -6,4 +6,8 @@ on:
 
 jobs:
   codeql:
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
     uses: Azure/tfmod-scaffold/.github/workflows/weekly-codeql.yaml@main
