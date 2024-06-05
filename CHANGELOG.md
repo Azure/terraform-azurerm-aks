@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Compromise on e2e tests involving ingress, since it's not stable [\#558](https://github.com/Azure/terraform-azurerm-aks/pull/558) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add weekly-codeql action [\#555](https://github.com/Azure/terraform-azurerm-aks/pull/555) ([lonegunmanb](https://github.com/lonegunmanb))
 - Change default value for `var.agents_pool_max_surge` to 10% [\#554](https://github.com/Azure/terraform-azurerm-aks/pull/554) ([lonegunmanb](https://github.com/lonegunmanb))
 - Update Microsoft.ContainerService managedClusters API version to 2024-02-01 [\#552](https://github.com/Azure/terraform-azurerm-aks/pull/552) ([olofmattsson-inriver](https://github.com/olofmattsson-inriver))
