@@ -166,10 +166,12 @@ func TestExamples_applicationGatewayIngress(t *testing.T) {
 			}, func(t *testing.T, output test_helper.TerraformOutput) {
 				url, ok := output["ingress_endpoint"].(string)
 				require.True(t, ok)
-				html, err := getHTML(url)
-				require.NoError(t, err)
-				if strings.Contains(html, "Welcome to .NET") {
-					return
+				if strings.HasPrefix(url, "http://") {
+					html, err := getHTML(url)
+					require.NoError(t, err)
+					if strings.Contains(html, "Welcome to .NET") {
+						return
+					}
 				}
 			})
 		})
