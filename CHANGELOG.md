@@ -11,6 +11,7 @@
 - Bump github.com/Azure/terraform-module-test-helper from 0.19.0 to 0.22.0 in /test [\#549](https://github.com/Azure/terraform-azurerm-aks/pull/549) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Amending log analytics attributes [\#548](https://github.com/Azure/terraform-azurerm-aks/pull/548) ([lonegunmanb](https://github.com/lonegunmanb))
 - bump k8s version for example since 1.26 has been deprecated [\#540](https://github.com/Azure/terraform-azurerm-aks/pull/540) ([lonegunmanb](https://github.com/lonegunmanb))
+- fix\(typo\): typo in output variable [\#537](https://github.com/Azure/terraform-azurerm-aks/pull/537) ([mbaykara](https://github.com/mbaykara))
 - Bump github.com/Azure/terraform-module-test-helper from 0.18.0 to 0.19.0 in /test [\#521](https://github.com/Azure/terraform-azurerm-aks/pull/521) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 
