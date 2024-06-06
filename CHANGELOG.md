@@ -8,6 +8,7 @@
 - Add weekly-codeql action [\#555](https://github.com/Azure/terraform-azurerm-aks/pull/555) ([lonegunmanb](https://github.com/lonegunmanb))
 - Change default value for `var.agents_pool_max_surge` to 10% [\#554](https://github.com/Azure/terraform-azurerm-aks/pull/554) ([lonegunmanb](https://github.com/lonegunmanb))
 - Update Microsoft.ContainerService managedClusters API version to 2024-02-01 [\#552](https://github.com/Azure/terraform-azurerm-aks/pull/552) ([olofmattsson-inriver](https://github.com/olofmattsson-inriver))
+- Bump github.com/Azure/terraform-module-test-helper from 0.19.0 to 0.22.0 in /test [\#549](https://github.com/Azure/terraform-azurerm-aks/pull/549) ([dependabot[bot]](https://github.com/apps/dependabot))
 - bump k8s version for example since 1.26 has been deprecated [\#540](https://github.com/Azure/terraform-azurerm-aks/pull/540) ([lonegunmanb](https://github.com/lonegunmanb))
 - Bump github.com/Azure/terraform-module-test-helper from 0.18.0 to 0.19.0 in /test [\#521](https://github.com/Azure/terraform-azurerm-aks/pull/521) ([dependabot[bot]](https://github.com/apps/dependabot))
 
