@@ -472,7 +472,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     network_policy      = var.network_policy
     outbound_type       = var.net_profile_outbound_type
     pod_cidr            = var.net_profile_pod_cidr
+    pod_cidrs           = var.net_profile_pod_cidrs
     service_cidr        = var.net_profile_service_cidr
+    service_cidrs       = var.net_profile_service_cidrs
+    ip_versions         = var.net_profile_ip_versions
 
     dynamic "load_balancer_profile" {
       for_each = var.load_balancer_profile_enabled && var.load_balancer_sku == "standard" ? [
