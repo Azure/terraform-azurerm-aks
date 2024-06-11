@@ -142,6 +142,13 @@ resource "azurerm_kubernetes_cluster" "main" {
           }
         }
       }
+      dynamic "node_network_profile" {
+        for_each = var.agents_pool_node_network_profile == null ? [] : ["node_network_profile"]
+
+        content {
+          node_public_ip_tags = var.agents_pool_node_network_profile.node_public_ip_tags
+        }
+      }
       dynamic "upgrade_settings" {
         for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
 
@@ -241,6 +248,13 @@ resource "azurerm_kubernetes_cluster" "main" {
               vm_vfs_cache_pressure              = sysctl_config.value.vm_vfs_cache_pressure
             }
           }
+        }
+      }
+      dynamic "node_network_profile" {
+        for_each = var.agents_pool_node_network_profile == null ? [] : ["node_network_profile"]
+
+        content {
+          node_public_ip_tags = var.agents_pool_node_network_profile.node_public_ip_tags
         }
       }
       dynamic "upgrade_settings" {
