@@ -125,7 +125,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
     for_each = each.value.upgrade_settings == null ? [] : ["upgrade_settings"]
 
     content {
-      max_surge = each.value.upgrade_settings.max_surge
+      drain_timeout_in_minutes      = each.value.upgrade_settings.drain_timeout_in_minutes
+      node_soak_duration_in_minutes = each.value.upgrade_settings.node_soak_duration_in_minutes
+      max_surge                     = each.value.upgrade_settings.max_surge
     }
   }
   dynamic "windows_profile" {
@@ -283,7 +285,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
     for_each = each.value.upgrade_settings == null ? [] : ["upgrade_settings"]
 
     content {
-      max_surge = each.value.upgrade_settings.max_surge
+      drain_timeout_in_minutes      = each.value.upgrade_settings.drain_timeout_in_minutes
+      node_soak_duration_in_minutes = each.value.upgrade_settings.node_soak_duration_in_minutes
+      max_surge                     = each.value.upgrade_settings.max_surge
     }
   }
   dynamic "windows_profile" {
