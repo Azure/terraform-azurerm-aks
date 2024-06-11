@@ -173,6 +173,18 @@ variable "agents_pool_max_surge" {
   description = "The maximum number or percentage of nodes which will be added to the Default Node Pool size during an upgrade."
 }
 
+variable "agents_pool_node_soak_duration_in_minutes" {
+  type        = number
+  default     = 0
+  description = "(Optional) The amount of time in minutes to wait after draining a node and before reimaging and moving on to next node. Defaults to 0."
+}
+
+variable "agents_pool_drain_timeout_in_minutes" {
+  type        = number
+  default     = null
+  description = "(Optional) The amount of time in minutes to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. Unsetting this after configuring it will force a new resource to be created."
+}
+
 variable "agents_pool_name" {
   type        = string
   default     = "nodepool"
@@ -1030,7 +1042,9 @@ variable "node_pools" {
     ultra_ssd_enabled            = optional(bool)
     vnet_subnet_id               = optional(string)
     upgrade_settings = optional(object({
-      max_surge = string
+      drain_timeout_in_minutes      = number
+      node_soak_duration_in_minutes = number
+      max_surge                     = string
     }))
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)
@@ -1130,7 +1144,9 @@ variable "node_pools" {
     ultra_ssd_enabled            = (Optional) Used to specify whether the UltraSSD is enabled in the Node Pool. Defaults to `false`. See [the documentation](https://docs.microsoft.com/azure/aks/use-ultra-disks) for more information. Changing this forces a new resource to be created.
     vnet_subnet_id               = (Optional) The ID of the Subnet where this Node Pool should exist. Changing this forces a new resource to be created. A route table must be configured on this Subnet.
     upgrade_settings = optional(object({
-      max_surge = string
+      drain_timeout_in_minutes      = number
+      node_soak_duration_in_minutes = number
+      max_surge                     = string
     }))
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)
