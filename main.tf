@@ -249,7 +249,9 @@ resource "azurerm_kubernetes_cluster" "main" {
         for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
 
         content {
-          max_surge = var.agents_pool_max_surge
+          drain_timeout_in_minutes      = var.agents_pool_drain_timeout_in_minutes
+          node_soak_duration_in_minutes = var.agents_pool_node_soak_duration_in_minutes
+          max_surge                     = var.agents_pool_max_surge
         }
       }
     }
