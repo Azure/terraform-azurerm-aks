@@ -900,7 +900,7 @@ variable "net_profile_outbound_type" {
 variable "net_profile_pod_cidr" {
   type        = string
   default     = null
-  description = " (Optional) The CIDR to use for pod IP addresses. This field can only be set when network_plugin is set to kubenet. Changing this forces a new resource to be created."
+  description = " (Optional) The CIDR to use for pod IP addresses. This field can only be set when network_plugin is set to kubenet or network_plugin is set to azure and network_plugin_mode is set to overlay. Changing this forces a new resource to be created."
 }
 
 variable "net_profile_service_cidr" {
@@ -926,7 +926,7 @@ variable "network_plugin" {
 variable "network_plugin_mode" {
   type        = string
   default     = null
-  description = "(Optional) Specifies the network plugin mode used for building the Kubernetes network. Possible value is `Overlay`. Changing this forces a new resource to be created."
+  description = "(Optional) Specifies the network plugin mode used for building the Kubernetes network. Possible value is `overlay`. Changing this forces a new resource to be created."
 }
 
 variable "network_policy" {
