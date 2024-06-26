@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Bump github.com/hashicorp/go-getter from 1.7.4 to 1.7.5 in /test [\#569](https://github.com/Azure/terraform-azurerm-aks/pull/569) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Start new Changelog file for v10 [\#567](https://github.com/Azure/terraform-azurerm-aks/pull/567) ([zioproto](https://github.com/zioproto))
 - fixed inaccurate variable descriptions for azure cni in overlay mode [\#566](https://github.com/Azure/terraform-azurerm-aks/pull/566) ([Xelef2000](https://github.com/Xelef2000))
 
