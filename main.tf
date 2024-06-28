@@ -43,7 +43,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     avm_git_last_modified_at = "2024-02-16 15:45:22"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "771e7cf5-6e8a-491f-8734-28b45679b999"
+    avm_yor_trace            = "9d3072ba-5ff7-4fba-9843-de55553ff6ad"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -146,9 +146,9 @@ resource "azurerm_kubernetes_cluster" "main" {
         for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
 
         content {
+          max_surge                     = var.agents_pool_max_surge
           drain_timeout_in_minutes      = var.agents_pool_drain_timeout_in_minutes
           node_soak_duration_in_minutes = var.agents_pool_node_soak_duration_in_minutes
-          max_surge                     = var.agents_pool_max_surge
         }
       }
     }
@@ -249,9 +249,9 @@ resource "azurerm_kubernetes_cluster" "main" {
         for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
 
         content {
+          max_surge                     = var.agents_pool_max_surge
           drain_timeout_in_minutes      = var.agents_pool_drain_timeout_in_minutes
           node_soak_duration_in_minutes = var.agents_pool_node_soak_duration_in_minutes
-          max_surge                     = var.agents_pool_max_surge
         }
       }
     }
