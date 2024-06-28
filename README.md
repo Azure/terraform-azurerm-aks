@@ -104,109 +104,109 @@ We assumed that you have setup service principal's credentials in your environme
 
 ```shell
 export ARM_SUBSCRIPTION_ID="<azure_subscription_id>"
-  export ARM_TENANT_ID="<azure_subscription_tenant_id>"
-    export ARM_CLIENT_ID="<service_principal_appid>"
-      export ARM_CLIENT_SECRET="<service_principal_password>"
-        ```
+export ARM_TENANT_ID="<azure_subscription_tenant_id>"
+export ARM_CLIENT_ID="<service_principal_appid>"
+export ARM_CLIENT_SECRET="<service_principal_password>"
+```
 
-        On Windows Powershell:
+On Windows Powershell:
 
-        ```shell
-        $env:ARM_SUBSCRIPTION_ID="<azure_subscription_id>"
-          $env:ARM_TENANT_ID="<azure_subscription_tenant_id>"
-            $env:ARM_CLIENT_ID="<service_principal_appid>"
-              $env:ARM_CLIENT_SECRET="<service_principal_password>"
-                ```
+```shell
+$env:ARM_SUBSCRIPTION_ID="<azure_subscription_id>"
+$env:ARM_TENANT_ID="<azure_subscription_tenant_id>"
+$env:ARM_CLIENT_ID="<service_principal_appid>"
+$env:ARM_CLIENT_SECRET="<service_principal_password>"
+```
 
-                We provide a docker image to run the pre-commit checks and tests for you: `mcr.microsoft.com/azterraform:latest`
+We provide a docker image to run the pre-commit checks and tests for you: `mcr.microsoft.com/azterraform:latest`
 
-                To run the pre-commit task, we can run the following command:
+To run the pre-commit task, we can run the following command:
 
-                ```shell
-                $ docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make pre-commit
-                ```
+```shell
+$ docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make pre-commit
+```
 
-                On Windows Powershell:
+On Windows Powershell:
 
-                ```shell
-                $ docker run --rm -v ${pwd}:/src -w /src mcr.microsoft.com/azterraform:latest make pre-commit
-                ```
+```shell
+$ docker run --rm -v ${pwd}:/src -w /src mcr.microsoft.com/azterraform:latest make pre-commit
+```
 
-                In pre-commit task, we will:
+In pre-commit task, we will:
 
-                1. Run `terraform fmt -recursive` command for your Terraform code.
-                2. Run `terrafmt fmt -f` command for markdown files and go code files to ensure that the Terraform code embedded in these files are well formatted.
-                3. Run `go mod tidy` and `go mod vendor` for test folder to ensure that all the dependencies have been synced.
-                4. Run `gofmt` for all go code files.
-                5. Run `gofumpt` for all go code files.
-                6. Run `terraform-docs` on `README.md` file, then run `markdown-table-formatter` to format markdown tables in `README.md`.
+1. Run `terraform fmt -recursive` command for your Terraform code.
+2. Run `terrafmt fmt -f` command for markdown files and go code files to ensure that the Terraform code embedded in these files are well formatted.
+3. Run `go mod tidy` and `go mod vendor` for test folder to ensure that all the dependencies have been synced.
+4. Run `gofmt` for all go code files.
+5. Run `gofumpt` for all go code files.
+6. Run `terraform-docs` on `README.md` file, then run `markdown-table-formatter` to format markdown tables in `README.md`.
 
-                Then we can run the pr-check task to check whether our code meets our pipeline's requirement(We strongly recommend you run the following command before you commit):
+Then we can run the pr-check task to check whether our code meets our pipeline's requirement(We strongly recommend you run the following command before you commit):
 
-                ```shell
-                $ docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make pr-check
-                ```
+```shell
+$ docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make pr-check
+```
 
-                On Windows Powershell:
+On Windows Powershell:
 
-                ```shell
-                $ docker run --rm -v ${pwd}:/src -w /src mcr.microsoft.com/azterraform:latest make pr-check
-                ```
+```shell
+$ docker run --rm -v ${pwd}:/src -w /src mcr.microsoft.com/azterraform:latest make pr-check
+```
 
-                To run the e2e-test, we can run the following command:
+To run the e2e-test, we can run the following command:
 
-                ```text
-                docker run --rm -v $(pwd):/src -w /src -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
-                ```
+```text
+docker run --rm -v $(pwd):/src -w /src -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
+```
 
-                On Windows Powershell:
+On Windows Powershell:
 
-                ```text
-                docker run --rm -v ${pwd}:/src -w /src -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
-                ```
+```text
+docker run --rm -v ${pwd}:/src -w /src -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
+```
 
-                To follow [**Ensure AKS uses disk encryption set**](https://docs.bridgecrew.io/docs/ensure-that-aks-uses-disk-encryption-set) policy we've used `azurerm_key_vault` in example codes, and to follow [**Key vault does not allow firewall rules settings**](https://docs.bridgecrew.io/docs/ensure-that-key-vault-allows-firewall-rules-settings) we've limited the ip cidr on it's `network_acls`. By default we'll use the ip returned by `https://api.ipify.org?format=json` api as your public ip, but in case you need to use another cidr, you can set an environment variable like below:
+To follow [**Ensure AKS uses disk encryption set**](https://docs.bridgecrew.io/docs/ensure-that-aks-uses-disk-encryption-set) policy we've used `azurerm_key_vault` in example codes, and to follow [**Key vault does not allow firewall rules settings**](https://docs.bridgecrew.io/docs/ensure-that-key-vault-allows-firewall-rules-settings) we've limited the ip cidr on it's `network_acls`. By default we'll use the ip returned by `https://api.ipify.org?format=json` api as your public ip, but in case you need to use another cidr, you can set an environment variable like below:
 
-                ```text
-                docker run --rm -v $(pwd):/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_cidr="<your_cidr>" -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
-                  ```
+```text
+docker run --rm -v $(pwd):/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_cidr="<your_cidr>" -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
+```
 
-                  On Windows Powershell:
-                  ```text
-                  docker run --rm -v ${pwd}:/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_cidr="<your_cidr>" -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
-                    ```
+On Windows Powershell:
+```text
+docker run --rm -v ${pwd}:/src -w /src -e TF_VAR_key_vault_firewall_bypass_ip_cidr="<your_cidr>" -e ARM_SUBSCRIPTION_ID -e ARM_TENANT_ID -e ARM_CLIENT_ID -e ARM_CLIENT_SECRET mcr.microsoft.com/azterraform:latest make e2e-test
+```
 
-                    #### Prerequisites
+#### Prerequisites
 
-                    - [Docker](https://www.docker.com/community-edition#/download)
+- [Docker](https://www.docker.com/community-edition#/download)
 
-                    ## Authors
+## Authors
 
-                    Originally created by [Damien Caro](http://github.com/dcaro) and [Malte Lantin](http://github.com/n01d)
+Originally created by [Damien Caro](http://github.com/dcaro) and [Malte Lantin](http://github.com/n01d)
 
-                    ## License
+## License
 
-                    [MIT](LICENSE)
+[MIT](LICENSE)
 
-                    # Contributing
+# Contributing
 
-                    This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-                    Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-                    the rights to use your contribution. For details, visit https://cla.microsoft.com.
+This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit https://cla.microsoft.com.
 
-                    When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-                    a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-                    provided by the bot. You will only need to do this once across all repos using our CLA.
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.
 
-                    This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-                    For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-                    contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-                    ## Module Spec
+## Module Spec
 
-                    The following sections are generated by [terraform-docs](https://github.com/terraform-docs/terraform-docs) and [markdown-table-formatter](https://github.com/nvuillam/markdown-table-formatter), please **DO NOT MODIFY THEM MANUALLY!**
+The following sections are generated by [terraform-docs](https://github.com/terraform-docs/terraform-docs) and [markdown-table-formatter](https://github.com/nvuillam/markdown-table-formatter), please **DO NOT MODIFY THEM MANUALLY!**
 
-                    <!-- BEGIN_TF_DOCS -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
