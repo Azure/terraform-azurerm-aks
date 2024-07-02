@@ -59,7 +59,7 @@ variable "agents_min_count" {
 
 variable "agents_pool_drain_timeout_in_minutes" {
   type        = number
-  default     = 30
+  default     = null
   description = "(Optional) The amount of time in minutes to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. Unsetting this after configuring it will force a new resource to be created."
 }
 
