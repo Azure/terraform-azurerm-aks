@@ -16,12 +16,12 @@ resource "azurerm_log_analytics_workspace" "main" {
   retention_in_days                       = var.log_retention_in_days
   sku                                     = var.log_analytics_workspace_sku
   tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_git_commit           = "0ae8a663f1dc1dc474b14c10d9c94c77a3d1e234"
-    avm_git_file             = "main.tf"
-    avm_git_last_modified_at = "2023-06-05 02:21:33"
+    avm_git_commit           = "e3dd48ea03e7fd9955145d5e1b985fb501c49d91"
+    avm_git_file             = "log_analytics.tf"
+    avm_git_last_modified_at = "2024-05-20 06:53:31"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "73cae469-593d-414e-afc9-d049354e8e2c"
+    avm_yor_trace            = "19c94151-5759-4254-9f0f-de791c134292"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
@@ -70,7 +70,7 @@ resource "azurerm_log_analytics_solution" "main" {
     avm_git_last_modified_at = "2023-07-20 06:04:07"
     avm_git_org              = "Azure"
     avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "f097e0ad-44ec-45a2-a3e6-08999713407d"
+    avm_yor_trace            = "54b56b22-0437-409d-a294-4ad277e0a693"
     } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_yor_name = "main"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
