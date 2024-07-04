@@ -1,5 +1,18 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Downgrade next major version back to v9 [\#577](https://github.com/Azure/terraform-azurerm-aks/pull/577) ([lonegunmanb](https://github.com/lonegunmanb))
+- Restore devcontainer [\#576](https://github.com/Azure/terraform-azurerm-aks/pull/576) ([zioproto](https://github.com/zioproto))
+- set drainTimeoutInMinutes default value to null [\#575](https://github.com/Azure/terraform-azurerm-aks/pull/575) ([zioproto](https://github.com/zioproto))
+- fix README.md format [\#570](https://github.com/Azure/terraform-azurerm-aks/pull/570) ([joaoestrela](https://github.com/joaoestrela))
+- Bump github.com/hashicorp/go-getter from 1.7.4 to 1.7.5 in /test [\#569](https://github.com/Azure/terraform-azurerm-aks/pull/569) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Start new Changelog file for v10 [\#567](https://github.com/Azure/terraform-azurerm-aks/pull/567) ([zioproto](https://github.com/zioproto))
+- fixed inaccurate variable descriptions for azure cni in overlay mode [\#566](https://github.com/Azure/terraform-azurerm-aks/pull/566) ([Xelef2000](https://github.com/Xelef2000))
+- add drain\_timeout\_in\_minutes and node\_soak\_duration\_in\_minutes [\#564](https://github.com/Azure/terraform-azurerm-aks/pull/564) ([zioproto](https://github.com/zioproto))
+
 ## [9.0.0](https://github.com/Azure/terraform-azurerm-aks/tree/9.0.0) (2024-06-07)
 
 **Merged pull requests:**
