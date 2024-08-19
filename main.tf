@@ -20,6 +20,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   resource_group_name                 = data.azurerm_resource_group.main.name
   automatic_channel_upgrade           = var.automatic_channel_upgrade
   azure_policy_enabled                = var.azure_policy_enabled
+  cost_analysis_enabled               = var.cost_analysis_enabled
   disk_encryption_set_id              = var.disk_encryption_set_id
   dns_prefix                          = var.prefix
   image_cleaner_enabled               = var.image_cleaner_enabled
