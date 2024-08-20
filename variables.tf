@@ -352,7 +352,7 @@ variable "automatic_channel_upgrade" {
   type        = string
   default     = null
   description = <<-EOT
-    (Optional) Defines the automatic upgrade channel for the AKS cluster.  
+    (Optional) Defines the automatic upgrade channel for the AKS cluster.
     Possible values:
       * `"patch"`: Automatically upgrades to the latest patch version within the specified minor version in `kubernetes_version`. **If using "patch", `kubernetes_version` must be set only up to the minor version (e.g., "1.29").**
       * `"stable"`, `"rapid"`, `"node-image"`: Automatically upgrade without requiring `kubernetes_version`. **If using one of these values, both `kubernetes_version` and `orchestrator_version` must be `null`.**
@@ -943,6 +943,19 @@ variable "msi_auth_for_monitoring_enabled" {
   description = "(Optional) Is managed identity authentication for monitoring enabled?"
 }
 
+variable "nat_gateway_profile" {
+  type = object({
+    idle_timeout_in_minutes   = optional(number)
+    managed_outbound_ip_count = optional(number)
+  })
+  default     = null
+  description = <<-EOT
+ `nat_gateway_profile` block supports the following:
+ - `idle_timeout_in_minutes` - (Optional) Desired outbound flow idle timeout in minutes for the cluster load balancer. Must be between `4` and `120` inclusive. Defaults to `4`.
+ - `managed_outbound_ip_count` - (Optional) Count of desired managed outbound IPs for the cluster load balancer. Must be between `1` and `100` inclusive.
+EOT
+}
+
 variable "net_profile_dns_service_ip" {
   type        = string
   default     = null
@@ -974,6 +987,24 @@ variable "network_contributor_role_assigned_subnet_ids" {
   nullable    = false
 }
 
+variable "network_data_plane" {
+  type        = string
+  default     = null
+  description = "(Optional) Specifies the data plane used for building the Kubernetes network. Possible values are `azure` and `cilium`. Defaults to `azure`. Disabling this forces a new resource to be created."
+}
+
+variable "network_ip_versions" {
+  type        = list(string)
+  default     = null
+  description = "(Optional) Specifies a list of IP versions the Kubernetes Cluster will use to assign IP addresses to its nodes and pods. Possible values are `IPv4` and/or `IPv6`. `IPv4` must always be specified. Changing this forces a new resource to be created."
+}
+
+variable "network_mode" {
+  type        = string
+  default     = null
+  description = "(Optional) Network mode to be used with Azure CNI. Possible values are `bridge` and `transparent`. Changing this forces a new resource to be created."
+}
+
 variable "network_plugin" {
   type        = string
   default     = "kubenet"
@@ -987,10 +1018,22 @@ variable "network_plugin_mode" {
   description = "(Optional) Specifies the network plugin mode used for building the Kubernetes network. Possible value is `overlay`. Changing this forces a new resource to be created."
 }
 
+variable "net_profile_pod_cidrs" {
+  type        = list(string)
+  default     = null
+  description = "(Optional) A list of CIDRs to use for pod IP addresses. For single-stack networking a single IPv4 CIDR is expected. For dual-stack networking an IPv4 and IPv6 CIDR are expected. Changing this forces a new resource to be created."
+}
+
 variable "network_policy" {
   type        = string
   default     = null
   description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
+}
+
+variable "net_profile_service_cidrs" {
+  type        = list(string)
+  default     = null
+  description = "(Optional) A list of CIDRs to use for Kubernetes services. For single-stack networking a single IPv4 CIDR is expected. For dual-stack networking an IPv4 and IPv6 CIDR are expected. Changing this forces a new resource to be created."
 }
 
 variable "node_network_profile" {

@@ -479,12 +479,17 @@ resource "azurerm_kubernetes_cluster" "main" {
     network_plugin      = var.network_plugin
     dns_service_ip      = var.net_profile_dns_service_ip
     ebpf_data_plane     = var.ebpf_data_plane
+    ip_versions         = var.network_ip_versions
     load_balancer_sku   = var.load_balancer_sku
+    network_data_plane  = var.network_data_plane
+    network_mode        = var.network_mode
     network_plugin_mode = var.network_plugin_mode
     network_policy      = var.network_policy
     outbound_type       = var.net_profile_outbound_type
     pod_cidr            = var.net_profile_pod_cidr
+    pod_cidrs           = var.net_profile_pod_cidrs
     service_cidr        = var.net_profile_service_cidr
+    service_cidrs       = var.net_profile_service_cidrs
 
     dynamic "load_balancer_profile" {
       for_each = var.load_balancer_profile_enabled && var.load_balancer_sku == "standard" ? [
@@ -498,6 +503,13 @@ resource "azurerm_kubernetes_cluster" "main" {
         outbound_ip_address_ids     = var.load_balancer_profile_outbound_ip_address_ids
         outbound_ip_prefix_ids      = var.load_balancer_profile_outbound_ip_prefix_ids
         outbound_ports_allocated    = var.load_balancer_profile_outbound_ports_allocated
+      }
+    }
+    dynamic "nat_gateway_profile" {
+      for_each = var.nat_gateway_profile == null ? [] : [var.nat_gateway_profile]
+      content {
+        idle_timeout_in_minutes   = nat_gateway_profile.value.idle_timeout_in_minutes
+        managed_outbound_ip_count = nat_gateway_profile.value.managed_outbound_ip_count
       }
     }
   }
