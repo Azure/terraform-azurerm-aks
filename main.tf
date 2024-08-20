@@ -568,6 +568,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "If use identity and `UserAssigned` is set, an `identity_ids` must be set as well."
     }
     precondition {
+      condition     = var.cost_analysis_enabled != true || (var.sku_tier == "Standard" || var.sku_tier == "Premium")
+      error_message = "`sku_tier` must be either `Standard` or `Premium` when cost analysis is enabled."
+    }
+    precondition {
       condition     = !(var.microsoft_defender_enabled && !var.log_analytics_workspace_enabled)
       error_message = "Enabling Microsoft Defender requires that `log_analytics_workspace_enabled` be set to true."
     }
