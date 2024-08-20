@@ -18,6 +18,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   cost_analysis_enabled               = var.cost_analysis_enabled
   disk_encryption_set_id              = var.disk_encryption_set_id
   dns_prefix                          = var.prefix
+  dns_prefix_private_cluster          = var.dns_prefix_private_cluster
   image_cleaner_enabled               = var.image_cleaner_enabled
   image_cleaner_interval_hours        = var.image_cleaner_interval_hours
   kubernetes_version                  = var.kubernetes_version
