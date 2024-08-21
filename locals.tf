@@ -9,7 +9,7 @@ locals {
     (contains(["patch"], var.automatic_channel_upgrade) && can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.kubernetes_version)) && (can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.orchestrator_version)) || var.orchestrator_version == null)) ||
     (contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) && var.kubernetes_version == null && var.orchestrator_version == null)
   )
-  cluster_name = coalesce(var.cluster_name, trim("${var.prefix}-aks", "-"))
+  cluster_name = try(coalesce(var.cluster_name, trim("${var.prefix}-aks", "-")), "aks")
   # Abstract the decision whether to create an Analytics Workspace or not.
   create_analytics_solution        = var.log_analytics_workspace_enabled && var.log_analytics_solution == null
   create_analytics_workspace       = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null
