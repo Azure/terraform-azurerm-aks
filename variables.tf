@@ -491,7 +491,7 @@ variable "disk_encryption_set_id" {
 variable "dns_prefix_private_cluster" {
   type        = string
   default     = null
-  description = "(Optional) Specifies the DNS prefix to use with private clusters. Changing this forces a new resource to be created."
+  description = "(Optional) Specifies the DNS prefix to use with private clusters. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified. Changing this forces a new resource to be created."
 }
 
 variable "ebpf_data_plane" {
@@ -1327,8 +1327,7 @@ variable "pod_subnet_id" {
 variable "prefix" {
   type        = string
   default     = ""
-  description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set."
-  nullable    = false
+  description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
 }
 
 variable "private_cluster_enabled" {
