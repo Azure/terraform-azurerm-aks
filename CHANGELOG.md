@@ -5,6 +5,7 @@
 **Merged pull requests:**
 
 - Add `cost_analysis_enabled` option [\#583](https://github.com/Azure/terraform-azurerm-aks/pull/583) ([artificial-aidan](https://github.com/artificial-aidan))
+- Bump github.com/Azure/terraform-module-test-helper from 0.24.0 to 0.25.0 in /test [\#581](https://github.com/Azure/terraform-azurerm-aks/pull/581) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump github.com/gruntwork-io/terratest from 0.46.15 to 0.47.0 in /test [\#579](https://github.com/Azure/terraform-azurerm-aks/pull/579) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump github.com/Azure/terraform-module-test-helper from 0.22.0 to 0.24.0 in /test [\#574](https://github.com/Azure/terraform-azurerm-aks/pull/574) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump github.com/hashicorp/go-retryablehttp from 0.7.5 to 0.7.7 in /test [\#562](https://github.com/Azure/terraform-azurerm-aks/pull/562) ([dependabot[bot]](https://github.com/apps/dependabot))
