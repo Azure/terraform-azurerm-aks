@@ -167,7 +167,7 @@ func TestExamplesForV4(t *testing.T) {
 	require.NoError(t, os.WriteFile(tfvars, []byte(`
 	client_id = ""
 	client_secret = ""
-`), 0o644))
+`), 0o600))
 	t.Setenv("TF_VAR_client_id", "")
 	t.Setenv("TF_VAR_client_secret", "")
 	examples, err := os.ReadDir("../../examples")
