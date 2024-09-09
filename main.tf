@@ -634,8 +634,8 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "When ebpf_data_plane is set to cilium, one of either network_plugin_mode = `overlay` or pod_subnet_id must be specified."
     }
     precondition {
-      condition     = can(coalesce(var.cluster_name, var.prefix))
-      error_message = "You must set one of `var.cluster_name` and `var.prefix` to create `azurerm_kubernetes_cluster.main`."
+      condition     = can(coalesce(var.cluster_name, var.prefix, var.dns_prefix_private_cluster))
+      error_message = "You must set one of `var.cluster_name`,`var.prefix`,`var.dns_prefix_private_cluster` to create `azurerm_kubernetes_cluster.main`."
     }
     precondition {
       condition     = var.automatic_channel_upgrade != "node-image" || var.node_os_channel_upgrade == "NodeImage"
@@ -657,6 +657,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = var.prefix == null || var.dns_prefix_private_cluster == null
       error_message = "Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
+    }
+    precondition {
+      condition     = var.dns_prefix_private_cluster == null || var.private_cluster_enabled
+      error_message = "When `dns_prefix_private_cluster` is set, `private_cluster_enabled` must be set to `true`."
+    }
+    precondition {
+      condition     = var.dns_prefix_private_cluster != null || var.identity_type == "UserAssigned" || var.client_id != ""
+      error_message = "A user assigned identity or a service principal must be used when using a custom private dns zone"
     }
   }
 }
