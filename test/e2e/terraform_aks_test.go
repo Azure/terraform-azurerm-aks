@@ -204,7 +204,7 @@ func TestExamplesForV4(t *testing.T) {
 			continue
 		}
 		t.Run(example.Name(), func(t *testing.T) {
-			test_helper.RunE2ETest(t, fmt.Sprintf("../../"), fmt.Sprintf("examples/%s", example.Name()), terraform.Options{
+			test_helper.RunE2ETest(t, "../../", fmt.Sprintf("examples/%s", example.Name()), terraform.Options{
 				Upgrade:  true,
 				VarFiles: []string{tfvars},
 			}, nil)
