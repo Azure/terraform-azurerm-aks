@@ -183,7 +183,6 @@ module "aks" {
   private_cluster_enabled                         = false
   rbac_aad                                        = true
   rbac_aad_managed                                = true
-  rbac_aad_tenant_id                              = data.azurerm_client_config.this.tenant_id
   role_based_access_control_enabled               = true
   sku_tier                                        = "Standard"
   vnet_subnet_id                                  = var.bring_your_own_vnet ? azurerm_subnet.test[0].id : null

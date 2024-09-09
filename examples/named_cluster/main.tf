@@ -28,7 +28,6 @@ resource "azurerm_subnet" "test" {
   name                                           = "${random_id.prefix.hex}-sn"
   resource_group_name                            = local.resource_group.name
   virtual_network_name                           = azurerm_virtual_network.test.name
-  enforce_private_link_endpoint_network_policies = true
 }
 
 resource "azurerm_user_assigned_identity" "test" {
