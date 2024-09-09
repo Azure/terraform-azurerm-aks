@@ -1,0 +1,1 @@
+../without_monitor/main.tf
