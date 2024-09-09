@@ -654,6 +654,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = var.brown_field_application_gateway_for_ingress == null || var.green_field_application_gateway_for_ingress == null
       error_message = "Either one of `var.brown_field_application_gateway_for_ingress` or `var.green_field_application_gateway_for_ingress` must be `null`."
     }
+    precondition {
+      condition     = var.prefix == null || var.dns_prefix_private_cluster == null
+      error_message = "Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
+    }
   }
 }
 
