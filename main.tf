@@ -327,6 +327,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
   dynamic "http_proxy_config" {
     for_each = var.http_proxy_config == null ? [] : ["http_proxy_config"]
+
     content {
       http_proxy  = coalesce(var.http_proxy_config.http_proxy, var.http_proxy_config.https_proxy)
       https_proxy = coalesce(var.http_proxy_config.https_proxy, var.http_proxy_config.http_proxy)
@@ -370,6 +371,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
   dynamic "kubelet_identity" {
     for_each = var.kubelet_identity == null ? [] : [var.kubelet_identity]
+
     content {
       client_id                 = kubelet_identity.value.client_id
       object_id                 = kubelet_identity.value.object_id
@@ -411,6 +413,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
   dynamic "maintenance_window_auto_upgrade" {
     for_each = var.maintenance_window_auto_upgrade == null ? [] : [var.maintenance_window_auto_upgrade]
+
     content {
       duration     = maintenance_window_auto_upgrade.value.duration
       frequency    = maintenance_window_auto_upgrade.value.frequency
@@ -424,6 +427,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
       dynamic "not_allowed" {
         for_each = maintenance_window_auto_upgrade.value.not_allowed == null ? [] : maintenance_window_auto_upgrade.value.not_allowed
+
         content {
           end   = not_allowed.value.end
           start = not_allowed.value.start
@@ -433,6 +437,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
   dynamic "maintenance_window_node_os" {
     for_each = var.maintenance_window_node_os == null ? [] : [var.maintenance_window_node_os]
+
     content {
       duration     = maintenance_window_node_os.value.duration
       frequency    = maintenance_window_node_os.value.frequency
@@ -446,6 +451,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
       dynamic "not_allowed" {
         for_each = maintenance_window_node_os.value.not_allowed == null ? [] : maintenance_window_node_os.value.not_allowed
+
         content {
           end   = not_allowed.value.end
           start = not_allowed.value.start
@@ -504,6 +510,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
   dynamic "service_mesh_profile" {
     for_each = var.service_mesh_profile == null ? [] : ["service_mesh_profile"]
+
     content {
       mode                             = var.service_mesh_profile.mode
       external_ingress_gateway_enabled = var.service_mesh_profile.external_ingress_gateway_enabled

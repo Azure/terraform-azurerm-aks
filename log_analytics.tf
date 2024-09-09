@@ -28,6 +28,7 @@ resource "azurerm_log_analytics_workspace" "main" {
 
   dynamic "identity" {
     for_each = var.log_analytics_workspace_identity == null ? [] : [var.log_analytics_workspace_identity]
+
     content {
       type         = identity.value.type
       identity_ids = identity.value.identity_ids
