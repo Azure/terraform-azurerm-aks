@@ -212,7 +212,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
     content {
       mode                             = var.service_mesh_profile.mode
-      revisions = var.service_mesh_profile.revisions
+      revisions                        = var.service_mesh_profile.revisions
       external_ingress_gateway_enabled = var.service_mesh_profile.external_ingress_gateway_enabled
       internal_ingress_gateway_enabled = var.service_mesh_profile.internal_ingress_gateway_enabled
     }
