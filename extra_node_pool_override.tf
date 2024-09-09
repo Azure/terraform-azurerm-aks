@@ -1,3 +1,5 @@
+# tflint-ignore-file: azurerm_resource_tag
+
 resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy" {
   custom_ca_trust_enabled = each.value.custom_ca_trust_enabled
   enable_auto_scaling     = each.value.enable_auto_scaling

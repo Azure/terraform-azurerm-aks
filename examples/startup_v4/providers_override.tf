@@ -1,3 +1,5 @@
+# tflint-ignore-file: terraform_required_version_declaration
+
 terraform {
   required_providers {
     azurerm = {
