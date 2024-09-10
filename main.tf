@@ -666,6 +666,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition     = var.dns_prefix_private_cluster != null || var.identity_type == "UserAssigned" || var.client_id != ""
       error_message = "A user assigned identity or a service principal must be used when using a custom private dns zone"
     }
+    precondition {
+      condition     = var.private_dns_zone_id == null ? true : (anytrue([for r in local.valid_private_dns_zone_regexs : try(regex(r, reverse(split("/", var.private_dns_zone_id))[0]) == reverse(split("/", var.private_dns_zone_id))[0], false)]))
+      error_message = "Private DNS zone must be in one of the following format: `privatelink.<region>.azmk8s.io`, `<subzone>.privatelink.<region>.azmk8s.io`, `private.<region>.azmk8s.io`, `<subzone>.private.<region>.azmk8s.io`"
+    }
   }
 }
 
