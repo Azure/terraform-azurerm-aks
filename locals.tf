@@ -58,4 +58,10 @@ locals {
   subnet_ids                                            = toset([for id in local.potential_subnet_ids : id if id != null])
   use_brown_field_gw_for_ingress                        = var.brown_field_application_gateway_for_ingress != null
   use_green_field_gw_for_ingress                        = var.green_field_application_gateway_for_ingress != null
+  valid_private_dns_zone_regexs = [
+    "private\\.[a-z]+\\.azmk8s\\.io",
+    "privatelink\\.[a-z]+\\.azmk8s\\.io",
+    "[a-zA-Z0-9\\-]{1,32}\\.private\\.[a-z]+\\.azmk8s\\.io",
+    "[a-zA-Z0-9\\-]{1,32}\\.privatelink\\.[a-z]+\\.azmk8s\\.io",
+  ]
 }
