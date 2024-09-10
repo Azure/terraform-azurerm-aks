@@ -154,17 +154,6 @@ func TestExampleUpgrade_applicationGw(t *testing.T) {
 }
 
 func TestExamplesForV4(t *testing.T) {
-	managedIdentityId := os.Getenv("MSI_ID")
-	if managedIdentityId != "" {
-		t.Setenv("TF_VAR_managed_identity_principal_id", managedIdentityId)
-	}
-	tmp, err := os.MkdirTemp("", "")
-	require.NoError(t, err)
-	defer func() {
-		_ = os.RemoveAll(tmp)
-	}()
-	t.Setenv("TF_VAR_client_id", "")
-	t.Setenv("TF_VAR_client_secret", "")
 	examples, err := os.ReadDir("../../examples")
 	require.NoError(t, err)
 	currentRoot, err := test_helper.GetCurrentModuleRootPath()
@@ -183,6 +172,17 @@ func TestExamplesForV4(t *testing.T) {
 			continue
 		}
 		t.Run(example.Name(), func(t *testing.T) {
+			managedIdentityId := os.Getenv("MSI_ID")
+			if managedIdentityId != "" {
+				t.Setenv("TF_VAR_managed_identity_principal_id", managedIdentityId)
+			}
+			t.Setenv("TF_VAR_client_id", "")
+			t.Setenv("TF_VAR_client_secret", "")
+			tmp, err := os.MkdirTemp("", "")
+			require.NoError(t, err)
+			defer func() {
+				_ = os.RemoveAll(tmp)
+			}()
 			tfvars := filepath.Join(tmp, "terraform.tfvars")
 			require.NoError(t, os.WriteFile(tfvars, []byte(`
 	client_id = ""
