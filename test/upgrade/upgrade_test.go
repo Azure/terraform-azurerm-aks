@@ -163,11 +163,6 @@ func TestExamplesForV4(t *testing.T) {
 	defer func() {
 		_ = os.RemoveAll(tmp)
 	}()
-	tfvars := filepath.Join(tmp, "terraform.tfvars")
-	require.NoError(t, os.WriteFile(tfvars, []byte(`
-	client_id = ""
-	client_secret = ""
-`), 0o600))
 	t.Setenv("TF_VAR_client_id", "")
 	t.Setenv("TF_VAR_client_secret", "")
 	examples, err := os.ReadDir("../../examples")
@@ -188,6 +183,11 @@ func TestExamplesForV4(t *testing.T) {
 			continue
 		}
 		t.Run(example.Name(), func(t *testing.T) {
+			tfvars := filepath.Join(tmp, "terraform.tfvars")
+			require.NoError(t, os.WriteFile(tfvars, []byte(`
+	client_id = ""
+	client_secret = ""
+`), 0o600))
 			test_helper.ModuleUpgradeTest(t, "Azure", "terraform-azurerm-aks", fmt.Sprintf("examples/%s", example.Name()), currentRoot, terraform.Options{
 				VarFiles: []string{tfvars},
 			}, currentMajorVersion)
