@@ -12,6 +12,7 @@ on:
 
 jobs:
   acc-tests:
+    timeout-minutes: 720
     runs-on: [self-hosted, 1ES.Pool=terraform-azurerm-aks]
     environment:
       name: acctests
@@ -21,6 +22,8 @@ jobs:
         run: |
           docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make generate
       - name: e2e test
+        env:
+          TEST_TIMEOUT:
         run: |
           sh scripts/ci-e2e.sh
       - name: upload test version snapshots
