@@ -62,8 +62,8 @@ module "aks" {
   ]
   agents_type          = "VirtualMachineScaleSets"
   azure_policy_enabled = true
-  client_id            = ""
-  client_secret        = ""
+  client_id            = var.client_id
+  client_secret        = var.client_secret
   confidential_computing = {
     sgx_quote_helper_enabled = true
   }
