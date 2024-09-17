@@ -38,7 +38,7 @@ provider "curl" {}
 provider "random" {}
 
 provider "azapi" {
-  tenant_id       = "585bda71-88ce-428b-9832-95eaa3dce989"
-  subscription_id = "072658bf-5309-4646-b3de-681288135009"
+  tenant_id       = ""
+  subscription_id = ""
   use_oidc        = true
 }

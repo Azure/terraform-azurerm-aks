@@ -77,8 +77,8 @@ module "aks" {
   local_account_disabled               = true
   log_analytics_workspace_enabled      = false
   log_analytics_workspace = {
-    id                  = "fee7c134-f365-40e5-bb22-ea5358bb85c9"
-    name                = "cc5e9944f0ed0b9a"
+    id                  = ""
+    name                = ""
   }
   maintenance_window = {
     allowed = [
