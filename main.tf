@@ -18,7 +18,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location                            = coalesce(var.location, data.azurerm_resource_group.main.location)
   name                                = "${local.cluster_name}${var.cluster_name_random_suffix ? substr(md5(uuid()), 0, 4) : ""}"
   resource_group_name                 = data.azurerm_resource_group.main.name
-  automatic_channel_upgrade           = var.automatic_channel_upgrade
+  automatic_upgrade_channel           = var.automatic_channel_upgrade
   azure_policy_enabled                = var.azure_policy_enabled
   cost_analysis_enabled               = var.cost_analysis_enabled
   disk_encryption_set_id              = var.disk_encryption_set_id
@@ -27,7 +27,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   image_cleaner_interval_hours        = var.image_cleaner_interval_hours
   kubernetes_version                  = var.kubernetes_version
   local_account_disabled              = var.local_account_disabled
-  node_os_channel_upgrade             = var.node_os_channel_upgrade
+  node_os_upgrade_channel             = var.node_os_channel_upgrade
   node_resource_group                 = var.node_resource_group
   oidc_issuer_enabled                 = var.oidc_issuer_enabled
   open_service_mesh_enabled           = var.open_service_mesh_enabled
@@ -56,16 +56,15 @@ resource "azurerm_kubernetes_cluster" "main" {
     content {
       name                         = var.agents_pool_name
       vm_size                      = var.agents_size
-      enable_auto_scaling          = var.enable_auto_scaling
-      enable_host_encryption       = var.enable_host_encryption
-      enable_node_public_ip        = var.enable_node_public_ip
+      auto_scaling_enabled          = var.enable_auto_scaling
+      host_encryption_enabled       = var.enable_host_encryption
+      node_public_ip_enabled         = var.enable_node_public_ip
       fips_enabled                 = var.default_node_pool_fips_enabled
       max_count                    = null
       max_pods                     = var.agents_max_pods
       min_count                    = null
       node_count                   = var.agents_count
       node_labels                  = var.agents_labels
-      node_taints                  = var.agents_taints
       only_critical_addons_enabled = var.only_critical_addons_enabled
       orchestrator_version         = var.orchestrator_version
       os_disk_size_gb              = var.os_disk_size_gb
@@ -160,15 +159,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     content {
       name                         = var.agents_pool_name
       vm_size                      = var.agents_size
-      enable_auto_scaling          = var.enable_auto_scaling
-      enable_host_encryption       = var.enable_host_encryption
-      enable_node_public_ip        = var.enable_node_public_ip
+      auto_scaling_enabled          = var.enable_auto_scaling
+      host_encryption_enabled       = var.enable_host_encryption
+      node_public_ip_enabled         = var.enable_node_public_ip
       fips_enabled                 = var.default_node_pool_fips_enabled
       max_count                    = var.agents_max_count
       max_pods                     = var.agents_max_pods
       min_count                    = var.agents_min_count
       node_labels                  = var.agents_labels
-      node_taints                  = var.agents_taints
       only_critical_addons_enabled = var.only_critical_addons_enabled
       orchestrator_version         = var.orchestrator_version
       os_disk_size_gb              = var.os_disk_size_gb
@@ -271,7 +269,6 @@ resource "azurerm_kubernetes_cluster" "main" {
 
     content {
       authorized_ip_ranges = var.api_server_authorized_ip_ranges
-      subnet_id            = var.api_server_subnet_id
     }
   }
   dynamic "auto_scaler_profile" {
@@ -303,7 +300,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     content {
       admin_group_object_ids = var.rbac_aad_admin_group_object_ids
       azure_rbac_enabled     = var.rbac_aad_azure_rbac_enabled
-      managed                = true
       tenant_id              = var.rbac_aad_tenant_id
     }
   }
@@ -311,10 +307,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     for_each = var.role_based_access_control_enabled && var.rbac_aad && !var.rbac_aad_managed ? ["rbac"] : []
 
     content {
-      client_app_id     = var.rbac_aad_client_app_id
-      managed           = false
-      server_app_id     = var.rbac_aad_server_app_id
-      server_app_secret = var.rbac_aad_server_app_secret
       tenant_id         = var.rbac_aad_tenant_id
     }
   }
@@ -471,7 +463,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   network_profile {
     network_plugin      = var.network_plugin
     dns_service_ip      = var.net_profile_dns_service_ip
-    ebpf_data_plane     = var.ebpf_data_plane
     load_balancer_sku   = var.load_balancer_sku
     network_plugin_mode = var.network_plugin_mode
     network_policy      = var.network_policy
@@ -506,6 +497,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     for_each = var.service_mesh_profile == null ? [] : ["service_mesh_profile"]
     content {
       mode                             = var.service_mesh_profile.mode
+      revisions                        = var.service_mesh_profile.revisions
       external_ingress_gateway_enabled = var.service_mesh_profile.external_ingress_gateway_enabled
       internal_ingress_gateway_enabled = var.service_mesh_profile.internal_ingress_gateway_enabled
     }
@@ -524,7 +516,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     content {
       blob_driver_enabled         = var.storage_profile_blob_driver_enabled
       disk_driver_enabled         = var.storage_profile_disk_driver_enabled
-      disk_driver_version         = var.storage_profile_disk_driver_version
       file_driver_enabled         = var.storage_profile_file_driver_enabled
       snapshot_controller_enabled = var.storage_profile_snapshot_controller_enabled
     }
@@ -533,7 +524,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     for_each = var.web_app_routing == null ? [] : ["web_app_routing"]
 
     content {
-      dns_zone_id = var.web_app_routing.dns_zone_id
+      dns_zone_ids = var.web_app_routing.dns_zone_id
     }
   }
   dynamic "workload_autoscaler_profile" {
@@ -550,7 +541,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       http_application_routing_enabled,
       http_proxy_config[0].no_proxy,
       kubernetes_version,
-      public_network_access_enabled,
       # we might have a random suffix in cluster's name so we have to ignore it here, but we've traced user supplied cluster name by `null_resource.kubernetes_cluster_name_keeper` so when the name is changed we'll recreate this resource.
       name,
     ]

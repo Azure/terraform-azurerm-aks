@@ -32,7 +32,6 @@ resource "azurerm_subnet" "test" {
   name                                           = "${random_id.prefix.hex}-sn"
   resource_group_name                            = local.resource_group.name
   virtual_network_name                           = azurerm_virtual_network.test.name
-  enforce_private_link_endpoint_network_policies = true
 }
 
 module "aks" {
@@ -43,6 +42,7 @@ module "aks" {
   kubernetes_version        = "1.29" # don't specify the patch version!
   automatic_channel_upgrade = "patch"
   agents_availability_zones = ["1", "2"]
+  location                  = var.location
   agents_count              = null
   agents_max_count          = 2
   agents_max_pods           = 100
@@ -62,21 +62,24 @@ module "aks" {
   ]
   agents_type          = "VirtualMachineScaleSets"
   azure_policy_enabled = true
-  client_id            = var.client_id
-  client_secret        = var.client_secret
+  client_id            = ""
+  client_secret        = ""
   confidential_computing = {
     sgx_quote_helper_enabled = true
   }
   disk_encryption_set_id = azurerm_disk_encryption_set.des.id
   enable_auto_scaling    = true
-  enable_host_encryption = true
+  enable_host_encryption = false
   green_field_application_gateway_for_ingress = {
     name        = "${random_id.prefix.hex}-agw"
     subnet_cidr = "10.52.1.0/24"
   }
   local_account_disabled               = true
-  log_analytics_workspace_enabled      = true
-  cluster_log_analytics_workspace_name = random_id.name.hex
+  log_analytics_workspace_enabled      = false
+  log_analytics_workspace = {
+    id                  = "fee7c134-f365-40e5-bb22-ea5358bb85c9"
+    name                = "cc5e9944f0ed0b9a"
+  }
   maintenance_window = {
     allowed = [
       {
@@ -103,7 +106,7 @@ module "aks" {
   network_plugin                    = "azure"
   network_policy                    = "azure"
   node_os_channel_upgrade           = "NodeImage"
-  os_disk_size_gb                   = 60
+  os_disk_size_gb                   = 30
   private_cluster_enabled           = true
   rbac_aad                          = true
   rbac_aad_managed                  = true
