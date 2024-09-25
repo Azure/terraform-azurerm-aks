@@ -11,28 +11,23 @@ on:
       - '**/go.mod'
 
 jobs:
-  acc-tests:
+  check:
     timeout-minutes: 720
-    runs-on: [self-hosted, 1ES.Pool=terraform-azurerm-aks]
-    environment:
-      name: acctests
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: init
+      - name: Checking for Fork
+        shell: pwsh
         run: |
-          docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make generate
-      - name: e2e test
-        run: |
-          sh scripts/ci-e2e.sh
-      - name: upload test version snapshots
-        uses: actions/upload-artifact@v3
-        with:
-          name: TestRecord-${{ github.event.number }}
-          retention-days: 60
-          path: |
-            examples/**/TestRecord.md.tmp
-      - name: version-upgrade test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          sh scripts/ci-version-upgrade.sh
+          $isFork = "${{ github.event.pull_request.head.repo.fork }}"
+          if($isFork -eq "true") {
+            echo "### WARNING: This workflow is disabled for forked repositories. Please follow the [release branch process](https://azure.github.io/Azure-Verified-Modules/contributing/terraform/terraform-contribution-flow/#5-create-a-pull-request-to-the-upstream-repository) if end to end tests are required." >> $env:GITHUB_STEP_SUMMARY
+          }
+
+  run-e2e-tests:
+    if: github.event.pull_request.head.repo.fork == false
+    uses: Azure/tfmod-scaffold/.github/workflows/tfvm_e2e.yaml@main
+    name: end to end
+    secrets: inherit
+    permissions:
+      id-token: write
+      contents: read
