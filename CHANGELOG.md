@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Bump github.com/Azure/terraform-module-test-helper from 0.25.0 to 0.26.0 in /test [\#593](https://github.com/Azure/terraform-azurerm-aks/pull/593) ([lonegunmanb](https://github.com/lonegunmanb))
 - Use oidc as authentication method [\#592](https://github.com/Azure/terraform-azurerm-aks/pull/592) ([lonegunmanb](https://github.com/lonegunmanb))
 - Update README.md [\#589](https://github.com/Azure/terraform-azurerm-aks/pull/589) ([shailwx](https://github.com/shailwx))
 - Add `cost_analysis_enabled` option [\#583](https://github.com/Azure/terraform-azurerm-aks/pull/583) ([artificial-aidan](https://github.com/artificial-aidan))
