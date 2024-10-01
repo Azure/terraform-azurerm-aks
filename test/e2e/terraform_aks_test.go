@@ -4,18 +4,17 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"testing"
 	"time"
 
-	"github.com/hashicorp/go-retryablehttp"
-
-	"github.com/stretchr/testify/require"
-
 	test_helper "github.com/Azure/terraform-module-test-helper"
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/hashicorp/go-retryablehttp"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestExamplesStartup(t *testing.T) {
@@ -174,6 +173,41 @@ func TestExamples_applicationGatewayIngress(t *testing.T) {
 					}
 				}
 			})
+		})
+	}
+}
+
+func TestExamplesForV4(t *testing.T) {
+	examples, err := os.ReadDir("../../examples")
+	require.NoError(t, err)
+	for _, example := range examples {
+		if !example.IsDir() {
+			continue
+		}
+		if !strings.HasSuffix(example.Name(), "_v4") {
+			continue
+		}
+		t.Run(example.Name(), func(t *testing.T) {
+			managedIdentityId := os.Getenv("MSI_ID")
+			if managedIdentityId != "" {
+				t.Setenv("TF_VAR_managed_identity_principal_id", managedIdentityId)
+			}
+			t.Setenv("TF_VAR_client_id", "")
+			t.Setenv("TF_VAR_client_secret", "")
+			tmp, err := os.MkdirTemp("", "")
+			require.NoError(t, err)
+			defer func() {
+				_ = os.RemoveAll(tmp)
+			}()
+			tfvars := filepath.Join(tmp, "terraform.tfvars")
+			require.NoError(t, os.WriteFile(tfvars, []byte(`
+	client_id = ""
+	client_secret = ""
+`), 0o600))
+			test_helper.RunE2ETest(t, "../../", fmt.Sprintf("examples/%s", example.Name()), terraform.Options{
+				Upgrade:  true,
+				VarFiles: []string{tfvars},
+			}, nil)
 		})
 	}
 }

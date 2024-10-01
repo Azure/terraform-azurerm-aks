@@ -1,0 +1,1 @@
+../named_cluster/variables.tf
