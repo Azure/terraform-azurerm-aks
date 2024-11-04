@@ -1165,6 +1165,14 @@ variable "node_pools" {
   nullable    = false
 }
 
+variable "node_network_profile" {
+  type = object({
+    node_public_ip_tags = optional(map(string))
+  })
+  default     = null
+  description = "(Optional) Specifies a mapping of tags to the instance-level public IPs. Changing this forces a new resource to be created."
+}
+
 variable "node_resource_group" {
   type        = string
   default     = null
