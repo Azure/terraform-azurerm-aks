@@ -376,7 +376,7 @@ variable "azure_policy_enabled" {
 
 variable "oms_agent_enabled" {
   type        = bool
-  default     = false
+  default     = true
   description = "Enable OMS Agent Addon."
 }
 
