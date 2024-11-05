@@ -374,6 +374,12 @@ variable "azure_policy_enabled" {
   description = "Enable Azure Policy Addon."
 }
 
+variable "oms_agent_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable OMS Agent Addon."
+}
+
 variable "brown_field_application_gateway_for_ingress" {
   type = object({
     id        = string
