@@ -97,7 +97,7 @@ module "aks_cluster_name" {
   # KMS etcd encryption
   kms_enabled                  = true
   kms_key_vault_key_id         = azurerm_key_vault_key.kms.id
-  kms_key_vault_network_access = "Private"
+  kms_key_vault_network_access = "Public"
 
   depends_on = [
     azurerm_key_vault_access_policy.kms,
