@@ -6,7 +6,7 @@ toolchain go1.22.5
 
 require (
 	github.com/Azure/terraform-module-test-helper v0.27.0
-	github.com/gruntwork-io/terratest v0.47.1
+	github.com/gruntwork-io/terratest v0.47.2
 	github.com/hashicorp/go-retryablehttp v0.7.7
 	github.com/stretchr/testify v1.9.0
 )
@@ -50,11 +50,11 @@ require (
 	github.com/hashicorp/go-getter/v2 v2.2.3 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/go-safetemp v1.0.0 // indirect
-	github.com/hashicorp/go-version v1.6.0 // indirect
+	github.com/hashicorp/go-version v1.7.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.22.0 // indirect
 	github.com/hashicorp/terraform-config-inspect v0.0.0-20211115214459-90acf1ca460f // indirect
-	github.com/hashicorp/terraform-json v0.22.1 // indirect
+	github.com/hashicorp/terraform-json v0.23.0 // indirect
 	github.com/imdario/mergo v0.3.11 // indirect
 	github.com/jinzhu/copier v0.0.0-20190924061706-b57f9002281a // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
@@ -86,7 +86,7 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
-	github.com/zclconf/go-cty v1.14.4 // indirect
+	github.com/zclconf/go-cty v1.15.0 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.21.0 // indirect
 	golang.org/x/exp v0.0.0-20221106115401-f9659909a136 // indirect
