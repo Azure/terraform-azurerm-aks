@@ -12,6 +12,7 @@ on:
 
 jobs:
   check:
+    timeout-minutes: 720
     runs-on: ubuntu-latest
     steps:
       - name: Checking for Fork

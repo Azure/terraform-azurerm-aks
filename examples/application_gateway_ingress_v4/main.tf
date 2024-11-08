@@ -1,0 +1,1 @@
+../application_gateway_ingress/main.tf
