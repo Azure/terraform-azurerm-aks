@@ -1453,12 +1453,12 @@ variable "vnet_subnet_id" {
 
 variable "web_app_routing" {
   type = object({
-    dns_zone_id = string
+    dns_zone_ids = list(string)
   })
   default     = null
   description = <<-EOT
   object({
-    dns_zone_id = "(Required) Specifies the ID of the DNS Zone in which DNS entries are created for applications deployed to the cluster when Web App Routing is enabled."
+    dns_zone_ids = "(Required) Specifies the list of the DNS Zone IDs in which DNS entries are created for applications deployed to the cluster when Web App Routing is enabled. If not using Bring-Your-Own DNS zones this property should be set to an empty list."
   })
 EOT
 }

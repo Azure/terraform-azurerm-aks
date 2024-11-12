@@ -545,7 +545,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     for_each = var.web_app_routing == null ? [] : ["web_app_routing"]
 
     content {
-      dns_zone_id = var.web_app_routing.dns_zone_id
+      dns_zone_ids = var.web_app_routing.dns_zone_ids
     }
   }
   dynamic "workload_autoscaler_profile" {
