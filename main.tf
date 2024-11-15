@@ -143,7 +143,6 @@ resource "azurerm_kubernetes_cluster" "main" {
           }
         }
       }
-
       dynamic "node_network_profile" {
         for_each = var.node_network_profile == null ? [] : ["node_network_profile"]
 
@@ -151,7 +150,6 @@ resource "azurerm_kubernetes_cluster" "main" {
           node_public_ip_tags = each.value.node_public_ip_tags
         }
       }
-
       dynamic "upgrade_settings" {
         for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
 

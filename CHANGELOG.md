@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- Implement node\_network\_profile for default node pool [\#598](https://github.com/Azure/terraform-azurerm-aks/pull/598) ([zioproto](https://github.com/zioproto))
 - Bump examples to AKS 1.30 [\#595](https://github.com/Azure/terraform-azurerm-aks/pull/595) ([zioproto](https://github.com/zioproto))
 
 ## [9.2.0](https://github.com/Azure/terraform-azurerm-aks/tree/9.2.0) (2024-11-07)

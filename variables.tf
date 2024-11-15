@@ -953,6 +953,14 @@ variable "network_policy" {
   description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
 }
 
+variable "node_network_profile" {
+  type = object({
+    node_public_ip_tags = optional(map(string))
+  })
+  default     = null
+  description = "(Optional) Specifies a mapping of tags to the instance-level public IPs. Changing this forces a new resource to be created."
+}
+
 variable "node_os_channel_upgrade" {
   type        = string
   default     = null
@@ -1163,14 +1171,6 @@ variable "node_pools" {
   }))
   EOT
   nullable    = false
-}
-
-variable "node_network_profile" {
-  type = object({
-    node_public_ip_tags = optional(map(string))
-  })
-  default     = null
-  description = "(Optional) Specifies a mapping of tags to the instance-level public IPs. Changing this forces a new resource to be created."
 }
 
 variable "node_resource_group" {
