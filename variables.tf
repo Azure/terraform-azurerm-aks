@@ -374,12 +374,6 @@ variable "azure_policy_enabled" {
   description = "Enable Azure Policy Addon."
 }
 
-variable "oms_agent_enabled" {
-  type        = bool
-  default     = true
-  description = "Enable OMS Agent Addon."
-}
-
 variable "brown_field_application_gateway_for_ingress" {
   type = object({
     id        = string
@@ -1189,6 +1183,13 @@ variable "oidc_issuer_enabled" {
   type        = bool
   default     = false
   description = "Enable or Disable the OIDC issuer URL. Defaults to false."
+}
+
+variable "oms_agent_enabled" {
+  type        = bool
+  default     = true
+  description = "Enable OMS Agent Addon."
+  nullable    = false
 }
 
 variable "only_critical_addons_enabled" {
