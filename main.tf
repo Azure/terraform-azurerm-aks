@@ -1,7 +1,3 @@
-data "azurerm_resource_group" "main" {
-  name = var.resource_group_name
-}
-
 moved {
   from = module.ssh-key.tls_private_key.ssh
   to   = tls_private_key.ssh[0]
@@ -15,9 +11,9 @@ resource "tls_private_key" "ssh" {
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
-  location                            = coalesce(var.location, data.azurerm_resource_group.main.location)
+  location                            = var.location
   name                                = "${local.cluster_name}${var.cluster_name_random_suffix ? substr(md5(uuid()), 0, 4) : ""}"
-  resource_group_name                 = data.azurerm_resource_group.main.name
+  resource_group_name                 = var.resource_group_name
   automatic_channel_upgrade           = var.automatic_channel_upgrade
   azure_policy_enabled                = var.azure_policy_enabled
   cost_analysis_enabled               = var.cost_analysis_enabled
