@@ -15,6 +15,7 @@ import (
 )
 
 func TestExampleUpgrade_startup(t *testing.T) {
+	t.Parallel()
 	currentRoot, err := test_helper.GetCurrentModuleRootPath()
 	if err != nil {
 		t.FailNow()
@@ -38,6 +39,7 @@ func TestExampleUpgrade_startup(t *testing.T) {
 }
 
 func TestExampleUpgrade_without_monitor(t *testing.T) {
+	t.Parallel()
 	currentRoot, err := test_helper.GetCurrentModuleRootPath()
 	if err != nil {
 		t.FailNow()
@@ -60,6 +62,7 @@ func TestExampleUpgrade_without_monitor(t *testing.T) {
 }
 
 func TestExampleUpgrade_named_cluster(t *testing.T) {
+	t.Parallel()
 	currentRoot, err := test_helper.GetCurrentModuleRootPath()
 	if err != nil {
 		t.FailNow()
@@ -82,6 +85,7 @@ func TestExampleUpgrade_named_cluster(t *testing.T) {
 }
 
 func TestExampleUpgrade(t *testing.T) {
+	t.Parallel()
 	examples := []string{
 		"examples/with_acr",
 		"examples/multiple_node_pools",
@@ -89,6 +93,7 @@ func TestExampleUpgrade(t *testing.T) {
 	for _, e := range examples {
 		example := e
 		t.Run(example, func(t *testing.T) {
+			t.Parallel()
 			currentRoot, err := test_helper.GetCurrentModuleRootPath()
 			if err != nil {
 				t.FailNow()
@@ -105,6 +110,7 @@ func TestExampleUpgrade(t *testing.T) {
 }
 
 func TestExampleUpgrade_applicationGw(t *testing.T) {
+	t.Parallel()
 	useExistingAppGw := []struct {
 		useBrownFieldAppGw        bool
 		bringYourOwnVnet          bool
@@ -128,6 +134,7 @@ func TestExampleUpgrade_applicationGw(t *testing.T) {
 	}
 	for _, u := range useExistingAppGw {
 		t.Run(fmt.Sprintf("useExistingAppGw %t %t %t", u.bringYourOwnVnet, u.useBrownFieldAppGw, u.createRoleBindingForAppGw), func(t *testing.T) {
+			t.Parallel()
 			currentRoot, err := test_helper.GetCurrentModuleRootPath()
 			if err != nil {
 				t.FailNow()
@@ -154,6 +161,7 @@ func TestExampleUpgrade_applicationGw(t *testing.T) {
 }
 
 func TestExamplesForV4(t *testing.T) {
+	t.Parallel()
 	examples, err := os.ReadDir("../../examples")
 	require.NoError(t, err)
 	currentRoot, err := test_helper.GetCurrentModuleRootPath()
@@ -172,12 +180,7 @@ func TestExamplesForV4(t *testing.T) {
 			continue
 		}
 		t.Run(example.Name(), func(t *testing.T) {
-			managedIdentityId := os.Getenv("MSI_ID")
-			if managedIdentityId != "" {
-				t.Setenv("TF_VAR_managed_identity_principal_id", managedIdentityId)
-			}
-			t.Setenv("TF_VAR_client_id", "")
-			t.Setenv("TF_VAR_client_secret", "")
+			t.Parallel()
 			tmp, err := os.MkdirTemp("", "")
 			require.NoError(t, err)
 			defer func() {

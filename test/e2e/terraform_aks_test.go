@@ -18,6 +18,7 @@ import (
 )
 
 func TestExamplesStartup(t *testing.T) {
+	t.Parallel()
 	vars := map[string]interface{}{
 		"client_id":     "",
 		"client_secret": "",
@@ -45,6 +46,7 @@ func assertOutputNotEmpty(t *testing.T, output test_helper.TerraformOutput, name
 }
 
 func TestExamplesWithoutMonitor(t *testing.T) {
+	t.Parallel()
 	vars := make(map[string]interface{}, 0)
 	managedIdentityId := os.Getenv("MSI_ID")
 	if managedIdentityId != "" {
@@ -70,6 +72,7 @@ func TestExamplesWithoutMonitor(t *testing.T) {
 }
 
 func TestExamplesNamedCluster(t *testing.T) {
+	t.Parallel()
 	vars := make(map[string]interface{})
 	managedIdentityId := os.Getenv("MSI_ID")
 	if managedIdentityId != "" {
@@ -97,6 +100,7 @@ func TestExamplesNamedCluster(t *testing.T) {
 }
 
 func TestExamplesWithoutAssertion(t *testing.T) {
+	t.Parallel()
 	examples := []string{
 		"examples/with_acr",
 		"examples/multiple_node_pools",
@@ -104,6 +108,7 @@ func TestExamplesWithoutAssertion(t *testing.T) {
 	for _, e := range examples {
 		example := e
 		t.Run(example, func(t *testing.T) {
+			t.Parallel()
 			test_helper.RunE2ETest(t, "../../", example, terraform.Options{
 				Upgrade: true,
 			}, nil)
@@ -112,6 +117,7 @@ func TestExamplesWithoutAssertion(t *testing.T) {
 }
 
 func TestExamples_differentLocationForLogAnalyticsSolution(t *testing.T) {
+	t.Parallel()
 	vars := make(map[string]any, 0)
 	managedIdentityId := os.Getenv("MSI_ID")
 	if managedIdentityId != "" {
@@ -127,6 +133,7 @@ func TestExamples_differentLocationForLogAnalyticsSolution(t *testing.T) {
 }
 
 func TestExamples_applicationGatewayIngress(t *testing.T) {
+	t.Parallel()
 	useExistingAppGw := []struct {
 		useBrownFieldAppGw        bool
 		bringYourOwnVnet          bool
@@ -150,6 +157,7 @@ func TestExamples_applicationGatewayIngress(t *testing.T) {
 	}
 	for _, u := range useExistingAppGw {
 		t.Run(fmt.Sprintf("useExistingAppGw %t %t %t", u.bringYourOwnVnet, u.useBrownFieldAppGw, u.createRoleBindingForAppGw), func(t *testing.T) {
+			t.Parallel()
 			test_helper.RunE2ETest(t, "../../", "examples/application_gateway_ingress", terraform.Options{
 				Upgrade: true,
 				Vars: map[string]interface{}{
@@ -178,6 +186,7 @@ func TestExamples_applicationGatewayIngress(t *testing.T) {
 }
 
 func TestExamplesForV4(t *testing.T) {
+	t.Parallel()
 	examples, err := os.ReadDir("../../examples")
 	require.NoError(t, err)
 	for _, example := range examples {
@@ -188,12 +197,7 @@ func TestExamplesForV4(t *testing.T) {
 			continue
 		}
 		t.Run(example.Name(), func(t *testing.T) {
-			managedIdentityId := os.Getenv("MSI_ID")
-			if managedIdentityId != "" {
-				t.Setenv("TF_VAR_managed_identity_principal_id", managedIdentityId)
-			}
-			t.Setenv("TF_VAR_client_id", "")
-			t.Setenv("TF_VAR_client_secret", "")
+			t.Parallel()
 			tmp, err := os.MkdirTemp("", "")
 			require.NoError(t, err)
 			defer func() {
