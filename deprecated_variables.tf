@@ -1,3 +1,5 @@
+# tflint-ignore-file: terraform_standard_module_structure
+
 variable "agents_taints" {
   type        = list(string)
   default     = null
