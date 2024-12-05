@@ -295,6 +295,8 @@ resource "azurerm_kubernetes_cluster" "main" {
       kubernetes_version,
       # we might have a random suffix in cluster's name so we have to ignore it here, but we've traced user supplied cluster name by `null_resource.kubernetes_cluster_name_keeper` so when the name is changed we'll recreate this resource.
       name,
-    api_server_access_profile, network_profile[0].load_balancer_profile[0].outbound_ip_address_ids, network_profile[0].load_balancer_profile[0].outbound_ip_prefix_ids]
+      network_profile[0].load_balancer_profile[0].outbound_ip_address_ids,
+      network_profile[0].load_balancer_profile[0].outbound_ip_prefix_ids,
+    ]
   }
 }
