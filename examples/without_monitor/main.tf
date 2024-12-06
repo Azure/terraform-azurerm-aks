@@ -52,6 +52,6 @@ module "aks_without_monitor" {
   rbac_aad_managed                  = true
   role_based_access_control_enabled = true
   web_app_routing = {
-    dns_zone_id = azurerm_dns_zone.aks_web_app_routing.id
+    dns_zone_ids = [azurerm_dns_zone.aks_web_app_routing.id]
   }
 }
