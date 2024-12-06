@@ -176,7 +176,7 @@ func TestExamplesForV4(t *testing.T) {
 		if !example.IsDir() {
 			continue
 		}
-		if strings.HasSuffix(example.Name(), "_v4") {
+		if !strings.HasSuffix(example.Name(), "_v4") {
 			continue
 		}
 		t.Run(example.Name(), func(t *testing.T) {
