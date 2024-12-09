@@ -6,7 +6,7 @@ This Terraform module deploys a Kubernetes cluster on Azure using AKS (Azure Kub
 
 -> **NOTE:** If you have not assigned `client_id` or `client_secret`, A `SystemAssigned` identity will be created.
 
--> **NOTE:** If you're using AuzreRM `v4`, you can use this module by setting `source` to `Azure/aks/azurerm//v4`.
+-> **NOTE:** If you're using AzureRM `v4`, you can use this module by setting `source` to `Azure/aks/azurerm//v4`.
 
 ## Notice on breaking changes
 
