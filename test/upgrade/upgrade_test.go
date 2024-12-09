@@ -3,14 +3,19 @@ package upgrade
 import (
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 
 	test_helper "github.com/Azure/terraform-module-test-helper"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
 
 func TestExampleUpgrade_startup(t *testing.T) {
+	t.Parallel()
 	currentRoot, err := test_helper.GetCurrentModuleRootPath()
 	if err != nil {
 		t.FailNow()
@@ -34,6 +39,7 @@ func TestExampleUpgrade_startup(t *testing.T) {
 }
 
 func TestExampleUpgrade_without_monitor(t *testing.T) {
+	t.Parallel()
 	currentRoot, err := test_helper.GetCurrentModuleRootPath()
 	if err != nil {
 		t.FailNow()
@@ -56,6 +62,7 @@ func TestExampleUpgrade_without_monitor(t *testing.T) {
 }
 
 func TestExampleUpgrade_named_cluster(t *testing.T) {
+	t.Parallel()
 	currentRoot, err := test_helper.GetCurrentModuleRootPath()
 	if err != nil {
 		t.FailNow()
@@ -78,6 +85,7 @@ func TestExampleUpgrade_named_cluster(t *testing.T) {
 }
 
 func TestExampleUpgrade(t *testing.T) {
+	t.Parallel()
 	examples := []string{
 		"examples/with_acr",
 		"examples/multiple_node_pools",
@@ -85,6 +93,7 @@ func TestExampleUpgrade(t *testing.T) {
 	for _, e := range examples {
 		example := e
 		t.Run(example, func(t *testing.T) {
+			t.Parallel()
 			currentRoot, err := test_helper.GetCurrentModuleRootPath()
 			if err != nil {
 				t.FailNow()
@@ -101,6 +110,7 @@ func TestExampleUpgrade(t *testing.T) {
 }
 
 func TestExampleUpgrade_applicationGw(t *testing.T) {
+	t.Parallel()
 	useExistingAppGw := []struct {
 		useBrownFieldAppGw        bool
 		bringYourOwnVnet          bool
@@ -124,6 +134,7 @@ func TestExampleUpgrade_applicationGw(t *testing.T) {
 	}
 	for _, u := range useExistingAppGw {
 		t.Run(fmt.Sprintf("useExistingAppGw %t %t %t", u.bringYourOwnVnet, u.useBrownFieldAppGw, u.createRoleBindingForAppGw), func(t *testing.T) {
+			t.Parallel()
 			currentRoot, err := test_helper.GetCurrentModuleRootPath()
 			if err != nil {
 				t.FailNow()
@@ -144,6 +155,44 @@ func TestExampleUpgrade_applicationGw(t *testing.T) {
 				RetryableTerraformErrors: map[string]string{
 					".*is empty list of object.*": "the ingress hasn't been created, need more time",
 				},
+			}, currentMajorVersion)
+		})
+	}
+}
+
+func TestExamplesForV4(t *testing.T) {
+	t.Parallel()
+	examples, err := os.ReadDir("../../examples")
+	require.NoError(t, err)
+	currentRoot, err := test_helper.GetCurrentModuleRootPath()
+	if err != nil {
+		t.FailNow()
+	}
+	currentMajorVersion, err := test_helper.GetCurrentMajorVersionFromEnv()
+	if err != nil {
+		t.FailNow()
+	}
+	for _, example := range examples {
+		if !example.IsDir() {
+			continue
+		}
+		if !strings.HasSuffix(example.Name(), "_v4") {
+			continue
+		}
+		t.Run(example.Name(), func(t *testing.T) {
+			t.Parallel()
+			tmp, err := os.MkdirTemp("", "")
+			require.NoError(t, err)
+			defer func() {
+				_ = os.RemoveAll(tmp)
+			}()
+			tfvars := filepath.Join(tmp, "terraform.tfvars")
+			require.NoError(t, os.WriteFile(tfvars, []byte(`
+	client_id = ""
+	client_secret = ""
+`), 0o600))
+			test_helper.ModuleUpgradeTest(t, "Azure", "terraform-azurerm-aks", fmt.Sprintf("examples/%s", example.Name()), currentRoot, terraform.Options{
+				VarFiles: []string{tfvars},
 			}, currentMajorVersion)
 		})
 	}

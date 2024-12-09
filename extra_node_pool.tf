@@ -10,10 +10,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
   name                          = "${each.value.name}${substr(md5(uuid()), 0, 4)}"
   vm_size                       = each.value.vm_size
   capacity_reservation_group_id = each.value.capacity_reservation_group_id
-  custom_ca_trust_enabled       = each.value.custom_ca_trust_enabled
-  enable_auto_scaling           = each.value.enable_auto_scaling
-  enable_host_encryption        = each.value.enable_host_encryption
-  enable_node_public_ip         = each.value.enable_node_public_ip
   eviction_policy               = each.value.eviction_policy
   fips_enabled                  = each.value.fips_enabled
   gpu_instance                  = each.value.gpu_instance
@@ -21,7 +17,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
   kubelet_disk_type             = each.value.kubelet_disk_type
   max_count                     = each.value.max_count
   max_pods                      = each.value.max_pods
-  message_of_the_day            = each.value.message_of_the_day
   min_count                     = each.value.min_count
   mode                          = each.value.mode
   node_count                    = each.value.node_count
@@ -171,17 +166,12 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
   name                          = each.value.name
   vm_size                       = each.value.vm_size
   capacity_reservation_group_id = each.value.capacity_reservation_group_id
-  custom_ca_trust_enabled       = each.value.custom_ca_trust_enabled
-  enable_auto_scaling           = each.value.enable_auto_scaling
-  enable_host_encryption        = each.value.enable_host_encryption
-  enable_node_public_ip         = each.value.enable_node_public_ip
   eviction_policy               = each.value.eviction_policy
   fips_enabled                  = each.value.fips_enabled
   host_group_id                 = each.value.host_group_id
   kubelet_disk_type             = each.value.kubelet_disk_type
   max_count                     = each.value.max_count
   max_pods                      = each.value.max_pods
-  message_of_the_day            = each.value.message_of_the_day
   min_count                     = each.value.min_count
   mode                          = each.value.mode
   node_count                    = each.value.node_count
