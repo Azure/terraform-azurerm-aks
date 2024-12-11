@@ -7,6 +7,7 @@
 - Support of oms\_agent\_enabled add-on [\#613](https://github.com/Azure/terraform-azurerm-aks/pull/613) ([lonegunmanb](https://github.com/lonegunmanb))
 - Implement node\_network\_profile for default node pool [\#598](https://github.com/Azure/terraform-azurerm-aks/pull/598) ([zioproto](https://github.com/zioproto))
 - Bump examples to AKS 1.30 [\#595](https://github.com/Azure/terraform-azurerm-aks/pull/595) ([zioproto](https://github.com/zioproto))
+- Add `v4` sub-folder so this module could run with AzureRM provider both `v3` and `v4`. [\#594](https://github.com/Azure/terraform-azurerm-aks/pull/594) ([lonegunmanb](https://github.com/lonegunmanb))
 
 ## [9.2.0](https://github.com/Azure/terraform-azurerm-aks/tree/9.2.0) (2024-11-07)
 
