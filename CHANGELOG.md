@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased](https://github.com/Azure/terraform-azurerm-aks/tree/HEAD)
+
+**Merged pull requests:**
+
+- Bump golang.org/x/crypto from 0.21.0 to 0.31.0 in /test [\#616](https://github.com/Azure/terraform-azurerm-aks/pull/616) ([lonegunmanb](https://github.com/lonegunmanb))
+- Bump golang.org/x/crypto from 0.21.0 to 0.31.0 in /test [\#615](https://github.com/Azure/terraform-azurerm-aks/pull/615) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [9.3.0](https://github.com/Azure/terraform-azurerm-aks/tree/9.3.0) (2024-12-11)
 
 **Merged pull requests:**
