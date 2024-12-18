@@ -4,8 +4,12 @@
 
 **Merged pull requests:**
 
+- Dependabot changes from PR 609 619 620 [\#621](https://github.com/Azure/terraform-azurerm-aks/pull/621) ([zioproto](https://github.com/zioproto))
+- Bump github.com/Azure/terraform-module-test-helper from 0.27.0 to 0.28.0 in /test [\#620](https://github.com/Azure/terraform-azurerm-aks/pull/620) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump github.com/gruntwork-io/terratest from 0.47.2 to 0.48.0 in /test [\#619](https://github.com/Azure/terraform-azurerm-aks/pull/619) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump golang.org/x/crypto from 0.21.0 to 0.31.0 in /test [\#616](https://github.com/Azure/terraform-azurerm-aks/pull/616) ([lonegunmanb](https://github.com/lonegunmanb))
 - Bump golang.org/x/crypto from 0.21.0 to 0.31.0 in /test [\#615](https://github.com/Azure/terraform-azurerm-aks/pull/615) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump github.com/stretchr/testify from 1.9.0 to 1.10.0 in /test [\#609](https://github.com/Azure/terraform-azurerm-aks/pull/609) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [9.3.0](https://github.com/Azure/terraform-azurerm-aks/tree/9.3.0) (2024-12-11)
 
