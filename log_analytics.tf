@@ -81,3 +81,61 @@ resource "azurerm_log_analytics_solution" "main" {
     publisher = "Microsoft"
   }
 }
+
+resource "azurerm_monitor_data_collection_rule" "dcr" {
+  count               = (var.log_analytics_workspace_enabled && var.oms_agent_enabled) ? 1 : 0
+  name                = "MSCI-${local.log_analytics_workspace.location}-${azurerm_kubernetes_cluster.main.name}"
+  resource_group_name = data.azurerm_resource_group.main.name
+  location            = local.log_analytics_workspace.location
+  tags                = var.tags
+
+  destinations {
+    log_analytics {
+      workspace_resource_id = local.log_analytics_workspace.id
+      name                  = local.log_analytics_workspace.name
+    }
+  }
+
+  data_flow {
+    streams      = var.streams
+    destinations = [local.log_analytics_workspace.name]
+  }
+
+  data_flow {
+    streams      = ["Microsoft-Syslog"]
+    destinations = ["ciworkspace"]
+  }
+
+  data_sources {
+    syslog {
+      streams        = ["Microsoft-Syslog"]
+      facility_names = var.syslog_facilities
+      log_levels     = var.syslog_levels
+      name           = "sysLogsDataSource"
+    }
+
+    extension {
+      streams        = var.streams
+      extension_name = "ContainerInsights"
+      extension_json = jsonencode({
+        "dataCollectionSettings" : {
+          "interval" : var.data_collection_interval,
+          "namespaceFilteringMode" : var.namespace_filtering_mode_for_data_collection,
+          "namespaces" : var.namespaces_for_data_collection
+          "enableContainerLogV2" : var.enable_container_log_v2
+        }
+      })
+      name = "ContainerInsightsExtension"
+    }
+  }
+
+  description = "DCR for Azure Monitor Container Insights"
+}
+
+resource "azurerm_monitor_data_collection_rule_association" "dcra" {
+  count                   = (var.log_analytics_workspace_enabled && var.oms_agent_enabled) ? 1 : 0
+  name                    = "ContainerInsightsExtension"
+  target_resource_id      = azurerm_kubernetes_cluster.main.id
+  data_collection_rule_id = azurerm_monitor_data_collection_rule.dcr[0].id
+  description             = "Association of container insights data collection rule. Deleting this association will break the data collection for this AKS Cluster."
+}
