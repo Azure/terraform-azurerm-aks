@@ -1467,3 +1467,45 @@ variable "workload_identity_enabled" {
   default     = false
   description = "Enable or Disable Workload Identity. Defaults to false."
 }
+
+variable "streams" {
+  type        = list(any)
+  default     = ["Microsoft-ContainerLog", "Microsoft-ContainerLogV2", "Microsoft-KubeEvents", "Microsoft-KubePodInventory", "Microsoft-KubeNodeInventory", "Microsoft-KubePVInventory", "Microsoft-KubeServices", "Microsoft-KubeMonAgentEvents", "Microsoft-InsightsMetrics", "Microsoft-ContainerInventory", "Microsoft-ContainerNodeInventory", "Microsoft-Perf"]
+  description = "An array of container insights table streams. See documentation in DCR for a list of the valid streams and their corresponding table: https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-data-collection-configure?tabs=portal#stream-values-in-dcr"
+}
+
+variable "syslog_levels" {
+  type        = list(string)
+  default     = ["Debug", "Info", "Notice", "Warning", "Error", "Critical", "Alert", "Emergency"]
+  description = "List of syslog levels"
+}
+
+variable "syslog_facilities" {
+  type        = list(string)
+  default     = ["auth", "authpriv", "cron", "daemon", "mark", "kern", "local0", "local1", "local2", "local3", "local4", "local5", "local6", "local7", "lpr", "mail", "news", "syslog", "user", "uucp"]
+  description = "Syslog supported facilities as documented here: https://learn.microsoft.com/en-us/azure/azure-monitor/agents/data-sources-syslog"
+}
+
+variable "data_collection_interval" {
+  type        = string
+  default     = "1m"
+  description = "Determines how often the agent collects data. Valid values are 1m - 30m in 1m intervals The default value is 1m. If the value is outside the allowed range, then it defaults to 1 m. https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-data-collection-configure?tabs=cli#configure-dcr-with-azure-portal-1"
+}
+
+variable "namespace_filtering_mode_for_data_collection" {
+  type        = string
+  default     = "Off"
+  description = "Include: Collects only data from the values in the namespaces field. Exclude: Collects data from all namespaces except for the values in the namespaces field. Off: Ignores any namespace selections and collect data on all namespaces. https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-data-collection-configure?tabs=cli#configure-dcr-with-azure-portal-1"
+}
+
+variable "namespaces_for_data_collection" {
+  type        = list(string)
+  default     = ["kube-system", "gatekeeper-system", "azure-arc"]
+  description = "Array of comma separated Kubernetes namespaces to collect inventory and perf data based on the namespaceFilteringMode. For example, namespaces = [\"kube-system\", \"default\"] with an Include setting collects only these two namespaces. With an Exclude setting, the agent collects data from all other namespaces except for kube-system and default. With an Off setting, the agent collects data from all namespaces including kube-system and default. Invalid and unrecognized namespaces are ignored. https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-data-collection-configure?tabs=cli#configure-dcr-with-azure-portal-1"
+}
+
+variable "enable_container_log_v2" {
+  type        = bool
+  default     = true
+  description = "Boolean flag to enable ContainerLogV2 schema. If set to true, the stdout/stderr Logs are ingested to ContainerLogV2 table. If not, the container logs are ingested to ContainerLog table, unless otherwise specified in the ConfigMap. When specifying the individual streams, you must include the corresponding table for ContainerLog or ContainerLogV2. https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-data-collection-configure?tabs=cli#configure-dcr-with-azure-portal-1"
+}
