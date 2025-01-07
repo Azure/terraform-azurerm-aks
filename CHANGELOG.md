@@ -4,6 +4,9 @@
 
 **Merged pull requests:**
 
+- Dependabot 624 626 [\#627](https://github.com/Azure/terraform-azurerm-aks/pull/627) ([zioproto](https://github.com/zioproto))
+- Bump github.com/Azure/terraform-module-test-helper from 0.28.0 to 0.30.0 in /test [\#626](https://github.com/Azure/terraform-azurerm-aks/pull/626) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump github.com/gruntwork-io/terratest from 0.48.0 to 0.48.1 in /test [\#624](https://github.com/Azure/terraform-azurerm-aks/pull/624) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Dependabot changes from PR 609 619 620 [\#621](https://github.com/Azure/terraform-azurerm-aks/pull/621) ([zioproto](https://github.com/zioproto))
 - Bump github.com/Azure/terraform-module-test-helper from 0.27.0 to 0.28.0 in /test [\#620](https://github.com/Azure/terraform-azurerm-aks/pull/620) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump github.com/gruntwork-io/terratest from 0.47.2 to 0.48.0 in /test [\#619](https://github.com/Azure/terraform-azurerm-aks/pull/619) ([dependabot[bot]](https://github.com/apps/dependabot))
