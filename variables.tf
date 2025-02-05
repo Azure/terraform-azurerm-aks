@@ -1467,3 +1467,43 @@ variable "workload_identity_enabled" {
   default     = false
   description = "Enable or Disable Workload Identity. Defaults to false."
 }
+
+variable "streams" {
+  type        = list(any)
+  default     = ["Microsoft-ContainerLog", "Microsoft-ContainerLogV2", "Microsoft-KubeEvents", "Microsoft-KubePodInventory", "Microsoft-KubeNodeInventory", "Microsoft-KubePVInventory", "Microsoft-KubeServices", "Microsoft-KubeMonAgentEvents", "Microsoft-InsightsMetrics", "Microsoft-ContainerInventory", "Microsoft-ContainerNodeInventory", "Microsoft-Perf"]
+  description = "An array of container insights table streams. See documentation in DCR for a list of the valid streams and their corresponding table: https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-data-collection-configure?tabs=portal#stream-values-in-dcr"
+}
+
+variable "syslog_levels" {
+  type        = list(string)
+  default     = ["Debug", "Info", "Notice", "Warning", "Error", "Critical", "Alert", "Emergency"]
+  description = "List of syslog levels"
+}
+
+variable "syslog_facilities" {
+  type        = list(string)
+  default     = ["auth", "authpriv", "cron", "daemon", "mark", "kern", "local0", "local1", "local2", "local3", "local4", "local5", "local6", "local7", "lpr", "mail", "news", "syslog", "user", "uucp"]
+  description = "Syslog supported facilities as documented here: https://learn.microsoft.com/en-us/azure/azure-monitor/agents/data-sources-syslog"
+}
+
+variable "data_collection_settings" {
+  type = object({
+    data_collection_interval                     = string
+    namespace_filtering_mode_for_data_collection = string
+    namespaces_for_data_collection               = list(string)
+    container_log_v2_enabled                     = bool
+  })
+  default = {
+    data_collection_interval                     = "1m"
+    namespace_filtering_mode_for_data_collection = "Off"
+    namespaces_for_data_collection               = ["kube-system", "gatekeeper-system", "azure-arc"]
+    container_log_v2_enabled                     = true
+  }
+  description = <<-EOT
+    `data_collection_interval` -  Determines how often the agent collects data. Valid values are 1m - 30m in 1m intervals. Default is 1m.
+    `namespace_filtering_mode_for_data_collection` - Can be 'Include', 'Exclude', or 'Off'. Determines how namespaces are filtered for data collection.
+    `namespaces_for_data_collection` - List of Kubernetes namespaces for data collection based on the filtering mode.
+    `container_log_v2_enabled` - Flag to enable the ContainerLogV2 schema for collecting logs.
+    See more details: https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-data-collection-configure?tabs=cli#configure-dcr-with-azure-portal-1
+  EOT
+}
