@@ -2,7 +2,7 @@ resource "azurerm_log_analytics_workspace" "main" {
   count = local.create_analytics_workspace ? 1 : 0
 
   location                                = coalesce(var.location, data.azurerm_resource_group.main.location)
-  name                                    = coalesce(var.cluster_log_analytics_workspace_name, trim("${var.prefix}-workspace", "-"))
+  name                                    = try(coalesce(var.cluster_log_analytics_workspace_name, trim("${var.prefix}-workspace", "-")), "aks-workspace")
   resource_group_name                     = coalesce(var.log_analytics_workspace_resource_group_name, var.resource_group_name)
   allow_resource_only_permissions         = var.log_analytics_workspace_allow_resource_only_permissions
   cmk_for_query_forced                    = var.log_analytics_workspace_cmk_for_query_forced
