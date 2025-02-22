@@ -210,12 +210,6 @@ variable "agents_tags" {
   description = "(Optional) A mapping of tags to assign to the Node Pool."
 }
 
-variable "agents_taints" {
-  type        = list(string)
-  default     = null
-  description = "(Optional) A list of the taints added to new nodes during node pool create and scale. Changing this forces a new resource to be created."
-}
-
 variable "agents_type" {
   type        = string
   default     = "VirtualMachineScaleSets"
@@ -226,12 +220,6 @@ variable "api_server_authorized_ip_ranges" {
   type        = set(string)
   default     = null
   description = "(Optional) The IP ranges to allow for incoming traffic to the server nodes."
-}
-
-variable "api_server_subnet_id" {
-  type        = string
-  default     = null
-  description = "(Optional) The ID of the Subnet where the API server endpoint is delegated to."
 }
 
 variable "attached_acr_id_map" {
@@ -1184,6 +1172,13 @@ variable "oidc_issuer_enabled" {
   description = "Enable or Disable the OIDC issuer URL. Defaults to false."
 }
 
+variable "oms_agent_enabled" {
+  type        = bool
+  default     = true
+  description = "Enable OMS Agent Addon."
+  nullable    = false
+}
+
 variable "only_critical_addons_enabled" {
   type        = bool
   default     = null
@@ -1277,29 +1272,11 @@ variable "rbac_aad_azure_rbac_enabled" {
   description = "(Optional) Is Role Based Access Control based on Azure AD enabled?"
 }
 
-variable "rbac_aad_client_app_id" {
-  type        = string
-  default     = null
-  description = "The Client ID of an Azure Active Directory Application."
-}
-
 variable "rbac_aad_managed" {
   type        = bool
   default     = false
   description = "Is the Azure Active Directory integration Managed, meaning that Azure will create/manage the Service Principal used for integration."
   nullable    = false
-}
-
-variable "rbac_aad_server_app_id" {
-  type        = string
-  default     = null
-  description = "The Server ID of an Azure Active Directory Application."
-}
-
-variable "rbac_aad_server_app_secret" {
-  type        = string
-  default     = null
-  description = "The Server Secret of an Azure Active Directory Application."
 }
 
 variable "rbac_aad_tenant_id" {

@@ -59,10 +59,10 @@ resource "azurerm_key_vault_key" "des_key" {
 }
 
 resource "azurerm_disk_encryption_set" "des" {
-  key_vault_key_id    = azurerm_key_vault_key.des_key.id
   location            = local.resource_group.location
   name                = "des"
   resource_group_name = local.resource_group.name
+  key_vault_key_id    = azurerm_key_vault_key.des_key.id
 
   identity {
     type = "SystemAssigned"

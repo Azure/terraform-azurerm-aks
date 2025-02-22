@@ -1,0 +1,1 @@
+../uai_and_assign_role_on_subnet/providers.tf

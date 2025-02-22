@@ -14,7 +14,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   location                            = var.location
   name                                = "${local.cluster_name}${var.cluster_name_random_suffix ? substr(md5(uuid()), 0, 4) : ""}"
   resource_group_name                 = var.resource_group_name
-  automatic_channel_upgrade           = var.automatic_channel_upgrade
   azure_policy_enabled                = var.azure_policy_enabled
   cost_analysis_enabled               = var.cost_analysis_enabled
   disk_encryption_set_id              = var.disk_encryption_set_id
@@ -23,7 +22,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   image_cleaner_interval_hours        = var.image_cleaner_interval_hours
   kubernetes_version                  = var.kubernetes_version
   local_account_disabled              = var.local_account_disabled
-  node_os_channel_upgrade             = var.node_os_channel_upgrade
   node_resource_group                 = var.node_resource_group
   oidc_issuer_enabled                 = var.oidc_issuer_enabled
   open_service_mesh_enabled           = var.open_service_mesh_enabled
@@ -504,7 +502,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "oms_agent" {
-    for_each = var.log_analytics_workspace_enabled ? ["oms_agent"] : []
+    for_each = (var.log_analytics_workspace_enabled && var.oms_agent_enabled) ? ["oms_agent"] : []
 
     content {
       log_analytics_workspace_id      = local.log_analytics_workspace.id
@@ -655,11 +653,11 @@ resource "null_resource" "kubernetes_version_keeper" {
 
 resource "azapi_update_resource" "aks_cluster_post_create" {
   type = "Microsoft.ContainerService/managedClusters@2024-02-01"
-  body = jsonencode({
+  body = {
     properties = {
       kubernetesVersion = var.kubernetes_version
     }
-  })
+  }
   resource_id = azurerm_kubernetes_cluster.main.id
 
   lifecycle {
@@ -680,13 +678,13 @@ resource "azapi_update_resource" "aks_cluster_http_proxy_config_no_proxy" {
   count = can(var.http_proxy_config.no_proxy[0]) ? 1 : 0
 
   type = "Microsoft.ContainerService/managedClusters@2024-02-01"
-  body = jsonencode({
+  body = {
     properties = {
       httpProxyConfig = {
         noProxy = var.http_proxy_config.no_proxy
       }
     }
-  })
+  }
   resource_id = azurerm_kubernetes_cluster.main.id
 
   depends_on = [azapi_update_resource.aks_cluster_post_create]

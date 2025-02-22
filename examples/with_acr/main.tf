@@ -24,11 +24,10 @@ resource "azurerm_virtual_network" "test" {
 }
 
 resource "azurerm_subnet" "test" {
-  address_prefixes                               = ["10.52.0.0/24"]
-  name                                           = "${random_id.prefix.hex}-sn"
-  resource_group_name                            = local.resource_group.name
-  virtual_network_name                           = azurerm_virtual_network.test.name
-  enforce_private_link_endpoint_network_policies = true
+  address_prefixes     = ["10.52.0.0/24"]
+  name                 = "${random_id.prefix.hex}-sn"
+  resource_group_name  = local.resource_group.name
+  virtual_network_name = azurerm_virtual_network.test.name
 }
 
 resource "random_string" "acr_suffix" {
@@ -43,11 +42,6 @@ resource "azurerm_container_registry" "example" {
   name                = "aksacrtest${random_string.acr_suffix.result}"
   resource_group_name = local.resource_group.name
   sku                 = "Premium"
-
-  retention_policy {
-    days    = 7
-    enabled = true
-  }
 }
 
 module "aks" {
