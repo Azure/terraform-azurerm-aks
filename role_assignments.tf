@@ -22,7 +22,7 @@ data "azurerm_user_assigned_identity" "cluster_identity" {
 # https://learn.microsoft.com/en-us/azure/aks/configure-azure-cni#prerequisites
 # https://github.com/Azure/terraform-azurerm-aks/issues/178
 resource "azurerm_role_assignment" "network_contributor" {
-  for_each = var.create_role_assignment_network_contributor && (var.client_id == "" || var.client_secret == "") ? local.subnet_ids : []
+  for_each = nonsensitive(var.create_role_assignment_network_contributor && (var.client_id == "" || var.client_secret == "") ? local.subnet_ids : [])
 
   principal_id         = coalesce(try(data.azurerm_user_assigned_identity.cluster_identity[0].principal_id, azurerm_kubernetes_cluster.main.identity[0].principal_id), var.client_id)
   scope                = each.value
