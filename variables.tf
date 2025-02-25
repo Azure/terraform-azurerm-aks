@@ -1051,9 +1051,10 @@ variable "node_pools" {
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)
     }))
-    workload_runtime      = optional(string)
-    zones                 = optional(set(string))
-    create_before_destroy = optional(bool, true)
+    workload_runtime            = optional(string)
+    zones                       = optional(set(string))
+    create_before_destroy       = optional(bool, true)
+    temporary_name_for_rotation = optional(string)
   }))
   default     = {}
   description = <<-EOT
@@ -1156,6 +1157,7 @@ variable "node_pools" {
     workload_runtime = (Optional) Used to specify the workload runtime. Allowed values are `OCIContainer` and `WasmWasi`. WebAssembly System Interface node pools are in Public Preview - more information and details on how to opt into the preview can be found in [this article](https://docs.microsoft.com/azure/aks/use-wasi-node-pools)
     zones            = (Optional) Specifies a list of Availability Zones in which this Kubernetes Cluster Node Pool should be located. Changing this forces a new Kubernetes Cluster Node Pool to be created.
     create_before_destroy = (Optional) Create a new node pool before destroy the old one when Terraform must update an argument that cannot be updated in-place. Set this argument to `true` will add add a random suffix to pool's name to avoid conflict. Default to `true`.
+    temporary_name_for_rotation = (Optional) Specifies the name of the temporary node pool used to cycle the node pool when one of the relevant properties are updated.
   }))
   EOT
   nullable    = false
