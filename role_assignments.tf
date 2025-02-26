@@ -9,7 +9,7 @@ resource "azurerm_role_assignment" "acr" {
 
 # /subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/acceptanceTestResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testIdentity
 data "azurerm_user_assigned_identity" "cluster_identity" {
-  count = (var.client_id == "" || var.client_secret == "") && var.identity_type == "UserAssigned" ? 1 : 0
+  count = nonsensitive((var.client_id == "" || var.client_secret == "") && var.identity_type == "UserAssigned" ? 1 : 0)
 
   name                = split("/", var.identity_ids[0])[8]
   resource_group_name = split("/", var.identity_ids[0])[4]
