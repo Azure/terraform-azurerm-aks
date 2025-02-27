@@ -223,3 +223,23 @@ output "web_app_routing_identity" {
   description = "The `azurerm_kubernetes_cluster`'s `web_app_routing_identity` block, it's type is a list of object."
   value       = try(azurerm_kubernetes_cluster.main.web_app_routing[0].web_app_routing_identity, [])
 }
+
+output "azure_monitor_workspace_enabled" {
+  description = "Is Azure Monitor workspace enabled for the AKS cluster?"
+  value       = var.azure_monitor_workspace_enabled
+}
+
+output "azure_monitor_workspace_resource_id" {
+  description = "The resource ID of the Azure Monitor workspace"
+  value       = var.azure_monitor_workspace_resource_id
+}
+
+output "grafana_enabled" {
+  description = "Is Grafana integration enabled for the AKS cluster?"
+  value       = var.grafana_enabled
+}
+
+output "grafana_resource_id" {
+  description = "The resource ID of the Grafana workspace"
+  value       = var.grafana_resource_id
+}

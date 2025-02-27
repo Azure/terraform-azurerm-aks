@@ -1472,3 +1472,27 @@ variable "workload_identity_enabled" {
   default     = false
   description = "Enable or Disable Workload Identity. Defaults to false."
 }
+
+variable "azure_monitor_workspace_enabled" {
+  description = "Enable Azure Monitor workspace for the AKS cluster"
+  type        = bool
+  default     = false
+}
+
+variable "azure_monitor_workspace_resource_id" {
+  description = "The resource ID of the Azure Monitor workspace"
+  type        = string
+  default     = null
+}
+
+variable "grafana_enabled" {
+  description = "Enable Grafana integration for the AKS cluster"
+  type        = bool
+  default     = false
+}
+
+variable "grafana_resource_id" {
+  description = "The resource ID of the Grafana workspace"
+  type        = string
+  default     = null
+}
