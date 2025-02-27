@@ -43,11 +43,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
     avm_git_repo             = "terraform-azurerm-aks"
     avm_yor_trace            = "cd0a4528-6aa3-4dc9-a1bf-c09590f0f4c6"
   } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
-  temporary_name_for_rotation = each.value.temporary_name_for_rotation
-  ultra_ssd_enabled           = each.value.ultra_ssd_enabled
-  vnet_subnet_id              = each.value.vnet_subnet_id
-  workload_runtime            = each.value.workload_runtime
-  zones                       = each.value.zones
+  ultra_ssd_enabled = each.value.ultra_ssd_enabled
+  vnet_subnet_id    = each.value.vnet_subnet_id
+  workload_runtime  = each.value.workload_runtime
+  zones             = each.value.zones
 
   dynamic "kubelet_config" {
     for_each = each.value.kubelet_config == null ? [] : ["kubelet_config"]
