@@ -6,6 +6,7 @@
 
 - Release `v10.0.0` [\#636](https://github.com/Azure/terraform-azurerm-aks/pull/636) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add nonsensitive around for\_each argument [\#631](https://github.com/Azure/terraform-azurerm-aks/pull/631) ([zioproto](https://github.com/zioproto))
+- Cannot set both `client_id` and `identity_ids` variables. [\#622](https://github.com/Azure/terraform-azurerm-aks/pull/622) ([zioproto](https://github.com/zioproto))
 
 
 
