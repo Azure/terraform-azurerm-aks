@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- "Improve automatic\_channel\_upgrade description for clarity and completeness" [\#641](https://github.com/Azure/terraform-azurerm-aks/pull/641) ([Vinaum8](https://github.com/Vinaum8))
 - Add temporary\_name\_for\_rotation in azurerm\_kubernetes\_cluster\_node\_pool [\#638](https://github.com/Azure/terraform-azurerm-aks/pull/638) ([zioproto](https://github.com/zioproto))
 - Release `v10.0.0` [\#636](https://github.com/Azure/terraform-azurerm-aks/pull/636) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add nonsensitive around for\_each argument [\#631](https://github.com/Azure/terraform-azurerm-aks/pull/631) ([zioproto](https://github.com/zioproto))
