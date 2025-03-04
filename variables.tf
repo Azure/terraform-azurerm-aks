@@ -1,6 +1,6 @@
 variable "resource_group_name" {
   type        = string
-  description = "The resource group name to be imported"
+  description = "The existing resource group name to use"
 }
 
 variable "aci_connector_linux_enabled" {
@@ -671,7 +671,6 @@ variable "local_account_disabled" {
 
 variable "location" {
   type        = string
-  default     = null
   description = "Location of cluster, if not defined it will be read from the resource-group"
 }
 
