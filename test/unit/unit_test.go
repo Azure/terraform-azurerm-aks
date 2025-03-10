@@ -300,5 +300,6 @@ func dummyRequiredVariables() map[string]interface{} {
 	return map[string]interface{}{
 		"prefix":              "foo",
 		"resource_group_name": "bar",
+		"location":            "eastus",
 	}
 }
