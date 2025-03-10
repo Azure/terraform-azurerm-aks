@@ -37,6 +37,7 @@ resource "azurerm_subnet" "test" {
 module "aks" {
   source = "../.."
 
+  location                  = local.resource_group.location
   prefix                    = random_id.name.hex
   resource_group_name       = local.resource_group.name
   kubernetes_version        = "1.30" # don't specify the patch version!

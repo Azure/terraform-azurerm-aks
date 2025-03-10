@@ -140,6 +140,7 @@ module "aks" {
 
   prefix                    = random_id.name.hex
   resource_group_name       = local.resource_group.name
+  location                  = local.resource_group.location
   kubernetes_version        = "1.30" # don't specify the patch version!
   automatic_channel_upgrade = "patch"
   agents_availability_zones = ["1", "2"]

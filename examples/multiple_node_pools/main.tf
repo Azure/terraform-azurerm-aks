@@ -47,6 +47,7 @@ module "aks" {
 
   prefix              = "prefix-${random_id.prefix.hex}"
   resource_group_name = local.resource_group.name
+  location            = local.resource_group.location
   os_disk_size_gb     = 60
   sku_tier            = "Standard"
   rbac_aad            = false
