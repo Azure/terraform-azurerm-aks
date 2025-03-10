@@ -4,12 +4,14 @@
 
 **Merged pull requests:**
 
+- resource\_group: remove data source + location required [\#644](https://github.com/Azure/terraform-azurerm-aks/pull/644) ([lonegunmanb](https://github.com/lonegunmanb))
 - "Improve automatic\_channel\_upgrade description for clarity and completeness" [\#641](https://github.com/Azure/terraform-azurerm-aks/pull/641) ([Vinaum8](https://github.com/Vinaum8))
 - Add temporary\_name\_for\_rotation in azurerm\_kubernetes\_cluster\_node\_pool [\#638](https://github.com/Azure/terraform-azurerm-aks/pull/638) ([zioproto](https://github.com/zioproto))
 - Release `v10.0.0` [\#636](https://github.com/Azure/terraform-azurerm-aks/pull/636) ([lonegunmanb](https://github.com/lonegunmanb))
 - Add nonsensitive around for\_each argument [\#631](https://github.com/Azure/terraform-azurerm-aks/pull/631) ([zioproto](https://github.com/zioproto))
 - Cannot set both `client_id` and `identity_ids` variables. [\#622](https://github.com/Azure/terraform-azurerm-aks/pull/622) ([zioproto](https://github.com/zioproto))
 - support the dns\_zone\_ids property in the web\_app\_routing block [\#606](https://github.com/Azure/terraform-azurerm-aks/pull/606) ([zioproto](https://github.com/zioproto))
+- resource\_group: remove data source + location required [\#603](https://github.com/Azure/terraform-azurerm-aks/pull/603) ([DeviaVir](https://github.com/DeviaVir))
 
 
 

@@ -1,3 +1,8 @@
+variable "location" {
+  type        = string
+  description = "Location of cluster, if not defined it will be read from the resource-group"
+}
+
 variable "resource_group_name" {
   type        = string
   description = "The existing resource group name to use"
@@ -667,11 +672,6 @@ variable "local_account_disabled" {
   type        = bool
   default     = null
   description = "(Optional) - If `true` local accounts will be disabled. Defaults to `false`. See [the documentation](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts) for more information."
-}
-
-variable "location" {
-  type        = string
-  description = "Location of cluster, if not defined it will be read from the resource-group"
 }
 
 variable "log_analytics_solution" {
