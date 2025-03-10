@@ -28,6 +28,7 @@ resource "azurerm_user_assigned_identity" "main" {
 module "aks" {
   source = "../../"
 
+  location            = azurerm_resource_group.rg.location
   cluster_name        = var.kubernetes_cluster_name
   prefix              = var.kubernetes_cluster_name
   resource_group_name = azurerm_resource_group.rg.name

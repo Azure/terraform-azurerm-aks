@@ -78,6 +78,7 @@ module "aks_cluster_name" {
     id   = azurerm_log_analytics_workspace.main.id
     name = azurerm_log_analytics_workspace.main.name
   }
+  location = local.resource_group.location
   maintenance_window = {
     allowed = [
       {
