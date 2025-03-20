@@ -624,6 +624,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "network_policy must be `azure` when network_plugin is `azure`"
     }
     precondition {
+      condition     = var.network_plugin_mode == "overlay" || var.net_profile_pod_cidr == "" || var.network_plugin != "azure"
+      error_message = "`pod_cidr` and `azure` cannot be set together unless specifying `network_plugin_mode` to `overlay`"
+    }
+    precondition {
       condition     = var.ebpf_data_plane != "cilium" || var.network_plugin == "azure"
       error_message = "When ebpf_data_plane is set to cilium, the network_plugin field can only be set to azure."
     }
