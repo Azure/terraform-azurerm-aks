@@ -89,7 +89,7 @@ locals {
 resource "azurerm_monitor_data_collection_rule" "dcr" {
   count               = (local.create_analytics_workspace && var.oms_agent_enabled) ? 1 : 0
   name                = "MSCI-${local.dcr_location}-${azurerm_kubernetes_cluster.main.name}"
-  resource_group_name = data.azurerm_resource_group.main.name
+  resource_group_name = var.resource_group_name
   location            = local.dcr_location
   tags                = var.tags
 
