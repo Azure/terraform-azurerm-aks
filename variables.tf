@@ -1480,19 +1480,19 @@ variable "workload_identity_enabled" {
   description = "Enable or Disable Workload Identity. Defaults to false."
 }
 
-variable "streams" {
+variable "monitor_data_collection_rule_extensions_streams" {
   type        = list(any)
   default     = ["Microsoft-ContainerLog", "Microsoft-ContainerLogV2", "Microsoft-KubeEvents", "Microsoft-KubePodInventory", "Microsoft-KubeNodeInventory", "Microsoft-KubePVInventory", "Microsoft-KubeServices", "Microsoft-KubeMonAgentEvents", "Microsoft-InsightsMetrics", "Microsoft-ContainerInventory", "Microsoft-ContainerNodeInventory", "Microsoft-Perf"]
   description = "An array of container insights table streams. See documentation in DCR for a list of the valid streams and their corresponding table: https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-data-collection-configure?tabs=portal#stream-values-in-dcr"
 }
 
-variable "syslog_levels" {
+variable "monitor_data_collection_rule_data_sources_syslog_levels" {
   type        = list(string)
   default     = ["Debug", "Info", "Notice", "Warning", "Error", "Critical", "Alert", "Emergency"]
   description = "List of syslog levels"
 }
 
-variable "syslog_facilities" {
+variable "monitor_data_collection_rule_data_sources_syslog_facilities" {
   type        = list(string)
   default     = ["auth", "authpriv", "cron", "daemon", "mark", "kern", "local0", "local1", "local2", "local3", "local4", "local5", "local6", "local7", "lpr", "mail", "news", "syslog", "user", "uucp"]
   description = "Syslog supported facilities as documented here: https://learn.microsoft.com/en-us/azure/azure-monitor/agents/data-sources-syslog"

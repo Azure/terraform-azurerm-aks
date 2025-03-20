@@ -87,7 +87,7 @@ locals {
 }
 
 resource "azurerm_monitor_data_collection_rule" "dcr" {
-  count               = (var.log_analytics_workspace_enabled && var.oms_agent_enabled) ? 1 : 0
+  count               = (local.create_analytics_workspace && var.oms_agent_enabled) ? 1 : 0
   name                = "MSCI-${local.dcr_location}-${azurerm_kubernetes_cluster.main.name}"
   resource_group_name = data.azurerm_resource_group.main.name
   location            = local.dcr_location
@@ -101,7 +101,7 @@ resource "azurerm_monitor_data_collection_rule" "dcr" {
   }
 
   data_flow {
-    streams      = var.streams
+    streams      = var.monitor_data_collection_rule_extensions_streams
     destinations = [local.log_analytics_workspace.name]
   }
 
@@ -113,20 +113,20 @@ resource "azurerm_monitor_data_collection_rule" "dcr" {
   data_sources {
     syslog {
       streams        = ["Microsoft-Syslog"]
-      facility_names = var.syslog_facilities
-      log_levels     = var.syslog_levels
+      facility_names = var.monitor_data_collection_rule_data_sources_syslog_facilities
+      log_levels     = var.monitor_data_collection_rule_data_sources_syslog_levels
       name           = "sysLogsDataSource"
     }
 
     extension {
-      streams        = var.streams
+      streams        = var.monitor_data_collection_rule_extensions_streams
       extension_name = "ContainerInsights"
       extension_json = jsonencode({
         "dataCollectionSettings" : {
-          "interval" : var.data_collection_settings.data_collection_interval,
-          "namespaceFilteringMode" : var.data_collection_settings.namespace_filtering_mode_for_data_collection,
-          "namespaces" : var.data_collection_settings.namespaces_for_data_collection,
-          "enableContainerLogV2" : var.data_collection_settings.container_log_v2_enabled,
+          interval               = var.data_collection_settings.data_collection_interval
+          namespaceFilteringMode = var.data_collection_settings.namespace_filtering_mode_for_data_collection
+          namespaces             = var.data_collection_settings.namespaces_for_data_collection
+          enableContainerLogV2   = var.data_collection_settings.container_log_v2_enabled
         }
       })
       name = "ContainerInsightsExtension"
@@ -137,7 +137,7 @@ resource "azurerm_monitor_data_collection_rule" "dcr" {
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "dcra" {
-  count                   = (var.log_analytics_workspace_enabled && var.oms_agent_enabled) ? 1 : 0
+  count                   = (local.create_analytics_workspace && var.oms_agent_enabled) ? 1 : 0
   name                    = "ContainerInsightsExtension"
   target_resource_id      = azurerm_kubernetes_cluster.main.id
   data_collection_rule_id = azurerm_monitor_data_collection_rule.dcr[0].id
