@@ -663,7 +663,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "When `dns_prefix_private_cluster` is set, `private_cluster_enabled` must be set to `true`."
     }
     precondition {
-      condition     = var.dns_prefix_private_cluster != null || var.identity_type == "UserAssigned" || var.client_id != ""
+      condition     = var.dns_prefix_private_cluster == null || var.identity_type == "UserAssigned" || var.client_id != ""
       error_message = "A user assigned identity or a service principal must be used when using a custom private dns zone"
     }
     precondition {
