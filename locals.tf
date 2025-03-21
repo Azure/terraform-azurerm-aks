@@ -9,7 +9,7 @@ locals {
     (contains(["patch"], var.automatic_channel_upgrade) && can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.kubernetes_version)) && (can(regex("^[0-9]{1,}\\.[0-9]{1,}$", var.orchestrator_version)) || var.orchestrator_version == null)) ||
     (contains(["rapid", "stable", "node-image"], var.automatic_channel_upgrade) && var.kubernetes_version == null && var.orchestrator_version == null)
   )
-  cluster_name = coalesce(var.cluster_name, trim("${var.prefix}-aks", "-"))
+  cluster_name = try(coalesce(var.cluster_name, trim("${var.prefix}-aks", "-")), "aks")
   # Abstract the decision whether to create an Analytics Workspace or not.
   create_analytics_solution        = var.log_analytics_workspace_enabled && var.log_analytics_solution == null
   create_analytics_workspace       = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null
@@ -54,8 +54,15 @@ locals {
       pool.pod_subnet_id
     ]
   ], [var.vnet_subnet_id]))
+  private_dns_zone_name                                 = try(reverse(split("/", var.private_dns_zone_id))[0], null)
   query_datasource_for_log_analytics_workspace_location = var.log_analytics_workspace_enabled && (var.log_analytics_workspace != null ? var.log_analytics_workspace.location == null : false)
   subnet_ids                                            = toset([for id in local.potential_subnet_ids : id if id != null])
   use_brown_field_gw_for_ingress                        = var.brown_field_application_gateway_for_ingress != null
   use_green_field_gw_for_ingress                        = var.green_field_application_gateway_for_ingress != null
+  valid_private_dns_zone_regexs = [
+    "private\\.[a-z0-9]+\\.azmk8s\\.io",
+    "privatelink\\.[a-z0-9]+\\.azmk8s\\.io",
+    "[a-zA-Z0-9\\-]{1,32}\\.private\\.[a-z]+\\.azmk8s\\.io",
+    "[a-zA-Z0-9\\-]{1,32}\\.privatelink\\.[a-z]+\\.azmk8s\\.io",
+  ]
 }
