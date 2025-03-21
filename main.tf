@@ -507,6 +507,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
     dynamic "nat_gateway_profile" {
       for_each = var.nat_gateway_profile == null ? [] : [var.nat_gateway_profile]
+
       content {
         idle_timeout_in_minutes   = nat_gateway_profile.value.idle_timeout_in_minutes
         managed_outbound_ip_count = nat_gateway_profile.value.managed_outbound_ip_count

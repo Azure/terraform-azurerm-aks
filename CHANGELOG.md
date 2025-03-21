@@ -13,6 +13,7 @@
 - Cannot set both `client_id` and `identity_ids` variables. [\#622](https://github.com/Azure/terraform-azurerm-aks/pull/622) ([zioproto](https://github.com/zioproto))
 - support the dns\_zone\_ids property in the web\_app\_routing block [\#606](https://github.com/Azure/terraform-azurerm-aks/pull/606) ([zioproto](https://github.com/zioproto))
 - resource\_group: remove data source + location required [\#603](https://github.com/Azure/terraform-azurerm-aks/pull/603) ([DeviaVir](https://github.com/DeviaVir))
+- Amend new attributes in network\_profile block [\#585](https://github.com/Azure/terraform-azurerm-aks/pull/585) ([lonegunmanb](https://github.com/lonegunmanb))
 
 
 
