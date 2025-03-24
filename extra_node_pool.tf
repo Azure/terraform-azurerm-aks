@@ -113,7 +113,18 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
     for_each = each.value.node_network_profile == null ? [] : ["node_network_profile"]
 
     content {
-      node_public_ip_tags = each.value.node_network_profile.node_public_ip_tags
+      node_public_ip_tags            = each.value.node_network_profile.node_public_ip_tags
+      application_security_group_ids = each.value.node_network_profile.application_security_group_ids
+
+      dynamic "allowed_host_ports" {
+        for_each = each.value.node_network_profile.allowed_host_ports == null ? [] : each.value.node_network_profile.allowed_host_ports
+
+        content {
+          port_start = allowed_host_ports.value.port_start
+          port_end   = allowed_host_ports.value.port_end
+          portocol   = allowed_host_ports.value.portocol
+        }
+      }
     }
   }
   dynamic "upgrade_settings" {
