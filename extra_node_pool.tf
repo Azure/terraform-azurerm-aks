@@ -122,7 +122,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
         content {
           port_start = allowed_host_ports.value.port_start
           port_end   = allowed_host_ports.value.port_end
-          portocol   = allowed_host_ports.value.portocol
+          protocol   = allowed_host_ports.value.protocol
         }
       }
     }
