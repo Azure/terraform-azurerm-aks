@@ -4,6 +4,7 @@
 
 **Merged pull requests:**
 
+- implement all node\_network\_profile features [\#648](https://github.com/Azure/terraform-azurerm-aks/pull/648) ([lonegunmanb](https://github.com/lonegunmanb))
 - Bump github.com/Azure/terraform-module-test-helper in /test [\#647](https://github.com/Azure/terraform-azurerm-aks/pull/647) ([lonegunmanb](https://github.com/lonegunmanb))
 - resource\_group: remove data source + location required [\#644](https://github.com/Azure/terraform-azurerm-aks/pull/644) ([lonegunmanb](https://github.com/lonegunmanb))
 - "Improve automatic\_channel\_upgrade description for clarity and completeness" [\#641](https://github.com/Azure/terraform-azurerm-aks/pull/641) ([Vinaum8](https://github.com/Vinaum8))

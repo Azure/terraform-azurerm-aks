@@ -142,14 +142,15 @@ resource "azurerm_kubernetes_cluster" "main" {
         for_each = var.node_network_profile == null ? [] : [var.node_network_profile]
 
         content {
-          node_public_ip_tags            = node_network_profile.value.node_public_ip_tags
           application_security_group_ids = node_network_profile.value.application_security_group_ids
+          node_public_ip_tags            = node_network_profile.value.node_public_ip_tags
 
           dynamic "allowed_host_ports" {
             for_each = node_network_profile.value.allowed_host_ports == null ? [] : node_network_profile.value.allowed_host_ports
+
             content {
-              port_start = allowed_host_ports.value.port_start
               port_end   = allowed_host_ports.value.port_end
+              port_start = allowed_host_ports.value.port_start
               protocol   = allowed_host_ports.value.protocol
             }
           }
