@@ -56,16 +56,7 @@ resource "azurerm_log_analytics_solution" "main" {
   solution_name         = "ContainerInsights"
   workspace_name        = local.log_analytics_workspace.name
   workspace_resource_id = local.log_analytics_workspace.id
-  tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_git_commit           = "886c26d95843149cc2a58ae72edb31478faa2a8c"
-    avm_git_file             = "main.tf"
-    avm_git_last_modified_at = "2023-07-20 06:04:07"
-    avm_git_org              = "Azure"
-    avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "5bcf0000-2dc6-441a-9825-6d582659aeb7"
-    } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_yor_name = "main"
-  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+  tags                  = var.tags
 
   plan {
     product   = "OMSGallery/ContainerInsights"
