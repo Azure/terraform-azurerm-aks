@@ -15,16 +15,7 @@ resource "azurerm_log_analytics_workspace" "main" {
   reservation_capacity_in_gb_per_day      = var.log_analytics_workspace_reservation_capacity_in_gb_per_day
   retention_in_days                       = var.log_retention_in_days
   sku                                     = var.log_analytics_workspace_sku
-  tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_git_commit           = "e3dd48ea03e7fd9955145d5e1b985fb501c49d91"
-    avm_git_file             = "log_analytics.tf"
-    avm_git_last_modified_at = "2024-05-20 06:53:31"
-    avm_git_org              = "Azure"
-    avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "f58cfe56-cff2-4552-8bf7-07e998fa28f3"
-    } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_yor_name = "main"
-  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
+  tags                                    = var.tags
 
   dynamic "identity" {
     for_each = var.log_analytics_workspace_identity == null ? [] : [var.log_analytics_workspace_identity]
