@@ -33,17 +33,8 @@ resource "azurerm_kubernetes_cluster" "main" {
   run_command_enabled                 = var.run_command_enabled
   sku_tier                            = var.sku_tier
   support_plan                        = var.support_plan
-  tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_git_commit           = "a2b7e7dc8b41c0c8c0e5e2ab7902b46bc2d6919e"
-    avm_git_file             = "main.tf"
-    avm_git_last_modified_at = "2024-02-16 15:45:22"
-    avm_git_org              = "Azure"
-    avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "cd7d230c-94c5-4b6c-88c8-af7b36a10f7d"
-    } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/), (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_yor_name = "main"
-  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
-  workload_identity_enabled = var.workload_identity_enabled
+  tags                                = var.tags
+  workload_identity_enabled           = var.workload_identity_enabled
 
   dynamic "default_node_pool" {
     for_each = var.enable_auto_scaling == true ? [] : ["default_node_pool_manually_scaled"]

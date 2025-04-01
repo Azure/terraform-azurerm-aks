@@ -34,19 +34,11 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
   scale_down_mode               = each.value.scale_down_mode
   snapshot_id                   = each.value.snapshot_id
   spot_max_price                = each.value.spot_max_price
-  tags = merge(each.value.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_yor_name             = "node_pool_create_before_destroy"
-    avm_git_commit           = "5c71566abb93bfb7a6bf09b3a0fecea8a329c01e"
-    avm_git_file             = "extra_node_pool.tf"
-    avm_git_last_modified_at = "2024-06-11 12:44:16"
-    avm_git_org              = "Azure"
-    avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "cd0a4528-6aa3-4dc9-a1bf-c09590f0f4c6"
-  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
-  ultra_ssd_enabled = each.value.ultra_ssd_enabled
-  vnet_subnet_id    = each.value.vnet_subnet_id
-  workload_runtime  = each.value.workload_runtime
-  zones             = each.value.zones
+  tags                          = each.value.tags
+  ultra_ssd_enabled             = each.value.ultra_ssd_enabled
+  vnet_subnet_id                = each.value.vnet_subnet_id
+  workload_runtime              = each.value.workload_runtime
+  zones                         = each.value.zones
 
   dynamic "kubelet_config" {
     for_each = each.value.kubelet_config == null ? [] : ["kubelet_config"]
@@ -200,19 +192,11 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
   scale_down_mode               = each.value.scale_down_mode
   snapshot_id                   = each.value.snapshot_id
   spot_max_price                = each.value.spot_max_price
-  tags = merge(each.value.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
-    avm_yor_name             = "node_pool_create_after_destroy"
-    avm_git_commit           = "5c71566abb93bfb7a6bf09b3a0fecea8a329c01e"
-    avm_git_file             = "extra_node_pool.tf"
-    avm_git_last_modified_at = "2024-06-11 12:44:16"
-    avm_git_org              = "Azure"
-    avm_git_repo             = "terraform-azurerm-aks"
-    avm_yor_trace            = "691100f5-bff3-41a1-aecb-51e4d18bc56a"
-  } /*<box>*/ : replace(k, "avm_", var.tracing_tags_prefix) => v } : {}) /*</box>*/))
-  ultra_ssd_enabled = each.value.ultra_ssd_enabled
-  vnet_subnet_id    = each.value.vnet_subnet_id
-  workload_runtime  = each.value.workload_runtime
-  zones             = each.value.zones
+  tags                          = each.value.tags
+  ultra_ssd_enabled             = each.value.ultra_ssd_enabled
+  vnet_subnet_id                = each.value.vnet_subnet_id
+  workload_runtime              = each.value.workload_runtime
+  zones                         = each.value.zones
 
   dynamic "kubelet_config" {
     for_each = each.value.kubelet_config == null ? [] : ["kubelet_config"]
