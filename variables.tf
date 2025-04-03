@@ -1356,12 +1356,6 @@ variable "prefix" {
   description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
 }
 
-variable "private_cluster_enabled" {
-  type        = bool
-  default     = false
-  description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
-}
-
 variable "private_cluster_public_fqdn_enabled" {
   type        = bool
   default     = false
@@ -1380,13 +1374,6 @@ variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster. Changing this forces a new resource to be created."
 }
 
-variable "rbac_aad" {
-  type        = bool
-  default     = true
-  description = "(Optional) Is Azure Active Directory integration enabled?"
-  nullable    = false
-}
-
 variable "rbac_aad_admin_group_object_ids" {
   type        = list(string)
   default     = null
@@ -1397,13 +1384,6 @@ variable "rbac_aad_azure_rbac_enabled" {
   type        = bool
   default     = null
   description = "(Optional) Is Role Based Access Control based on Azure AD enabled?"
-}
-
-variable "rbac_aad_managed" {
-  type        = bool
-  default     = false
-  description = "Is the Azure Active Directory integration Managed, meaning that Azure will create/manage the Service Principal used for integration."
-  nullable    = false
 }
 
 variable "rbac_aad_tenant_id" {

@@ -35,7 +35,6 @@ module "aks" {
   identity_ids        = [azurerm_user_assigned_identity.main.id]
   identity_type       = "UserAssigned"
   vnet_subnet_id      = azurerm_subnet.subnet.id
-  rbac_aad            = false
   network_contributor_role_assigned_subnet_ids = {
     vnet_subnet = azurerm_subnet.subnet.id
   }

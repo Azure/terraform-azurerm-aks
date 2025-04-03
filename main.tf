@@ -26,7 +26,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   node_resource_group                 = var.node_resource_group
   oidc_issuer_enabled                 = var.oidc_issuer_enabled
   open_service_mesh_enabled           = var.open_service_mesh_enabled
-  private_cluster_enabled             = var.private_cluster_enabled
   private_cluster_public_fqdn_enabled = var.private_cluster_public_fqdn_enabled
   private_dns_zone_id                 = var.private_dns_zone_id
   role_based_access_control_enabled   = var.role_based_access_control_enabled
@@ -51,7 +50,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       min_count                    = null
       node_count                   = var.agents_count
       node_labels                  = var.agents_labels
-      node_taints                  = var.agents_taints
       only_critical_addons_enabled = var.only_critical_addons_enabled
       orchestrator_version         = var.orchestrator_version
       os_disk_size_gb              = var.os_disk_size_gb
@@ -172,7 +170,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       max_pods                     = var.agents_max_pods
       min_count                    = var.agents_min_count
       node_labels                  = var.agents_labels
-      node_taints                  = var.agents_taints
       only_critical_addons_enabled = var.only_critical_addons_enabled
       orchestrator_version         = var.orchestrator_version
       os_disk_size_gb              = var.os_disk_size_gb
@@ -269,13 +266,12 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "api_server_access_profile" {
-    for_each = var.api_server_authorized_ip_ranges != null || var.api_server_subnet_id != null ? [
+    for_each = var.api_server_authorized_ip_ranges != null ? [
       "api_server_access_profile"
     ] : []
 
     content {
       authorized_ip_ranges = var.api_server_authorized_ip_ranges
-      subnet_id            = var.api_server_subnet_id
     }
   }
   dynamic "auto_scaler_profile" {
@@ -302,24 +298,12 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "azure_active_directory_role_based_access_control" {
-    for_each = var.role_based_access_control_enabled && var.rbac_aad && var.rbac_aad_managed ? ["rbac"] : []
+    for_each = var.role_based_access_control_enabled ? ["rbac"] : []
 
     content {
       admin_group_object_ids = var.rbac_aad_admin_group_object_ids
       azure_rbac_enabled     = var.rbac_aad_azure_rbac_enabled
-      managed                = true
       tenant_id              = var.rbac_aad_tenant_id
-    }
-  }
-  dynamic "azure_active_directory_role_based_access_control" {
-    for_each = var.role_based_access_control_enabled && var.rbac_aad && !var.rbac_aad_managed ? ["rbac"] : []
-
-    content {
-      client_app_id     = var.rbac_aad_client_app_id
-      managed           = false
-      server_app_id     = var.rbac_aad_server_app_id
-      server_app_secret = var.rbac_aad_server_app_secret
-      tenant_id         = var.rbac_aad_tenant_id
     }
   }
   dynamic "confidential_computing" {
@@ -574,7 +558,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       http_application_routing_enabled,
       http_proxy_config[0].no_proxy,
       kubernetes_version,
-      public_network_access_enabled,
       # we might have a random suffix in cluster's name so we have to ignore it here, but we've traced user supplied cluster name by `null_resource.kubernetes_cluster_name_keeper` so when the name is changed we'll recreate this resource.
       name,
     ]
@@ -606,10 +589,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = local.automatic_channel_upgrade_check
       error_message = "Either disable automatic upgrades, or specify `kubernetes_version` or `orchestrator_version` only up to the minor version when using `automatic_channel_upgrade=patch`. You don't need to specify `kubernetes_version` at all when using `automatic_channel_upgrade=stable|rapid|node-image`, where `orchestrator_version` always must be set to `null`."
-    }
-    precondition {
-      condition     = var.role_based_access_control_enabled || !var.rbac_aad
-      error_message = "Enabling Azure Active Directory integration requires that `role_based_access_control_enabled` be set to true."
     }
     precondition {
       condition     = !(var.kms_enabled && var.identity_type != "UserAssigned")
@@ -659,10 +638,6 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = var.prefix == null || var.dns_prefix_private_cluster == null
       error_message = "Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
-    }
-    precondition {
-      condition     = var.dns_prefix_private_cluster == null || var.private_cluster_enabled
-      error_message = "When `dns_prefix_private_cluster` is set, `private_cluster_enabled` must be set to `true`."
     }
     precondition {
       condition     = var.dns_prefix_private_cluster == null || var.identity_type == "UserAssigned" || var.client_id != ""
