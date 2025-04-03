@@ -47,9 +47,6 @@ module "aks_without_monitor" {
   #checkov:skip=CKV_AZURE_4:The logging is turn off for demo purpose. DO NOT DO THIS IN PRODUCTION ENVIRONMENT!
   log_analytics_workspace_enabled   = false
   net_profile_pod_cidr              = "10.1.0.0/16"
-  private_cluster_enabled           = true
-  rbac_aad                          = true
-  rbac_aad_managed                  = true
   role_based_access_control_enabled = true
   web_app_routing = {
     dns_zone_ids = [azurerm_dns_zone.aks_web_app_routing.id]
