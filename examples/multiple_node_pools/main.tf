@@ -50,7 +50,6 @@ module "aks" {
   location             = local.resource_group.location
   os_disk_size_gb      = 60
   sku_tier             = "Standard"
-  rbac_aad             = false
   vnet_subnet_id       = azurerm_subnet.test.id
   node_pools           = local.nodes
   kubernetes_version   = var.kubernetes_version
