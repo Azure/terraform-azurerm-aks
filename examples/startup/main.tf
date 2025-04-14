@@ -104,7 +104,7 @@ module "aks" {
   network_policy                    = "azure"
   node_os_channel_upgrade           = "NodeImage"
   os_disk_size_gb                   = 60
-  rbac_aad                          = false
+  rbac_aad                          = true
   role_based_access_control_enabled = true
   sku_tier                          = "Standard"
   vnet_subnet_id                    = azurerm_subnet.test.id
