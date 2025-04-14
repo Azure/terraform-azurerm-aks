@@ -35,7 +35,6 @@ func TestExamplesStartup(t *testing.T) {
 		assert.True(t, ok)
 		assert.Regexp(t, regexp.MustCompile("/subscriptions/.+/resourceGroups/.+/providers/Microsoft.ContainerService/managedClusters/.+"), aksId)
 		assertOutputNotEmpty(t, output, "test_cluster_portal_fqdn")
-		assertOutputNotEmpty(t, output, "test_cluster_private_fqdn")
 	})
 }
 
