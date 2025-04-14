@@ -49,6 +49,7 @@ module "aks" {
   resource_group_name  = local.resource_group.name
   location             = local.resource_group.location
   os_disk_size_gb      = 60
+  rbac_aad             = true
   sku_tier             = "Standard"
   vnet_subnet_id       = azurerm_subnet.test.id
   node_pools           = local.nodes

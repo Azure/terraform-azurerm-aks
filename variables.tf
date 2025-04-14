@@ -1386,6 +1386,13 @@ variable "rbac_aad_azure_rbac_enabled" {
   description = "(Optional) Is Role Based Access Control based on Azure AD enabled?"
 }
 
+variable "rbac_aad" {
+  type        = bool
+  default     = true
+  description = "(Optional) Is Azure Active Directory integration enabled?"
+  nullable    = false
+}
+
 variable "rbac_aad_tenant_id" {
   type        = string
   default     = null

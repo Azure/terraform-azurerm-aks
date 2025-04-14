@@ -298,11 +298,12 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "azure_active_directory_role_based_access_control" {
-    for_each = var.role_based_access_control_enabled ? ["rbac"] : []
+    for_each = var.role_based_access_control_enabled && var.rbac_aad ? ["rbac"] : []
 
     content {
       admin_group_object_ids = var.rbac_aad_admin_group_object_ids
       azure_rbac_enabled     = var.rbac_aad_azure_rbac_enabled
+      managed                = true
       tenant_id              = var.rbac_aad_tenant_id
     }
   }
