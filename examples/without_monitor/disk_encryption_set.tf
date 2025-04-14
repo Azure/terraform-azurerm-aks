@@ -8,13 +8,15 @@ resource "random_string" "key_vault_prefix" {
 }
 
 module "public_ip" {
+  count = var.key_vault_firewall_bypass_ip_cidr == null ? 1 : 0
+
   source  = "lonegunmanb/public-ip/lonegunmanb"
   version = "0.1.0"
 }
 
 locals {
   # We cannot use coalesce here because it's not short-circuit and public_ip's index will cause error
-  public_ip = var.key_vault_firewall_bypass_ip_cidr == null ? module.public_ip.public_ip : var.key_vault_firewall_bypass_ip_cidr
+  public_ip = try(module.public_ip[0].public_ip, var.key_vault_firewall_bypass_ip_cidr)
 }
 
 resource "azurerm_key_vault" "des_vault" {

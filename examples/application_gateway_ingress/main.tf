@@ -182,6 +182,7 @@ module "aks" {
   network_policy                                  = "azure"
   os_disk_size_gb                                 = 60
   role_based_access_control_enabled               = true
+  rbac_aad                                        = true
   sku_tier                                        = "Standard"
   vnet_subnet_id                                  = var.bring_your_own_vnet ? azurerm_subnet.test[0].id : null
   depends_on = [
