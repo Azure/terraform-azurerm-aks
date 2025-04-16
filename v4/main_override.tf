@@ -273,6 +273,16 @@ resource "azurerm_kubernetes_cluster" "main" {
       snapshot_controller_enabled = var.storage_profile_snapshot_controller_enabled
     }
   }
+
+  dynamic "upgrade_override" {
+    for_each = var.upgrade_override != null ? ["use_upgrade_override"] : []
+    content {
+      effective_until       = var.upgrade_override.effective_until
+      force_upgrade_enabled = var.upgrade_override.force_upgrade_enabled
+    }
+
+  }
+
   dynamic "web_app_routing" {
     for_each = var.web_app_routing == null ? [] : ["web_app_routing"]
 
