@@ -16,12 +16,12 @@ In most cases, you will need to adjust your Terraform code to accommodate the ch
 
 To help you in this process, we have provided detailed documentation on the breaking changes, new features, and any deprecated functionalities. Please take the time to read through these resources to avoid any potential issues or disruptions to your infrastructure.
 
-* [Notice on Upgrade to v10.x](./NoticeOnUpgradeTov10.0.md)
-* [Notice on Upgrade to v9.x](./NoticeOnUpgradeTov9.0.md)
-* [Notice on Upgrade to v8.x](./NoticeOnUpgradeTov8.0.md)
-* [Notice on Upgrade to v7.x](./NoticeOnUpgradeTov7.0.md)
-* [Notice on Upgrade to v6.x](./NoticeOnUpgradeTov6.0.md)
-* [Notice on Upgrade to v5.x](./NoticeOnUpgradeTov5.0.md)
+* [Notice on Upgrade to v10.x](https://github.com/Azure/terraform-azurerm-aks/blob/main/NoticeOnUpgradeTov10.0.md)
+* [Notice on Upgrade to v9.x](https://github.com/Azure/terraform-azurerm-aks/blob/main/NoticeOnUpgradeTov9.0.md)
+* [Notice on Upgrade to v8.x](https://github.com/Azure/terraform-azurerm-aks/blob/main/NoticeOnUpgradeTov8.0.md)
+* [Notice on Upgrade to v7.x](https://github.com/Azure/terraform-azurerm-aks/blob/main/NoticeOnUpgradeTov7.0.md)
+* [Notice on Upgrade to v6.x](https://github.com/Azure/terraform-azurerm-aks/blob/main/NoticeOnUpgradeTov6.0.md)
+* [Notice on Upgrade to v5.x](https://github.com/Azure/terraform-azurerm-aks/blob/main/NoticeOnUpgradeTov5.0.md)
 
 Remember, upgrading to a major version with breaking changes should be done carefully and thoroughly tested in your environment. If you have any questions or concerns, please don't hesitate to reach out to our support team for assistance.
 
