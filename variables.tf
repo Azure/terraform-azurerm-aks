@@ -394,10 +394,6 @@ variable "client_id" {
   description = "(Optional) The Client ID (appId) for the Service Principal used for the AKS deployment"
   nullable    = false
 
-  validation {
-    condition     = var.identity_ids == null || var.client_id == ""
-    error_message = "Cannot set both `client_id` and `identity_ids`."
-  }
 }
 
 variable "client_secret" {
