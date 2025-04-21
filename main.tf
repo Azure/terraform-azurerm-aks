@@ -576,6 +576,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "If use identity and `UserAssigned` is set, an `identity_ids` must be set as well."
     }
     precondition {
+      condition     = var.identity_ids == null || var.client_id == ""
+      error_message = "Cannot set both `client_id` and `identity_ids`."
+    }
+    precondition {
       condition     = var.cost_analysis_enabled != true || (var.sku_tier == "Standard" || var.sku_tier == "Premium")
       error_message = "`sku_tier` must be either `Standard` or `Premium` when cost analysis is enabled."
     }
