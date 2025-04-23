@@ -9,7 +9,7 @@ resource "azurerm_role_assignment" "acr" {
 
 # /subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/acceptanceTestResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testIdentity
 data "azurerm_user_assigned_identity" "cluster_identity" {
-  count = (var.client_id == "" || var.client_secret == "") && var.identity_type == "UserAssigned" ? 1 : 0
+  count = (nonsensitive(var.client_id) == "" || nonsensitive(var.client_secret) == "") && var.identity_type == "UserAssigned" ? 1 : 0
 
   name                = split("/", var.identity_ids[0])[8]
   resource_group_name = split("/", var.identity_ids[0])[4]
@@ -22,7 +22,7 @@ data "azurerm_user_assigned_identity" "cluster_identity" {
 # https://learn.microsoft.com/en-us/azure/aks/configure-azure-cni#prerequisites
 # https://github.com/Azure/terraform-azurerm-aks/issues/178
 resource "azurerm_role_assignment" "network_contributor" {
-  for_each = var.create_role_assignment_network_contributor && (var.client_id == "" || var.client_secret == "") ? local.subnet_ids : []
+  for_each = var.create_role_assignment_network_contributor && (nonsensitive(var.client_id) == "" || nonsensitive(var.client_secret) == "") ? local.subnet_ids : []
 
   principal_id         = coalesce(try(data.azurerm_user_assigned_identity.cluster_identity[0].principal_id, azurerm_kubernetes_cluster.main.identity[0].principal_id), var.client_id)
   scope                = each.value
