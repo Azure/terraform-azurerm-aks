@@ -36,7 +36,7 @@ locals {
       name                  = substr("worker${i}${random_id.prefix.hex}", 0, 8)
       vm_size               = "Standard_D2s_v3"
       node_count            = 1
-      vnet_subnet_id        = azurerm_subnet.test.id
+      vnet_subnet           = { id = azurerm_subnet.test.id }
       create_before_destroy = i % 2 == 0
     }
   }
@@ -45,14 +45,17 @@ locals {
 module "aks" {
   source = "../.."
 
-  prefix               = "prefix-${random_id.prefix.hex}"
-  resource_group_name  = local.resource_group.name
-  location             = local.resource_group.location
-  os_disk_size_gb      = 60
-  rbac_aad             = true
-  sku_tier             = "Standard"
-  vnet_subnet_id       = azurerm_subnet.test.id
-  node_pools           = local.nodes
-  kubernetes_version   = var.kubernetes_version
-  orchestrator_version = var.orchestrator_version
+  prefix              = "prefix-${random_id.prefix.hex}"
+  resource_group_name = local.resource_group.name
+  location            = local.resource_group.location
+  os_disk_size_gb     = 60
+  rbac_aad            = true
+  sku_tier            = "Standard"
+  vnet_subnet = {
+    id = azurerm_subnet.test.id
+  }
+  node_pools                                 = local.nodes
+  kubernetes_version                         = var.kubernetes_version
+  orchestrator_version                       = var.orchestrator_version
+  create_role_assignment_network_contributor = true
 }

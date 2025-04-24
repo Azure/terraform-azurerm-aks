@@ -13,7 +13,7 @@ locals {
   # Abstract the decision whether to create an Analytics Workspace or not.
   create_analytics_solution        = var.log_analytics_workspace_enabled && var.log_analytics_solution == null
   create_analytics_workspace       = var.log_analytics_workspace_enabled && var.log_analytics_workspace == null
-  default_nodepool_subnet_segments = try(split("/", var.vnet_subnet_id), [])
+  default_nodepool_subnet_segments = try(split("/", try(var.vnet_subnet.id, null)), [])
   # Application Gateway ID: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mygroup1/providers/Microsoft.Network/applicationGateways/myGateway1
   existing_application_gateway_for_ingress_id             = try(var.brown_field_application_gateway_for_ingress.id, null)
   existing_application_gateway_resource_group_for_ingress = var.brown_field_application_gateway_for_ingress == null ? null : local.existing_application_gateway_segments_for_ingress[4]
@@ -48,17 +48,22 @@ locals {
   ) : null # Finally, the Log Analytics Workspace should be disabled.
   node_pools_create_after_destroy  = { for k, p in var.node_pools : k => p if p.create_before_destroy != true }
   node_pools_create_before_destroy = { for k, p in var.node_pools : k => p if p.create_before_destroy == true }
-  potential_subnet_ids = flatten(concat([
-    for pool in var.node_pools : [
-      pool.vnet_subnet_id,
-      pool.pod_subnet_id
-    ]
-  ], [var.vnet_subnet_id]))
+  subnets = merge({ for k, v in merge(
+    [
+      for key, pool in var.node_pools : {
+        "${key}-vnet-subnet" : pool.vnet_subnet,
+        "${key}-pod-subnet" : pool.pod_subnet,
+      }
+    ]...) : k => v if v != null }, var.vnet_subnet == null ? {} : {
+    "vnet-subnet" : {
+      id = var.vnet_subnet.id
+    }
+  })
   private_dns_zone_name                                 = try(reverse(split("/", var.private_dns_zone_id))[0], null)
   query_datasource_for_log_analytics_workspace_location = var.log_analytics_workspace_enabled && (var.log_analytics_workspace != null ? var.log_analytics_workspace.location == null : false)
-  subnet_ids                                            = toset([for id in local.potential_subnet_ids : id if id != null])
-  use_brown_field_gw_for_ingress                        = var.brown_field_application_gateway_for_ingress != null
-  use_green_field_gw_for_ingress                        = var.green_field_application_gateway_for_ingress != null
+  # subnet_ids                                            = for id in local.potential_subnet_ids : id if id != null
+  use_brown_field_gw_for_ingress = var.brown_field_application_gateway_for_ingress != null
+  use_green_field_gw_for_ingress = var.green_field_application_gateway_for_ingress != null
   valid_private_dns_zone_regexs = [
     "private\\.[a-z0-9]+\\.azmk8s\\.io",
     "privatelink\\.[a-z0-9]+\\.azmk8s\\.io",

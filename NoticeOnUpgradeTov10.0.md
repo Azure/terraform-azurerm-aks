@@ -26,6 +26,18 @@ The changes in this pull request introduce support for a Data Collection Rule (D
 * `rbac_aad_server_app_id`
 * `rbac_aad_server_app_secret`
 
+## `var.pod_subnet_id` has been replaced by `var.pod_subnet.id`
+
+## `var.vnet_subnet_id` has been replaced by `var.vnet_subnet.id`
+
+## `var.node_pools.pod_subnet_id` has been replaced by `var.node_pools.pod_subnet.id`
+
+## `var.node_pools.vnet_subnet_id` has been replaced by `var.node_pools.vnet_subnet.id`
+
+## `azurerm_role_assignment.network_contributor` will be re-created
+
+Since `for_each`'s target has been changed from a set of string to a map of object to avoid "Known after apply" values in iterator, we have to re-create the `azurerm_role_assignment.network_contributor` resource. This will cause the role assignment to be removed and re-added, which may result in a brief period of time where the role assignment is not present.
+
 ## @zioproto is no longer a maintainer of this module
 
 For personal reasons, @zioproto is no longer a maintainer of this module. I want to express my sincere gratitude for his contributions and support over the years. His dedication and hard work are invaluable to this module.
