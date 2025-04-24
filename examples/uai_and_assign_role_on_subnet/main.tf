@@ -34,7 +34,9 @@ module "aks" {
   resource_group_name = azurerm_resource_group.rg.name
   identity_ids        = [azurerm_user_assigned_identity.main.id]
   identity_type       = "UserAssigned"
-  vnet_subnet_id      = azurerm_subnet.subnet.id
+  vnet_subnet = {
+    id = azurerm_subnet.subnet.id
+  }
   network_contributor_role_assigned_subnet_ids = {
     vnet_subnet = azurerm_subnet.subnet.id
   }
