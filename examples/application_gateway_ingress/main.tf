@@ -184,7 +184,9 @@ module "aks" {
   role_based_access_control_enabled               = true
   rbac_aad                                        = true
   sku_tier                                        = "Standard"
-  vnet_subnet_id                                  = var.bring_your_own_vnet ? azurerm_subnet.test[0].id : null
+  vnet_subnet = var.bring_your_own_vnet ? {
+    id = azurerm_subnet.test[0].id
+  } : null
   depends_on = [
     azurerm_subnet.test,
   ]
