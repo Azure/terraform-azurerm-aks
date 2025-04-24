@@ -175,7 +175,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       os_disk_size_gb              = var.os_disk_size_gb
       os_disk_type                 = var.os_disk_type
       os_sku                       = var.os_sku
-      pod_subnet_id                = var.pod_subnet_id
+      pod_subnet_id                = try(var.pod_subnet.id, null)
       proximity_placement_group_id = var.agents_proximity_placement_group_id
       scale_down_mode              = var.scale_down_mode
       snapshot_id                  = var.snapshot_id
