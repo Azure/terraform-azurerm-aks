@@ -70,22 +70,26 @@ variable "node_pools" {
     node_network_profile = optional(object({
       node_public_ip_tags = optional(map(string))
     }))
-    node_labels                  = optional(map(string))
-    node_public_ip_prefix_id     = optional(string)
-    node_taints                  = optional(list(string))
-    orchestrator_version         = optional(string)
-    os_disk_size_gb              = optional(number)
-    os_disk_type                 = optional(string, "Managed")
-    os_sku                       = optional(string)
-    os_type                      = optional(string, "Linux")
-    pod_subnet_id                = optional(string)
+    node_labels              = optional(map(string))
+    node_public_ip_prefix_id = optional(string)
+    node_taints              = optional(list(string))
+    orchestrator_version     = optional(string)
+    os_disk_size_gb          = optional(number)
+    os_disk_type             = optional(string, "Managed")
+    os_sku                   = optional(string)
+    os_type                  = optional(string, "Linux")
+    pod_subnet = optional(object({
+      id = string
+    }), null)
     priority                     = optional(string, "Regular")
     proximity_placement_group_id = optional(string)
     spot_max_price               = optional(number)
     scale_down_mode              = optional(string, "Delete")
     snapshot_id                  = optional(string)
     ultra_ssd_enabled            = optional(bool)
-    vnet_subnet_id               = optional(string)
+    vnet_subnet = optional(object({
+      id = string
+    }), null)
     upgrade_settings = optional(object({
       drain_timeout_in_minutes      = number
       node_soak_duration_in_minutes = number
@@ -181,14 +185,18 @@ variable "node_pools" {
     os_disk_type                 = (Optional) The type of disk which should be used for the Operating System. Possible values are `Ephemeral` and `Managed`. Defaults to `Managed`. Changing this forces a new resource to be created.
     os_sku                       = (Optional) Specifies the OS SKU used by the agent pool. Possible values include: `Ubuntu`, `CBLMariner`, `Mariner`, `Windows2019`, `Windows2022`. If not specified, the default is `Ubuntu` if OSType=Linux or `Windows2019` if OSType=Windows. And the default Windows OSSKU will be changed to `Windows2022` after Windows2019 is deprecated. Changing this forces a new resource to be created.
     os_type                      = (Optional) The Operating System which should be used for this Node Pool. Changing this forces a new resource to be created. Possible values are `Linux` and `Windows`. Defaults to `Linux`.
-    pod_subnet_id                = (Optional) The ID of the Subnet where the pods in the Node Pool should exist. Changing this forces a new resource to be created.
+    pod_subnet                   = optional(object({
+        id                       = The ID of the Subnet where the pods in the Node Pool should exist. Changing this forces a new resource to be created.
+    }))
     priority                     = (Optional) The Priority for Virtual Machines within the Virtual Machine Scale Set that powers this Node Pool. Possible values are `Regular` and `Spot`. Defaults to `Regular`. Changing this forces a new resource to be created.
     proximity_placement_group_id = (Optional) The ID of the Proximity Placement Group where the Virtual Machine Scale Set that powers this Node Pool will be placed. Changing this forces a new resource to be created. When setting `priority` to Spot - you must configure an `eviction_policy`, `spot_max_price` and add the applicable `node_labels` and `node_taints` [as per the Azure Documentation](https://docs.microsoft.com/azure/aks/spot-node-pool).
     spot_max_price               = (Optional) The maximum price you're willing to pay in USD per Virtual Machine. Valid values are `-1` (the current on-demand price for a Virtual Machine) or a positive value with up to five decimal places. Changing this forces a new resource to be created. This field can only be configured when `priority` is set to `Spot`.
     scale_down_mode              = (Optional) Specifies how the node pool should deal with scaled-down nodes. Allowed values are `Delete` and `Deallocate`. Defaults to `Delete`.
     snapshot_id                  = (Optional) The ID of the Snapshot which should be used to create this Node Pool. Changing this forces a new resource to be created.
     ultra_ssd_enabled            = (Optional) Used to specify whether the UltraSSD is enabled in the Node Pool. Defaults to `false`. See [the documentation](https://docs.microsoft.com/azure/aks/use-ultra-disks) for more information. Changing this forces a new resource to be created.
-    vnet_subnet_id               = (Optional) The ID of the Subnet where this Node Pool should exist. Changing this forces a new resource to be created. A route table must be configured on this Subnet.
+    vnet_subnet                  = optional(object({
+        id                       = The ID of the Subnet where this Node Pool should exist. Changing this forces a new resource to be created. A route table must be configured on this Subnet.
+    }))
     upgrade_settings = optional(object({
       drain_timeout_in_minutes      = number
       node_soak_duration_in_minutes = number

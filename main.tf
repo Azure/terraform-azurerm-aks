@@ -55,7 +55,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       os_disk_size_gb              = var.os_disk_size_gb
       os_disk_type                 = var.os_disk_type
       os_sku                       = var.os_sku
-      pod_subnet_id                = var.pod_subnet_id
+      pod_subnet_id                = try(var.pod_subnet.id, null)
       proximity_placement_group_id = var.agents_proximity_placement_group_id
       scale_down_mode              = var.scale_down_mode
       snapshot_id                  = var.snapshot_id
@@ -63,7 +63,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       temporary_name_for_rotation  = var.temporary_name_for_rotation
       type                         = var.agents_type
       ultra_ssd_enabled            = var.ultra_ssd_enabled
-      vnet_subnet_id               = var.vnet_subnet_id
+      vnet_subnet_id               = try(var.vnet_subnet.id, null)
       zones                        = var.agents_availability_zones
 
       dynamic "kubelet_config" {
@@ -183,7 +183,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       temporary_name_for_rotation  = var.temporary_name_for_rotation
       type                         = var.agents_type
       ultra_ssd_enabled            = var.ultra_ssd_enabled
-      vnet_subnet_id               = var.vnet_subnet_id
+      vnet_subnet_id               = try(var.vnet_subnet.id, null)
       zones                        = var.agents_availability_zones
 
       dynamic "kubelet_config" {
@@ -616,8 +616,8 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "When ebpf_data_plane is set to cilium, the network_plugin field can only be set to azure."
     }
     precondition {
-      condition     = var.ebpf_data_plane != "cilium" || var.network_plugin_mode == "overlay" || var.pod_subnet_id != null
-      error_message = "When ebpf_data_plane is set to cilium, one of either network_plugin_mode = `overlay` or pod_subnet_id must be specified."
+      condition     = var.ebpf_data_plane != "cilium" || var.network_plugin_mode == "overlay" || var.pod_subnet != null
+      error_message = "When ebpf_data_plane is set to cilium, one of either network_plugin_mode = `overlay` or pod_subnet.id must be specified."
     }
     precondition {
       condition     = can(coalesce(var.cluster_name, var.prefix, var.dns_prefix_private_cluster))
