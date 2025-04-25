@@ -401,6 +401,7 @@ variable "client_secret" {
   default     = ""
   description = "(Optional) The Client Secret (password) for the Service Principal used for the AKS deployment"
   nullable    = false
+  sensitive   = true
 }
 
 variable "cluster_log_analytics_workspace_name" {

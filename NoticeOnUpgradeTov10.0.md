@@ -38,6 +38,10 @@ The changes in this pull request introduce support for a Data Collection Rule (D
 
 Since `for_each`'s target has been changed from a set of string to a map of object to avoid "Known after apply" values in iterator, we have to re-create the `azurerm_role_assignment.network_contributor` resource. This will cause the role assignment to be removed and re-added, which may result in a brief period of time where the role assignment is not present.
 
+## When `var.create_role_assignment_network_contributor` is `true`, you must set different subnet for different node pools, include default pool, otherwise you must set `var.create_role_assignment_network_contributor` to `false` and manage role assignments yourself.
+
+## `var.client_secret` now is `sensitive`
+
 ## @zioproto is no longer a maintainer of this module
 
 For personal reasons, @zioproto is no longer a maintainer of this module. I want to express my sincere gratitude for his contributions and support over the years. His dedication and hard work are invaluable to this module.
