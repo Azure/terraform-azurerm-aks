@@ -23,9 +23,17 @@ resource "azurerm_virtual_network" "test" {
   resource_group_name = local.resource_group.name
 }
 
-resource "azurerm_subnet" "test" {
+resource "azurerm_subnet" "default_node_pool_subnet" {
   address_prefixes     = ["10.52.0.0/24"]
-  name                 = "${random_id.prefix.hex}-sn"
+  name                 = "${random_id.prefix.hex}-defaultsn"
+  resource_group_name  = local.resource_group.name
+  virtual_network_name = azurerm_virtual_network.test.name
+}
+
+resource "azurerm_subnet" "node_pool_subnet" {
+  count                = 3
+  address_prefixes     = ["10.52.${count.index + 1}.0/24"]
+  name                 = "${random_id.prefix.hex}-sn${count.index}"
   resource_group_name  = local.resource_group.name
   virtual_network_name = azurerm_virtual_network.test.name
 }
@@ -36,7 +44,7 @@ locals {
       name                  = substr("worker${i}${random_id.prefix.hex}", 0, 8)
       vm_size               = "Standard_D2s_v3"
       node_count            = 1
-      vnet_subnet           = { id = azurerm_subnet.test.id }
+      vnet_subnet           = { id = azurerm_subnet.node_pool_subnet[i].id }
       create_before_destroy = i % 2 == 0
     }
   }
@@ -52,7 +60,7 @@ module "aks" {
   rbac_aad            = true
   sku_tier            = "Standard"
   vnet_subnet = {
-    id = azurerm_subnet.test.id
+    id = azurerm_subnet.default_node_pool_subnet.id
   }
   node_pools                                 = local.nodes
   kubernetes_version                         = var.kubernetes_version
