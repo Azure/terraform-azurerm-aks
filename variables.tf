@@ -393,7 +393,6 @@ variable "client_id" {
   default     = ""
   description = "(Optional) The Client ID (appId) for the Service Principal used for the AKS deployment"
   nullable    = false
-
 }
 
 variable "client_secret" {
@@ -586,6 +585,12 @@ variable "image_cleaner_interval_hours" {
   type        = number
   default     = 48
   description = "(Optional) Specifies the interval in hours when images should be cleaned up. Defaults to `48`."
+}
+
+variable "interval_before_cluster_update" {
+  type        = string
+  default     = "30s"
+  description = "Interval before cluster kubernetes version update, defaults to `30s`. Set this variable to `null` would disable interval before cluster kubernetes version update."
 }
 
 variable "key_vault_secrets_provider_enabled" {
@@ -1353,8 +1358,7 @@ variable "pod_subnet" {
   type = object({
     id = string
   })
-  default = null
-
+  default     = null
   description = <<-EOT
   object({
     id = The ID of the Subnet where the pods in the default Node Pool should exist. Changing this forces a new resource to be created.
@@ -1386,6 +1390,13 @@ variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster. Changing this forces a new resource to be created."
 }
 
+variable "rbac_aad" {
+  type        = bool
+  default     = true
+  description = "(Optional) Is Azure Active Directory integration enabled?"
+  nullable    = false
+}
+
 variable "rbac_aad_admin_group_object_ids" {
   type        = list(string)
   default     = null
@@ -1396,13 +1407,6 @@ variable "rbac_aad_azure_rbac_enabled" {
   type        = bool
   default     = null
   description = "(Optional) Is Role Based Access Control based on Azure AD enabled?"
-}
-
-variable "rbac_aad" {
-  type        = bool
-  default     = true
-  description = "(Optional) Is Azure Active Directory integration enabled?"
-  nullable    = false
 }
 
 variable "rbac_aad_tenant_id" {

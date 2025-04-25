@@ -42,6 +42,10 @@ Since `for_each`'s target has been changed from a set of string to a map of obje
 
 ## `var.client_secret` now is `sensitive`
 
+## New interval between cluster creation and kubernetes version upgrade
+
+New variable `interval_before_cluster_update` was added. Sometimes when we tried to update cluster's kubernetes version after cluster creation, we got the error `Operation is not allowed because there's an in progress update managed cluster operation on the managed cluster started`. A `time_sleep` was added to avoid such potential conflict. You can set this variable to `null` to bypass the sleep.
+
 ## @zioproto is no longer a maintainer of this module
 
 For personal reasons, @zioproto is no longer a maintainer of this module. I want to express my sincere gratitude for his contributions and support over the years. His dedication and hard work are invaluable to this module.

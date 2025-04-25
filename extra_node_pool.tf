@@ -307,6 +307,7 @@ resource "null_resource" "pool_name_keeper" {
   triggers = {
     pool_name = each.value.name
   }
+
   lifecycle {
     precondition {
       condition     = !var.create_role_assignment_network_contributor || length(distinct(local.subnet_ids)) == length(local.subnet_ids)
