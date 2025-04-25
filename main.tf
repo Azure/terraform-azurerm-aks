@@ -653,6 +653,9 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "According to the [document](https://learn.microsoft.com/en-us/azure/aks/private-clusters?tabs=azure-portal#configure-a-private-dns-zone), the private DNS zone must be in one of the following format: `privatelink.<region>.azmk8s.io`, `<subzone>.privatelink.<region>.azmk8s.io`, `private.<region>.azmk8s.io`, `<subzone>.private.<region>.azmk8s.io`"
     }
   }
+  depends_on = [
+    null_resource.pool_name_keeper,
+  ]
 }
 
 resource "null_resource" "kubernetes_cluster_name_keeper" {

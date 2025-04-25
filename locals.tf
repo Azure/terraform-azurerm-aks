@@ -59,6 +59,7 @@ locals {
       id = var.vnet_subnet.id
     }
   })
+  subnet_ids                                            = [for _, s in local.subnets : s.id]
   private_dns_zone_name                                 = try(reverse(split("/", var.private_dns_zone_id))[0], null)
   query_datasource_for_log_analytics_workspace_location = var.log_analytics_workspace_enabled && (var.log_analytics_workspace != null ? var.log_analytics_workspace.location == null : false)
   # subnet_ids                                            = for id in local.potential_subnet_ids : id if id != null

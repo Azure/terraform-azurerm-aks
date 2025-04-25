@@ -307,4 +307,10 @@ resource "null_resource" "pool_name_keeper" {
   triggers = {
     pool_name = each.value.name
   }
+  lifecycle {
+    precondition {
+      condition     = !var.create_role_assignment_network_contributor || length(distinct(local.subnet_ids)) == length(local.subnet_ids)
+      error_message = "When `var.create_role_assignment_network_contributor` is `true`, you must set different subnet for different node pools, include default pool, otherwise you must set `var.create_role_assignment_network_contributor` to `false` and manage role assignments yourself."
+    }
+  }
 }
