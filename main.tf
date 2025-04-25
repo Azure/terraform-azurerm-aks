@@ -554,6 +554,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
+  depends_on = [
+    null_resource.pool_name_keeper,
+  ]
+
   lifecycle {
     ignore_changes = [
       http_application_routing_enabled,
@@ -653,9 +657,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "According to the [document](https://learn.microsoft.com/en-us/azure/aks/private-clusters?tabs=azure-portal#configure-a-private-dns-zone), the private DNS zone must be in one of the following format: `privatelink.<region>.azmk8s.io`, `<subzone>.privatelink.<region>.azmk8s.io`, `private.<region>.azmk8s.io`, `<subzone>.private.<region>.azmk8s.io`"
     }
   }
-  depends_on = [
-    null_resource.pool_name_keeper,
-  ]
 }
 
 resource "null_resource" "kubernetes_cluster_name_keeper" {
@@ -670,6 +671,22 @@ resource "null_resource" "kubernetes_version_keeper" {
   }
 }
 
+resource "time_sleep" "interval_before_cluster_update" {
+  count = var.interval_before_cluster_update == null ? 0 : 1
+
+  create_duration = var.interval_before_cluster_update
+
+  depends_on = [
+    azurerm_kubernetes_cluster.main,
+  ]
+
+  lifecycle {
+    replace_triggered_by = [
+      null_resource.kubernetes_version_keeper.id,
+    ]
+  }
+}
+
 resource "azapi_update_resource" "aks_cluster_post_create" {
   type = "Microsoft.ContainerService/managedClusters@2024-02-01"
   body = {
@@ -678,6 +695,10 @@ resource "azapi_update_resource" "aks_cluster_post_create" {
     }
   }
   resource_id = azurerm_kubernetes_cluster.main.id
+
+  depends_on = [
+    time_sleep.interval_before_cluster_update,
+  ]
 
   lifecycle {
     ignore_changes       = all

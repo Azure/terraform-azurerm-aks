@@ -46,8 +46,11 @@ locals {
       resource_group_name = split("/", var.log_analytics_workspace.id)[4]
     }
   ) : null # Finally, the Log Analytics Workspace should be disabled.
-  node_pools_create_after_destroy  = { for k, p in var.node_pools : k => p if p.create_before_destroy != true }
-  node_pools_create_before_destroy = { for k, p in var.node_pools : k => p if p.create_before_destroy == true }
+  node_pools_create_after_destroy                       = { for k, p in var.node_pools : k => p if p.create_before_destroy != true }
+  node_pools_create_before_destroy                      = { for k, p in var.node_pools : k => p if p.create_before_destroy == true }
+  private_dns_zone_name                                 = try(reverse(split("/", var.private_dns_zone_id))[0], null)
+  query_datasource_for_log_analytics_workspace_location = var.log_analytics_workspace_enabled && (var.log_analytics_workspace != null ? var.log_analytics_workspace.location == null : false)
+  subnet_ids                                            = [for _, s in local.subnets : s.id]
   subnets = merge({ for k, v in merge(
     [
       for key, pool in var.node_pools : {
@@ -59,9 +62,6 @@ locals {
       id = var.vnet_subnet.id
     }
   })
-  subnet_ids                                            = [for _, s in local.subnets : s.id]
-  private_dns_zone_name                                 = try(reverse(split("/", var.private_dns_zone_id))[0], null)
-  query_datasource_for_log_analytics_workspace_location = var.log_analytics_workspace_enabled && (var.log_analytics_workspace != null ? var.log_analytics_workspace.location == null : false)
   # subnet_ids                                            = for id in local.potential_subnet_ids : id if id != null
   use_brown_field_gw_for_ingress = var.brown_field_application_gateway_for_ingress != null
   use_green_field_gw_for_ingress = var.green_field_application_gateway_for_ingress != null
