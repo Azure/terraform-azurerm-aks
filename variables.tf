@@ -1372,6 +1372,12 @@ variable "prefix" {
   description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
 }
 
+variable "private_cluster_enabled" {
+  type        = bool
+  default     = false
+  description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
+}
+
 variable "private_cluster_public_fqdn_enabled" {
   type        = bool
   default     = false

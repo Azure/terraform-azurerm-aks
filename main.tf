@@ -26,6 +26,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   node_resource_group                 = var.node_resource_group
   oidc_issuer_enabled                 = var.oidc_issuer_enabled
   open_service_mesh_enabled           = var.open_service_mesh_enabled
+  private_cluster_enabled             = var.private_cluster_enabled
   private_cluster_public_fqdn_enabled = var.private_cluster_public_fqdn_enabled
   private_dns_zone_id                 = var.private_dns_zone_id
   role_based_access_control_enabled   = var.role_based_access_control_enabled
@@ -647,6 +648,10 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = var.prefix == null || var.dns_prefix_private_cluster == null
       error_message = "Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
+    }
+    precondition {
+      condition     = var.dns_prefix_private_cluster == null || var.private_cluster_enabled
+      error_message = "When `dns_prefix_private_cluster` is set, `private_cluster_enabled` must be set to `true`."
     }
     precondition {
       condition     = var.dns_prefix_private_cluster == null || var.identity_type == "UserAssigned" || var.client_id != ""

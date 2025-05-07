@@ -181,6 +181,7 @@ module "aks" {
   network_plugin                                  = "azure"
   network_policy                                  = "azure"
   os_disk_size_gb                                 = 60
+  private_cluster_enabled                         = false
   role_based_access_control_enabled               = true
   rbac_aad                                        = true
   sku_tier                                        = "Standard"

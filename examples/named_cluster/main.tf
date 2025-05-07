@@ -89,6 +89,7 @@ module "aks_cluster_name" {
     not_allowed = []
   }
   net_profile_pod_cidr              = "10.1.0.0/16"
+  private_cluster_enabled           = true
   rbac_aad                          = true
   role_based_access_control_enabled = true
 

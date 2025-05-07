@@ -53,12 +53,13 @@ locals {
 module "aks" {
   source = "../.."
 
-  prefix              = "prefix-${random_id.prefix.hex}"
-  resource_group_name = local.resource_group.name
-  location            = local.resource_group.location
-  os_disk_size_gb     = 60
-  rbac_aad            = true
-  sku_tier            = "Standard"
+  prefix                  = "prefix-${random_id.prefix.hex}"
+  resource_group_name     = local.resource_group.name
+  location                = local.resource_group.location
+  os_disk_size_gb         = 60
+  rbac_aad                = true
+  sku_tier                = "Standard"
+  private_cluster_enabled = false
   vnet_subnet = {
     id = azurerm_subnet.default_node_pool_subnet.id
   }
