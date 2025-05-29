@@ -68,7 +68,7 @@ locals {
   valid_private_dns_zone_regexs = [
     "private\\.[a-z0-9]+\\.azmk8s\\.io",
     "privatelink\\.[a-z0-9]+\\.azmk8s\\.io",
-    "[a-zA-Z0-9\\-]{1,32}\\.private\\.[a-z]+\\.azmk8s\\.io",
-    "[a-zA-Z0-9\\-]{1,32}\\.privatelink\\.[a-z]+\\.azmk8s\\.io",
+    "[a-zA-Z0-9\\-]{1,32}\\.private\\.[a-z0-9]+\\.azmk8s\\.io",
+    "[a-zA-Z0-9\\-]{1,32}\\.privatelink\\.[a-z0-9]+\\.azmk8s\\.io",
   ]
 }
