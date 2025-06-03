@@ -69,7 +69,7 @@ locals {
 }
 
 resource "azurerm_monitor_data_collection_rule" "dcr" {
-  count = (local.create_analytics_workspace && var.oms_agent_enabled) ? 1 : 0
+  count = local.create_analytics_workspace && var.oms_agent_enabled && var.create_monitor_data_collection_rule ? 1 : 0
 
   location            = local.dcr_location
   name                = "MSCI-${local.dcr_location}-${azurerm_kubernetes_cluster.main.name}"
@@ -115,7 +115,7 @@ resource "azurerm_monitor_data_collection_rule" "dcr" {
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "dcra" {
-  count = (local.create_analytics_workspace && var.oms_agent_enabled) ? 1 : 0
+  count = local.create_analytics_workspace && var.oms_agent_enabled && var.create_monitor_data_collection_rule ? 1 : 0
 
   target_resource_id      = azurerm_kubernetes_cluster.main.id
   data_collection_rule_id = azurerm_monitor_data_collection_rule.dcr[0].id

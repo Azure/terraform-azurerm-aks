@@ -693,13 +693,13 @@ resource "time_sleep" "interval_before_cluster_update" {
 }
 
 resource "azapi_update_resource" "aks_cluster_post_create" {
-  type = "Microsoft.ContainerService/managedClusters@2024-02-01"
+  resource_id = azurerm_kubernetes_cluster.main.id
+  type        = "Microsoft.ContainerService/managedClusters@2024-02-01"
   body = {
     properties = {
       kubernetesVersion = var.kubernetes_version
     }
   }
-  resource_id = azurerm_kubernetes_cluster.main.id
 
   depends_on = [
     time_sleep.interval_before_cluster_update,
@@ -722,7 +722,8 @@ resource "null_resource" "http_proxy_config_no_proxy_keeper" {
 resource "azapi_update_resource" "aks_cluster_http_proxy_config_no_proxy" {
   count = can(var.http_proxy_config.no_proxy[0]) ? 1 : 0
 
-  type = "Microsoft.ContainerService/managedClusters@2024-02-01"
+  resource_id = azurerm_kubernetes_cluster.main.id
+  type        = "Microsoft.ContainerService/managedClusters@2024-02-01"
   body = {
     properties = {
       httpProxyConfig = {
@@ -730,7 +731,6 @@ resource "azapi_update_resource" "aks_cluster_http_proxy_config_no_proxy" {
       }
     }
   }
-  resource_id = azurerm_kubernetes_cluster.main.id
 
   depends_on = [azapi_update_resource.aks_cluster_post_create]
 

@@ -436,6 +436,13 @@ variable "cost_analysis_enabled" {
   description = "(Optional) Enable Cost Analysis."
 }
 
+variable "create_monitor_data_collection_rule" {
+  type        = bool
+  default     = true
+  description = "Create monitor data collection rule resource for the AKS cluster. Defaults to `true`."
+  nullable    = false
+}
+
 variable "create_role_assignment_network_contributor" {
   type        = bool
   default     = false
