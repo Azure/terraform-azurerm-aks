@@ -98,6 +98,11 @@ output "cluster_fqdn" {
   value       = azurerm_kubernetes_cluster.main.fqdn
 }
 
+output "node_resource_group_id" {
+  description = "The ID of the Resource Group containing the resources for this Managed Kubernetes Cluster."
+  value       = azurerm_kubernetes_cluster.main.node_resource_group_id
+}
+
 output "cluster_identity" {
   description = "The `azurerm_kubernetes_cluster`'s `identity` block."
   sensitive   = true
