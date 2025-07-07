@@ -41,7 +41,6 @@ resource "azurerm_kubernetes_cluster" "main" {
 
     content {
       name                         = var.agents_pool_name
-      vm_size                      = var.agents_size
       enable_auto_scaling          = var.enable_auto_scaling
       enable_host_encryption       = var.enable_host_encryption
       enable_node_public_ip        = var.enable_node_public_ip
@@ -64,6 +63,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       temporary_name_for_rotation  = var.temporary_name_for_rotation
       type                         = var.agents_type
       ultra_ssd_enabled            = var.ultra_ssd_enabled
+      vm_size                      = var.agents_size
       vnet_subnet_id               = try(var.vnet_subnet.id, null)
       zones                        = var.agents_availability_zones
 
@@ -162,7 +162,6 @@ resource "azurerm_kubernetes_cluster" "main" {
 
     content {
       name                         = var.agents_pool_name
-      vm_size                      = var.agents_size
       enable_auto_scaling          = var.enable_auto_scaling
       enable_host_encryption       = var.enable_host_encryption
       enable_node_public_ip        = var.enable_node_public_ip
@@ -184,6 +183,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       temporary_name_for_rotation  = var.temporary_name_for_rotation
       type                         = var.agents_type
       ultra_ssd_enabled            = var.ultra_ssd_enabled
+      vm_size                      = var.agents_size
       vnet_subnet_id               = try(var.vnet_subnet.id, null)
       zones                        = var.agents_availability_zones
 
