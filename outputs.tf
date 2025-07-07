@@ -98,11 +98,6 @@ output "cluster_fqdn" {
   value       = azurerm_kubernetes_cluster.main.fqdn
 }
 
-output "node_resource_group_id" {
-  description = "The ID of the Resource Group containing the resources for this Managed Kubernetes Cluster."
-  value       = azurerm_kubernetes_cluster.main.node_resource_group_id
-}
-
 output "cluster_identity" {
   description = "The `azurerm_kubernetes_cluster`'s `identity` block."
   sensitive   = true
@@ -191,6 +186,11 @@ output "network_profile" {
 output "node_resource_group" {
   description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
   value       = azurerm_kubernetes_cluster.main.node_resource_group
+}
+
+output "node_resource_group_id" {
+  description = "The ID of the Resource Group containing the resources for this Managed Kubernetes Cluster."
+  value       = azurerm_kubernetes_cluster.main.node_resource_group_id
 }
 
 output "oidc_issuer_url" {
