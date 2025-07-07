@@ -8,7 +8,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
 
   kubernetes_cluster_id         = azurerm_kubernetes_cluster.main.id
   name                          = "${each.value.name}${substr(md5(uuid()), 0, 4)}"
-  vm_size                       = each.value.vm_size
   capacity_reservation_group_id = each.value.capacity_reservation_group_id
   eviction_policy               = each.value.eviction_policy
   fips_enabled                  = each.value.fips_enabled
@@ -36,6 +35,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
   spot_max_price                = each.value.spot_max_price
   tags                          = each.value.tags
   ultra_ssd_enabled             = each.value.ultra_ssd_enabled
+  vm_size                       = each.value.vm_size
   vnet_subnet_id                = try(each.value.vnet_subnet.id, null)
   workload_runtime              = each.value.workload_runtime
   zones                         = each.value.zones
@@ -167,7 +167,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
 
   kubernetes_cluster_id         = azurerm_kubernetes_cluster.main.id
   name                          = each.value.name
-  vm_size                       = each.value.vm_size
   capacity_reservation_group_id = each.value.capacity_reservation_group_id
   eviction_policy               = each.value.eviction_policy
   fips_enabled                  = each.value.fips_enabled
@@ -194,6 +193,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
   spot_max_price                = each.value.spot_max_price
   tags                          = each.value.tags
   ultra_ssd_enabled             = each.value.ultra_ssd_enabled
+  vm_size                       = each.value.vm_size
   vnet_subnet_id                = try(each.value.vnet_subnet.id, null)
   workload_runtime              = each.value.workload_runtime
   zones                         = each.value.zones

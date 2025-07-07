@@ -188,6 +188,11 @@ output "node_resource_group" {
   value       = azurerm_kubernetes_cluster.main.node_resource_group
 }
 
+output "node_resource_group_id" {
+  description = "The ID of the Resource Group containing the resources for this Managed Kubernetes Cluster."
+  value       = azurerm_kubernetes_cluster.main.node_resource_group_id
+}
+
 output "oidc_issuer_url" {
   description = "The OIDC issuer URL that is associated with the cluster."
   value       = azurerm_kubernetes_cluster.main.oidc_issuer_url
