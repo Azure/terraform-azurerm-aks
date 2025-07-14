@@ -46,6 +46,11 @@ locals {
       node_count            = 1
       vnet_subnet           = { id = azurerm_subnet.node_pool_subnet[i].id }
       create_before_destroy = i % 2 == 0
+      upgrade_settings = {
+        drain_timeout_in_minutes      = 0
+        node_soak_duration_in_minutes = 0
+        max_surge                     = "10%"
+      }
     }
   }
 }
