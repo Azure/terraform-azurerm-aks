@@ -130,6 +130,7 @@ resource "azurerm_application_gateway" "appgw" {
       probe,
       request_routing_rule,
       url_path_map,
+      zones,
     ]
   }
 }
