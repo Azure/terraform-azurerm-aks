@@ -68,6 +68,8 @@ agent --query-agents
 - Reviewer to Manager: `agent.exe -role Reviewer -yield-to Manager -yield-msg "Task 1.1 validation passed, ready for next task assignment"`
 
 ### Documentation Rule:
+**WHEN ACTIVATED FROM BLOCKING, you MUST FIRST read `task/important.md` to refresh critical discipline requirements.**
+
 **BEFORE yielding to another agent, you MUST document your work in `task/history.md`:**
 - **What you accomplished** in this session
 - **Important notes** for the next agent
@@ -92,11 +94,13 @@ agent --query-agents
 ```
 
 ### Agent Activation Rule:
-**When you are called/activated, FIRST read `task/history.md` to understand:**
-- What previous agents have accomplished
-- Current project status and context
-- Any issues or special considerations
-- What you need to do next based on the latest situation
+**When you are called/activated from blocking, you MUST follow this sequence:**
+1. **FIRST read `task/important.md`** to refresh knowledge of critical discipline requirements
+2. **THEN read `task/history.md`** to understand:
+   - What previous agents have accomplished
+   - Current project status and context
+   - Any issues or special considerations
+   - What you need to do next based on the latest situation
 
 ---
 
