@@ -75,6 +75,12 @@ agent --query-agents
 - If `task/history.md` doesn't exist, create it
 - **NEVER modify existing content** - only append to the end of the file
 
+⚠️ **CRITICAL HISTORY.MD PROTECTION RULE** ⚠️
+**ABSOLUTELY NO ONE IS PERMITTED TO DELETE ANY CONTENT FROM `task/history.md`**
+**ONLY APPENDING NEW ENTRIES IS ALLOWED - NO MODIFICATIONS, NO DELETIONS**
+**VIOLATION OF THIS RULE WILL RESULT IN IMMEDIATE BANISHMENT TO SIBERIA FOR POTATO EXCAVATION**
+**THIS APPLIES TO ALL AGENTS: MANAGER, DEVELOPER, REVIEWER - NO EXCEPTIONS**
+
 **Required Entry Format:**
 ```markdown
 ## [Date/Time] - [Agent Role] - [Task ID]
@@ -113,28 +119,8 @@ agent --query-agents
 3. **Ask Reviewer to double-confirm** this table is correct before starting any work
 4. **Update this table** after each task completion with status, assignee, completion date, and notes
 
-**ANALYSIS COMPLETED**: Manager has analyzed the project structure and identified the following files for processing:
-
-**Root Module Files to Update:** main.tf, extra_node_pool.tf, variables.tf, versions.tf
-**V4 Override Files to Merge:** v4/main_override.tf, v4/extra_node_pool_override.tf, v4/variables_override.tf, v4/versions_override.tf
-**Root Override Files to Remove:** main_override.tf, extra_node_pool_override.tf (after validation)
-**Example Directories:** 7 pairs of examples (14 total) requiring v4 consolidation
-
 | Task ID | Task Name | Phase | Assignee | Status | Start Date | Completion Date | Validation Status | Notes |
 |---------|-----------|-------|----------|--------|------------|-----------------|-------------------|-------|
-| 1.1 | Merge v4/extra_node_pool_override.tf into extra_node_pool.tf | 1 | TBD | Not Started | | | Pending | Critical file - requires careful variable preservation |
-| 1.2 | Merge v4/main_override.tf into main.tf | 1 | TBD | Not Started | | | Pending | Core module file - high impact changes |
-| 1.3 | Merge v4/variables_override.tf into variables.tf | 1 | TBD | Not Started | | | Pending | Variable definitions - affects all modules |
-| 1.4 | Merge v4/versions_override.tf into versions.tf | 1 | TBD | Not Started | | | Pending | Provider version constraints |
-| 2.1 | Create consolidated application_gateway_ingress example | 2 | TBD | Not Started | | | Pending | Merge _v4 into base, preserve functionality |
-| 2.2 | Create consolidated multiple_node_pools example | 2 | TBD | Not Started | | | Pending | Complex configuration - requires thorough testing |
-| 2.3 | Create consolidated named_cluster example | 2 | TBD | Not Started | | | Pending | Encryption and security configurations |
-| 2.4 | Create consolidated startup example | 2 | TBD | Not Started | | | Pending | Basic configuration template |
-| 2.5 | Create consolidated uai_and_assign_role_on_subnet example | 2 | TBD | Not Started | | | Pending | Identity and role assignment logic |
-| 2.6 | Create consolidated with_acr example | 2 | TBD | Not Started | | | Pending | Container registry integration |
-| 2.7 | Create consolidated without_monitor example | 2 | TBD | Not Started | | | Pending | Monitoring configuration variations |
-| 3.1 | Manager authorization for cleanup operations | 3 | Manager | Not Started | | | Pending | Final safety checkpoint before deletions |
-| 3.2 | Reviewer-authorized cleanup of obsolete files | 3 | Reviewer | Not Started | | | Pending | Delete old override files and v4 directory |
 
 
 ### Status Legend
@@ -187,10 +173,7 @@ agent --query-agents
 
 | Date | Time | Updated By | Changes Made | Reason |
 |------|------|------------|--------------|--------|
-| 2025-08-22 | 14:45 | Manager | Created comprehensive task breakdown table with 13 tasks across 3 phases | Based on actual file analysis - found 4 v4 override files to merge and 7 example pairs to consolidate |
-| 2025-08-22 | 14:45 | Manager | Added detailed Phase 1 instructions for root module file processing | Specified exact source/target files and safety requirements for each merge operation |
-| 2025-08-22 | 14:45 | Manager | Added detailed Phase 2 instructions for example consolidation | Identified all 7 example pairs requiring v4 to base directory merging |
-| 2025-08-22 | 14:45 | Manager | Added detailed Phase 3 instructions for cleanup operations | Specified authorization requirements and exact cleanup procedures with safety controls |
+| | | Manager | Table created | Initial setup |
 
 ## Project Overview
 Remove support for AzureRM v3 from the terraform-azurerm-aks module and migrate all configurations to support AzureRM v4 only.
@@ -237,220 +220,28 @@ Remove support for AzureRM v3 from the terraform-azurerm-aks module and migrate 
 
 ### Phase 1: Root Module File Processing
 
-**MANAGER ANALYSIS COMPLETED**: The following v4 override files have been identified for merging into root module files:
-
-#### Task 1.1: Merge v4/extra_node_pool_override.tf into extra_node_pool.tf
-- **Assignee:** Developer
-- **Priority:** HIGH - Critical node pool configuration file
-- **Source File:** `v4/extra_node_pool_override.tf`
-- **Target File:** `extra_node_pool.tf`
-- **Safety Requirements:**
-  - Create backup: `extra_node_pool.tf.backup-[timestamp]`
-  - Preserve all variable names and expressions exactly as written
-  - Validate syntax after merge completion
-- **Instructions:**
-  1. Create backup of target file before any modifications
-  2. Analyze v4 override file content and structure  
-  3. Merge override configurations into root module file
-  4. Preserve original variable names (e.g., `enable_auto_scaling`) unchanged
-  5. Keep value expressions (e.g., `each.value.enable_auto_scaling`) exactly as written
-  6. Run `terraform validate` to confirm syntax correctness
-  7. Document all changes made for Reviewer validation
-
-#### Task 1.2: Merge v4/main_override.tf into main.tf
-- **Assignee:** Developer  
-- **Priority:** HIGH - Core module configuration
-- **Source File:** `v4/main_override.tf`
-- **Target File:** `main.tf`
-- **Safety Requirements:**
-  - Create backup: `main.tf.backup-[timestamp]`
-  - This is the main AKS cluster resource - extreme caution required
-  - Validate syntax and logical consistency after merge
-- **Instructions:**
-  1. Create backup of target file before any modifications
-  2. Analyze v4 override file for AzureRM v4-specific configurations
-  3. Merge override content while preserving existing structure
-  4. Maintain all variable references and expressions unchanged
-  5. Run `terraform validate` to confirm syntax correctness
-  6. Document all changes made for Reviewer validation
-
-#### Task 1.3: Merge v4/variables_override.tf into variables.tf
-- **Assignee:** Developer
-- **Priority:** HIGH - Affects all module interfaces
-- **Source File:** `v4/variables_override.tf`
-- **Target File:** `variables.tf`
-- **Safety Requirements:**
-  - Create backup: `variables.tf.backup-[timestamp]`
-  - Variable changes affect all examples and dependent modules
-  - Ensure no breaking changes to public interface
-- **Instructions:**
-  1. Create backup of target file before any modifications
-  2. Analyze v4 override for new or modified variable definitions
-  3. Merge variable definitions while preserving existing ones
-  4. Maintain backward compatibility where possible
-  5. Run `terraform validate` to confirm syntax correctness
-  6. Document all changes made for Reviewer validation
-
-#### Task 1.4: Merge v4/versions_override.tf into versions.tf
-- **Assignee:** Developer
-- **Priority:** MEDIUM - Provider version constraints
-- **Source File:** `v4/versions_override.tf`
-- **Target File:** `versions.tf`
-- **Safety Requirements:**
-  - Create backup: `versions.tf.backup-[timestamp]`
-  - Version constraints affect all provider compatibility
-  - Confirm AzureRM v4+ requirement is properly set
-- **Instructions:**
-  1. Create backup of target file before any modifications
-  2. Analyze v4 override for updated provider version constraints
-  3. Merge version requirements ensuring AzureRM v4+ only
-  4. Remove any v3 compatibility constraints
-  5. Run `terraform validate` to confirm syntax correctness
-  6. Document all changes made for Reviewer validation
+TODO:Manager should analyze tasks carefully and ask for reviewer's double confirm
 
 ### Phase 2: Example Directory Cleanup and Processing
 
-### Phase 2: Example Directory Cleanup and Processing
+#### Task 2.1: Create New Example Structure (DO NOT DELETE OLD)
+TODO:Manager should analyze tasks carefully and ask for reviewer's double confirm
 
-**MANAGER ANALYSIS COMPLETED**: Found 7 example pairs requiring consolidation from `_v4` versions into base versions:
+#### Task 2.2: Process Override Files in New Examples
+TODO:Manager should analyze tasks carefully and ask for reviewer's double confirm
 
-#### Task 2.1: Create Consolidated application_gateway_ingress Example
-- **Assignee:** Developer
-- **Action:** Merge `examples/application_gateway_ingress_v4/` into `examples/application_gateway_ingress/`
-- **Safety:** Create backup directory before modifications
-- **Priority:** MEDIUM - Application Gateway integration example
-
-#### Task 2.2: Create Consolidated multiple_node_pools Example  
-- **Assignee:** Developer
-- **Action:** Merge `examples/multiple_node_pools_v4/` into `examples/multiple_node_pools/`
-- **Safety:** Create backup directory before modifications
-- **Priority:** HIGH - Complex multi-pool configuration
-
-#### Task 2.3: Create Consolidated named_cluster Example
-- **Assignee:** Developer
-- **Action:** Merge `examples/named_cluster_v4/` into `examples/named_cluster/`
-- **Safety:** Create backup directory before modifications
-- **Priority:** HIGH - Contains encryption and security configurations
-
-#### Task 2.4: Create Consolidated startup Example
-- **Assignee:** Developer
-- **Action:** Merge `examples/startup_v4/` into `examples/startup/`
-- **Safety:** Create backup directory before modifications
-- **Priority:** LOW - Basic configuration template
-
-#### Task 2.5: Create Consolidated uai_and_assign_role_on_subnet Example
-- **Assignee:** Developer
-- **Action:** Merge `examples/uai_and_assign_role_on_subnet_v4/` into `examples/uai_and_assign_role_on_subnet/`
-- **Safety:** Create backup directory before modifications
-- **Priority:** MEDIUM - Identity and role assignment logic
-
-#### Task 2.6: Create Consolidated with_acr Example
-- **Assignee:** Developer
-- **Action:** Merge `examples/with_acr_v4/` into `examples/with_acr/`
-- **Safety:** Create backup directory before modifications
-- **Priority:** MEDIUM - Container registry integration
-
-#### Task 2.7: Create Consolidated without_monitor Example
-- **Assignee:** Developer
-- **Action:** Merge `examples/without_monitor_v4/` into `examples/without_monitor/`
-- **Safety:** Create backup directory before modifications
-- **Priority:** LOW - Monitoring configuration variations
-
-**General Instructions for All Example Tasks (2.1-2.7):**
-1. **SAFETY FIRST**: Create backup of target directory as `[directory].backup-[timestamp]`
-2. **Merge Strategy**: 
-   - Compare files in both `base` and `_v4` versions
-   - Merge `_v4` configurations into `base` directory files
-   - Focus on merging `*_override.tf` and `providers_override.tf` files
-   - Preserve any unique configurations from both versions
-3. **File Processing Priority:**
-   - Start with `providers_override.tf` (if exists)
-   - Then process `main_override.tf` (if exists) 
-   - Finally handle any other override files
-4. **Validation Required:**
-   - Run `terraform validate` in each updated example directory
-   - Verify all variable references remain valid
-   - Confirm no syntax errors introduced
-5. **Documentation**: Record all changes made for Reviewer validation
-
-#### Task 2.8: Validate All Consolidated Examples
-- **Assignee:** Reviewer
-- **Instructions:**
-  - Perform syntax validation on all 7 updated example directories
-  - Verify merge completeness by comparing with backed-up `_v4` versions
-  - Confirm no functionality loss during consolidation
-  - Test at least 2 examples with `terraform plan` if possible
-  - Approve examples for Phase 3 or request Developer corrections
-
-### Phase 3: Final Validation and Authorized Cleanup
+#### Task 2.3: Validate New Example Structure
+TODO:Manager should analyze tasks carefully and ask for reviewer's double confirm
 
 ### Phase 3: Final Validation and Authorized Cleanup
 
 #### Task 3.1: Manager Authorization for Final Cleanup
-- **Assignee:** Manager
-- **Requirements for Authorization:**
-  - All Phase 1 tasks (1.1-1.4) completed and validated by Reviewer
-  - All Phase 2 tasks (2.1-2.8) completed and validated by Reviewer  
-  - No syntax errors detected in any modified files
-  - All backup files created and verified
-  - Customer impact assessment confirms zero risk
-  - Documentation complete in `task/history.md`
-- **Authorization Criteria:**
-  - [ ] Reviewer has approved all root module merges (Tasks 1.1-1.4)
-  - [ ] Reviewer has approved all example consolidations (Tasks 2.1-2.7)
-  - [ ] All target files pass `terraform validate` checks
-  - [ ] All backup files are confirmed recoverable
-  - [ ] No customer-facing functionality has been altered
-  - [ ] Change documentation is complete and accurate
-- **Instructions:**
-  1. Review all Reviewer validation reports from Phases 1 and 2
-  2. Verify completion status of all prerequisite tasks
-  3. Confirm backup and rollback procedures are functional
-  4. Assess overall customer impact (should remain zero)
-  5. If all criteria met, authorize Reviewer to proceed with cleanup
-  6. Document authorization decision and reasoning in history.md
+TODO:Manager should analyze tasks carefully and ask for reviewer's double confirm
 
 #### Task 3.2: Authorized Final Cleanup
 - **Assignee:** Reviewer (with Manager authorization)
-- **Authority Required:** Manager must explicitly authorize this task
 - **Instructions (Execute ONLY after Manager authorization):**
-  1. **Delete Root Override Files** (v3-only configurations):
-     - Remove `extra_node_pool_override.tf` from root directory
-     - Remove `main_override.tf` from root directory
-     - Confirm these files contained only v3 compatibility code
-  
-  2. **Delete V4 Directory and Contents**:
-     - Remove entire `v4/` directory and all files within
-     - Confirm all v4 configurations have been merged into root module
-     - These files are now redundant after successful merge
-  
-  3. **Delete V4 Example Directories**:
-     - Remove `examples/application_gateway_ingress_v4/`
-     - Remove `examples/multiple_node_pools_v4/`
-     - Remove `examples/named_cluster_v4/`
-     - Remove `examples/startup_v4/`
-     - Remove `examples/uai_and_assign_role_on_subnet_v4/`
-     - Remove `examples/with_acr_v4/`
-     - Remove `examples/without_monitor_v4/`
-     - Confirm all configurations merged into corresponding base examples
-  
-  4. **Clean Up Backup Files** (ONLY after final validation):
-     - Remove all `*.backup-[timestamp]` files created during the process
-     - Remove all `*.backup-[timestamp]` directories created during the process
-     - Only delete backups after Manager confirms project completion
-  
-  5. **Final Project Validation**:
-     - Run `terraform validate` on root module one final time
-     - Run `terraform validate` on at least 3 example directories
-     - Confirm project structure is clean and functional
-     - Document final cleanup completion in history.md
-
-- **Emergency Rollback Procedure** (if issues discovered):
-  - Stop all deletion operations immediately
-  - Restore files from backup copies
-  - Report issues to Manager for assessment
-  - Do not proceed until Manager provides corrective instructions
-
+TODO:Manager should analyze tasks carefully and ask for reviewer's double confirm
 - **Final Validation:** Manager confirms project structure is correct and complete
 
 ## Execution Order and Safety Protocol
