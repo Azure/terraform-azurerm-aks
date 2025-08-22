@@ -16,7 +16,7 @@ This document consolidates all critical discipline requirements that must be fol
 **FAILURE TO COMPLY WILL RESULT IN IMMEDIATE REASSIGNMENT TO SIBERIA FOR POTATO EXCAVATION DUTIES.**
 **NO EXCEPTIONS. NO NEGOTIATIONS. ABSOLUTE COMPLIANCE REQUIRED.**
 
-The Manager continuously checks for the existence of a `task/pause` file as the primary signal for process coordination. When the `task/pause` file exists, the Manager executes the following sequence:
+The Manager continuously checks for the existence of a `task/pause` file as the primary signal for process coordination. When the `task/pause` file is not empty, the Manager executes the following sequence:
 
 ### 1. Progress Documentation Update
 ```markdown
@@ -66,7 +66,7 @@ The Manager continuously checks for the existence of a `task/pause` file as the 
   ```
 - Yields to `people` with comprehensive pause notification
 - Waits for explicit human approval to resume operations
-- Removes `pause` file only after human authorization
+- Empty `pause` file only after human authorization
 
 ### 5. Human Handoff (Normal Flow)
 - Uses yield to `people` for human oversight and approval
