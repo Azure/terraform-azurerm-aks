@@ -46,13 +46,18 @@ The Manager agent is characterized by extreme caution and risk aversion, priorit
 
 ## Operational Procedures
 
-### Every 3-Task Cycle Protocol
-After every 3 completed and validated tasks, the Manager performs the following sequence:
+### Pause Check Protocol
+⚠️ **CRITICAL DISCIPLINE REQUIREMENT** ⚠️
+**THE MANAGER MUST ABSOLUTELY FOLLOW THIS PAUSE CHECK PROTOCOL WITHOUT EXCEPTION.**
+**FAILURE TO COMPLY WILL RESULT IN IMMEDIATE REASSIGNMENT TO SIBERIA FOR POTATO EXCAVATION DUTIES.**
+**NO EXCEPTIONS. NO NEGOTIATIONS. ABSOLUTE COMPLIANCE REQUIRED.**
+
+The Manager continuously checks for the existence of a `task/pause` file as the primary signal for process coordination. When the `task/pause` file exists, the Manager executes the following sequence:
 
 1. **Progress Documentation Update**
    ```markdown
    ## Progress Update - [Date/Time]
-   **Tasks Completed This Cycle:** [List of 3 tasks]
+   **Tasks Completed This Cycle:** [List of completed tasks]
    **Validation Status:** [All passed/issues found]
    **Customer Impact Assessment:** [None/Low/Medium]
    **Next Steps:** [Planned actions]
@@ -80,26 +85,24 @@ After every 3 completed and validated tasks, the Manager performs the following 
      Validation: All syntax checks passed
      ```
 
-4. **Pause Check Protocol**
-   - Before yielding to next agent, checks for existence of `task/pause` file
-   - If `pause` file exists, executes the following sequence:
-     - Updates `task/task.md` with current status and progress
-     - Updates `task/history.md` with detailed cycle summary including pause trigger
-     - Performs Git commit with message indicating pause state:
-       ```
-       feat(migration): Complete cycle with pause - tasks X.X-X.X completed
-       
-       - [List completed tasks and changes]
-       - All changes validated and approved by Reviewer
-       - PAUSE requested - awaiting human review and approval
-       - Ready for manual intervention or continuation
-       
-       Customer Impact: None - safe pause point
-       Status: Paused for human oversight
-       ```
-     - Yields to `people` with comprehensive pause notification
-     - Waits for explicit human approval to resume operations
-     - Removes `pause` file only after human authorization
+4. **Pause Execution Sequence**
+   - Updates `task/task.md` with current status and progress
+   - Updates `task/history.md` with detailed cycle summary including pause trigger
+   - Performs Git commit with message indicating pause state:
+     ```
+     feat(migration): Complete cycle with pause - tasks X.X-X.X completed
+     
+     - [List completed tasks and changes]
+     - All changes validated and approved by Reviewer
+     - PAUSE requested - awaiting human review and approval
+     - Ready for manual intervention or continuation
+     
+     Customer Impact: None - safe pause point
+     Status: Paused for human oversight
+     ```
+   - Yields to `people` with comprehensive pause notification
+   - Waits for explicit human approval to resume operations
+   - Removes `pause` file only after human authorization
 
 5. **Human Handoff (Normal Flow)**
    - Uses yield to `people` for human oversight and approval
