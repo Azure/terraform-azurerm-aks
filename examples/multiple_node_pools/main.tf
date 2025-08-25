@@ -66,7 +66,6 @@ module "aks" {
   resource_group_name     = local.resource_group.name
   location                = local.resource_group.location
   os_disk_size_gb         = 60
-  rbac_aad                = true
   sku_tier                = "Standard"
   private_cluster_enabled = false
   vnet_subnet = {

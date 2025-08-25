@@ -1002,12 +1002,6 @@ variable "network_contributor_role_assigned_subnet_ids" {
   nullable    = false
 }
 
-variable "network_data_plane" {
-  type        = string
-  default     = null
-  description = "(Optional) Specifies the data plane used for building the Kubernetes network. Possible values are `azure` and `cilium`. Defaults to `azure`. Disabling this forces a new resource to be created."
-}
-
 variable "network_plugin" {
   type        = string
   default     = "kubenet"
