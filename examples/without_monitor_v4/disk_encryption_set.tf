@@ -1,1 +1,0 @@
-../without_monitor/disk_encryption_set.tf

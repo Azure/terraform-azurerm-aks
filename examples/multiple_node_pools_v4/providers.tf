@@ -1,1 +1,0 @@
-../multiple_node_pools/providers.tf

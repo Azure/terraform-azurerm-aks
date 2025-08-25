@@ -1,1 +1,0 @@
-../named_cluster/disk_encryption_set.tf

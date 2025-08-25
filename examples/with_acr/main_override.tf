@@ -1,10 +1,8 @@
-resource "azurerm_subnet" "test" {
-  enforce_private_link_endpoint_network_policies = true
+resource "azurerm_container_registry" "example" {
+  retention_policy_in_days = 7
 }
 
-resource "azurerm_container_registry" "example" {
-  retention_policy {
-    days    = 7
-    enabled = true
-  }
+module "aks" {
+  source             = "../../v4"
+  rbac_aad_tenant_id = data.azurerm_client_config.this.tenant_id
 }

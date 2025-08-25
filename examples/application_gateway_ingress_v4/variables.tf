@@ -1,1 +1,0 @@
-../application_gateway_ingress/variables.tf
