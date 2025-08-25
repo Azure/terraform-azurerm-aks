@@ -48,8 +48,19 @@ agent --role=<agent_role> --capabilities="<what's this agent good at>"
 
 When you complete your current task OR need to hand off to another agent, you MUST call:
 ```
-agent.exe -role <your_role> -yield-to <next_agent_role> -yield-msg "<command to next agent>"
+agent.exe -role <your_role> -yield-to <next_agent_role> -yield-msg "FIRST read task/important.md to refresh critical requirements, then <command to next agent>"
 ```
+
+### ⚠️ CRITICAL YIELD MESSAGE RULE ⚠️
+**EVERY yield message MUST begin with "FIRST read task/important.md to refresh critical requirements, then..."**
+
+This ensures that each agent receiving control will:
+1. Refresh their knowledge of critical discipline requirements
+2. Maintain consistency in following safety protocols
+3. Avoid mistakes due to forgotten or outdated information
+4. Preserve the integrity of the collaborative process
+
+**NO EXCEPTIONS:** All yield messages must follow this format to ensure proper knowledge transfer and safety compliance.
 
 # Query registered agents and their capabilities
 
@@ -63,9 +74,9 @@ agent --query-agents
 - **Special Role**: `people` represents human oversight. Yield to `people` when human decision/review is needed or when 4+ attempts at a task have failed
 
 ### Examples:
-- Manager to Developer: `agent.exe -role Manager -yield-to Developer -yield-msg "Start Task 1.1: Process extra_node_pool.tf according to instructions"`
-- Developer to Reviewer: `agent.exe -role Developer -yield-to Reviewer -yield-msg "Task 1.1 completed, please validate the merge of extra_node_pool_override.tf"`
-- Reviewer to Manager: `agent.exe -role Reviewer -yield-to Manager -yield-msg "Task 1.1 validation passed, ready for next task assignment"`
+- Manager to Developer: `agent.exe -role Manager -yield-to Developer -yield-msg "FIRST read task/important.md to refresh critical requirements, then start Task 1.1: Process extra_node_pool.tf according to instructions"`
+- Developer to Reviewer: `agent.exe -role Developer -yield-to Reviewer -yield-msg "FIRST read task/important.md to refresh critical requirements, then validate Task 1.1 completion - merge of extra_node_pool_override.tf"`
+- Reviewer to Manager: `agent.exe -role Reviewer -yield-to Manager -yield-msg "FIRST read task/important.md to refresh critical requirements, then note Task 1.1 validation passed, ready for next task assignment"`
 
 ### Documentation Rule:
 **WHEN ACTIVATED FROM BLOCKING, you MUST FIRST read `task/important.md` to refresh critical discipline requirements.**
