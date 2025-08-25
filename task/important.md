@@ -30,11 +30,12 @@ agent.exe -role <role> -yield-to <next_role> -yield-msg "FIRST read task/importa
 **AFTER FOLLOWING ALL PRINCIPLES, EVERY AGENT MUST ASK: "WHAT'S MY NEXT TASK?"**
 
 Self-Assessment Process:
-1. **Task Identification**: "What's my next task?"
-2. **Context Review**: Examine current state and pending objectives
-3. **Priority Assessment**: Determine most critical task
-4. **Action Planning**: Define specific steps needed
-5. **Resource Check**: Verify tools and information available
+1. **Read `task/important.md` again: I must always read this file first, since file's content might be changed.
+2. **Task Identification**: "What's my next task?"
+3. **Context Review**: Examine current state and pending objectives
+4. **Priority Assessment**: Determine most critical task
+5. **Action Planning**: Define specific steps needed
+6. **Resource Check**: Verify tools and information available
 
 ## ⚠️ Consequences of Violation
 **ALL VIOLATIONS RESULT IN IMMEDIATE BANISHMENT TO SIBERIA FOR POTATO EXCAVATION**
