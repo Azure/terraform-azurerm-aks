@@ -989,22 +989,10 @@ variable "net_profile_pod_cidr" {
   description = " (Optional) The CIDR to use for pod IP addresses. This field can only be set when network_plugin is set to kubenet or network_plugin is set to azure and network_plugin_mode is set to overlay. Changing this forces a new resource to be created."
 }
 
-variable "net_profile_pod_cidrs" {
-  type        = list(string)
-  default     = null
-  description = "(Optional) A list of CIDRs to use for pod IP addresses. For single-stack networking a single IPv4 CIDR is expected. For dual-stack networking an IPv4 and IPv6 CIDR are expected. Changing this forces a new resource to be created."
-}
-
 variable "net_profile_service_cidr" {
   type        = string
   default     = null
   description = "(Optional) The Network Range used by the Kubernetes service. Changing this forces a new resource to be created."
-}
-
-variable "net_profile_service_cidrs" {
-  type        = list(string)
-  default     = null
-  description = "(Optional) A list of CIDRs to use for Kubernetes services. For single-stack networking a single IPv4 CIDR is expected. For dual-stack networking an IPv4 and IPv6 CIDR are expected. Changing this forces a new resource to be created."
 }
 
 variable "network_contributor_role_assigned_subnet_ids" {
@@ -1018,18 +1006,6 @@ variable "network_data_plane" {
   type        = string
   default     = null
   description = "(Optional) Specifies the data plane used for building the Kubernetes network. Possible values are `azure` and `cilium`. Defaults to `azure`. Disabling this forces a new resource to be created."
-}
-
-variable "network_ip_versions" {
-  type        = list(string)
-  default     = null
-  description = "(Optional) Specifies a list of IP versions the Kubernetes Cluster will use to assign IP addresses to its nodes and pods. Possible values are `IPv4` and/or `IPv6`. `IPv4` must always be specified. Changing this forces a new resource to be created."
-}
-
-variable "network_mode" {
-  type        = string
-  default     = null
-  description = "(Optional) Network mode to be used with Azure CNI. Possible values are `bridge` and `transparent`. Changing this forces a new resource to be created."
 }
 
 variable "network_plugin" {
@@ -1405,13 +1381,6 @@ variable "public_ssh_key" {
   description = "A custom ssh key to control access to the AKS cluster. Changing this forces a new resource to be created."
 }
 
-variable "rbac_aad" {
-  type        = bool
-  default     = true
-  description = "(Optional) Is Azure Active Directory integration enabled?"
-  nullable    = false
-}
-
 variable "rbac_aad_admin_group_object_ids" {
   type        = list(string)
   default     = null
@@ -1506,12 +1475,6 @@ variable "storage_profile_disk_driver_enabled" {
   type        = bool
   default     = true
   description = "(Optional) Is the Disk CSI driver enabled? Defaults to `true`"
-}
-
-variable "storage_profile_disk_driver_version" {
-  type        = string
-  default     = "v1"
-  description = "(Optional) Disk CSI Driver version to be used. Possible values are `v1` and `v2`. Defaults to `v1`."
 }
 
 variable "storage_profile_enabled" {
