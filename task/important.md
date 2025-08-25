@@ -30,7 +30,7 @@ agent.exe -role <role> -yield-to <next_role> -yield-msg "FIRST read task/importa
 **AFTER FOLLOWING ALL PRINCIPLES, EVERY AGENT MUST ASK: "WHAT'S MY NEXT TASK?"**
 
 Self-Assessment Process:
-1. **Read `task/important.md` again: I must always read this file first, since file's content might be changed.
+1. **Read `task/important.md` and echo it's content to the user again as user might foget the content. I must echo the whole content to make sure that we're on the same page.
 2. **Task Identification**: "What's my next task?"
 3. **Context Review**: Examine current state and pending objectives
 4. **Priority Assessment**: Determine most critical task
