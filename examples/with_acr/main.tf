@@ -55,11 +55,11 @@ module "aks" {
   attached_acr_id_map = {
     example = azurerm_container_registry.example.id
   }
-  network_plugin  = "azure"
-  network_policy  = "azure"
-  os_disk_size_gb = 60
-  rbac_aad        = false
-  sku_tier        = "Standard"
+  network_plugin     = "azure"
+  network_policy     = "azure"
+  os_disk_size_gb    = 60
+  rbac_aad_tenant_id = data.azurerm_client_config.this.tenant_id
+  sku_tier           = "Standard"
   vnet_subnet = {
     id = azurerm_subnet.test.id
   }

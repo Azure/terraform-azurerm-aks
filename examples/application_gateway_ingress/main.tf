@@ -184,7 +184,7 @@ module "aks" {
   os_disk_size_gb                                 = 60
   private_cluster_enabled                         = false
   role_based_access_control_enabled               = true
-  rbac_aad                                        = true
+  rbac_aad_tenant_id                              = data.azurerm_client_config.this.tenant_id
   sku_tier                                        = "Standard"
   vnet_subnet = var.bring_your_own_vnet ? {
     id = azurerm_subnet.test[0].id

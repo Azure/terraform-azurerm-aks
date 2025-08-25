@@ -34,6 +34,7 @@ module "aks" {
   resource_group_name = azurerm_resource_group.rg.name
   identity_ids        = [azurerm_user_assigned_identity.main.id]
   identity_type       = "UserAssigned"
+  rbac_aad_tenant_id  = data.azurerm_client_config.this.tenant_id
   vnet_subnet = {
     id = azurerm_subnet.subnet.id
   }
