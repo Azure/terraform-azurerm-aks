@@ -39,7 +39,7 @@ variable "enable_auto_scaling" {
 }
 
 # ❌ INCORRECT: Changing variable names breaks user code
-variable "auto_scaling_enabled" {  # This would be a breaking change
+variable "auto_scaling_enabled" { # This would be a breaking change
   description = "Enable auto scaling for the node pool"
   type        = bool
   default     = false
@@ -67,7 +67,7 @@ output "cluster_id" {
 }
 
 # ❌ INCORRECT: Changing output names breaks downstream dependencies
-output "aks_cluster_id" {  # Breaking change
+output "aks_cluster_id" { # Breaking change
   description = "The ID of the AKS cluster"
   value       = azurerm_kubernetes_cluster.main.id
 }

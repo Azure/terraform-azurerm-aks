@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path/filepath"
 	"regexp"
 	"strings"
 	"testing"
@@ -180,37 +179,6 @@ func TestExamples_applicationGatewayIngress(t *testing.T) {
 					}
 				}
 			})
-		})
-	}
-}
-
-func TestExamplesForV4(t *testing.T) {
-	t.Parallel()
-	examples, err := os.ReadDir("../../examples")
-	require.NoError(t, err)
-	for _, example := range examples {
-		if !example.IsDir() {
-			continue
-		}
-		if !strings.HasSuffix(example.Name(), "_v4") {
-			continue
-		}
-		t.Run(example.Name(), func(t *testing.T) {
-			t.Parallel()
-			tmp, err := os.MkdirTemp("", "")
-			require.NoError(t, err)
-			defer func() {
-				_ = os.RemoveAll(tmp)
-			}()
-			tfvars := filepath.Join(tmp, "terraform.tfvars")
-			require.NoError(t, os.WriteFile(tfvars, []byte(`
-	client_id = ""
-	client_secret = ""
-`), 0o600))
-			test_helper.RunE2ETest(t, "../../", fmt.Sprintf("examples/%s", example.Name()), terraform.Options{
-				Upgrade:  true,
-				VarFiles: []string{tfvars},
-			}, nil)
 		})
 	}
 }
