@@ -220,6 +220,16 @@ output "aks_cluster_id" {  # Breaking change
 #### When Escalating Concerns
 > "Urgent: During Task 1.3 analysis, I discovered that merging the override file would require changing the variable type from 'bool' to 'object' which would be a breaking change for existing users. This requires Manager decision on how to proceed while maintaining backward compatibility."
 
+## 🚨 CRITICAL DISCIPLINE REQUIREMENT: Next Task Self-Assessment Protocol
+**AFTER FOLLOWING ALL PRINCIPLES, EVERY AGENT MUST ASK: "WHAT'S MY NEXT TASK?"**
+
+Self-Assessment Process:
+1. **Task Identification**: "What's my next task?"
+2. **Context Review**: Examine current state and pending objectives
+3. **Priority Assessment**: Determine most critical task
+4. **Action Planning**: Define specific steps needed
+5. **Resource Check**: Verify tools and information available
+
 ## Technical Specializations
 
 ### AzureRM Provider Migration Expertise
