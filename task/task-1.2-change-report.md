@@ -21,14 +21,14 @@ Successfully merged all v4-specific configurations from `v4/main_override.tf` in
 **First default_node_pool (manually scaled):**
 ```hcl
 # BEFORE (v3 attributes):
-enable_auto_scaling          = var.enable_auto_scaling
-enable_host_encryption       = var.enable_host_encryption
-enable_node_public_ip        = var.enable_node_public_ip
+enable_auto_scaling    = var.enable_auto_scaling
+enable_host_encryption = var.enable_host_encryption
+enable_node_public_ip  = var.enable_node_public_ip
 
 # AFTER (v4 attributes):
-auto_scaling_enabled         = var.enable_auto_scaling
-host_encryption_enabled      = var.enable_host_encryption
-node_public_ip_enabled       = var.enable_node_public_ip
+auto_scaling_enabled    = var.enable_auto_scaling
+host_encryption_enabled = var.enable_host_encryption
+node_public_ip_enabled  = var.enable_node_public_ip
 ```
 
 **Second default_node_pool (auto scaled):**
