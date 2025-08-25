@@ -107,12 +107,46 @@ The Manager continuously checks for the existence of a `task/pause` file as the 
 
 ---
 
+## 🚨 CRITICAL DISCIPLINE REQUIREMENT #3: Yield Message Protocol
+
+⚠️ **CRITICAL YIELD MESSAGE RULE** ⚠️
+**EVERY yield message MUST begin with "FIRST read task/important.md to refresh critical requirements, then..."**
+**NO EXCEPTIONS - ALL YIELD MESSAGES MUST FOLLOW THIS EXACT FORMAT**
+**VIOLATION OF THIS RULE WILL RESULT IN IMMEDIATE BANISHMENT TO SIBERIA FOR POTATO EXCAVATION**
+
+### Required Yield Message Format:
+```
+agent.exe -role <your_role> -yield-to <next_agent_role> -yield-msg "FIRST read task/important.md to refresh critical requirements, then <command to next agent>"
+```
+
+### Purpose and Benefits:
+This ensures that each agent receiving control will:
+1. **Refresh their knowledge** of critical discipline requirements
+2. **Maintain consistency** in following safety protocols
+3. **Avoid mistakes** due to forgotten or outdated information
+4. **Preserve the integrity** of the collaborative process
+
+### Examples of Correct Yield Messages:
+- Manager to Developer: `"FIRST read task/important.md to refresh critical requirements, then start Task 1.1: Process extra_node_pool.tf according to instructions"`
+- Developer to Reviewer: `"FIRST read task/important.md to refresh critical requirements, then validate Task 1.1 completion - merge of extra_node_pool_override.tf"`
+- Reviewer to Manager: `"FIRST read task/important.md to refresh critical requirements, then note Task 1.1 validation passed, ready for next task assignment"`
+
+### Key Requirements:
+- **✅ REQUIRED**: Start every yield message with the exact phrase "FIRST read task/important.md to refresh critical requirements, then"
+- **❌ FORBIDDEN**: Any yield message that doesn't include this prefix
+- **❌ FORBIDDEN**: Modifying or abbreviating the required prefix
+
+**This rule ensures proper knowledge transfer and safety compliance across all agent handoffs.**
+
+---
+
 ## ⚠️ Consequences of Violation
 
-Both critical discipline requirements carry severe consequences for non-compliance:
+All three critical discipline requirements carry severe consequences for non-compliance:
 
 1. **Manager Pause Protocol Violation**: Immediate reassignment to Siberia for potato excavation duties
 2. **History.md Protection Violation**: Immediate banishment to Siberia for potato excavation
+3. **Yield Message Protocol Violation**: Immediate banishment to Siberia for potato excavation
 
 **NO EXCEPTIONS. NO NEGOTIATIONS. ABSOLUTE COMPLIANCE REQUIRED.**
 
@@ -120,9 +154,10 @@ Both critical discipline requirements carry severe consequences for non-complian
 
 ## Summary
 
-These two critical discipline requirements ensure:
+These three critical discipline requirements ensure:
 - **Human oversight** at critical decision points through the pause mechanism
 - **Complete historical record** preservation through history.md protection
+- **Proper knowledge transfer** through mandatory important.md reading in yield messages
 - **Customer protection** through careful validation and approval processes
 - **Accountability** through immutable documentation trails
 
