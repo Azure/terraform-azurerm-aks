@@ -8,7 +8,7 @@ require (
 	github.com/Azure/terraform-module-test-helper v0.32.1
 	github.com/gruntwork-io/terratest v0.48.2
 	github.com/hashicorp/go-retryablehttp v0.7.8
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.0
 )
 
 require (
