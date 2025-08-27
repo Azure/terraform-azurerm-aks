@@ -68,9 +68,9 @@ module "aks" {
   confidential_computing = {
     sgx_quote_helper_enabled = true
   }
-  disk_encryption_set_id = azurerm_disk_encryption_set.des.id
-  enable_auto_scaling    = true
-  enable_host_encryption = true
+  disk_encryption_set_id  = azurerm_disk_encryption_set.des.id
+  auto_scaling_enabled    = true
+  host_encryption_enabled = true
   green_field_application_gateway_for_ingress = {
     name        = "${random_id.prefix.hex}-agw"
     subnet_cidr = "10.52.1.0/24"

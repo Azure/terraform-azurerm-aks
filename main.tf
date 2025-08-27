@@ -39,20 +39,20 @@ resource "azurerm_kubernetes_cluster" "main" {
   workload_identity_enabled           = var.workload_identity_enabled
 
   dynamic "default_node_pool" {
-    for_each = var.enable_auto_scaling == true ? [] : ["default_node_pool_manually_scaled"]
+    for_each = var.auto_scaling_enabled == true ? [] : ["default_node_pool_manually_scaled"]
 
     content {
       name                         = var.agents_pool_name
       vm_size                      = var.agents_size
-      auto_scaling_enabled         = var.enable_auto_scaling
+      auto_scaling_enabled         = var.auto_scaling_enabled
       fips_enabled                 = var.default_node_pool_fips_enabled
-      host_encryption_enabled      = var.enable_host_encryption
+      host_encryption_enabled      = var.host_encryption_enabled
       max_count                    = null
       max_pods                     = var.agents_max_pods
       min_count                    = null
       node_count                   = var.agents_count
       node_labels                  = var.agents_labels
-      node_public_ip_enabled       = var.enable_node_public_ip
+      node_public_ip_enabled       = var.node_public_ip_enabled
       only_critical_addons_enabled = var.only_critical_addons_enabled
       orchestrator_version         = var.orchestrator_version
       os_disk_size_gb              = var.os_disk_size_gb
@@ -160,19 +160,19 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "default_node_pool" {
-    for_each = var.enable_auto_scaling == true ? ["default_node_pool_auto_scaled"] : []
+    for_each = var.auto_scaling_enabled == true ? ["default_node_pool_auto_scaled"] : []
 
     content {
       name                         = var.agents_pool_name
       vm_size                      = var.agents_size
-      auto_scaling_enabled         = var.enable_auto_scaling
+      auto_scaling_enabled         = var.auto_scaling_enabled
       fips_enabled                 = var.default_node_pool_fips_enabled
-      host_encryption_enabled      = var.enable_host_encryption
+      host_encryption_enabled      = var.host_encryption_enabled
       max_count                    = var.agents_max_count
       max_pods                     = var.agents_max_pods
       min_count                    = var.agents_min_count
       node_labels                  = var.agents_labels
-      node_public_ip_enabled       = var.enable_node_public_ip
+      node_public_ip_enabled       = var.node_public_ip_enabled
       only_critical_addons_enabled = var.only_critical_addons_enabled
       orchestrator_version         = var.orchestrator_version
       os_disk_size_gb              = var.os_disk_size_gb
@@ -644,7 +644,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "When `kubelet_identity` is enabled - The `type` field in the `identity` block must be set to `UserAssigned` and `identity_ids` must be set."
     }
     precondition {
-      condition     = var.enable_auto_scaling != true || var.agents_type == "VirtualMachineScaleSets"
+      condition     = var.auto_scaling_enabled != true || var.agents_type == "VirtualMachineScaleSets"
       error_message = "Autoscaling on default node pools is only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets type nodes."
     }
     precondition {
