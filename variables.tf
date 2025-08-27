@@ -35,7 +35,7 @@ variable "agents_availability_zones" {
 variable "agents_count" {
   type        = number
   default     = 2
-  description = "The number of Agents that should exist in the Agent Pool. Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes."
+  description = "The number of Agents that should exist in the Agent Pool. Please set `agents_count` `null` while `auto_scaling_enabled` is `true` to avoid possible `agents_count` changes."
 }
 
 variable "agents_labels" {
@@ -503,19 +503,19 @@ variable "ebpf_data_plane" {
   description = "(Optional) Specifies the eBPF data plane used for building the Kubernetes network. Possible value is `cilium`. Changing this forces a new resource to be created."
 }
 
-variable "enable_auto_scaling" {
+variable "auto_scaling_enabled" {
   type        = bool
   default     = false
   description = "Enable node pool autoscaling"
 }
 
-variable "enable_host_encryption" {
+variable "host_encryption_enabled" {
   type        = bool
   default     = false
   description = "Enable Host Encryption for default node pool. Encryption at host feature must be enabled on the subscription: https://docs.microsoft.com/azure/virtual-machines/linux/disks-enable-host-based-encryption-cli"
 }
 
-variable "enable_node_public_ip" {
+variable "node_public_ip_enabled" {
   type        = bool
   default     = false
   description = "(Optional) Should nodes in this Node Pool have a Public IP Address? Defaults to false."
@@ -1058,9 +1058,9 @@ variable "node_pools" {
     host_group_id                 = optional(string)
     capacity_reservation_group_id = optional(string)
     custom_ca_trust_enabled       = optional(bool)
-    enable_auto_scaling           = optional(bool)
-    enable_host_encryption        = optional(bool)
-    enable_node_public_ip         = optional(bool)
+    auto_scaling_enabled          = optional(bool)
+    host_encryption_enabled       = optional(bool)
+    node_public_ip_enabled        = optional(bool)
     eviction_policy               = optional(string)
     gpu_instance                  = optional(string)
     kubelet_config = optional(object({
@@ -1171,9 +1171,9 @@ variable "node_pools" {
     host_group_id                 = (Optional) The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from. Changing this forces a new resource to be created.
     capacity_reservation_group_id = (Optional) Specifies the ID of the Capacity Reservation Group where this Node Pool should exist. Changing this forces a new resource to be created.
     custom_ca_trust_enabled       = (Optional) Specifies whether to trust a Custom CA. This requires that the Preview Feature `Microsoft.ContainerService/CustomCATrustPreview` is enabled and the Resource Provider is re-registered, see [the documentation](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority) for more information.
-    enable_auto_scaling           = (Optional) Whether to enable [auto-scaler](https://docs.microsoft.com/azure/aks/cluster-autoscaler).
-    enable_host_encryption        = (Optional) Should the nodes in this Node Pool have host encryption enabled? Changing this forces a new resource to be created.
-    enable_node_public_ip         = (Optional) Should each node have a Public IP Address? Changing this forces a new resource to be created.
+    auto_scaling_enabled          = (Optional) Whether to enable [auto-scaler](https://docs.microsoft.com/azure/aks/cluster-autoscaler).
+    host_encryption_enabled       = (Optional) Should the nodes in this Node Pool have host encryption enabled? Changing this forces a new resource to be created.
+    node_public_ip_enabled        = (Optional) Should each node have a Public IP Address? Changing this forces a new resource to be created.
     eviction_policy               = (Optional) The Eviction Policy which should be used for Virtual Machines within the Virtual Machine Scale Set powering this Node Pool. Possible values are `Deallocate` and `Delete`. Changing this forces a new resource to be created. An Eviction Policy can only be configured when `priority` is set to `Spot` and will default to `Delete` unless otherwise specified.
     gpu_instance                  = (Optional) Specifies the GPU MIG instance profile for supported GPU VM SKU. The allowed values are `MIG1g`, `MIG2g`, `MIG3g`, `MIG4g` and `MIG7g`. Changing this forces a new resource to be created.
     kubelet_config = optional(object({
@@ -1241,7 +1241,7 @@ variable "node_pools" {
       }))
     }))
     node_labels                  = (Optional) A map of Kubernetes labels which should be applied to nodes in this Node Pool.
-    node_public_ip_prefix_id     = (Optional) Resource ID for the Public IP Addresses Prefix for the nodes in this Node Pool. `enable_node_public_ip` should be `true`. Changing this forces a new resource to be created.
+    node_public_ip_prefix_id     = (Optional) Resource ID for the Public IP Addresses Prefix for the nodes in this Node Pool. `node_public_ip_enabled` should be `true`. Changing this forces a new resource to be created.
     node_taints                  = (Optional) A list of Kubernetes taints which should be applied to nodes in the agent pool (e.g `key=value:NoSchedule`). Changing this forces a new resource to be created.
     orchestrator_version         = (Optional) Version of Kubernetes used for the Agents. If not specified, the latest recommended version will be used at provisioning time (but won't auto-upgrade). AKS does not require an exact patch version to be specified, minor version aliases such as `1.22` are also supported. - The minor version's latest GA patch is automatically chosen in that case. More details can be found in [the documentation](https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli#alias-minor-version). This version must be supported by the Kubernetes Cluster - as such the version of Kubernetes used on the Cluster/Control Plane may need to be upgraded first.
     os_disk_size_gb              = (Optional) The Agent Operating System disk size in GB. Changing this forces a new resource to be created.
