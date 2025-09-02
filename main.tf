@@ -327,7 +327,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "identity" {
-    for_each = var.client_id == "" || var.client_secret == "" ? ["identity"] : []
+    for_each = var.client_id == "" || nonsensitive(var.client_secret) == "" ? ["identity"] : []
 
     content {
       type         = var.identity_type

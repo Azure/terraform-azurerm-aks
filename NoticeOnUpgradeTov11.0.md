@@ -15,3 +15,9 @@ This change also affects the `node_pools` variable where `node_pools[*].enable_h
 ## `var.enable_node_public_ip` has been renamed to `var.node_public_ip_enabled`
 
 This change also affects the `node_pools` variable where `node_pools[*].enable_node_public_ip` should be replaced with `node_pools[*].node_public_ip_enabled`.
+
+## `cluster_identity` output is no longer marked as sensitive
+
+The `cluster_identity` output was incorrectly marked as `sensitive = true` due to the `identity` block referencing `var.client_secret` in its `for_each` expression. This has been fixed by using the `nonsensitive()` function, and the output is no longer marked as sensitive.
+
+**Impact**: Users who previously had to mark their outputs as sensitive when using `module.aks.cluster_identity` can now remove the `sensitive = true` flag from their outputs. The cluster identity information (principal_id, tenant_id, type) is not actually sensitive data.

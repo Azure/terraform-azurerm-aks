@@ -100,7 +100,6 @@ output "cluster_fqdn" {
 
 output "cluster_identity" {
   description = "The `azurerm_kubernetes_cluster`'s `identity` block."
-  sensitive   = true
   value       = try(azurerm_kubernetes_cluster.main.identity[0], null)
 }
 
