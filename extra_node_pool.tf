@@ -13,6 +13,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
   eviction_policy               = each.value.eviction_policy
   fips_enabled                  = each.value.fips_enabled
   gpu_instance                  = each.value.gpu_instance
+  gpu_driver                    = each.value.gpu_driver
   host_encryption_enabled       = each.value.host_encryption_enabled
   host_group_id                 = each.value.host_group_id
   kubelet_disk_type             = each.value.kubelet_disk_type
@@ -175,6 +176,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
   capacity_reservation_group_id = each.value.capacity_reservation_group_id
   eviction_policy               = each.value.eviction_policy
   fips_enabled                  = each.value.fips_enabled
+  gpu_instance                  = each.value.gpu_instance
+  gpu_driver                    = each.value.gpu_driver
   host_encryption_enabled       = each.value.host_encryption_enabled
   host_group_id                 = each.value.host_group_id
   kubelet_disk_type             = each.value.kubelet_disk_type

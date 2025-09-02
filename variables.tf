@@ -1063,6 +1063,7 @@ variable "node_pools" {
     node_public_ip_enabled        = optional(bool)
     eviction_policy               = optional(string)
     gpu_instance                  = optional(string)
+    gpu_driver                    = optional(string)
     kubelet_config = optional(object({
       cpu_manager_policy        = optional(string)
       cpu_cfs_quota_enabled     = optional(bool)
@@ -1176,6 +1177,7 @@ variable "node_pools" {
     node_public_ip_enabled        = (Optional) Should each node have a Public IP Address? Changing this forces a new resource to be created.
     eviction_policy               = (Optional) The Eviction Policy which should be used for Virtual Machines within the Virtual Machine Scale Set powering this Node Pool. Possible values are `Deallocate` and `Delete`. Changing this forces a new resource to be created. An Eviction Policy can only be configured when `priority` is set to `Spot` and will default to `Delete` unless otherwise specified.
     gpu_instance                  = (Optional) Specifies the GPU MIG instance profile for supported GPU VM SKU. The allowed values are `MIG1g`, `MIG2g`, `MIG3g`, `MIG4g` and `MIG7g`. Changing this forces a new resource to be created.
+    gpu_driver                    = (Optional) Specifies the GPU Driver configuration to be installed on each GPU node. The allowed values are `Install` and `None`. Changing this forces a new resource to be created.
     kubelet_config = optional(object({
       cpu_manager_policy        = (Optional) Specifies the CPU Manager policy to use. Possible values are `none` and `static`, Changing this forces a new resource to be created.
       cpu_cfs_quota_enabled     = (Optional) Is CPU CFS quota enforcement for containers enabled? Changing this forces a new resource to be created.
