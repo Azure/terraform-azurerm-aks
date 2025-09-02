@@ -16,6 +16,7 @@ In most cases, you will need to adjust your Terraform code to accommodate the ch
 
 To help you in this process, we have provided detailed documentation on the breaking changes, new features, and any deprecated functionalities. Please take the time to read through these resources to avoid any potential issues or disruptions to your infrastructure.
 
+* [Notice on Upgrade to v11.x](https://github.com/Azure/terraform-azurerm-aks/blob/main/NoticeOnUpgradeTov11.0.md)
 * [Notice on Upgrade to v10.x](https://github.com/Azure/terraform-azurerm-aks/blob/main/NoticeOnUpgradeTov10.0.md)
 * [Notice on Upgrade to v9.x](https://github.com/Azure/terraform-azurerm-aks/blob/main/NoticeOnUpgradeTov9.0.md)
 * [Notice on Upgrade to v8.x](https://github.com/Azure/terraform-azurerm-aks/blob/main/NoticeOnUpgradeTov8.0.md)
