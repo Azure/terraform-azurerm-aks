@@ -664,8 +664,8 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "A user assigned identity or a service principal must be used when using a custom private dns zone"
     }
     precondition {
-      condition     = var.private_dns_zone_id == null ? true : (anytrue([for r in local.valid_private_dns_zone_regexs : try(regex(r, local.private_dns_zone_name) == local.private_dns_zone_name, false)]))
-      error_message = "According to the [document](https://learn.microsoft.com/en-us/azure/aks/private-clusters?tabs=azure-portal#configure-a-private-dns-zone), the private DNS zone must be in one of the following format: `privatelink.<region>.azmk8s.io`, `<subzone>.privatelink.<region>.azmk8s.io`, `private.<region>.azmk8s.io`, `<subzone>.private.<region>.azmk8s.io`"
+      condition     = (var.private_dns_zone_id == null || var.private_dns_zone_id == "None" || var.private_dns_zone_id == "System") ? true : (anytrue([for r in local.valid_private_dns_zone_regexs : try(regex(r, local.private_dns_zone_name) == local.private_dns_zone_name, false)]))
+      error_message = "The private_dns_zone_id must be either null, \"None\", \"System\", or a valid private DNS zone resource ID. Valid DNS zone formats are: `privatelink.<region>.azmk8s.io`, `<subzone>.privatelink.<region>.azmk8s.io`, `private.<region>.azmk8s.io`, `<subzone>.private.<region>.azmk8s.io`"
     }
   }
 }
