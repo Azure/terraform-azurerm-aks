@@ -457,6 +457,13 @@ variable "create_role_assignments_for_application_gateway" {
   nullable    = false
 }
 
+variable "custom_ca_trust_certificates_base64" {
+  type        = list(any)
+  default     = []
+  description = "(Optional) A list of up to 10 base64 encoded CA certificates that will be added to the trust store on nodes."
+  nullable    = false
+}
+
 variable "data_collection_settings" {
   type = object({
     data_collection_interval                     = string

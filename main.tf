@@ -17,6 +17,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   automatic_upgrade_channel           = var.automatic_channel_upgrade
   azure_policy_enabled                = var.azure_policy_enabled
   cost_analysis_enabled               = var.cost_analysis_enabled
+  custom_ca_trust_certificates_base64 = var.custom_ca_trust_certificates_base64
   disk_encryption_set_id              = var.disk_encryption_set_id
   dns_prefix                          = var.prefix
   dns_prefix_private_cluster          = var.dns_prefix_private_cluster
