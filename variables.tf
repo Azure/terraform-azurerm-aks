@@ -479,11 +479,7 @@ variable "data_collection_settings" {
   EOT
 }
 
-variable "default_node_pool_fips_enabled" {
-  type        = bool
-  default     = null
-  description = " (Optional) Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created."
-}
+
 
 variable "disk_encryption_set_id" {
   type        = string
@@ -491,11 +487,7 @@ variable "disk_encryption_set_id" {
   description = "(Optional) The ID of the Disk Encryption Set which should be used for the Nodes and Volumes. More information [can be found in the documentation](https://docs.microsoft.com/azure/aks/azure-disk-customer-managed-keys). Changing this forces a new resource to be created."
 }
 
-variable "dns_prefix_private_cluster" {
-  type        = string
-  default     = null
-  description = "(Optional) Specifies the DNS prefix to use with private clusters. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified. Changing this forces a new resource to be created."
-}
+
 
 variable "ebpf_data_plane" {
   type        = string
@@ -1353,7 +1345,7 @@ variable "prefix" {
   description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
 }
 
-variable "private_cluster_enabled" {
+variable "why_private_cluster_enabled" {
   type        = bool
   default     = false
   description = "If true cluster API server will be exposed only on internal IP address and available only in cluster vnet."
