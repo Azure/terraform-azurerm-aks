@@ -37,31 +37,31 @@ resource "azurerm_subnet" "test" {
 module "aks" {
   source = "../.."
 
-  location                  = local.resource_group.location
-  prefix                    = random_id.name.hex
-  rbac_aad_tenant_id        = data.azurerm_client_config.current.tenant_id
-  resource_group_name       = local.resource_group.name
-  kubernetes_version        = "1.30" # don't specify the patch version!
-  automatic_channel_upgrade = "patch"
-  agents_availability_zones = ["1", "2"]
-  agents_count              = null
-  agents_max_count          = 2
-  agents_max_pods           = 100
-  agents_min_count          = 1
-  agents_pool_name          = "testnodepool"
-  agents_size               = "Standard_DS2_v2"
-  auto_scaling_enabled      = true
-  client_id                 = var.client_id
-  client_secret             = var.client_secret
-  log_analytics_workspace_enabled = true
-  net_profile_dns_service_ip      = "10.0.0.10"
-  net_profile_service_cidr        = "10.0.0.0/16"
-  network_plugin                  = "azure"
-  orchestrator_version            = "1.30"
-  os_disk_size_gb                 = 60
-  private_cluster_enabled         = false
+  location                          = local.resource_group.location
+  prefix                            = random_id.name.hex
+  rbac_aad_tenant_id                = data.azurerm_client_config.current.tenant_id
+  resource_group_name               = local.resource_group.name
+  kubernetes_version                = "1.30" # don't specify the patch version!
+  automatic_channel_upgrade         = "patch"
+  agents_availability_zones         = ["1", "2"]
+  agents_count                      = null
+  agents_max_count                  = 2
+  agents_max_pods                   = 100
+  agents_min_count                  = 1
+  agents_pool_name                  = "testnodepool"
+  agents_size                       = "Standard_DS2_v2"
+  auto_scaling_enabled              = true
+  client_id                         = var.client_id
+  client_secret                     = var.client_secret
+  log_analytics_workspace_enabled   = true
+  net_profile_dns_service_ip        = "10.0.0.10"
+  net_profile_service_cidr          = "10.0.0.0/16"
+  network_plugin                    = "azure"
+  orchestrator_version              = "1.30"
+  os_disk_size_gb                   = 60
+  private_cluster_enabled           = false
   role_based_access_control_enabled = true
-  sku_tier                        = "Standard"
+  sku_tier                          = "Standard"
   vnet_subnet = {
     id = azurerm_subnet.test.id
   }
@@ -76,21 +76,21 @@ module "aks" {
         # Root zone configuration - uses VNet DNS
         "." = {
           query_logging                   = "Error"
-          protocol                       = "PreferUDP"
-          forward_destination            = "VnetDNS"
-          forward_policy                 = "Random"
-          max_concurrent                 = 150
-          cache_duration_in_seconds      = 300
+          protocol                        = "PreferUDP"
+          forward_destination             = "VnetDNS"
+          forward_policy                  = "Random"
+          max_concurrent                  = 150
+          cache_duration_in_seconds       = 300
           serve_stale_duration_in_seconds = 86400
-          serve_stale                    = "Immediate"
+          serve_stale                     = "Immediate"
         }
         # Custom zone configuration
         "example.local" = {
           query_logging       = "Log"
-          protocol           = "PreferUDP"
+          protocol            = "PreferUDP"
           forward_destination = "VnetDNS"
-          forward_policy     = "RoundRobin"
-          max_concurrent     = 100
+          forward_policy      = "RoundRobin"
+          max_concurrent      = 100
         }
       }
     }
@@ -101,20 +101,20 @@ module "aks" {
         # Cluster-local zone - uses Kubernetes CoreDNS
         "cluster.local" = {
           query_logging                   = "Error"
-          protocol                       = "PreferUDP"
-          forward_destination            = "ClusterCoreDNS"
-          forward_policy                 = "Sequential"
-          max_concurrent                 = 200
-          cache_duration_in_seconds      = 600
+          protocol                        = "PreferUDP"
+          forward_destination             = "ClusterCoreDNS"
+          forward_policy                  = "Sequential"
+          max_concurrent                  = 200
+          cache_duration_in_seconds       = 600
           serve_stale_duration_in_seconds = 3600
-          serve_stale                    = "Verify"
+          serve_stale                     = "Verify"
         }
         # Service discovery zone
         "svc.cluster.local" = {
           query_logging       = "Log"
-          protocol           = "PreferUDP"
+          protocol            = "PreferUDP"
           forward_destination = "ClusterCoreDNS"
-          forward_policy     = "Random"
+          forward_policy      = "Random"
         }
       }
     }
