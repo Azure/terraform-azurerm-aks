@@ -745,3 +745,57 @@ resource "azapi_update_resource" "aks_cluster_http_proxy_config_no_proxy" {
     replace_triggered_by = [null_resource.http_proxy_config_no_proxy_keeper[0].id]
   }
 }
+
+# LocalDNS configuration trigger resource
+resource "null_resource" "localdns_config_keeper" {
+  count = var.localdns_config != null ? 1 : 0
+  triggers = {
+    localdns_config = jsonencode(var.localdns_config)
+  }
+}
+
+# Apply LocalDNS configuration using azapi
+resource "azapi_update_resource" "aks_cluster_localdns_config" {
+  count = var.localdns_config != null ? 1 : 0
+
+  resource_id = azurerm_kubernetes_cluster.main.id
+  type        = "Microsoft.ContainerService/managedClusters@2024-02-01"
+  body = {
+    properties = {
+      localDNSConfig = {
+        mode = var.localdns_config.mode
+        vnetDNSOverrides = var.localdns_config.vnet_dns_overrides != null ? {
+          for zone_name, zone_config in var.localdns_config.vnet_dns_overrides.zones : zone_name => {
+            queryLogging                = zone_config.query_logging
+            protocol                    = zone_config.protocol
+            forwardDestination          = zone_config.forward_destination
+            forwardPolicy               = zone_config.forward_policy
+            maxConcurrent               = zone_config.max_concurrent
+            cacheDurationInSeconds      = zone_config.cache_duration_in_seconds
+            serveStaleDurationInSeconds = zone_config.serve_stale_duration_in_seconds
+            serveStale                  = zone_config.serve_stale
+          }
+        } : null
+        kubeDNSOverrides = var.localdns_config.kube_dns_overrides != null ? {
+          for zone_name, zone_config in var.localdns_config.kube_dns_overrides.zones : zone_name => {
+            queryLogging                = zone_config.query_logging
+            protocol                    = zone_config.protocol
+            forwardDestination          = zone_config.forward_destination
+            forwardPolicy               = zone_config.forward_policy
+            maxConcurrent               = zone_config.max_concurrent
+            cacheDurationInSeconds      = zone_config.cache_duration_in_seconds
+            serveStaleDurationInSeconds = zone_config.serve_stale_duration_in_seconds
+            serveStale                  = zone_config.serve_stale
+          }
+        } : null
+      }
+    }
+  }
+
+  depends_on = [azapi_update_resource.aks_cluster_post_create]
+
+  lifecycle {
+    ignore_changes       = all
+    replace_triggered_by = [null_resource.localdns_config_keeper[0].id]
+  }
+}

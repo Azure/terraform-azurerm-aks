@@ -651,6 +651,66 @@ variable "kubernetes_version" {
   description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
 }
 
+variable "localdns_config" {
+  type = object({
+    mode = string
+    vnet_dns_overrides = optional(object({
+      zones = map(object({
+        query_logging                   = optional(string)
+        protocol                        = optional(string)
+        forward_destination             = optional(string)
+        forward_policy                  = optional(string)
+        max_concurrent                  = optional(number)
+        cache_duration_in_seconds       = optional(number)
+        serve_stale_duration_in_seconds = optional(number)
+        serve_stale                     = optional(string)
+      }))
+    }))
+    kube_dns_overrides = optional(object({
+      zones = map(object({
+        query_logging                   = optional(string)
+        protocol                        = optional(string)
+        forward_destination             = optional(string)
+        forward_policy                  = optional(string)
+        max_concurrent                  = optional(number)
+        cache_duration_in_seconds       = optional(number)
+        serve_stale_duration_in_seconds = optional(number)
+        serve_stale                     = optional(string)
+      }))
+    }))
+  })
+  default     = null
+  description = <<-EOT
+(Optional) Configuration for LocalDNS feature in AKS cluster. This configures DNS settings for pods and nodes.
+
+- `mode` - (Required) Controls LocalDNS enforcement. Possible values are `Required`, `Disabled`, or `Preferred`.
+- `vnet_dns_overrides` - (Optional) Configuration for pods using `dnsPolicy:default`. Contains a map of DNS zones.
+- `kube_dns_overrides` - (Optional) Configuration for pods using `dnsPolicy:ClusterFirst`. Contains a map of DNS zones.
+
+Each DNS zone configuration supports:
+- `query_logging` - (Optional) Logging level. Possible values are `Error` or `Log`.
+- `protocol` - (Optional) DNS protocol preference. Possible values are `PreferUDP` or `ForceTCP`.
+- `forward_destination` - (Optional) Target DNS server. Possible values are `VnetDNS` or `ClusterCoreDNS`.
+- `forward_policy` - (Optional) Upstream selection policy. Possible values are `Random`, `RoundRobin`, or `Sequential`.
+- `max_concurrent` - (Optional) Maximum concurrent queries (integer).
+- `cache_duration_in_seconds` - (Optional) Cache TTL duration (integer).
+- `serve_stale_duration_in_seconds` - (Optional) Stale response duration (integer).
+- `serve_stale` - (Optional) Stale serving policy. Possible values are `Verify`, `Immediate`, or `Disabled`.
+
+Constraints:
+- Root zone "." under `vnet_dns_overrides` cannot use `ClusterCoreDNS` as `forward_destination`
+- Zone "cluster.local" cannot use `VnetDNS` as `forward_destination`
+- When `protocol` is `ForceTCP`, `serve_stale` cannot be `Verify`
+
+For more information see: https://learn.microsoft.com/en-us/azure/aks/localdns-custom
+EOT
+
+  validation {
+    condition     = var.localdns_config == null ? true : contains(["Required", "Disabled", "Preferred"], var.localdns_config.mode)
+    error_message = "The localdns_config mode must be one of: Required, Disabled, Preferred."
+  }
+}
+
 variable "load_balancer_profile_enabled" {
   type        = bool
   default     = false
