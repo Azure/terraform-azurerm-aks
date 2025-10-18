@@ -320,10 +320,10 @@ func TestLocalDNSConfigSetShouldApplyConfiguration(t *testing.T) {
 			"zones": map[string]interface{}{
 				".": map[string]interface{}{
 					"query_logging":       "Error",
-					"protocol":           "PreferUDP",
+					"protocol":            "PreferUDP",
 					"forward_destination": "VnetDNS",
-					"forward_policy":     "Random",
-					"max_concurrent":     150,
+					"forward_policy":      "Random",
+					"max_concurrent":      150,
 				},
 			},
 		},
@@ -331,9 +331,9 @@ func TestLocalDNSConfigSetShouldApplyConfiguration(t *testing.T) {
 			"zones": map[string]interface{}{
 				"cluster.local": map[string]interface{}{
 					"query_logging":       "Log",
-					"protocol":           "PreferUDP",
+					"protocol":            "PreferUDP",
 					"forward_destination": "ClusterCoreDNS",
-					"forward_policy":     "Sequential",
+					"forward_policy":      "Sequential",
 				},
 			},
 		},
