@@ -298,6 +298,118 @@ func Test_LogAnalyticsWorkspaceWithoutLocationShouldQueryDSForWorkspaceLocation(
 	})
 }
 
+func TestLocalDNSConfigNotSetShouldNotApplyConfiguration(t *testing.T) {
+	vars := dummyRequiredVariables()
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
+		Upgrade: false,
+		Vars:    vars,
+	}, func(t *testing.T, output test_helper.TerraformOutput) {
+		localdnsConfigApplied, ok := output["localdns_config_applied"].(bool)
+		assert.True(t, ok)
+		assert.False(t, localdnsConfigApplied)
+		localdnsConfig := output["localdns_config"]
+		assert.Nil(t, localdnsConfig)
+	})
+}
+
+func TestLocalDNSConfigSetShouldApplyConfiguration(t *testing.T) {
+	vars := dummyRequiredVariables()
+	vars["localdns_config"] = map[string]interface{}{
+		"mode": "Required",
+		"vnet_dns_overrides": map[string]interface{}{
+			"zones": map[string]interface{}{
+				".": map[string]interface{}{
+					"query_logging":       "Error",
+					"protocol":           "PreferUDP",
+					"forward_destination": "VnetDNS",
+					"forward_policy":     "Random",
+					"max_concurrent":     150,
+				},
+			},
+		},
+		"kube_dns_overrides": map[string]interface{}{
+			"zones": map[string]interface{}{
+				"cluster.local": map[string]interface{}{
+					"query_logging":       "Log",
+					"protocol":           "PreferUDP",
+					"forward_destination": "ClusterCoreDNS",
+					"forward_policy":     "Sequential",
+				},
+			},
+		},
+	}
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
+		Upgrade: false,
+		Vars:    vars,
+	}, func(t *testing.T, output test_helper.TerraformOutput) {
+		localdnsConfigApplied, ok := output["localdns_config_applied"].(bool)
+		assert.True(t, ok)
+		assert.True(t, localdnsConfigApplied)
+
+		localdnsConfig, ok := output["localdns_config"].(map[string]interface{})
+		assert.True(t, ok)
+		assert.NotNil(t, localdnsConfig)
+
+		// Verify mode
+		mode, ok := localdnsConfig["mode"].(string)
+		assert.True(t, ok)
+		assert.Equal(t, "Required", mode)
+
+		// Verify vnet_dns_overrides structure exists
+		vnetDnsOverrides, ok := localdnsConfig["vnet_dns_overrides"].(map[string]interface{})
+		assert.True(t, ok)
+		assert.NotNil(t, vnetDnsOverrides)
+
+		// Verify kube_dns_overrides structure exists
+		kubeDnsOverrides, ok := localdnsConfig["kube_dns_overrides"].(map[string]interface{})
+		assert.True(t, ok)
+		assert.NotNil(t, kubeDnsOverrides)
+	})
+}
+
+func TestLocalDNSConfigPreferredMode(t *testing.T) {
+	vars := dummyRequiredVariables()
+	vars["localdns_config"] = map[string]interface{}{
+		"mode": "Preferred",
+		"vnet_dns_overrides": map[string]interface{}{
+			"zones": map[string]interface{}{
+				".": map[string]interface{}{
+					"forward_destination": "VnetDNS",
+				},
+			},
+		},
+	}
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
+		Upgrade: false,
+		Vars:    vars,
+	}, func(t *testing.T, output test_helper.TerraformOutput) {
+		localdnsConfig, ok := output["localdns_config"].(map[string]interface{})
+		assert.True(t, ok)
+
+		mode, ok := localdnsConfig["mode"].(string)
+		assert.True(t, ok)
+		assert.Equal(t, "Preferred", mode)
+	})
+}
+
+func TestLocalDNSConfigDisabledMode(t *testing.T) {
+	vars := dummyRequiredVariables()
+	vars["localdns_config"] = map[string]interface{}{
+		"mode": "Disabled",
+	}
+	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
+		Upgrade: false,
+		Vars:    vars,
+	}, func(t *testing.T, output test_helper.TerraformOutput) {
+		localdnsConfig, ok := output["localdns_config"].(map[string]interface{})
+		assert.True(t, ok)
+
+		mode, ok := localdnsConfig["mode"].(string)
+		assert.True(t, ok)
+		assert.Equal(t, "Disabled", mode)
+	})
+}
+
 func dummyRequiredVariables() map[string]interface{} {
 	return map[string]interface{}{
 		"prefix":              "foo",

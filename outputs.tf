@@ -228,3 +228,8 @@ output "web_app_routing_identity" {
   description = "The `azurerm_kubernetes_cluster`'s `web_app_routing_identity` block, it's type is a list of object."
   value       = try(azurerm_kubernetes_cluster.main.web_app_routing[0].web_app_routing_identity, [])
 }
+
+output "localdns_config" {
+  description = "The LocalDNS configuration applied to the AKS cluster."
+  value       = var.localdns_config
+}
