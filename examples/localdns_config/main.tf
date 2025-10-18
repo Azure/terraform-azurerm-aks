@@ -53,7 +53,6 @@ module "aks" {
   auto_scaling_enabled      = true
   client_id                 = var.client_id
   client_secret             = var.client_secret
-  enable_auto_scaling       = true
   log_analytics_workspace_enabled = true
   net_profile_dns_service_ip      = "10.0.0.10"
   net_profile_service_cidr        = "10.0.0.0/16"
@@ -61,11 +60,11 @@ module "aks" {
   orchestrator_version            = "1.30"
   os_disk_size_gb                 = 60
   private_cluster_enabled         = false
-  rbac_aad                        = true
-  rbac_aad_managed                = true
   role_based_access_control_enabled = true
   sku_tier                        = "Standard"
-  vnet_subnet_id                  = azurerm_subnet.test.id
+  vnet_subnet = {
+    id = azurerm_subnet.test.id
+  }
 
   # LocalDNS configuration example
   localdns_config = {
