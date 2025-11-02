@@ -550,6 +550,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
     content {
       dns_zone_ids = var.web_app_routing.dns_zone_ids
+      default_nginx_controller = var.web_app_routing.default_nginx_controller
     }
   }
   dynamic "workload_autoscaler_profile" {

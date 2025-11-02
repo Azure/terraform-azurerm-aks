@@ -1536,11 +1536,13 @@ EOT
 variable "web_app_routing" {
   type = object({
     dns_zone_ids = list(string)
+    default_nginx_controller = optional(string, "AnnotationControlled")
   })
   default     = null
   description = <<-EOT
   object({
     dns_zone_ids = "(Required) Specifies the list of the DNS Zone IDs in which DNS entries are created for applications deployed to the cluster when Web App Routing is enabled. If not using Bring-Your-Own DNS zones this property should be set to an empty list."
+    default_nginx_controller = "(Optional) Specifies the ingress type for the default NginxIngressController custom resource. The allowed values are None, Internal, External and AnnotationControlled. It defaults to AnnotationControlled."
   })
 EOT
 }
