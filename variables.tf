@@ -1535,7 +1535,7 @@ EOT
 
 variable "web_app_routing" {
   type = object({
-    dns_zone_ids = list(string)
+    dns_zone_ids             = list(string)
     default_nginx_controller = optional(string, "AnnotationControlled")
   })
   default     = null
