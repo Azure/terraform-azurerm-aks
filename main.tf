@@ -701,7 +701,7 @@ resource "time_sleep" "interval_before_cluster_update" {
 
 resource "azapi_update_resource" "aks_cluster_post_create" {
   resource_id = azurerm_kubernetes_cluster.main.id
-  type        = "Microsoft.ContainerService/managedClusters@2024-02-01"
+  type        = "Microsoft.ContainerService/managedClusters@${local.aks_managed_clusters_api_version}"
   body = {
     properties = {
       kubernetesVersion = var.kubernetes_version
@@ -730,7 +730,7 @@ resource "azapi_update_resource" "aks_cluster_http_proxy_config_no_proxy" {
   count = can(var.http_proxy_config.no_proxy[0]) ? 1 : 0
 
   resource_id = azurerm_kubernetes_cluster.main.id
-  type        = "Microsoft.ContainerService/managedClusters@2024-02-01"
+  type        = "Microsoft.ContainerService/managedClusters@${local.aks_managed_clusters_api_version}"
   body = {
     properties = {
       httpProxyConfig = {
@@ -760,34 +760,30 @@ resource "azapi_update_resource" "aks_cluster_localdns_config" {
   count = var.localdns_config != null ? 1 : 0
 
   resource_id = azurerm_kubernetes_cluster.main.id
-  type        = "Microsoft.ContainerService/managedClusters@2024-02-01"
+  type        = "Microsoft.ContainerService/managedClusters@${local.aks_managed_clusters_api_version}"
   body = {
     properties = {
-      localDNSConfig = {
+      localDNSProfile = {
         mode = var.localdns_config.mode
         vnetDNSOverrides = var.localdns_config.vnet_dns_overrides != null ? {
-          for zone_name, zone_config in var.localdns_config.vnet_dns_overrides.zones : zone_name => {
-            queryLogging                = zone_config.query_logging
-            protocol                    = zone_config.protocol
-            forwardDestination          = zone_config.forward_destination
-            forwardPolicy               = zone_config.forward_policy
-            maxConcurrent               = zone_config.max_concurrent
-            cacheDurationInSeconds      = zone_config.cache_duration_in_seconds
-            serveStaleDurationInSeconds = zone_config.serve_stale_duration_in_seconds
-            serveStale                  = zone_config.serve_stale
-          }
+          queryLogging                = var.localdns_config.vnet_dns_overrides.query_logging
+          protocol                    = var.localdns_config.vnet_dns_overrides.protocol
+          forwardDestination          = var.localdns_config.vnet_dns_overrides.forward_destination
+          forwardPolicy               = var.localdns_config.vnet_dns_overrides.forward_policy
+          maxConcurrent               = var.localdns_config.vnet_dns_overrides.max_concurrent
+          cacheDurationInSeconds      = var.localdns_config.vnet_dns_overrides.cache_duration_in_seconds
+          serveStaleDurationInSeconds = var.localdns_config.vnet_dns_overrides.serve_stale_duration_in_seconds
+          serveStale                  = var.localdns_config.vnet_dns_overrides.serve_stale
         } : null
         kubeDNSOverrides = var.localdns_config.kube_dns_overrides != null ? {
-          for zone_name, zone_config in var.localdns_config.kube_dns_overrides.zones : zone_name => {
-            queryLogging                = zone_config.query_logging
-            protocol                    = zone_config.protocol
-            forwardDestination          = zone_config.forward_destination
-            forwardPolicy               = zone_config.forward_policy
-            maxConcurrent               = zone_config.max_concurrent
-            cacheDurationInSeconds      = zone_config.cache_duration_in_seconds
-            serveStaleDurationInSeconds = zone_config.serve_stale_duration_in_seconds
-            serveStale                  = zone_config.serve_stale
-          }
+          queryLogging                = var.localdns_config.kube_dns_overrides.query_logging
+          protocol                    = var.localdns_config.kube_dns_overrides.protocol
+          forwardDestination          = var.localdns_config.kube_dns_overrides.forward_destination
+          forwardPolicy               = var.localdns_config.kube_dns_overrides.forward_policy
+          maxConcurrent               = var.localdns_config.kube_dns_overrides.max_concurrent
+          cacheDurationInSeconds      = var.localdns_config.kube_dns_overrides.cache_duration_in_seconds
+          serveStaleDurationInSeconds = var.localdns_config.kube_dns_overrides.serve_stale_duration_in_seconds
+          serveStale                  = var.localdns_config.kube_dns_overrides.serve_stale
         } : null
       }
     }
