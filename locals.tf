@@ -1,4 +1,6 @@
 locals {
+  # Centralize AzAPI version for AKS managedClusters operations
+  aks_managed_clusters_api_version = "2025-09-01"
   # Abstract if auto_scaler_profile_scale_down_delay_after_delete is not set or null we should use the scan_interval.
   auto_scaler_profile_scale_down_delay_after_delete = var.auto_scaler_profile_scale_down_delay_after_delete == null ? var.auto_scaler_profile_scan_interval : var.auto_scaler_profile_scale_down_delay_after_delete
   # automatic upgrades are either:
