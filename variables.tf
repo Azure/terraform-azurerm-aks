@@ -1545,6 +1545,22 @@ variable "web_app_routing" {
 EOT
 }
 
+variable "windows_profile" {
+  type = object({
+    admin_password = string
+    admin_username = string
+  })
+  default     = null
+  sensitive   = true
+  description = <<-EOT
+  (Optional) The Windows profile for the AKS cluster. Required when `os_type` is set to `Windows` in any node pool.
+  object({
+    admin_username = "(Required) The Admin Username for Windows VMs. Changing this forces a new resource to be created."
+    admin_password = "(Required) The Admin Password for Windows VMs. Length must be between 14 and 123 characters."
+  })
+EOT
+}
+
 variable "workload_autoscaler_profile" {
   type = object({
     keda_enabled                    = optional(bool, false)
