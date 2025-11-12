@@ -16,7 +16,7 @@ variable "create_resource_group" {
 }
 
 variable "location" {
-  default     = "East US"
+  default     = "East US 2"
   description = "The location where the Managed Kubernetes Cluster should be created."
 }
 
