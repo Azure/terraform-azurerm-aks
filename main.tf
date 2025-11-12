@@ -701,7 +701,7 @@ resource "time_sleep" "interval_before_cluster_update" {
 
 resource "azapi_update_resource" "aks_cluster_post_create" {
   resource_id = azurerm_kubernetes_cluster.main.id
-  type        = "Microsoft.ContainerService/managedClusters@${local.aks_managed_clusters_api_version}"
+  type        = "Microsoft.ContainerService/managedClusters@${local.aks_api_version}"
   body = {
     properties = {
       kubernetesVersion = var.kubernetes_version
@@ -730,7 +730,7 @@ resource "azapi_update_resource" "aks_cluster_http_proxy_config_no_proxy" {
   count = can(var.http_proxy_config.no_proxy[0]) ? 1 : 0
 
   resource_id = azurerm_kubernetes_cluster.main.id
-  type        = "Microsoft.ContainerService/managedClusters@${local.aks_managed_clusters_api_version}"
+  type        = "Microsoft.ContainerService/managedClusters@${local.aks_api_version}"
   body = {
     properties = {
       httpProxyConfig = {
@@ -760,7 +760,7 @@ resource "azapi_update_resource" "aks_cluster_localdns_config" {
   count = var.localdns_config != null ? 1 : 0
 
   resource_id = azurerm_kubernetes_cluster.main.id
-  type        = "Microsoft.ContainerService/managedClusters@${local.aks_managed_clusters_api_version}"
+  type        = "Microsoft.ContainerService/managedClusters/agentPools@${local.aks_api_version}"
   body = {
     properties = {
       localDNSProfile = {
