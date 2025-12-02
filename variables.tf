@@ -1305,13 +1305,6 @@ variable "oms_agent_enabled" {
   nullable    = false
 }
 
-variable "container_network_logs_enabled" {
-  type        = bool
-  default     = false
-  description = "(Optional) Enable container network observability logs for OMS agent."
-  nullable    = false
-}
-
 variable "only_critical_addons_enabled" {
   type        = bool
   default     = null
