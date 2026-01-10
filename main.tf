@@ -517,6 +517,14 @@ resource "azurerm_kubernetes_cluster" "main" {
       internal_ingress_gateway_enabled = var.service_mesh_profile.internal_ingress_gateway_enabled
     }
   }
+  dynamic "node_provisioning_profile" {
+    for_each = var.node_provisioning_profile == null ? [] : [var.node_provisioning_profile]
+
+    content {
+      mode               = node_provisioning_profile.value.mode
+      default_node_pools = node_provisioning_profile.value.default_node_pools
+    }
+  }
   dynamic "service_principal" {
     for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
 

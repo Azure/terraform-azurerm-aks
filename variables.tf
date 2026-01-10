@@ -1043,6 +1043,45 @@ variable "node_network_profile" {
 EOT
 }
 
+variable "node_provisioning_profile" {
+  type = object({
+    mode               = optional(string)
+    default_node_pools = optional(string)
+  })
+  default     = null
+  description = <<-EOT
+    (Optional) A `node_provisioning_profile` block that controls node provisioning behavior for the cluster.
+
+    object({
+      mode               = (Optional) Specifies the provisioning mode for node pools created in this cluster. Possible values are `Auto` and `Manual`. Defaults to `Manual`.
+      default_node_pools = (Optional) Specifies whether default node pools should be provisioned automatically. Possible values are `Auto` and `None`. Defaults to `Auto`.
+    })
+
+    Note: At least one of `mode` or `default_node_pools` must be specified when this block is configured.
+EOT
+
+  validation {
+    condition = var.node_provisioning_profile == null ? true : (
+      var.node_provisioning_profile.mode != null || var.node_provisioning_profile.default_node_pools != null
+    )
+    error_message = "When `node_provisioning_profile` is configured, at least one of `mode` or `default_node_pools` must be specified."
+  }
+
+  validation {
+    condition = var.node_provisioning_profile == null ? true : (
+      var.node_provisioning_profile.mode == null || contains(["Auto", "Manual"], var.node_provisioning_profile.mode)
+    )
+    error_message = "`mode` must be either `Auto` or `Manual`."
+  }
+
+  validation {
+    condition = var.node_provisioning_profile == null ? true : (
+      var.node_provisioning_profile.default_node_pools == null || contains(["Auto", "None"], var.node_provisioning_profile.default_node_pools)
+    )
+    error_message = "`default_node_pools` must be either `Auto` or `None`."
+  }
+}
+
 variable "node_os_channel_upgrade" {
   type        = string
   default     = null
