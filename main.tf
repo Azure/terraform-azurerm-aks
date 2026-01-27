@@ -505,7 +505,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     content {
       log_analytics_workspace_id      = local.log_analytics_workspace.id
       msi_auth_for_monitoring_enabled = var.msi_auth_for_monitoring_enabled
-      container_network_logs_enabled  = var.container_network_logs_enabled
+      retina_flow_logs_enabled  = var.retina_flow_logs_enabled
     }
   }
   dynamic "service_mesh_profile" {

@@ -958,7 +958,7 @@ variable "msi_auth_for_monitoring_enabled" {
   description = "(Optional) Is managed identity authentication for monitoring enabled?"
 }
 
-variable "container_network_logs_enabled" {
+variable "retina_flow_logs_enabled" {
   type        = bool
   default     = false
   description = "(Optional) Enable container network observability logs for OMS agent."
