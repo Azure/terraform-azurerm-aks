@@ -962,7 +962,6 @@ variable "retina_flow_logs_enabled" {
   type        = bool
   default     = false
   description = "(Optional) Enable container network observability logs for OMS agent."
-  nullable    = false
 }
 
 variable "nat_gateway_profile" {
