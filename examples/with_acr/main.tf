@@ -1,7 +1,7 @@
 data "azapi_client_config" "current" {}
 
 resource "azapi_resource_action" "register_encryption_at_host" {
-  type        = "Microsoft.Features/providers/features@2021-07-01"
+  type        = "Microsoft.Compute/features@2021-07-01"
   resource_id = "/subscriptions/${data.azapi_client_config.current.subscription_id}/providers/Microsoft.Features/providers/Microsoft.Compute/features/EncryptionAtHost"
   action      = "register"
   method      = "POST"
