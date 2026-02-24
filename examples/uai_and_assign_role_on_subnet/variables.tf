@@ -3,7 +3,7 @@ variable "kubernetes_cluster_name" {
 }
 
 variable "location" {
-  default = "eastus"
+  default = "northcentralus"
 }
 
 variable "resource_group_name" {
