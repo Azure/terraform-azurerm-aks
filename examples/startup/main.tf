@@ -41,9 +41,9 @@ module "aks" {
   prefix                    = random_id.name.hex
   rbac_aad_tenant_id        = data.azurerm_client_config.current.tenant_id
   resource_group_name       = local.resource_group.name
-  kubernetes_version        = "1.30" # don't specify the patch version!
+  kubernetes_version        = "1.33" # don't specify the patch version!
   automatic_channel_upgrade = "patch"
-  agents_availability_zones = ["1", "2"]
+  agents_availability_zones = ["1"]
   agents_count              = null
   agents_max_count          = 2
   agents_max_pods           = 100
