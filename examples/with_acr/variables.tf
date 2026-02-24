@@ -5,7 +5,7 @@ variable "create_resource_group" {
 }
 
 variable "location" {
-  default = "eastus"
+  default = "eastus2"
 }
 
 variable "resource_group_name" {
