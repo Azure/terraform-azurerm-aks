@@ -10,7 +10,7 @@ variable "key_vault_firewall_bypass_ip_cidr" {
 }
 
 variable "location" {
-  default = "eastus"
+  default = "southeastasia"
 }
 
 variable "managed_identity_principal_id" {

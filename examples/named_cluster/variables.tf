@@ -10,7 +10,7 @@ variable "key_vault_firewall_bypass_ip_cidr" {
 }
 
 variable "location" {
-  default = "eastus"
+  default = "japaneast"
 }
 
 variable "log_analytics_workspace_location" {
