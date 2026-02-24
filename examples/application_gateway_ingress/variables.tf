@@ -15,7 +15,7 @@ variable "create_role_assignments_for_application_gateway" {
 }
 
 variable "location" {
-  default = "eastus"
+  default = "westeurope"
 }
 
 variable "resource_group_name" {
