@@ -1,3 +1,12 @@
+data "azapi_client_config" "current" {}
+
+resource "azapi_resource_action" "register_encryption_at_host" {
+  type        = "Microsoft.Features/providers/features@2021-07-01"
+  resource_id = "/subscriptions/${data.azapi_client_config.current.subscription_id}/providers/Microsoft.Features/providers/Microsoft.Compute/features/EncryptionAtHost"
+  action      = "register"
+  method      = "POST"
+}
+
 resource "random_id" "prefix" {
   byte_length = 8
 }
@@ -99,7 +108,7 @@ module "aks_cluster_name" {
   kms_key_vault_network_access = "Public"
 
   depends_on = [
+    azapi_resource_action.register_encryption_at_host,
     azurerm_key_vault_access_policy.kms,
-    azurerm_role_assignment.kms
   ]
 }

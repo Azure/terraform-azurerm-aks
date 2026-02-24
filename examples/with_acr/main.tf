@@ -1,3 +1,12 @@
+data "azapi_client_config" "current" {}
+
+resource "azapi_resource_action" "register_encryption_at_host" {
+  type        = "Microsoft.Features/providers/features@2021-07-01"
+  resource_id = "/subscriptions/${data.azapi_client_config.current.subscription_id}/providers/Microsoft.Features/providers/Microsoft.Compute/features/EncryptionAtHost"
+  action      = "register"
+  method      = "POST"
+}
+
 resource "random_id" "prefix" {
   byte_length = 8
 }
@@ -63,4 +72,8 @@ module "aks" {
   vnet_subnet = {
     id = azurerm_subnet.test.id
   }
+
+  depends_on = [
+    azapi_resource_action.register_encryption_at_host,
+  ]
 }

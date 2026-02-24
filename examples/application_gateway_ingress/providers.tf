@@ -1,6 +1,10 @@
 terraform {
   required_version = ">=1.3"
   required_providers {
+    azapi = {
+      source  = "Azure/azapi"
+      version = "~> 2.0"
+    }
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "~> 4.0"
@@ -35,5 +39,7 @@ provider "kubernetes" {
   client_key             = base64decode(module.aks.admin_client_key)
   cluster_ca_certificate = base64decode(module.aks.admin_cluster_ca_certificate)
 }
+
+provider "azapi" {}
 
 provider "random" {}
