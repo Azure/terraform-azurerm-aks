@@ -964,6 +964,12 @@ variable "msi_auth_for_monitoring_enabled" {
   description = "(Optional) Is managed identity authentication for monitoring enabled?"
 }
 
+variable "retina_flow_logs_enabled" {
+  type        = bool
+  default     = false
+  description = "(Optional) Enable container network observability logs for OMS agent."
+}
+
 variable "nat_gateway_profile" {
   type = object({
     idle_timeout_in_minutes   = optional(number)
