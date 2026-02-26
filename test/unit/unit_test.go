@@ -304,17 +304,17 @@ func TestLocalDNSConfigNotSetShouldNotApplyConfiguration(t *testing.T) {
 		Upgrade: false,
 		Vars:    vars,
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
-		localdnsConfigApplied, ok := output["localdns_config_applied"].(bool)
+		localdnsConfigApplied, ok := output["local_dns_config_applied"].(bool)
 		assert.True(t, ok)
 		assert.False(t, localdnsConfigApplied)
-		localdnsConfig := output["localdns_config"]
+		localdnsConfig := output["local_dns_config"]
 		assert.Nil(t, localdnsConfig)
 	})
 }
 
 func TestLocalDNSConfigSetShouldApplyConfiguration(t *testing.T) {
 	vars := dummyRequiredVariables()
-	vars["localdns_config"] = map[string]interface{}{
+	vars["local_dns_config"] = map[string]interface{}{
 		"mode": "Required",
 		"vnet_dns_overrides": map[string]interface{}{
 			"zones": map[string]interface{}{
@@ -342,11 +342,11 @@ func TestLocalDNSConfigSetShouldApplyConfiguration(t *testing.T) {
 		Upgrade: false,
 		Vars:    vars,
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
-		localdnsConfigApplied, ok := output["localdns_config_applied"].(bool)
+		localdnsConfigApplied, ok := output["local_dns_config_applied"].(bool)
 		assert.True(t, ok)
 		assert.True(t, localdnsConfigApplied)
 
-		localdnsConfig, ok := output["localdns_config"].(map[string]interface{})
+		localdnsConfig, ok := output["local_dns_config"].(map[string]interface{})
 		assert.True(t, ok)
 		assert.NotNil(t, localdnsConfig)
 
@@ -369,7 +369,7 @@ func TestLocalDNSConfigSetShouldApplyConfiguration(t *testing.T) {
 
 func TestLocalDNSConfigPreferredMode(t *testing.T) {
 	vars := dummyRequiredVariables()
-	vars["localdns_config"] = map[string]interface{}{
+	vars["local_dns_config"] = map[string]interface{}{
 		"mode": "Preferred",
 		"vnet_dns_overrides": map[string]interface{}{
 			"zones": map[string]interface{}{
@@ -383,7 +383,7 @@ func TestLocalDNSConfigPreferredMode(t *testing.T) {
 		Upgrade: false,
 		Vars:    vars,
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
-		localdnsConfig, ok := output["localdns_config"].(map[string]interface{})
+		localdnsConfig, ok := output["local_dns_config"].(map[string]interface{})
 		assert.True(t, ok)
 
 		mode, ok := localdnsConfig["mode"].(string)
@@ -394,14 +394,14 @@ func TestLocalDNSConfigPreferredMode(t *testing.T) {
 
 func TestLocalDNSConfigDisabledMode(t *testing.T) {
 	vars := dummyRequiredVariables()
-	vars["localdns_config"] = map[string]interface{}{
+	vars["local_dns_config"] = map[string]interface{}{
 		"mode": "Disabled",
 	}
 	test_helper.RunUnitTest(t, "../../", "unit-test-fixture", terraform.Options{
 		Upgrade: false,
 		Vars:    vars,
 	}, func(t *testing.T, output test_helper.TerraformOutput) {
-		localdnsConfig, ok := output["localdns_config"].(map[string]interface{})
+		localdnsConfig, ok := output["local_dns_config"].(map[string]interface{})
 		assert.True(t, ok)
 
 		mode, ok := localdnsConfig["mode"].(string)

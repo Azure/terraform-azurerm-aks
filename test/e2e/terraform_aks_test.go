@@ -102,6 +102,7 @@ func TestExamplesWithoutAssertion(t *testing.T) {
 	examples := []string{
 		"examples/with_acr",
 		"examples/multiple_node_pools",
+		"examples/local_dns_config",
 	}
 	for _, e := range examples {
 		example := e
