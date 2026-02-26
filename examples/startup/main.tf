@@ -120,6 +120,10 @@ module "aks" {
   vnet_subnet = {
     id = azurerm_subnet.test.id
   }
+  node_provisioning_profile = {
+    mode               = "Auto"
+    default_node_pools = "Auto"
+  }
 
   agents_labels = {
     "node1" : "label1"
