@@ -657,10 +657,10 @@ variable "kubernetes_version" {
   description = "Specify which Kubernetes release to use. The default used is the latest Kubernetes version available in the region"
 }
 
-variable "localdns_config" {
+variable "agents_pool_local_dns_config" {
   type = object({
     mode = string
-    vnet_dns_overrides = optional(object({
+    vnet_dns_overrides = optional(map(object({
       query_logging                   = optional(string)
       protocol                        = optional(string)
       forward_destination             = optional(string)
@@ -669,8 +669,8 @@ variable "localdns_config" {
       cache_duration_in_seconds       = optional(number)
       serve_stale_duration_in_seconds = optional(number)
       serve_stale                     = optional(string)
-    }))
-    kube_dns_overrides = optional(object({
+    })))
+    kube_dns_overrides = optional(map(object({
       query_logging                   = optional(string)
       protocol                        = optional(string)
       forward_destination             = optional(string)
@@ -679,15 +679,20 @@ variable "localdns_config" {
       cache_duration_in_seconds       = optional(number)
       serve_stale_duration_in_seconds = optional(number)
       serve_stale                     = optional(string)
-    }))
+    })))
   })
   default     = null
   description = <<-EOT
-(Optional) Configuration for LocalDNS feature in AKS cluster. This configures DNS settings for pods and nodes.
+(Optional) Configuration for LocalDNS feature in AKS cluster for agent pool. This configures DNS settings for pods and nodes.
 
 - `mode` - (Required) Controls LocalDNS enforcement. Possible values are `Required`, `Disabled`, or `Preferred`.
-- `vnet_dns_overrides` - (Optional) Configuration for pods using `dnsPolicy:default`. DNS override settings apply to VnetDNS traffic.
-- `kube_dns_overrides` - (Optional) Configuration for pods using `dnsPolicy:ClusterFirst`. DNS override settings apply to KubeDNS traffic.
+- `vnet_dns_overrides` - (Optional) A map of DNS override configurations for pods using `dnsPolicy:default` (VnetDNS traffic).
+- `kube_dns_overrides` - (Optional) A map of DNS override configurations for pods using `dnsPolicy:ClusterFirst` (KubeDNS traffic).
+
+Both `vnet_dns_overrides` and `kube_dns_overrides` are maps whose **key is a CoreDNS server block name** (i.e. a DNS zone name).
+Two server blocks are defined by default: `"."` (root zone — matches all external queries) and `"cluster.local"` (internal Kubernetes service discovery).
+You may also define additional custom server blocks by using any valid DNS zone name as the key (e.g. `"microsoft.com"`, `"privatelink.blob.core.windows.net"`).
+See: https://learn.microsoft.com/en-us/azure/aks/localdns-custom?tabs=configure#server-blocks-and-supported-plugins-for-localdns
 
 Each DNS override configuration supports:
 - `query_logging` - (Optional) Logging level. Possible values are `Error` or `Log`.
@@ -697,7 +702,7 @@ Each DNS override configuration supports:
 - `max_concurrent` - (Optional) Maximum concurrent queries (integer).
 - `cache_duration_in_seconds` - (Optional) Cache TTL duration (integer).
 - `serve_stale_duration_in_seconds` - (Optional) Stale response duration (integer).
-- `serve_stale` - (Optional) Stale serving policy. Possible values are `Verify`, `Immediate`, or `Disabled`.
+- `serve_stale` - (Optional) Stale serving policy. Possible values are `Verify`, `Immediate`, or `Disable`.
 
 Constraints:
 - When `protocol` is `ForceTCP`, `serve_stale` cannot be `Verify`
@@ -706,8 +711,77 @@ For more information see: https://learn.microsoft.com/en-us/azure/aks/localdns-c
 EOT
 
   validation {
-    condition     = var.localdns_config == null ? true : contains(["Required", "Disabled", "Preferred"], var.localdns_config.mode)
-    error_message = "The localdns_config mode must be one of: Required, Disabled, Preferred."
+    condition     = var.agents_pool_local_dns_config == null ? true : contains(["Required", "Disabled", "Preferred"], var.agents_pool_local_dns_config.mode)
+    error_message = "The agents_pool_local_dns_config mode must be one of: Required, Disabled, Preferred."
+  }
+}
+
+variable "local_dns_config" {
+  type = map(object({
+    mode = string
+    vnet_dns_overrides = optional(map(object({
+      query_logging                   = optional(string)
+      protocol                        = optional(string)
+      forward_destination             = optional(string)
+      forward_policy                  = optional(string)
+      max_concurrent                  = optional(number)
+      cache_duration_in_seconds       = optional(number)
+      serve_stale_duration_in_seconds = optional(number)
+      serve_stale                     = optional(string)
+    })))
+    kube_dns_overrides = optional(map(object({
+      query_logging                   = optional(string)
+      protocol                        = optional(string)
+      forward_destination             = optional(string)
+      forward_policy                  = optional(string)
+      max_concurrent                  = optional(number)
+      cache_duration_in_seconds       = optional(number)
+      serve_stale_duration_in_seconds = optional(number)
+      serve_stale                     = optional(string)
+    })))
+  }))
+  default     = null
+  description = <<-EOT
+(Optional) A map of LocalDNS configurations keyed by node pool name (must match a key in `var.node_pools`).
+Each entry configures the LocalDNS feature for the corresponding user node pool.
+
+- `mode` - (Required) Controls LocalDNS enforcement. Possible values are `Required`, `Disabled`, or `Preferred`.
+- `vnet_dns_overrides` - (Optional) A map of DNS override configurations for pods using `dnsPolicy:default` (VnetDNS traffic).
+- `kube_dns_overrides` - (Optional) A map of DNS override configurations for pods using `dnsPolicy:ClusterFirst` (KubeDNS traffic).
+
+Both `vnet_dns_overrides` and `kube_dns_overrides` are maps whose **key is a CoreDNS server block name** (i.e. a DNS zone name).
+Two server blocks are defined by default: `"."` (root zone — matches all external queries) and `"cluster.local"` (internal Kubernetes service discovery).
+You may also define additional custom server blocks by using any valid DNS zone name as the key (e.g. `"microsoft.com"`, `"privatelink.blob.core.windows.net"`).
+See: https://learn.microsoft.com/en-us/azure/aks/localdns-custom?tabs=configure#server-blocks-and-supported-plugins-for-localdns
+
+Each DNS override configuration supports:
+- `query_logging` - (Optional) Logging level. Possible values are `Error` or `Log`.
+- `protocol` - (Optional) DNS protocol preference. Possible values are `PreferUDP` or `ForceTCP`.
+- `forward_destination` - (Optional) Target DNS server. Possible values are `VnetDNS` or `ClusterCoreDNS`.
+- `forward_policy` - (Optional) Upstream selection policy. Possible values are `Random`, `RoundRobin`, or `Sequential`.
+- `max_concurrent` - (Optional) Maximum concurrent queries (integer).
+- `cache_duration_in_seconds` - (Optional) Cache TTL duration (integer).
+- `serve_stale_duration_in_seconds` - (Optional) Stale response duration (integer).
+- `serve_stale` - (Optional) Stale serving policy. Possible values are `Verify`, `Immediate`, or `Disable`.
+
+Constraints:
+- When `protocol` is `ForceTCP`, `serve_stale` cannot be `Verify`
+
+For more information see: https://learn.microsoft.com/en-us/azure/aks/localdns-custom
+EOT
+
+  validation {
+    condition = var.local_dns_config == null ? true : alltrue([
+      for cfg in values(var.local_dns_config) : contains(["Required", "Disabled", "Preferred"], cfg.mode)
+    ])
+    error_message = "Each local_dns_config entry's mode must be one of: Required, Disabled, Preferred."
+  }
+
+  validation {
+    condition = var.local_dns_config == null ? true : alltrue([
+      for k in keys(var.local_dns_config) : contains(keys(var.node_pools), k)
+    ])
+    error_message = "All keys in local_dns_config must correspond to a key defined in var.node_pools."
   }
 }
 

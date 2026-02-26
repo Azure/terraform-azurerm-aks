@@ -1,6 +1,6 @@
 # LocalDNS Configuration Example
 
-This example demonstrates how to use the `localdns_config` feature in the terraform-azurerm-aks module to configure LocalDNS settings for your AKS cluster.
+This example demonstrates how to use the `local_dns_config` feature in the terraform-azurerm-aks module to configure LocalDNS settings for your AKS cluster.
 
 ## Overview
 

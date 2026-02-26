@@ -38,9 +38,9 @@ output "kube_config" {
   sensitive   = true
 }
 
-output "localdns_config" {
+output "local_dns_config" {
   description = "LocalDNS configuration applied to the cluster"
-  value       = module.aks.localdns_config
+  value       = module.aks.local_dns_config
 }
 
 output "resource_group_name" {

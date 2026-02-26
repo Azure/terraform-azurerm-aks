@@ -229,7 +229,7 @@ output "web_app_routing_identity" {
   value       = try(azurerm_kubernetes_cluster.main.web_app_routing[0].web_app_routing_identity, [])
 }
 
-output "localdns_config" {
+output "local_dns_config" {
   description = "The LocalDNS configuration applied to the AKS cluster."
-  value       = var.localdns_config
+  value       = var.local_dns_config
 }
