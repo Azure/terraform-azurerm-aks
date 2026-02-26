@@ -25,11 +25,3 @@ output "auto_scaler_profile_scan_interval" {
 output "query_datasource_for_log_analytics_workspace_location" {
   value = local.query_datasource_for_log_analytics_workspace_location
 }
-
-output "localdns_config" {
-  value = var.localdns_config
-}
-
-output "localdns_config_applied" {
-  value = var.localdns_config != null
-}
