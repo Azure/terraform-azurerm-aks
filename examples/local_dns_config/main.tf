@@ -157,7 +157,6 @@ module "aks" {
         forward_destination             = "VnetDNS"
         forward_policy                  = "Random"
         max_concurrent                  = 150
-        cache_duration_in_seconds       = 300
         serve_stale_duration_in_seconds = 86400
         cache_duration_in_seconds       = 600
         serve_stale                     = "Immediate"
