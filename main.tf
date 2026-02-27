@@ -701,7 +701,7 @@ resource "time_sleep" "interval_before_cluster_update" {
 
 resource "azapi_update_resource" "aks_cluster_post_create" {
   resource_id = azurerm_kubernetes_cluster.main.id
-  type        = "Microsoft.ContainerService/managedClusters@2024-02-01"
+  type        = "Microsoft.ContainerService/managedClusters@${local.aks_api_version}"
   body = {
     properties = {
       kubernetesVersion = var.kubernetes_version
@@ -730,7 +730,7 @@ resource "azapi_update_resource" "aks_cluster_http_proxy_config_no_proxy" {
   count = can(var.http_proxy_config.no_proxy[0]) ? 1 : 0
 
   resource_id = azurerm_kubernetes_cluster.main.id
-  type        = "Microsoft.ContainerService/managedClusters@2024-02-01"
+  type        = "Microsoft.ContainerService/managedClusters@${local.aks_api_version}"
   body = {
     properties = {
       httpProxyConfig = {
@@ -744,5 +744,117 @@ resource "azapi_update_resource" "aks_cluster_http_proxy_config_no_proxy" {
   lifecycle {
     ignore_changes       = all
     replace_triggered_by = [null_resource.http_proxy_config_no_proxy_keeper[0].id]
+  }
+}
+
+# LocalDNS configuration trigger resource — one keeper per node pool entry
+resource "null_resource" "local_dns_config_keeper" {
+  for_each = var.local_dns_config != null ? var.local_dns_config : {}
+
+  triggers = {
+    local_dns_config = jsonencode(each.value)
+  }
+}
+
+# Apply LocalDNS configuration using azapi — one resource per node pool entry
+resource "azapi_update_resource" "aks_cluster_local_dns_config" {
+  for_each = var.local_dns_config != null ? var.local_dns_config : {}
+
+  resource_id = try(
+    azurerm_kubernetes_cluster_node_pool.node_pool_create_before_destroy[each.key].id,
+    azurerm_kubernetes_cluster_node_pool.node_pool_create_after_destroy[each.key].id,
+  )
+  type = "Microsoft.ContainerService/managedClusters/agentPools@${local.aks_api_version}"
+  body = {
+    properties = {
+      localDNSProfile = {
+        mode = each.value.mode
+        vnetDNSOverrides = each.value.vnet_dns_overrides != null ? {
+          for zone, cfg in each.value.vnet_dns_overrides : zone => {
+            queryLogging                = cfg.query_logging
+            protocol                    = cfg.protocol
+            forwardDestination          = cfg.forward_destination
+            forwardPolicy               = cfg.forward_policy
+            maxConcurrent               = cfg.max_concurrent
+            cacheDurationInSeconds      = cfg.cache_duration_in_seconds
+            serveStaleDurationInSeconds = cfg.serve_stale_duration_in_seconds
+            serveStale                  = cfg.serve_stale
+          }
+        } : null
+        kubeDNSOverrides = each.value.kube_dns_overrides != null ? {
+          for zone, cfg in each.value.kube_dns_overrides : zone => {
+            queryLogging                = cfg.query_logging
+            protocol                    = cfg.protocol
+            forwardDestination          = cfg.forward_destination
+            forwardPolicy               = cfg.forward_policy
+            maxConcurrent               = cfg.max_concurrent
+            cacheDurationInSeconds      = cfg.cache_duration_in_seconds
+            serveStaleDurationInSeconds = cfg.serve_stale_duration_in_seconds
+            serveStale                  = cfg.serve_stale
+          }
+        } : null
+      }
+    }
+  }
+
+  depends_on = [azapi_update_resource.aks_cluster_post_create]
+
+  lifecycle {
+    ignore_changes       = all
+    replace_triggered_by = [null_resource.local_dns_config_keeper[each.key].id]
+  }
+}
+# LocalDNS configuration trigger resource for the default (system) node pool
+resource "null_resource" "agents_pool_local_dns_config_keeper" {
+  count = var.agents_pool_local_dns_config != null ? 1 : 0
+
+  triggers = {
+    local_dns_config = jsonencode(var.agents_pool_local_dns_config)
+  }
+}
+
+# Apply LocalDNS configuration to the default node pool
+resource "azapi_update_resource" "aks_cluster_agents_pool_local_dns_config" {
+  count = var.agents_pool_local_dns_config != null ? 1 : 0
+
+  resource_id = "${azurerm_kubernetes_cluster.main.id}/agentPools/${var.agents_pool_name}"
+  type        = "Microsoft.ContainerService/managedClusters/agentPools@${local.aks_api_version}"
+  body = {
+    properties = {
+      localDNSProfile = {
+        mode = var.agents_pool_local_dns_config.mode
+        vnetDNSOverrides = var.agents_pool_local_dns_config.vnet_dns_overrides != null ? {
+          for zone, cfg in var.agents_pool_local_dns_config.vnet_dns_overrides : zone => {
+            queryLogging                = cfg.query_logging
+            protocol                    = cfg.protocol
+            forwardDestination          = cfg.forward_destination
+            forwardPolicy               = cfg.forward_policy
+            maxConcurrent               = cfg.max_concurrent
+            cacheDurationInSeconds      = cfg.cache_duration_in_seconds
+            serveStaleDurationInSeconds = cfg.serve_stale_duration_in_seconds
+            serveStale                  = cfg.serve_stale
+          }
+        } : null
+        kubeDNSOverrides = var.agents_pool_local_dns_config.kube_dns_overrides != null ? {
+          for zone, cfg in var.agents_pool_local_dns_config.kube_dns_overrides : zone => {
+            queryLogging                = cfg.query_logging
+            protocol                    = cfg.protocol
+            forwardDestination          = cfg.forward_destination
+            forwardPolicy               = cfg.forward_policy
+            maxConcurrent               = cfg.max_concurrent
+            cacheDurationInSeconds      = cfg.cache_duration_in_seconds
+            serveStaleDurationInSeconds = cfg.serve_stale_duration_in_seconds
+            serveStale                  = cfg.serve_stale
+          }
+        } : null
+      }
+    }
+  }
+
+  depends_on = [azapi_update_resource.aks_cluster_post_create]
+
+  lifecycle {
+    ignore_changes       = all
+    replace_triggered_by = [null_resource.agents_pool_local_dns_config_keeper[0].id]
   }
 }
