@@ -16,7 +16,7 @@ variable "create_resource_group" {
 }
 
 variable "location" {
-  default     = "uksouth"
+  default     = "eastus2"
   description = "The location where the Managed Kubernetes Cluster should be created."
 }
 
