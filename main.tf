@@ -553,6 +553,16 @@ resource "azurerm_kubernetes_cluster" "main" {
       dns_zone_ids = var.web_app_routing.dns_zone_ids
     }
   }
+
+  dynamic "windows_profile" {
+    for_each = var.windows_profile != null ? ["windows_profile"] : []
+
+    content {
+      admin_username = var.windows_profile.admin_username
+      admin_password = var.windows_profile.admin_password
+    }
+  }
+
   dynamic "workload_autoscaler_profile" {
     for_each = var.workload_autoscaler_profile == null ? [] : [var.workload_autoscaler_profile]
 
