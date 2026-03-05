@@ -10,6 +10,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
   name                          = "${each.value.name}${substr(md5(uuid()), 0, 4)}"
   auto_scaling_enabled          = each.value.auto_scaling_enabled
   capacity_reservation_group_id = each.value.capacity_reservation_group_id
+  custom_ca_trust_enabled       = each.value.custom_ca_trust_enabled
   eviction_policy               = each.value.eviction_policy
   fips_enabled                  = each.value.fips_enabled
   gpu_instance                  = each.value.gpu_instance
@@ -174,6 +175,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
   name                          = each.value.name
   auto_scaling_enabled          = each.value.auto_scaling_enabled
   capacity_reservation_group_id = each.value.capacity_reservation_group_id
+  custom_ca_trust_enabled       = each.value.custom_ca_trust_enabled
   eviction_policy               = each.value.eviction_policy
   fips_enabled                  = each.value.fips_enabled
   gpu_instance                  = each.value.gpu_instance
