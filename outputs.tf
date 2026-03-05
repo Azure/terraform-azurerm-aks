@@ -182,6 +182,16 @@ output "network_profile" {
   value       = azurerm_kubernetes_cluster.main.network_profile
 }
 
+output "node_provisioning_profile" {
+  description = "The `azurerm_kubernetes_cluster`'s `node_provisioning_profile` block."
+  value       = try(azurerm_kubernetes_cluster.main.node_provisioning_profile[0], null)
+}
+
+output "node_provisioning_profile_enabled" {
+  description = "Has the `azurerm_kubernetes_cluster` turned on `node_provisioning_profile` block?"
+  value       = can(azurerm_kubernetes_cluster.main.node_provisioning_profile[0])
+}
+
 output "node_resource_group" {
   description = "The auto-generated Resource Group which contains the resources for this Managed Kubernetes Cluster."
   value       = azurerm_kubernetes_cluster.main.node_resource_group
