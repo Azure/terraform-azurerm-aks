@@ -46,7 +46,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       name                         = var.agents_pool_name
       vm_size                      = var.agents_size
       auto_scaling_enabled         = var.auto_scaling_enabled
-      custom_ca_trust_enabled      = var.agents_custom_ca_trust_enabled
       fips_enabled                 = var.default_node_pool_fips_enabled
       host_encryption_enabled      = var.host_encryption_enabled
       max_count                    = null
@@ -168,7 +167,6 @@ resource "azurerm_kubernetes_cluster" "main" {
       name                         = var.agents_pool_name
       vm_size                      = var.agents_size
       auto_scaling_enabled         = var.auto_scaling_enabled
-      custom_ca_trust_enabled      = var.agents_custom_ca_trust_enabled
       fips_enabled                 = var.default_node_pool_fips_enabled
       host_encryption_enabled      = var.host_encryption_enabled
       max_count                    = var.agents_max_count

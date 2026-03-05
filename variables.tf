@@ -491,12 +491,6 @@ variable "default_node_pool_fips_enabled" {
   description = " (Optional) Should the nodes in this Node Pool have Federal Information Processing Standard enabled? Changing this forces a new resource to be created."
 }
 
-variable "agents_custom_ca_trust_enabled" {
-  type        = bool
-  default     = null
-  description = "(Optional) Specifies whether to trust a Custom CA in the default node pool. See [the documentation](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority) for more information. Changing this forces a new resource to be created."
-}
-
 variable "disk_encryption_set_id" {
   type        = string
   default     = null
