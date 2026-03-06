@@ -164,6 +164,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
       condition     = var.agents_type == "VirtualMachineScaleSets"
       error_message = "Multiple Node Pools are only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets."
     }
+    precondition {
+      condition     = var.node_provisioning_profile == null || try(var.node_provisioning_profile.mode, null) != "Auto" || each.value.auto_scaling_enabled != true
+      error_message = "`auto_scaling_enabled` must be `false` on all node pools when `node_provisioning_profile.mode` is set to `Auto`."
+    }
   }
 }
 
@@ -308,6 +312,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
     precondition {
       condition     = var.agents_type == "VirtualMachineScaleSets"
       error_message = "Multiple Node Pools are only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets."
+    }
+    precondition {
+      condition     = var.node_provisioning_profile == null || try(var.node_provisioning_profile.mode, null) != "Auto" || each.value.auto_scaling_enabled != true
+      error_message = "`auto_scaling_enabled` must be `false` on all node pools when `node_provisioning_profile.mode` is set to `Auto`."
     }
   }
 }

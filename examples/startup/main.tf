@@ -78,7 +78,7 @@ module "aks" {
     sgx_quote_helper_enabled = true
   }
   disk_encryption_set_id  = azurerm_disk_encryption_set.des.id
-  auto_scaling_enabled    = true
+  auto_scaling_enabled    = false
   host_encryption_enabled = true
   green_field_application_gateway_for_ingress = {
     name        = "${random_id.prefix.hex}-agw"
