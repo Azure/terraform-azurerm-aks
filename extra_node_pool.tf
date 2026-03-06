@@ -165,6 +165,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
       error_message = "Multiple Node Pools are only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets."
     }
     precondition {
+      condition     = each.value.auto_scaling_enabled == true || try(each.value.node_count, 0) >= 1
+      error_message = "`node_count` must be set to a value >= 1 when `auto_scaling_enabled` is `false` for node pool '${each.value.name}'."
+    }
+    precondition {
       condition     = var.node_provisioning_profile == null || try(var.node_provisioning_profile.mode, null) != "Auto" || each.value.auto_scaling_enabled != true
       error_message = "`auto_scaling_enabled` must be `false` on all node pools when `node_provisioning_profile.mode` is set to `Auto`."
     }
@@ -312,6 +316,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
     precondition {
       condition     = var.agents_type == "VirtualMachineScaleSets"
       error_message = "Multiple Node Pools are only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets."
+    }
+    precondition {
+      condition     = each.value.auto_scaling_enabled == true || try(each.value.node_count, 0) >= 1
+      error_message = "`node_count` must be set to a value >= 1 when `auto_scaling_enabled` is `false` for node pool '${each.value.name}'."
     }
     precondition {
       condition     = var.node_provisioning_profile == null || try(var.node_provisioning_profile.mode, null) != "Auto" || each.value.auto_scaling_enabled != true

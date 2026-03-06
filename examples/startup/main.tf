@@ -53,10 +53,8 @@ module "aks" {
   kubernetes_version        = "1.33" # don't specify the patch version!
   automatic_channel_upgrade = "patch"
   agents_availability_zones = ["1"]
-  agents_count              = null
-  agents_max_count          = 2
+  agents_count              = 2
   agents_max_pods           = 100
-  agents_min_count          = 1
   agents_pool_name          = "testnodepool"
   agents_pool_linux_os_configs = [
     {
