@@ -518,6 +518,14 @@ resource "azurerm_kubernetes_cluster" "main" {
       internal_ingress_gateway_enabled = var.service_mesh_profile.internal_ingress_gateway_enabled
     }
   }
+  dynamic "node_provisioning_profile" {
+    for_each = var.node_provisioning_profile == null ? [] : [var.node_provisioning_profile]
+
+    content {
+      mode               = node_provisioning_profile.value.mode
+      default_node_pools = node_provisioning_profile.value.default_node_pools
+    }
+  }
   dynamic "service_principal" {
     for_each = var.client_id != "" && var.client_secret != "" ? ["service_principal"] : []
 
@@ -648,6 +656,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     precondition {
       condition     = var.auto_scaling_enabled != true || var.agents_type == "VirtualMachineScaleSets"
       error_message = "Autoscaling on default node pools is only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets type nodes."
+    }
+    precondition {
+      condition     = var.auto_scaling_enabled == true || try(var.agents_count, 0) >= 1
+      error_message = "`agents_count` must be set to a value >= 1 when `auto_scaling_enabled` is `false`."
+    }
+    precondition {
+      condition     = var.node_provisioning_profile == null || try(var.node_provisioning_profile.mode, null) != "Auto" || var.auto_scaling_enabled != true
+      error_message = "`auto_scaling_enabled` must be `false` when `node_provisioning_profile.mode` is set to `Auto`."
     }
     precondition {
       condition     = var.brown_field_application_gateway_for_ingress == null || var.green_field_application_gateway_for_ingress == null

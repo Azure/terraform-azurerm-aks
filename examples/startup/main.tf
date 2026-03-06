@@ -53,10 +53,8 @@ module "aks" {
   kubernetes_version        = "1.33" # don't specify the patch version!
   automatic_channel_upgrade = "patch"
   agents_availability_zones = ["1"]
-  agents_count              = null
-  agents_max_count          = 2
+  agents_count              = 2
   agents_max_pods           = 100
-  agents_min_count          = 1
   agents_pool_name          = "testnodepool"
   agents_pool_linux_os_configs = [
     {
@@ -78,7 +76,7 @@ module "aks" {
     sgx_quote_helper_enabled = true
   }
   disk_encryption_set_id  = azurerm_disk_encryption_set.des.id
-  auto_scaling_enabled    = true
+  auto_scaling_enabled    = false
   host_encryption_enabled = true
   green_field_application_gateway_for_ingress = {
     name        = "${random_id.prefix.hex}-agw"
@@ -119,6 +117,10 @@ module "aks" {
   sku_tier                          = "Standard"
   vnet_subnet = {
     id = azurerm_subnet.test.id
+  }
+  node_provisioning_profile = {
+    mode               = "Auto"
+    default_node_pools = "Auto"
   }
 
   agents_labels = {
