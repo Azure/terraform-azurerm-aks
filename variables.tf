@@ -197,6 +197,17 @@ variable "agents_pool_node_soak_duration_in_minutes" {
   description = "(Optional) The amount of time in minutes to wait after draining a node and before reimaging and moving on to next node. Defaults to 0."
 }
 
+variable "agents_pool_undrainable_node_behavior" {
+  type        = string
+  default     = null
+  description = "(Optional) The behavior of nodes that cannot be drained during an upgrade. Valid values are `Cordon` and `Schedule`. Unsetting this after configuring it will force a new resource to be created."
+
+  validation {
+    condition     = var.agents_pool_undrainable_node_behavior == null || contains(["Cordon", "Schedule"], var.agents_pool_undrainable_node_behavior)
+    error_message = "`agents_pool_undrainable_node_behavior` must be `null`, `\"Cordon\"`, or `\"Schedule\"`."
+  }
+}
+
 variable "agents_proximity_placement_group_id" {
   type        = string
   default     = null
@@ -1322,9 +1333,11 @@ variable "node_pools" {
       id = string
     }), null)
     upgrade_settings = optional(object({
-      drain_timeout_in_minutes      = number
-      node_soak_duration_in_minutes = number
-      max_surge                     = string
+      drain_timeout_in_minutes      = optional(number)
+      node_soak_duration_in_minutes = optional(number)
+      max_surge                     = optional(string)
+      max_unavailable               = optional(string)
+      undrainable_node_behavior     = optional(string)
     }))
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)
@@ -1436,9 +1449,11 @@ variable "node_pools" {
         id                       = The ID of the Subnet where this Node Pool should exist. Changing this forces a new resource to be created. A route table must be configured on this Subnet.
     }))
     upgrade_settings = optional(object({
-      drain_timeout_in_minutes      = number
-      node_soak_duration_in_minutes = number
-      max_surge                     = string
+      drain_timeout_in_minutes      = optional(number)
+      node_soak_duration_in_minutes = optional(number)
+      max_surge                     = optional(string)
+      max_unavailable               = optional(string)
+      undrainable_node_behavior     = optional(string)
     }))
     windows_profile = optional(object({
       outbound_nat_enabled = optional(bool, true)

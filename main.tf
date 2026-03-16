@@ -150,12 +150,13 @@ resource "azurerm_kubernetes_cluster" "main" {
         }
       }
       dynamic "upgrade_settings" {
-        for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
+        for_each = var.agents_pool_max_surge == null && var.agents_pool_undrainable_node_behavior == null ? [] : ["upgrade_settings"]
 
         content {
           max_surge                     = var.agents_pool_max_surge
           drain_timeout_in_minutes      = var.agents_pool_drain_timeout_in_minutes
           node_soak_duration_in_minutes = var.agents_pool_node_soak_duration_in_minutes
+          undrainable_node_behavior     = var.agents_pool_undrainable_node_behavior
         }
       }
     }
@@ -252,12 +253,13 @@ resource "azurerm_kubernetes_cluster" "main" {
         }
       }
       dynamic "upgrade_settings" {
-        for_each = var.agents_pool_max_surge == null ? [] : ["upgrade_settings"]
+        for_each = var.agents_pool_max_surge == null && var.agents_pool_undrainable_node_behavior == null ? [] : ["upgrade_settings"]
 
         content {
           max_surge                     = var.agents_pool_max_surge
           drain_timeout_in_minutes      = var.agents_pool_drain_timeout_in_minutes
           node_soak_duration_in_minutes = var.agents_pool_node_soak_duration_in_minutes
+          undrainable_node_behavior     = var.agents_pool_undrainable_node_behavior
         }
       }
     }
