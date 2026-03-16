@@ -386,7 +386,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
     content {
       admin_username = windows_profile.value.admin_username
-      admin_password = windows_profile.value.admin_password
+      admin_password = var.windows_profile_admin_password
       license        = windows_profile.value.license
 
       dynamic "gmsa" {
