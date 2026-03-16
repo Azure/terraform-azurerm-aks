@@ -1720,6 +1720,20 @@ variable "web_app_routing" {
 EOT
 }
 
+variable "windows_profile" {
+  type = object({
+    admin_username = string
+    admin_password = string
+    license        = optional(string)
+    gmsa = optional(object({
+      dns_server  = string
+      root_domain = string
+    }))
+  })
+  default     = null
+  description = "(Optional) Windows profile for the cluster. Required when creating Windows node pools. `admin_username` - (Required) The Admin Username for Windows VMs. Changing this forces a new resource to be created. `admin_password` - (Required) The Admin Password for Windows VMs. Length must be between 14 and 123 characters. `license` - (Optional) Specifies the type of on-premise license which should be used for Node Pool Windows Virtual Machine. The only possible value is `Windows_Server`. `gmsa` - (Optional) A `gmsa` block with `dns_server` and `root_domain` for Windows gMSA."
+}
+
 variable "workload_autoscaler_profile" {
   type = object({
     keda_enabled                    = optional(bool, false)

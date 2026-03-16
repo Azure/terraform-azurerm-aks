@@ -381,6 +381,24 @@ resource "azurerm_kubernetes_cluster" "main" {
       }
     }
   }
+  dynamic "windows_profile" {
+    for_each = var.windows_profile == null ? [] : [var.windows_profile]
+
+    content {
+      admin_username = windows_profile.value.admin_username
+      admin_password = windows_profile.value.admin_password
+      license        = windows_profile.value.license
+
+      dynamic "gmsa" {
+        for_each = windows_profile.value.gmsa == null ? [] : [windows_profile.value.gmsa]
+
+        content {
+          dns_server  = gmsa.value.dns_server
+          root_domain = gmsa.value.root_domain
+        }
+      }
+    }
+  }
   dynamic "maintenance_window" {
     for_each = var.maintenance_window != null ? ["maintenance_window"] : []
 
