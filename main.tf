@@ -475,9 +475,9 @@ resource "azurerm_kubernetes_cluster" "main" {
     network_policy      = var.network_policy
     outbound_type       = var.net_profile_outbound_type
     pod_cidr            = var.net_profile_pod_cidr
-    pod_cidrs           = var.net_profile_pod_cidrs
+    pod_cidrs           = var.net_profile_pod_cidrs != null ? var.net_profile_pod_cidrs : (var.net_profile_pod_cidr != null ? [var.net_profile_pod_cidr] : null)
     service_cidr        = var.net_profile_service_cidr
-    service_cidrs       = var.net_profile_service_cidrs
+    service_cidrs       = var.net_profile_service_cidrs != null ? var.net_profile_service_cidrs : (var.net_profile_service_cidr != null ? [var.net_profile_service_cidr] : null)
     ip_versions         = var.network_ip_versions
 
     dynamic "load_balancer_profile" {

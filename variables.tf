@@ -1133,12 +1133,22 @@ variable "net_profile_pod_cidrs" {
   type        = list(string)
   default     = null
   description = "(Optional) A list of CIDRs to use for pod IP addresses. For single-stack networking a single CIDR is expected. For dual-stack networking an IPv4 and IPv6 CIDR are expected. Changing this forces a new resource to be created."
+
+  validation {
+    condition     = var.net_profile_pod_cidrs == null || var.net_profile_pod_cidr == null || (length(var.net_profile_pod_cidrs) > 0 && var.net_profile_pod_cidrs[0] == var.net_profile_pod_cidr)
+    error_message = "When both net_profile_pod_cidr and net_profile_pod_cidrs are set, net_profile_pod_cidr must equal the first element of net_profile_pod_cidrs."
+  }
 }
 
 variable "net_profile_service_cidrs" {
   type        = list(string)
   default     = null
   description = "(Optional) A list of CIDRs to use for Kubernetes services. For single-stack networking a single CIDR is expected. For dual-stack networking an IPv4 and IPv6 CIDR are expected. Changing this forces a new resource to be created."
+
+  validation {
+    condition     = var.net_profile_service_cidrs == null || var.net_profile_service_cidr == null || (length(var.net_profile_service_cidrs) > 0 && var.net_profile_service_cidrs[0] == var.net_profile_service_cidr)
+    error_message = "When both net_profile_service_cidr and net_profile_service_cidrs are set, net_profile_service_cidr must equal the first element of net_profile_service_cidrs."
+  }
 }
 
 variable "network_ip_versions" {
