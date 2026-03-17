@@ -725,6 +725,8 @@ resource "null_resource" "kubernetes_version_keeper" {
 }
 
 resource "null_resource" "orchestrator_version_keeper" {
+  count = var.orchestrator_version != null ? 1 : 0
+
   triggers = {
     version = var.orchestrator_version
   }
@@ -780,7 +782,7 @@ resource "azapi_update_resource" "aks_cluster_default_nodepool_version" {
 
   lifecycle {
     ignore_changes       = all
-    replace_triggered_by = [null_resource.orchestrator_version_keeper.id]
+    replace_triggered_by = [null_resource.orchestrator_version_keeper[0].id]
   }
 }
 

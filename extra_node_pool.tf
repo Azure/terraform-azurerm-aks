@@ -369,7 +369,9 @@ resource "null_resource" "pool_name_keeper" {
 }
 
 resource "null_resource" "node_pool_orchestrator_version_keeper" {
-  for_each = var.node_pools
+  for_each = {
+    for k, v in var.node_pools : k => v if v.orchestrator_version != null
+  }
 
   triggers = {
     version = each.value.orchestrator_version
