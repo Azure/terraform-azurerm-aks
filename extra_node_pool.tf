@@ -148,7 +148,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
   lifecycle {
     create_before_destroy = true
     ignore_changes = [
-      name
+      name,
+      orchestrator_version,
     ]
     replace_triggered_by = [
       null_resource.pool_name_keeper[each.key],
@@ -317,6 +318,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
   depends_on = [azapi_update_resource.aks_cluster_post_create]
 
   lifecycle {
+    ignore_changes = [
+      orchestrator_version,
+    ]
+
     precondition {
       condition     = can(regex("[a-z0-9]{1,8}", each.value.name))
       error_message = "A Node Pools name must consist of alphanumeric characters and have a maximum lenght of 8 characters (4 random chars added)"
@@ -360,5 +365,37 @@ resource "null_resource" "pool_name_keeper" {
       condition     = !var.create_role_assignment_network_contributor || length(distinct(local.subnet_ids)) == length(local.subnet_ids)
       error_message = "When `var.create_role_assignment_network_contributor` is `true`, you must set different subnet for different node pools, include default pool, otherwise you must set `var.create_role_assignment_network_contributor` to `false` and manage role assignments yourself."
     }
+  }
+}
+
+resource "null_resource" "node_pool_orchestrator_version_keeper" {
+  for_each = var.node_pools
+
+  triggers = {
+    version = each.value.orchestrator_version
+  }
+}
+
+resource "azapi_update_resource" "node_pool_version" {
+  for_each = {
+    for k, v in var.node_pools : k => v if v.orchestrator_version != null
+  }
+
+  resource_id = try(
+    azurerm_kubernetes_cluster_node_pool.node_pool_create_before_destroy[each.key].id,
+    azurerm_kubernetes_cluster_node_pool.node_pool_create_after_destroy[each.key].id,
+  )
+  type = "Microsoft.ContainerService/managedClusters/agentPools@${local.aks_api_version}"
+  body = {
+    properties = {
+      orchestratorVersion = each.value.orchestrator_version
+    }
+  }
+
+  depends_on = [azapi_update_resource.aks_cluster_post_create]
+
+  lifecycle {
+    ignore_changes       = all
+    replace_triggered_by = [null_resource.node_pool_orchestrator_version_keeper[each.key].id]
   }
 }
