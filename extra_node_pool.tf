@@ -129,8 +129,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
 
     content {
       max_surge                     = each.value.upgrade_settings.max_surge
+      max_unavailable               = each.value.upgrade_settings.max_unavailable
       drain_timeout_in_minutes      = each.value.upgrade_settings.drain_timeout_in_minutes
       node_soak_duration_in_minutes = each.value.upgrade_settings.node_soak_duration_in_minutes
+      undrainable_node_behavior     = each.value.upgrade_settings.undrainable_node_behavior
     }
   }
   dynamic "windows_profile" {
@@ -171,6 +173,14 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
     precondition {
       condition     = var.node_provisioning_profile == null || try(var.node_provisioning_profile.mode, null) != "Auto" || each.value.auto_scaling_enabled != true
       error_message = "`auto_scaling_enabled` must be `false` on all node pools when `node_provisioning_profile.mode` is set to `Auto`."
+    }
+    precondition {
+      condition     = each.value.upgrade_settings == null || (try(each.value.upgrade_settings.max_surge, null) != null) != (try(each.value.upgrade_settings.max_unavailable, null) != null)
+      error_message = "Exactly one of `max_surge` or `max_unavailable` must be specified in `upgrade_settings` for node pool '${each.value.name}'."
+    }
+    precondition {
+      condition     = each.value.upgrade_settings == null || try(each.value.upgrade_settings.undrainable_node_behavior, null) == null || contains(["Cordon", "Schedule"], try(each.value.upgrade_settings.undrainable_node_behavior, ""))
+      error_message = "`undrainable_node_behavior` in `upgrade_settings` must be `null`, `\"Cordon\"`, or `\"Schedule\"` for node pool '${each.value.name}'."
     }
   }
 }
@@ -290,8 +300,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
 
     content {
       max_surge                     = each.value.upgrade_settings.max_surge
+      max_unavailable               = each.value.upgrade_settings.max_unavailable
       drain_timeout_in_minutes      = each.value.upgrade_settings.drain_timeout_in_minutes
       node_soak_duration_in_minutes = each.value.upgrade_settings.node_soak_duration_in_minutes
+      undrainable_node_behavior     = each.value.upgrade_settings.undrainable_node_behavior
     }
   }
   dynamic "windows_profile" {
@@ -324,6 +336,14 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
     precondition {
       condition     = var.node_provisioning_profile == null || try(var.node_provisioning_profile.mode, null) != "Auto" || each.value.auto_scaling_enabled != true
       error_message = "`auto_scaling_enabled` must be `false` on all node pools when `node_provisioning_profile.mode` is set to `Auto`."
+    }
+    precondition {
+      condition     = each.value.upgrade_settings == null || (try(each.value.upgrade_settings.max_surge, null) != null) != (try(each.value.upgrade_settings.max_unavailable, null) != null)
+      error_message = "Exactly one of `max_surge` or `max_unavailable` must be specified in `upgrade_settings` for node pool '${each.value.name}'."
+    }
+    precondition {
+      condition     = each.value.upgrade_settings == null || try(each.value.upgrade_settings.undrainable_node_behavior, null) == null || contains(["Cordon", "Schedule"], try(each.value.upgrade_settings.undrainable_node_behavior, ""))
+      error_message = "`undrainable_node_behavior` in `upgrade_settings` must be `null`, `\"Cordon\"`, or `\"Schedule\"` for node pool '${each.value.name}'."
     }
   }
 }
