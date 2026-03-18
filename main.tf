@@ -272,12 +272,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "api_server_access_profile" {
-    for_each = var.api_server_authorized_ip_ranges != null ? [
+    for_each = (var.api_server_authorized_ip_ranges != null || var.api_server_vnet_integration_enabled) ? [
       "api_server_access_profile"
     ] : []
 
     content {
-      authorized_ip_ranges = var.api_server_authorized_ip_ranges
+      authorized_ip_ranges                = var.api_server_authorized_ip_ranges
+      subnet_id                           = var.api_server_subnet_id
+      virtual_network_integration_enabled = var.api_server_vnet_integration_enabled
     }
   }
   dynamic "auto_scaler_profile" {
@@ -675,6 +677,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       condition = (var.kubelet_identity == null) || (
       (var.client_id == "" || var.client_secret == "") && var.identity_type == "UserAssigned" && try(length(var.identity_ids), 0) > 0)
       error_message = "When `kubelet_identity` is enabled - The `type` field in the `identity` block must be set to `UserAssigned` and `identity_ids` must be set."
+    }
+    precondition {
+      condition     = !var.api_server_vnet_integration_enabled || var.api_server_subnet_id != null
+      error_message = "When `api_server_vnet_integration_enabled` is `true`, `api_server_subnet_id` must be provided."
     }
     precondition {
       condition     = var.auto_scaling_enabled != true || var.agents_type == "VirtualMachineScaleSets"

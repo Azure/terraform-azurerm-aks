@@ -238,6 +238,18 @@ variable "api_server_authorized_ip_ranges" {
   description = "(Optional) The IP ranges to allow for incoming traffic to the server nodes."
 }
 
+variable "api_server_vnet_integration_enabled" {
+  type        = bool
+  default     = false
+  description = "(Optional) Should API Server VNet Integration be enabled? For more details please visit [API Server VNet Integration](https://learn.microsoft.com/en-us/azure/aks/api-server-vnet-integration). Changing this forces a new resource to be created."
+}
+
+variable "api_server_subnet_id" {
+  type        = string
+  default     = null
+  description = "(Optional) The ID of the Subnet where the API Server endpoint is delegated to. The subnet must be delegated to `Microsoft.ContainerService/managedClusters`. Required when `api_server_vnet_integration_enabled` is `true`."
+}
+
 variable "attached_acr_id_map" {
   type        = map(string)
   default     = {}
