@@ -605,6 +605,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       http_application_routing_enabled,
       http_proxy_config[0].no_proxy,
       kubernetes_version,
+      default_node_pool[0].orchestrator_version,
       # we might have a random suffix in cluster's name so we have to ignore it here, but we've traced user supplied cluster name by `null_resource.kubernetes_cluster_name_keeper` so when the name is changed we'll recreate this resource.
       name,
     ]
@@ -729,6 +730,14 @@ resource "null_resource" "kubernetes_version_keeper" {
   }
 }
 
+resource "null_resource" "orchestrator_version_keeper" {
+  count = var.orchestrator_version != null ? 1 : 0
+
+  triggers = {
+    version = var.orchestrator_version
+  }
+}
+
 resource "time_sleep" "interval_before_cluster_update" {
   count = var.interval_before_cluster_update == null ? 0 : 1
 
@@ -761,6 +770,25 @@ resource "azapi_update_resource" "aks_cluster_post_create" {
   lifecycle {
     ignore_changes       = all
     replace_triggered_by = [null_resource.kubernetes_version_keeper.id]
+  }
+}
+
+resource "azapi_update_resource" "aks_cluster_default_nodepool_version" {
+  count = var.orchestrator_version != null ? 1 : 0
+
+  resource_id = "${azurerm_kubernetes_cluster.main.id}/agentPools/${var.agents_pool_name}"
+  type        = "Microsoft.ContainerService/managedClusters/agentPools@${local.aks_api_version}"
+  body = {
+    properties = {
+      orchestratorVersion = var.orchestrator_version
+    }
+  }
+
+  depends_on = [azapi_update_resource.aks_cluster_post_create]
+
+  lifecycle {
+    ignore_changes       = all
+    replace_triggered_by = [null_resource.orchestrator_version_keeper[0].id]
   }
 }
 
