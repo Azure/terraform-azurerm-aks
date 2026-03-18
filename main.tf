@@ -14,6 +14,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location                            = var.location
   name                                = "${local.cluster_name}${var.cluster_name_random_suffix ? substr(md5(uuid()), 0, 4) : ""}"
   resource_group_name                 = var.resource_group_name
+  ai_toolchain_operator_enabled       = var.ai_toolchain_operator_enabled
   automatic_upgrade_channel           = var.automatic_channel_upgrade
   azure_policy_enabled                = var.azure_policy_enabled
   cost_analysis_enabled               = var.cost_analysis_enabled
