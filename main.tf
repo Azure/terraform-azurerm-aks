@@ -14,6 +14,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   location                            = var.location
   name                                = "${local.cluster_name}${var.cluster_name_random_suffix ? substr(md5(uuid()), 0, 4) : ""}"
   resource_group_name                 = var.resource_group_name
+  ai_toolchain_operator_enabled       = var.ai_toolchain_operator_enabled
   automatic_upgrade_channel           = var.automatic_channel_upgrade
   azure_policy_enabled                = var.azure_policy_enabled
   cost_analysis_enabled               = var.cost_analysis_enabled
@@ -272,12 +273,14 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
   dynamic "api_server_access_profile" {
-    for_each = var.api_server_authorized_ip_ranges != null ? [
+    for_each = (var.api_server_authorized_ip_ranges != null || var.api_server_vnet_integration_enabled) ? [
       "api_server_access_profile"
     ] : []
 
     content {
-      authorized_ip_ranges = var.api_server_authorized_ip_ranges
+      authorized_ip_ranges                = var.api_server_authorized_ip_ranges
+      subnet_id                           = var.api_server_subnet_id
+      virtual_network_integration_enabled = var.api_server_vnet_integration_enabled
     }
   }
   dynamic "auto_scaler_profile" {
@@ -611,6 +614,7 @@ resource "azurerm_kubernetes_cluster" "main" {
       http_application_routing_enabled,
       http_proxy_config[0].no_proxy,
       kubernetes_version,
+      default_node_pool[0].orchestrator_version,
       # we might have a random suffix in cluster's name so we have to ignore it here, but we've traced user supplied cluster name by `null_resource.kubernetes_cluster_name_keeper` so when the name is changed we'll recreate this resource.
       name,
     ]
@@ -685,6 +689,10 @@ resource "azurerm_kubernetes_cluster" "main" {
       error_message = "When `kubelet_identity` is enabled - The `type` field in the `identity` block must be set to `UserAssigned` and `identity_ids` must be set."
     }
     precondition {
+      condition     = !var.api_server_vnet_integration_enabled || var.api_server_subnet_id != null
+      error_message = "When `api_server_vnet_integration_enabled` is `true`, `api_server_subnet_id` must be provided."
+    }
+    precondition {
       condition     = var.auto_scaling_enabled != true || var.agents_type == "VirtualMachineScaleSets"
       error_message = "Autoscaling on default node pools is only supported when the Kubernetes Cluster is using Virtual Machine Scale Sets type nodes."
     }
@@ -731,6 +739,14 @@ resource "null_resource" "kubernetes_version_keeper" {
   }
 }
 
+resource "null_resource" "orchestrator_version_keeper" {
+  count = var.orchestrator_version != null ? 1 : 0
+
+  triggers = {
+    version = var.orchestrator_version
+  }
+}
+
 resource "time_sleep" "interval_before_cluster_update" {
   count = var.interval_before_cluster_update == null ? 0 : 1
 
@@ -763,6 +779,25 @@ resource "azapi_update_resource" "aks_cluster_post_create" {
   lifecycle {
     ignore_changes       = all
     replace_triggered_by = [null_resource.kubernetes_version_keeper.id]
+  }
+}
+
+resource "azapi_update_resource" "aks_cluster_default_nodepool_version" {
+  count = var.orchestrator_version != null ? 1 : 0
+
+  resource_id = "${azurerm_kubernetes_cluster.main.id}/agentPools/${var.agents_pool_name}"
+  type        = "Microsoft.ContainerService/managedClusters/agentPools@${local.aks_api_version}"
+  body = {
+    properties = {
+      orchestratorVersion = var.orchestrator_version
+    }
+  }
+
+  depends_on = [azapi_update_resource.aks_cluster_post_create]
+
+  lifecycle {
+    ignore_changes       = all
+    replace_triggered_by = [null_resource.orchestrator_version_keeper[0].id]
   }
 }
 

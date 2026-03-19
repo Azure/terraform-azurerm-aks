@@ -241,9 +241,11 @@ No modules.
 | Name | Type |
 |------|------|
 | [azapi_update_resource.aks_cluster_agents_pool_local_dns_config](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/update_resource) | resource |
+| [azapi_update_resource.aks_cluster_default_nodepool_version](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/update_resource) | resource |
 | [azapi_update_resource.aks_cluster_http_proxy_config_no_proxy](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/update_resource) | resource |
 | [azapi_update_resource.aks_cluster_local_dns_config](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/update_resource) | resource |
 | [azapi_update_resource.aks_cluster_post_create](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/update_resource) | resource |
+| [azapi_update_resource.node_pool_version](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/update_resource) | resource |
 | [azurerm_kubernetes_cluster.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster) | resource |
 | [azurerm_kubernetes_cluster_node_pool.node_pool_create_after_destroy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool) | resource |
 | [azurerm_kubernetes_cluster_node_pool.node_pool_create_before_destroy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool) | resource |
@@ -263,6 +265,8 @@ No modules.
 | [null_resource.kubernetes_cluster_name_keeper](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.kubernetes_version_keeper](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.local_dns_config_keeper](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.node_pool_orchestrator_version_keeper](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.orchestrator_version_keeper](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.pool_name_keeper](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [time_sleep.interval_before_cluster_update](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 | [tls_private_key.ssh](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
@@ -299,6 +303,8 @@ No modules.
 | <a name="input_agents_tags"></a> [agents\_tags](#input\_agents\_tags) | (Optional) A mapping of tags to assign to the Node Pool. | `map(string)` | `{}` | no |
 | <a name="input_agents_type"></a> [agents\_type](#input\_agents\_type) | (Optional) The type of Node Pool which should be created. Possible values are AvailabilitySet and VirtualMachineScaleSets. Defaults to VirtualMachineScaleSets. | `string` | `"VirtualMachineScaleSets"` | no |
 | <a name="input_api_server_authorized_ip_ranges"></a> [api\_server\_authorized\_ip\_ranges](#input\_api\_server\_authorized\_ip\_ranges) | (Optional) The IP ranges to allow for incoming traffic to the server nodes. | `set(string)` | `null` | no |
+| <a name="input_api_server_subnet_id"></a> [api\_server\_subnet\_id](#input\_api\_server\_subnet\_id) | (Optional) The ID of the Subnet where the API Server endpoint is delegated to. The subnet must be delegated to `Microsoft.ContainerService/managedClusters`. Required when `api_server_vnet_integration_enabled` is `true`. | `string` | `null` | no |
+| <a name="input_api_server_vnet_integration_enabled"></a> [api\_server\_vnet\_integration\_enabled](#input\_api\_server\_vnet\_integration\_enabled) | (Optional) Should API Server VNet Integration be enabled? For more details please visit [API Server VNet Integration](https://learn.microsoft.com/en-us/azure/aks/api-server-vnet-integration). Changing this forces a new resource to be created. | `bool` | `false` | no |
 | <a name="input_attached_acr_id_map"></a> [attached\_acr\_id\_map](#input\_attached\_acr\_id\_map) | Azure Container Registry ids that need an authentication mechanism with Azure Kubernetes Service (AKS). Map key must be static string as acr's name, the value is acr's resource id. Changing this forces some new resources to be created. | `map(string)` | `{}` | no |
 | <a name="input_auto_scaler_profile_balance_similar_node_groups"></a> [auto\_scaler\_profile\_balance\_similar\_node\_groups](#input\_auto\_scaler\_profile\_balance\_similar\_node\_groups) | Detect similar node groups and balance the number of nodes between them. Defaults to `false`. | `bool` | `false` | no |
 | <a name="input_auto_scaler_profile_empty_bulk_delete_max"></a> [auto\_scaler\_profile\_empty\_bulk\_delete\_max](#input\_auto\_scaler\_profile\_empty\_bulk\_delete\_max) | Maximum number of empty nodes that can be deleted at the same time. Defaults to `10`. | `number` | `10` | no |
