@@ -393,6 +393,11 @@ variable "bootstrap_profile" {
   })
   default     = null
   description = "(Optional) Bootstrap profile for controlling artifact source during node initialization. Set `artifact_source` to `Cache` with a `container_registry_id` for network-isolated (air-gapped) clusters. Requires AzureRM Provider >= 4.44.0. When using `Cache` mode, users must pre-configure ACR cache rules, private endpoints, and permissions."
+
+  validation {
+    condition     = var.bootstrap_profile == null || contains(["Cache", "Direct"], var.bootstrap_profile.artifact_source)
+    error_message = "artifact_source must be either 'Cache' or 'Direct'."
+  }
 }
 
 variable "brown_field_application_gateway_for_ingress" {
