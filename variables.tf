@@ -20,6 +20,12 @@ variable "aci_connector_linux_subnet_name" {
   description = "(Optional) aci_connector_linux subnet name"
 }
 
+variable "ai_toolchain_operator_enabled" {
+  type        = bool
+  default     = false
+  description = "(Optional) Specifies whether the AI Toolchain Operator (Kaito) should be enabled for the Cluster. Defaults to `false`."
+}
+
 variable "admin_username" {
   type        = string
   default     = null
