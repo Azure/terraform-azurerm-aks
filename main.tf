@@ -735,6 +735,21 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 }
 
+data "azurerm_subnet" "blob_driver_check" {
+  count = (var.storage_profile_enabled && var.storage_profile_blob_driver_enabled && var.vnet_subnet != null) ? 1 : 0
+
+  name                 = local.default_nodepool_subnet_segments[10]
+  virtual_network_name = local.default_nodepool_subnet_segments[8]
+  resource_group_name  = local.default_nodepool_subnet_segments[4]
+}
+
+check "blob_driver_subnet_service_endpoint" {
+  assert {
+    condition     = var.vnet_subnet == null || !var.storage_profile_enabled || !var.storage_profile_blob_driver_enabled || contains(try(data.azurerm_subnet.blob_driver_check[0].service_endpoints, []), "Microsoft.Storage")
+    error_message = "The subnet used by the default node pool does not have 'Microsoft.Storage' in its service_endpoints. When storage_profile_blob_driver_enabled is true, the AKS Blob CSI driver may automatically add this service endpoint out-of-band, causing Terraform state drift. To prevent this, add service_endpoints = [\"Microsoft.Storage\"] to your subnet configuration. See: https://github.com/Azure/terraform-azurerm-aks/issues/424"
+  }
+}
+
 resource "null_resource" "kubernetes_cluster_name_keeper" {
   triggers = {
     name = local.cluster_name
