@@ -1226,6 +1226,15 @@ variable "network_policy" {
   description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
 }
 
+variable "network_profile_advanced_networking" {
+  type = object({
+    observability_enabled = optional(bool, false)
+    security_enabled      = optional(bool, false)
+  })
+  default     = null
+  description = "(Optional) Advanced networking settings for Cilium data plane. Requires `network_plugin` set to `azure` and `network_data_plane` set to `cilium`. `observability_enabled` enables Cilium-based network observability via Hubble. `security_enabled` enables Cilium-based advanced network security features including FQDN-based network policies. Requires AzureRM Provider >= 4.45.0."
+}
+
 variable "node_network_profile" {
   type = object({
     node_public_ip_tags            = optional(map(string))

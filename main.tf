@@ -533,6 +533,14 @@ resource "azurerm_kubernetes_cluster" "main" {
         managed_outbound_ip_count = nat_gateway_profile.value.managed_outbound_ip_count
       }
     }
+    dynamic "advanced_networking" {
+      for_each = var.network_profile_advanced_networking != null ? [var.network_profile_advanced_networking] : []
+
+      content {
+        observability_enabled = advanced_networking.value.observability_enabled
+        security_enabled      = advanced_networking.value.security_enabled
+      }
+    }
   }
   dynamic "oms_agent" {
     for_each = (var.log_analytics_workspace_enabled && var.oms_agent_enabled) ? ["oms_agent"] : []
