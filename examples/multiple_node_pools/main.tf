@@ -76,6 +76,7 @@ module "aks" {
   location                = local.resource_group.location
   os_disk_size_gb         = 60
   sku_tier                = "Standard"
+  oidc_issuer_enabled     = true
   private_cluster_enabled = false
   vnet_subnet = {
     id = azurerm_subnet.default_node_pool_subnet.id

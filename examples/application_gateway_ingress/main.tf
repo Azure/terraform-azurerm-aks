@@ -63,7 +63,8 @@ resource "azurerm_subnet" "appgw" {
     name = "appgw-delegation"
 
     service_delegation {
-      name = "Microsoft.Network/applicationGateways"
+      name    = "Microsoft.Network/applicationGateways"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
     }
   }
 }
