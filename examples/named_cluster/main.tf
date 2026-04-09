@@ -98,6 +98,7 @@ module "aks_cluster_name" {
     not_allowed = []
   }
   net_profile_pod_cidr              = "10.1.0.0/16"
+  oidc_issuer_enabled               = true
   private_cluster_enabled           = true
   role_based_access_control_enabled = true
   rbac_aad_tenant_id                = data.azurerm_client_config.current.tenant_id
