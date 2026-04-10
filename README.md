@@ -1,18 +1,11 @@
 # terraform-azurerm-aks
 
 > [!WARNING]
-> **⚠️ DEPRECATION NOTICE / 弃用公告**
+> **⚠️ DEPRECATION NOTICE**
 >
 > This module is being retired. We will continue to fix bugs through April, but no new features will be accepted. The module is planned for official retirement in May.
 >
 > Please migrate to the new AVM module as soon as possible:
-> **[Azure/avm-res-containerservice-managedcluster/azurerm](https://registry.terraform.io/modules/Azure/avm-res-containerservice-managedcluster/azurerm/latest)**
->
-> ---
->
-> 此 module 即将退役。我们将在四月继续修复 bug，但不再接纳新的 feature。预计将在五月正式退役。
->
-> 请尽快迁移到新的 AVM module：
 > **[Azure/avm-res-containerservice-managedcluster/azurerm](https://registry.terraform.io/modules/Azure/avm-res-containerservice-managedcluster/azurerm/latest)**
 
 ## Deploys a Kubernetes cluster (AKS) on Azure with monitoring support through Azure Log Analytics
