@@ -58,6 +58,15 @@ resource "azurerm_subnet" "appgw" {
   name                 = "${random_id.prefix.hex}-gw"
   resource_group_name  = local.resource_group.name
   virtual_network_name = azurerm_virtual_network.test[0].name
+
+  delegation {
+    name = "appgw-delegation"
+
+    service_delegation {
+      name    = "Microsoft.Network/applicationGateways"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
+    }
+  }
 }
 
 # Locals block for hardcoded names
