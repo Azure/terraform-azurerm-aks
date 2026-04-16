@@ -730,7 +730,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
     precondition {
       condition     = (var.private_dns_zone_id == null || var.private_dns_zone_id == "None" || var.private_dns_zone_id == "System") ? true : (anytrue([for r in local.valid_private_dns_zone_regexs : try(regex(r, local.private_dns_zone_name) == local.private_dns_zone_name, false)]))
-      error_message = "The private_dns_zone_id must be either null, \"None\", \"System\", or a valid private DNS zone resource ID. Valid DNS zone formats are: `privatelink.<region>.azmk8s.io`, `<subzone>.privatelink.<region>.azmk8s.io`, `private.<region>.azmk8s.io`, `<subzone>.private.<region>.azmk8s.io`"
+      error_message = "The private_dns_zone_id must be either null, \"None\", \"System\", or a valid private DNS zone resource ID. Valid DNS zone formats are: `private.<region>.<cloud-suffix>`, `privatelink.<region>.<cloud-suffix>`, `<subzone>.private.<region>.<cloud-suffix>`, or `<subzone>.privatelink.<region>.<cloud-suffix>`. Azure validates the exact cloud-specific suffix server-side."
     }
   }
 }
