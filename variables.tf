@@ -209,7 +209,7 @@ variable "agents_pool_undrainable_node_behavior" {
   description = "(Optional) The behavior of nodes that cannot be drained during an upgrade. Valid values are `Cordon` and `Schedule`. Unsetting this after configuring it will force a new resource to be created."
 
   validation {
-    condition     = var.agents_pool_undrainable_node_behavior == null || contains(["Cordon", "Schedule"], var.agents_pool_undrainable_node_behavior)
+    condition     = var.agents_pool_undrainable_node_behavior == null ? true : contains(["Cordon", "Schedule"], var.agents_pool_undrainable_node_behavior)
     error_message = "`agents_pool_undrainable_node_behavior` must be `null`, `\"Cordon\"`, or `\"Schedule\"`."
   }
 }
@@ -413,7 +413,7 @@ variable "bootstrap_profile" {
   description = "(Optional) Bootstrap profile for controlling artifact source during node initialization. Set `artifact_source` to `Cache` with a `container_registry_id` for network-isolated (air-gapped) clusters. Requires AzureRM Provider >= 4.44.0. When using `Cache` mode, users must pre-configure ACR cache rules, private endpoints, and permissions."
 
   validation {
-    condition     = var.bootstrap_profile == null || contains(["Cache", "Direct"], var.bootstrap_profile.artifact_source)
+    condition     = var.bootstrap_profile == null ? true : contains(["Cache", "Direct"], var.bootstrap_profile.artifact_source)
     error_message = "artifact_source must be either 'Cache' or 'Direct'."
   }
 }
@@ -1178,7 +1178,7 @@ variable "net_profile_pod_cidrs" {
   description = "(Optional) A list of CIDRs to use for pod IP addresses. For single-stack networking a single CIDR is expected. For dual-stack networking an IPv4 and IPv6 CIDR are expected. Changing this forces a new resource to be created."
 
   validation {
-    condition     = var.net_profile_pod_cidrs == null || var.net_profile_pod_cidr == null || (length(var.net_profile_pod_cidrs) > 0 && var.net_profile_pod_cidrs[0] == var.net_profile_pod_cidr)
+    condition     = var.net_profile_pod_cidrs == null || var.net_profile_pod_cidr == null ? true : length(var.net_profile_pod_cidrs) > 0 && var.net_profile_pod_cidrs[0] == var.net_profile_pod_cidr
     error_message = "When both net_profile_pod_cidr and net_profile_pod_cidrs are set, net_profile_pod_cidr must equal the first element of net_profile_pod_cidrs."
   }
 }
@@ -1189,7 +1189,7 @@ variable "net_profile_service_cidrs" {
   description = "(Optional) A list of CIDRs to use for Kubernetes services. For single-stack networking a single CIDR is expected. For dual-stack networking an IPv4 and IPv6 CIDR are expected. Changing this forces a new resource to be created."
 
   validation {
-    condition     = var.net_profile_service_cidrs == null || var.net_profile_service_cidr == null || (length(var.net_profile_service_cidrs) > 0 && var.net_profile_service_cidrs[0] == var.net_profile_service_cidr)
+    condition     = var.net_profile_service_cidrs == null || var.net_profile_service_cidr == null ? true : length(var.net_profile_service_cidrs) > 0 && var.net_profile_service_cidrs[0] == var.net_profile_service_cidr
     error_message = "When both net_profile_service_cidr and net_profile_service_cidrs are set, net_profile_service_cidr must equal the first element of net_profile_service_cidrs."
   }
 }
@@ -1283,14 +1283,14 @@ EOT
 
   validation {
     condition = var.node_provisioning_profile == null ? true : (
-      var.node_provisioning_profile.mode == null || contains(["Auto", "Manual"], var.node_provisioning_profile.mode)
+      var.node_provisioning_profile.mode == null ? true : contains(["Auto", "Manual"], var.node_provisioning_profile.mode)
     )
     error_message = "`mode` must be either `Auto` or `Manual`."
   }
 
   validation {
     condition = var.node_provisioning_profile == null ? true : (
-      var.node_provisioning_profile.default_node_pools == null || contains(["Auto", "None"], var.node_provisioning_profile.default_node_pools)
+      var.node_provisioning_profile.default_node_pools == null ? true : contains(["Auto", "None"], var.node_provisioning_profile.default_node_pools)
     )
     error_message = "`default_node_pools` must be either `Auto` or `None`."
   }
