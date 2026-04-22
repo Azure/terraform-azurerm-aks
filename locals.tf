@@ -68,9 +68,9 @@ locals {
   use_brown_field_gw_for_ingress = var.brown_field_application_gateway_for_ingress != null
   use_green_field_gw_for_ingress = var.green_field_application_gateway_for_ingress != null
   valid_private_dns_zone_regexs = [
-    "private\\.[a-z0-9]+\\.[a-z0-9.\\-]+",
-    "privatelink\\.[a-z0-9]+\\.[a-z0-9.\\-]+",
-    "[a-zA-Z0-9\\-]{1,32}\\.private\\.[a-z0-9]+\\.[a-z0-9.\\-]+",
-    "[a-zA-Z0-9\\-]{1,32}\\.privatelink\\.[a-z0-9]+\\.[a-z0-9.\\-]+",
+    "private\\.[a-z0-9]+\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+",
+    "privatelink\\.[a-z0-9]+\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+",
+    "[a-zA-Z0-9\\-]{1,32}\\.private\\.[a-z0-9]+\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+",
+    "[a-zA-Z0-9\\-]{1,32}\\.privatelink\\.[a-z0-9]+\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+",
   ]
 }
