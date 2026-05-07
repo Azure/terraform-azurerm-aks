@@ -35,7 +35,7 @@ resource "azurerm_subnet" "test" {
 }
 
 resource "azurerm_subnet" "node_pool_subnet" {
-  count                                         = 2
+  count                                         = 1
   address_prefixes                              = ["10.52.${count.index + 1}.0/24"]
   name                                          = "${random_id.prefix.hex}-sn${count.index}"
   resource_group_name                           = local.resource_group.name
@@ -46,7 +46,7 @@ resource "azurerm_subnet" "node_pool_subnet" {
 
 locals {
   nodes = {
-    for i in range(2) : "worker${i}" => {
+    for i in range(1) : "worker${i}" => {
       name                  = substr("worker${i}${random_id.prefix.hex}", 0, 8)
       vm_size               = "Standard_D4_v3"
       node_count            = 1
