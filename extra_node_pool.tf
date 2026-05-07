@@ -180,7 +180,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_before_destroy
       error_message = "Exactly one of `max_surge` or `max_unavailable` must be specified in `upgrade_settings` for node pool '${each.value.name}'."
     }
     precondition {
-      condition     = each.value.upgrade_settings == null || try(each.value.upgrade_settings.undrainable_node_behavior, null) == null || contains(["Cordon", "Schedule"], try(each.value.upgrade_settings.undrainable_node_behavior, ""))
+      condition = each.value.upgrade_settings == null ? true : (
+        try(each.value.upgrade_settings.undrainable_node_behavior, null) == null ? true :
+        contains(["Cordon", "Schedule"], each.value.upgrade_settings.undrainable_node_behavior)
+      )
       error_message = "`undrainable_node_behavior` in `upgrade_settings` must be `null`, `\"Cordon\"`, or `\"Schedule\"` for node pool '${each.value.name}'."
     }
   }
@@ -347,7 +350,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool_create_after_destroy"
       error_message = "Exactly one of `max_surge` or `max_unavailable` must be specified in `upgrade_settings` for node pool '${each.value.name}'."
     }
     precondition {
-      condition     = each.value.upgrade_settings == null || try(each.value.upgrade_settings.undrainable_node_behavior, null) == null || contains(["Cordon", "Schedule"], try(each.value.upgrade_settings.undrainable_node_behavior, ""))
+      condition = each.value.upgrade_settings == null ? true : (
+        try(each.value.upgrade_settings.undrainable_node_behavior, null) == null ? true :
+        contains(["Cordon", "Schedule"], each.value.upgrade_settings.undrainable_node_behavior)
+      )
       error_message = "`undrainable_node_behavior` in `upgrade_settings` must be `null`, `\"Cordon\"`, or `\"Schedule\"` for node pool '${each.value.name}'."
     }
   }
